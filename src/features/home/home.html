@@ -17,11 +17,23 @@
               Lorem ipsum dolor sit amet, consectetur adipiscing elit.
               Mauris sagittis pellentesque lacus eleifend lacinia...
             </div>
-            <div class="mdl-card__actions mdl-card--border">
-              <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="/questions">
-                Get Started
-              </a>
-            </div>
+
+            <div ng-switch="home.getStatus(questionnaire)">
+
+              <div class="mdl-card__actions mdl-card--border" ng-switch-when="answered">
+                <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="/questions">
+                  See answers
+                </a>
+              </div>
+
+              <div class="mdl-card__actions mdl-card--border" ng-switch-when="not_answered">
+                <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="/questions">
+                  Fill out now
+                </a>
+              </div>
+
+          </div>
+
           </div>
         </div>
       </div>
