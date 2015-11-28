@@ -8,5 +8,5 @@ import HomeController from './home.controller';
 
 export default angular.module('app.home', [uirouter])
   .config(routing)
-  .controller('HomeController', HomeController)
+  .controller('QuestionsController', HomeController)
   .name;
