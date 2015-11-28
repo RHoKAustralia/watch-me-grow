@@ -1,21 +1,22 @@
-<div>
-  <div ng-repeat="question in questions.getQuestions()" class="demo-card-wide mdl-card mdl-shadow--2dp">
-    <div class="mdl-card__title">
-      <h2 class="mdl-card__title-text">question.title</h2>
-    </div>
-    <div class="mdl-card__supporting-text">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-      Mauris sagittis pellentesque lacus eleifend lacinia...
-    </div>
-    <div class="mdl-card__actions mdl-card--border">
-      <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-        Get Started
-      </a>
-    </div>
-    <div class="mdl-card__menu">
-      <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
-        <i class="material-icons">share</i>
-      </button>
-    </div>
+<header class="mdl-layout__header">
+  <div class="mdl-layout__header-row">
+    <span class="mdl-layout-title">{{questions.getQuestions().title}}</span>
   </div>
+  <!-- Tabs -->
+  <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
+    <a href="#scroll-tab-1" class="mdl-layout__tab is-active">Tab 1</a>
+    <a href="#scroll-tab-2" class="mdl-layout__tab">Tab 2</a>
+    <a href="#scroll-tab-3" class="mdl-layout__tab">Tab 3</a>
+    <a href="#scroll-tab-4" class="mdl-layout__tab">Tab 4</a>
+    <a href="#scroll-tab-5" class="mdl-layout__tab">Tab 5</a>
+    <a href="#scroll-tab-6" class="mdl-layout__tab">Tab 6</a>
+  </div>
+</header>
+
+<div class="mdl-layout__drawer">
+  <span class="mdl-layout-title">Title</span>
 </div>
+
+<main class="mdl-layout__content">
+
+</main>

@@ -7,7 +7,7 @@ export default class QuestionsController {
   }
 
   getQuestions() {
-    return questions;
+    return questions[0];
   }
 }
 
