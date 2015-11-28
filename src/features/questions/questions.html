@@ -2,21 +2,26 @@
   <div class="mdl-layout__header-row">
     <span class="mdl-layout-title">{{questions.getQuestions().title}}</span>
   </div>
-  <!-- Tabs -->
-  <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
-    <a href="#scroll-tab-1" class="mdl-layout__tab is-active">Tab 1</a>
-    <a href="#scroll-tab-2" class="mdl-layout__tab">Tab 2</a>
-    <a href="#scroll-tab-3" class="mdl-layout__tab">Tab 3</a>
-    <a href="#scroll-tab-4" class="mdl-layout__tab">Tab 4</a>
-    <a href="#scroll-tab-5" class="mdl-layout__tab">Tab 5</a>
-    <a href="#scroll-tab-6" class="mdl-layout__tab">Tab 6</a>
-  </div>
 </header>
+<div class="mdl-layout mdl-js-layout">
+  <main class="mdl-layout__content">
+    <section class="section--center mdl-grid mdl-shadow--2dp wmg-question-group"
+             ng-repeat="question in questions.getQuestions().questions">
+      <div class="mdl-card mdl-cell mdl-cell--12-col wmg-question-group__card">
+        <div class="mdl-card__supporting-text mdl-grid mdl-grid--no-spacing">
+          <h5 class="mdl-cell mdl-cell--12-col">{{ $index + 1 }}. {{question.text}}</h5>
 
-<div class="mdl-layout__drawer">
-  <span class="mdl-layout-title">Title</span>
+          <ul class="wmg-question-group__answers">
+            <li ng-repeat="answer in question.answers">
+              <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect">
+                <input type="radio" class="mdl-radio__button" name="{{question.id}}"
+                       value="{{answer.value}}">
+                <span class="mdl-radio__label">{{answer.text}}</span>
+              </label>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
 </div>
-
-<main class="mdl-layout__content">
-
-</main>
