@@ -16,6 +16,7 @@
   "license": "MIT",
   "dependencies": {
     "angular": "^1.4.7",
+    "angular-local-storage": "^0.2.2",
     "angular-ui-router": "^0.2.15",
     "jwt-decode": "^1.4.0",
     "material-design-lite": "^1.0.6"

@@ -1,13 +1,37 @@
 'use strict';
 
 import questions from '../../data/questionaires';
+import ages from '../../data/ages';
 
 export default class HomeController {
-  constructor() {
+  constructor(answerService) {
+    this.answerService = answerService
   }
 
   getQuestionnaires() {
     return questions;
+  }
+
+  getAnsweredQuestionaires() {
+    var that = this
+    return ages
+      .map(function(age){
+        return questions
+          .map(function(questionaire) {
+            var answers = that.answerService.getAnswers(age, questionaire);
+            if(answers !== undefined) {
+              return {
+                age: age,
+                questionaire: questionaire,
+                answer: answers
+              }
+            }
+          })
+          .filter(function(x) { return x != undefined})
+      })
+    .reduce(function(a, b) { //flaten
+          return a.concat(b);
+    }, []);
   }
 
   getStatus(questionaire) {
@@ -21,4 +45,4 @@ export default class HomeController {
   }
 }
 
-HomeController.$inject = [];
+HomeController.$inject = ['AnswerService'];
