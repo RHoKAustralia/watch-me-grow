@@ -18,8 +18,8 @@ export default class HomeController {
       .map(function(age){
         return questions
           .map(function(questionaire) {
-            var answers = that.answerService.getAnswers(age, questionaire);
-            if(answers !== undefined) {
+            var answers = that.answerService.getAnswers(age.id, questionaire.id);
+            if(answers !== null) {
               return {
                 age: age,
                 questionaire: questionaire,
@@ -27,21 +27,11 @@ export default class HomeController {
               }
             }
           })
-          .filter(function(x) { return x != undefined})
+          .filter(function(x) { return x != null})
       })
     .reduce(function(a, b) { //flaten
           return a.concat(b);
     }, []);
-  }
-
-  getStatus(questionaire) {
-    if (questionaire.id == "6months") {
-      return "not_applicable"
-    } else if (questionaire.id == "12months") {
-      return "answered"
-    } else if (questionaire.id == "18months") {
-      return "not_answered"
-    }
   }
 }
 
