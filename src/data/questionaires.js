@@ -254,7 +254,7 @@ export default [
       {
         "id": "stareatnothing",
         "order": 9,
-        "text": "10. Does your child stare at nothing with no apparent purpose?",
+        "text": "Does your child stare at nothing with no apparent purpose?",
         "answers": [
           {
             "value": "manyday",

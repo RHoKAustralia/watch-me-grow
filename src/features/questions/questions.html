@@ -3,7 +3,7 @@
     <span class="mdl-layout-title">{{questions.getQuestions().title}}</span>
   </div>
 </header>
-<div class="mdl-layout mdl-js-layout">
+<div class="mdl-layout mdl-js-layout wmg-questionnaire">
   <main class="mdl-layout__content">
     <section class="section--center mdl-grid mdl-shadow--2dp wmg-question-group"
              ng-repeat="question in questions.getQuestions().questions">
@@ -23,5 +23,9 @@
         </div>
       </div>
     </section>
+
+    <button class="wmg-questionnaire__submit mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+      Submit
+    </button>
   </main>
 </div>
