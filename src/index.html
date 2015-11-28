@@ -7,12 +7,13 @@
   <base href="/">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </head>
-<body>
+<body class="mdl-demo mdl-color--grey-100 mdl-color-text--grey-700 mdl-base">
+<div class="mdl-layout__container has-scrolling-header">
   <div class="demo-layout-transparent mdl-layout mdl-js-layout">
     <header class="mdl-layout__header mdl-layout__header--transparent">
       <div class="mdl-layout__header-row">
         <!-- Title -->
-        <span class="mdl-layout-title">Title</span>
+        <span class="mdl-layout-title">Watch Me Grow</span>
         <!-- Add spacer, to align navigation to the right -->
         <div class="mdl-layout-spacer"></div>
         <!-- Navigation -->
@@ -34,9 +35,9 @@
       </nav>
     </div>
     <main class="mdl-layout__content">
+      <ui-view></ui-view>
     </main>
   </div>
-
-  <ui-view></ui-view>
+</div>
 </body>
 </html>
