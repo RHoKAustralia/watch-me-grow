@@ -4,16 +4,22 @@ import questions from '../../data/questionaires';
 import ages from '../../data/ages';
 
 export default class HomeController {
-  constructor(answerService) {
-    this.answerService = answerService
+  constructor(answerService, $stateParams, childService, questionnaireService) {
+    this.answerService = answerService;
+    this.child = childService.getChild($stateParams.childId);
+    this.questionnaireService = questionnaireService;
   }
 
   getQuestionnaires() {
-    return questions;
+    return this.questionnaireService.getQuestionnaires().map(questionnaire => {
+      return _.extend(questionnaire, {
+        age: this.questionnaireService.getBestAge(this.child.getAgeInDays(), questionnaire.id)
+      });
+    });
   }
 
   getAnsweredQuestionaires() {
-    var that = this
+    var that = this;
     return ages
       .map(function(age){
         return questions
@@ -35,4 +41,4 @@ export default class HomeController {
   }
 }
 
-HomeController.$inject = ['AnswerService'];
+HomeController.$inject = ['AnswerService', '$stateParams', 'ChildService', 'QuestionnaireService'];

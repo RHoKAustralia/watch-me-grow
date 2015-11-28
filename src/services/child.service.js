@@ -2,14 +2,20 @@
 
 import angular from 'angular';
 import localDataStorage from 'angular-local-storage';
+import _ from 'lodash';
+import Child from '../models/Child';
 
 class ChildService {
   constructor(localStorageService) {
     this.localStorageService = localStorageService
   }
 
+  getChild(id) {
+    return new Child(_.find(this.localStorageService.get("children"), {'id': id}));
+  }
+
   getChildren() {
-    return this.localStorageService.get("children")
+    return this.localStorageService.get("children").map(data => new Child(data));
   }
 
   addChild(child) {
