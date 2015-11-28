@@ -6,7 +6,7 @@ export default [
   {
     "id": "qchat",
     "title": "QCHAT",
-    "age_groups": ['12_month', '18_month', '2_years'],
+    "age_groups": ['18_month', '2_years'],
     "questions": [
       {
         "id": "nervousness",
@@ -52,7 +52,7 @@ export default [
   {
     "id": "peds",
     "title": "PEDS",
-    "age_groups": ['6_month', '12_month', '18_month', '2_years', '3_years', '4_years']
+    "age_groups": ['6_month', '12_month', '18_month', '2_years', '3_years', '4_years'],
     questions: [
       {
         "id": "favourite_thins",
@@ -68,5 +68,5 @@ export default [
         ]
       }
     ]
-  },
+  }
 ]
