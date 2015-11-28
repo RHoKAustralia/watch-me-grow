@@ -1,0 +1,166 @@
+<header class="mdl-layout__header mdl-color--primary">
+  <div class="mdl-layout__header-row">
+    <span class="mdl-layout-title">Results for TODO</span>
+  </div>
+  <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
+    <a href="#overview" class="mdl-layout__tab is-active">Overview</a>
+    <a href="#detailed_{{x.questionaire.id}}" class="mdl-layout__tab"
+       ng-repeat="x in result.getCompletedQuestionaires()">Answers for {{x.questionaire.title}}</a>
+  </div>
+</header>
+<main class="mdl-layout__content">
+
+  <section class="mdl-layout__tab-panel is-active" id="overview">
+
+    <div class="mdl-card mdl-shadow--2dp">
+      <div class="mdl-card__title">
+        <h2 class="mdl-card__title-text">
+          Test results
+        </h2>
+      </div>
+
+      <table>
+        <tbody>
+          <tr class="mdl-card__supporting-text" ng-repeat="x in result.getCompletedQuestionaires()">
+            <td>{{x.questionaire.title}}</td>
+            <td ng-switch="result.getOverallResult(x.questionaire, x.answers)">
+            <span ng-switch-when="RED_FLAG"
+                >
+             RED FLAG
+            </span>
+            <span ng-switch-when="AMBER_FLAG"
+                >
+              AMBER FLAG
+            </span>
+            <span ng-switch-when="NO_FLAG"
+                >
+             NO FLAG
+            </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+
+
+    <div class="mdl-card mdl-shadow--2dp">
+      <div class="mdl-card__title">
+        <h2 class="mdl-card__title-text">
+          If PEDS and Q-CHAT-10 are negative
+        </h2>
+      </div>
+
+
+      <div class="mdl-card__supporting-text mdl-card--border">
+        No further referral
+      </div>
+
+      <div class="mdl-card__actions mdl-card--border">
+        <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="http://www.resourcingparents.nsw.gov.au/page/love-talk-sing-read-play">PHR anticipatory guidelines</a>
+      </div>
+    </div>
+
+
+    <div class="mdl-card mdl-shadow--2dp">
+      <div class="mdl-card__title">
+        <h2 class="mdl-card__title-text">
+          If PEDS or Q-CHAT-10 are positive
+        </h2>
+      </div>
+
+
+      <div class="mdl-card__supporting-text mdl-card--border">
+        <b>Single domain concern</b>
+        consider refer to allied health specialist as below for
+        assessment and intervention
+
+        <table>
+          <tr>
+            <td>Receptive or expressive language/articulation/social skills–consider</td>
+            <td>consider speech & language therapist</td>
+          </tr>
+
+          <tr>
+            <td>fine motor or self-help</td>
+            <td>consider occupational therapist</td>
+          </tr>
+
+          <tr>
+            <td>gross motor</td>
+            <td>consider physiotherapist</td>
+          </tr>
+
+          <tr>
+            <td>learning or behaviour</td>
+            <td>consider psychologist</td>
+          </tr>
+
+          <tr>
+            <td>medical conditions</td>
+            <td>evaluate further and refer to specialists as indicated</td>
+          </tr>
+
+        </table>
+      </div>
+
+      <div class="mdl-card__supporting-text mdl-card--border">
+        <b>More than one PEDS concern or Q-CHAT-10 postive</b>
+        <ul>
+          <li>refer to paediatrician for further developmental assessment</li>
+          <li>refer to local supported play group or other early intervention services</li>
+        </ul>
+      </div>
+
+      <div class="mdl-card__supporting-text mdl-card--border">
+        <b>Has hearing been tested in last 6 months?</b>
+        If not, refer for hearing assessment
+      </div>
+    </div>
+
+
+    <div class="mdl-card mdl-shadow--2dp">
+      <div class="mdl-card__title">
+        <h2 class="mdl-card__title-text">
+          On balance do you think this child has developmental concerns that warrant intervention?
+        </h2>
+      </div>
+    </div>
+
+    <div class="mdl-card mdl-shadow--2dp mdl-card--border">
+      <div class="mdl-card__title">
+        <h2 class="mdl-card__title-text">
+          Do you think this family needs additional support to cater for the child’s needs?
+        </h2>
+      </div>
+
+      <div class="mdl-card__actions mdl-card--border">
+        <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="http://raisingchildren.net.au/">rasingchildren.net.au</a>
+      </div>
+    </div>
+
+
+  </section>
+
+
+  <section class="mdl-layout__tab-panel" id="detailed_{{x.questionaire.id}}"
+           ng-repeat="x in result.getCompletedQuestionaires()">
+    <div class="page-content">
+      <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+        <thead>
+        <tr>
+          <th class="mdl-data-table__cell--non-numeric">Question</th>
+          <th>Answer</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="question in x.questionaire.questions track by question.id"
+            class="answer-row__{{result.getQuestionResult(question, x.answers)}}">
+          <td class="mdl-data-table__cell--non-numeric">{{question.text}}</td>
+          <td>{{result.getAnswer(question, x.answers).text}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</main>

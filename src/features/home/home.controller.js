@@ -8,6 +8,15 @@ export default class HomeController {
     this.answerService = answerService;
     this.child = childService.getChild($stateParams.childId);
     this.questionnaireService = questionnaireService;
+
+    this.completedAges = ages
+        .filter(function(age){
+          return this.questionnaireService.getQuestionnaires()
+              .some(function(questionaire) {
+                var answers = this.answerService.getAnswers(this.child.id, age.id, questionaire.id);
+                return answers != null
+              }, this)
+        }, this)
   }
 
   getQuestionnaires() {
@@ -16,28 +25,6 @@ export default class HomeController {
         age: this.questionnaireService.getBestAge(this.child.getAgeInDays(), questionnaire.id)
       });
     });
-  }
-
-  getAnsweredQuestionaires() {
-    var that = this;
-    return ages
-      .map(function(age){
-        return questions
-          .map(function(questionaire) {
-            var answers = that.answerService.getAnswers(age.id, questionaire.id);
-            if(answers !== null) {
-              return {
-                age: age,
-                questionaire: questionaire,
-                answer: answers
-              }
-            }
-          })
-          .filter(function(x) { return x != null})
-      })
-    .reduce(function(a, b) { //flaten
-          return a.concat(b);
-    }, []);
   }
 }
 
