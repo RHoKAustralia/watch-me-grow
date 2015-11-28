@@ -9,7 +9,7 @@
       <h3>Questionaires to complete</h3>
 
       <div class="mdl-grid">
-        <div ng-repeat="questionnaire in home.getQuestionnaires()" class="mdl-cell mdl-cell--4-col-tablet">
+        <div ng-repeat="questionnaire in home.getQuestionnaires() track by $index" class="mdl-cell mdl-cell--4-col-tablet">
 
           <div class="demo-card-square mdl-card mdl-shadow--2dp">
             <div class="mdl-card__title mdl-card--expand">
@@ -36,7 +36,7 @@
       <h3>Questionaires to complete</h3>
 
       <div class="mdl-grid">
-        <div ng-repeat="answer_for_questionaire in home.getAnsweredQuestionaires()" class="mdl-cell mdl-cell--4-col-tablet">
+        <div ng-repeat="answer_for_questionaire in home.getAnsweredQuestionaires() track by $index" class="mdl-cell mdl-cell--4-col-tablet">
 
           <div class="demo-card-square mdl-card mdl-shadow--2dp">
             <div class="mdl-card__title mdl-card--expand">
