@@ -1,7 +1,7 @@
 'use strict';
 
 import angular from 'angular';
-import questions from '../data/questionaires';
+import questions from '../data/questionnaires';
 import ages from '../data/ages';
 import _ from 'lodash';
 

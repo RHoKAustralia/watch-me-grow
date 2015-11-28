@@ -1,6 +1,6 @@
 'use strict';
 
-import questions from '../../data/questionaires';
+import questions from '../../data/questionnaires';
 import ages from '../../data/ages';
 
 export default class HomeController {

@@ -284,7 +284,7 @@ export default [
 //"id": "peds",
 //"title": "PEDS",
 //"age_groups": ['6_month', '12_month', '18_month', '2_years', '3_years', '4_years'],
-//questions: [
+//questionnaire: [
 //    {
 //      "id": "favourite_thins",
 //      "text": "Has favourite things and people",

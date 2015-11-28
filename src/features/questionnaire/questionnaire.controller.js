@@ -1,7 +1,7 @@
 'use strict';
 
 
-export default class QuestionsController {
+export default class QuestionnaireController {
   constructor($stateParams, questionsService, answerService, $state, childService, $location) {
     this.answerService = answerService;
     this.questionnaire = questionsService.getQuestionnaire($stateParams.questionnaireId);
@@ -23,4 +23,4 @@ export default class QuestionsController {
   }
 }
 
-QuestionsController.$inject = ['$stateParams', 'QuestionnaireService', 'AnswerService', '$state', 'ChildService', '$location'];
+QuestionnaireController.$inject = ['$stateParams', 'QuestionnaireService', 'AnswerService', '$state', 'ChildService', '$location'];
