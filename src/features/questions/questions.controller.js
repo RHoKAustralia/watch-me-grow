@@ -1,14 +1,14 @@
 'use strict';
 
-import questions from '../../data/questionaires';
 
 export default class QuestionsController {
-  constructor() {
+  constructor($stateParams, questionsService) {
+    this.questions = questionsService.getQuestions($stateParams.questionnaireId);
   }
 
   getQuestions() {
-    return questions[0];
+    return this.questions;
   }
 }
 
-QuestionsController.$inject = [];
+QuestionsController.$inject = ['$stateParams', 'QuestionsService'];
