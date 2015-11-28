@@ -8,6 +8,6 @@ export default function routes($stateProvider) {
       url: '/questions/:questionnaireId',
       template: require('./questions.html'),
       controller: 'QuestionsController',
-      controllerAs: 'questions'
+      controllerAs: 'controller'
     });
 }

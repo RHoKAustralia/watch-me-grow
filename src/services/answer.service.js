@@ -8,16 +8,16 @@ class Answers {
     this.localStorageService = localStorageService
   }
 
-  getAnswers(age, questionaire) {
-    return this.localStorageService.get(Answers.composeKey(age, questionaire))
+  getAnswers(ageId, questionaireId) {
+    return this.localStorageService.get(Answers.composeKey(ageId, questionaireId))
   }
 
-  saveAnswers(age, questionaire, answers) {
-    return this.localStorageService.set(Answers.composeKey(age, questionaire), answers)
+  saveAnswers(ageId, questionaireId, answers) {
+    return this.localStorageService.set(Answers.composeKey(ageId, questionaireId), answers)
   }
 
-  static composeKey(age, questionaire) {
-    return "answer_" + age.id + "_" + questionaire.id
+  static composeKey(ageId, questionaireId) {
+    return "answer_" + ageId + "_" + questionaireId
   }
 }
 
