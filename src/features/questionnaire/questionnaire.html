@@ -1,33 +1,26 @@
-<header class="mdl-layout__header">
-  <div class="mdl-layout__header-row">
-    <span class="mdl-layout-title">{{controller.questionnaire.title}}</span>
-  </div>
-</header>
-<main class="mdl-layout__content">
-  <form ng-submit="controller.submit()">
-    <section class="section--center mdl-grid mdl-shadow--2dp wmg-question-group"
-             ng-repeat="question in controller.questionnaire.questions">
-      <div class="mdl-card mdl-cell mdl-cell--12-col wmg-question-group__card">
-        <div class="mdl-card__supporting-text mdl-grid mdl-grid--no-spacing">
-          <h5 class="mdl-cell mdl-cell--12-col">{{ $index + 1 }}. {{question.text}}</h5>
+<form ng-submit="controller.submit()">
+  <section class="section--center mdl-grid mdl-shadow--2dp wmg-question-group"
+           ng-repeat="question in controller.questionnaire.questions">
+    <div class="mdl-card mdl-cell mdl-cell--12-col wmg-question-group__card wmg-card">
+      <div class="mdl-card__supporting-text mdl-grid mdl-grid--no-spacing">
+        <h5 class="mdl-cell mdl-cell--12-col">{{ $index + 1 }}. {{question.text}}</h5>
 
-          <ul class="wmg-question-group__answers">
-            <li ng-repeat="answer in question.answers">
-              <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect">
-                <input type="radio" class="mdl-radio__button" name="{{question.id}}"
-                       value="{{answer.value}}" ng-model="controller.answers[question.id]"
-                       ng-required="!controller.answers[question.id]">
-                <span class="mdl-radio__label">{{answer.text}}</span>
-              </label>
-            </li>
-          </ul>
-        </div>
+        <ul class="wmg-question-group__answers">
+          <li ng-repeat="answer in question.answers">
+            <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect">
+              <input type="radio" class="mdl-radio__button" name="{{question.id}}"
+                     value="{{answer.value}}" ng-model="controller.answers[question.id]"
+                     ng-required="!controller.answers[question.id]">
+              <span class="mdl-radio__label">{{answer.text}}</span>
+            </label>
+          </li>
+        </ul>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <button type="submit"
-            class="wmg-questionnaire__submit mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
-      Submit
-    </button>
-  </form>
-</main>
+  <button type="submit"
+          class="wmg-questionnaire__submit mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+    Submit
+  </button>
+</form>

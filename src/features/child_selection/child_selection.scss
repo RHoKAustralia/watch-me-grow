@@ -1,5 +1,8 @@
-.demo-card-square > .mdl-card__title {
-  min-height: 200px;
-  color: #fff;
-  background: url('../../../assets/dog.png') bottom right 15% no-repeat #46B6AC;
+.wmg-select-child {
+  &__add-button {
+    position: fixed;
+    right: 50px;
+    top: 50px;
+    z-index: 10;
+  }
 }

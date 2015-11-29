@@ -1,67 +1,61 @@
-<header class="mdl-layout__header mdl-color--primary">
-  <div class="mdl-layout__header-row">
-    <span class="mdl-layout-title">Select a questionaire</span>
+<div class="mdl-grid wmg-content">
+  <div class="mdl-cell--12-col">
+    <h3>Questionnaires to complete</h3>
   </div>
-</header>
-<main class="mdl-layout__content">
-  <div class="page-content">
-    <div>
-      <h3>Questionaires to complete</h3>
 
-      <div class="mdl-grid">
-        <div ng-repeat="questionnaire in home.getQuestionnaires() track by $index"
-             class="mdl-cell mdl-cell--4-col-tablet">
+  <section ng-repeat="questionnaire in home.getQuestionnaires() track by $index"
+           class="mdl-cell mdl-cell--4-col-tablet">
 
-          <div class="demo-card-square mdl-card mdl-shadow--2dp">
-            <div class="mdl-card__title mdl-card--expand">
-              <h2 class="mdl-card__title-text">{{questionnaire.title}}</h2>
+    <div class="wmg-card mdl-card mdl-shadow--2dp">
+      <div class="mdl-card__title mdl-card--expand">
+        <h2 class="mdl-card__title-text">{{questionnaire.title}}</h2>
 
-            </div>
-            <div class="mdl-card__supporting-text">
-              {{questionnaire.description}}
-            </div>
+      </div>
+      <div class="mdl-card__supporting-text">
+        {{questionnaire.description}}
+      </div>
 
-            <div class="mdl-card__actions">
-              <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect"
-                 href="{{questionnaire.detail_link}}">
-                Find out more
-              </a>
-            </div>
+      <div class="mdl-card__actions">
+        <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect"
+           href="{{questionnaire.detail_link}}">
+          Find out more
+        </a>
+      </div>
 
-            <div class="mdl-card__actions mdl-card--border">
-              <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect"
-                 ui-sref="questionnaire({questionnaireId: questionnaire.id, childId: home.child.id, ageId: questionnaire.age.id})">
-                Fill out now
-              </a>
-            </div>
-          </div>
-        </div>
+      <div class="mdl-card__actions mdl-card--border">
+        <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect"
+           ui-sref="questionnaire({questionnaireId: questionnaire.id, childId: home.child.id, ageId: questionnaire.age.id})">
+          Fill out now
+        </a>
       </div>
     </div>
+  </section>
 
-
-    <div ng-if="home.completedAges.length > 0">
-      <h3>Completed</h3>
-
-      <div class="mdl-grid">
-        <div ng-repeat="age in home.completedAges track by age.id"
-             class="mdl-cell mdl-cell--4-col-tablet">
-
-          <div class="demo-card-square mdl-card mdl-shadow--2dp">
-            <div class="mdl-card__title mdl-card--expand">
-              <h2 class="mdl-card__title-text">
-                <span>{{age.label}}</span>
-              </h2>
-            </div>
-            <div class="mdl-card__actions mdl-card--border">
-              <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="/result/{{home.child.id}}/{{age.id}}">
-                See results
-              </a>
-            </div>
-
-          </div>
-        </div>
-      </div>
-    </div>
+  <div ng-if="home.completedAges.length > 0" class="mdl-cell--12-col">
+    <h3>Completed</h3>
   </div>
-</main>
+
+  <div ng-repeat="age in home.completedAges track by age.id"
+       class="mdl-cell mdl-cell--4-col-tablet">
+
+    <section class="wmg-card mdl-card mdl-shadow--2dp">
+      <div class="mdl-card__title mdl-card--expand">
+        <h2 class="mdl-card__title-text">
+          <span>{{age.label}}</span>
+        </h2>
+      </div>
+      <div class="mdl-card__actions mdl-card--border">
+        <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect"
+           href="/result/{{home.child.id}}/{{age.id}}">
+          See results
+        </a>
+      </div>
+
+      <div class="mdl-card__actions mdl-card--border">
+        <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="/questions}}">
+          See answers
+        </a>
+      </div>
+    </section>
+  </div>
+</div>

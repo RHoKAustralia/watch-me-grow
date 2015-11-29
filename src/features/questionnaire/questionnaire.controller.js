@@ -2,13 +2,13 @@
 
 
 export default class QuestionnaireController {
-  constructor($stateParams, questionsService, answerService, $state, childService, $location) {
+  constructor($stateParams, questionsService, answerService, $state, childService) {
     this.answerService = answerService;
     this.questionnaire = questionsService.getQuestionnaire($stateParams.questionnaireId);
     this.answers = {};
     this.$state = $state;
-    this.childId = $location.search.childId;
-    this.ageId = $location.search.ageId;
+    this.childId = $stateParams.childId;
+    this.ageId = $stateParams.ageId;
 
     // TODO: Reject if age is invalid for child or for questionnaire.
     if (!childService.getChild(this.childId)) {
@@ -19,8 +19,8 @@ export default class QuestionnaireController {
   submit() {
     this.answerService.saveAnswers(this.childId, this.ageId, this.questionnaire.id, this.answers);
 
-    this.$state.go('home');
+    this.$state.go('dashboard', {childId: this.childId});
   }
 }
 
-QuestionnaireController.$inject = ['$stateParams', 'QuestionnaireService', 'AnswerService', '$state', 'ChildService', '$location'];
+QuestionnaireController.$inject = ['$stateParams', 'QuestionnaireService', 'AnswerService', '$state', 'ChildService'];

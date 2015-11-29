@@ -1,47 +1,29 @@
-<header class="mdl-layout__header mdl-color--primary">
-  <div class="mdl-layout__header-row">
-    <span class="mdl-layout-title">Add a child</span>
+<form class="mdl-grid wmg-content" ng-submit="addChild.add()">
+  <div class="mdl-cell mdl-cell--middle">
+    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+      <input class="mdl-textfield__input" ng-model="addChild.child.patientReference" type="text"
+             id="referenceIdField">
+      <label class="mdl-textfield__label" for="referenceIdField">Patient reference</label>
+    </div>
   </div>
-</header>
-<main class="mdl-layout__content">
-  <div class="page-content">
-    <form ng-submit="addChild.add()">
-      <div class="mdl-grid">
-        <div class="mdl-cell mdl-cell--middle">
-          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-            <input class="mdl-textfield__input" ng-model="addChild.child.patientReference" type="text" id="referenceIdField">
-            <label class="mdl-textfield__label" for="referenceIdField">Patient reference</label>
-          </div>
-        </div>
-      </div>
 
-      <div class="mdl-grid">
-        <div class="mdl-cell mdl-cell--middle">
-          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-            <input class="mdl-textfield__input" ng-model="addChild.child.name" type="text" id="nameField">
-            <label class="mdl-textfield__label" for="nameField">Name</label>
-          </div>
-        </div>
-      </div>
-
-      <div class="mdl-grid">
-        <div class="mdl-cell mdl-cell--middle">
-          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-            <input class="mdl-textfield__input" ng-model="addChild.child.dob" type="date" id="dobField">
-            <label class="mdl-textfield__label" for="dobField">Dob</label>
-          </div>
-        </div>
-      </div>
-
-      <div class="mdl-grid">
-        <div class="mdl-cell mdl-cell--middle">
-          <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" ng-click="addChild.add()">
-            Add
-          </button>
-        </div>
-      </div>
-    </form>
+  <div class="mdl-cell mdl-cell--middle">
+    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+      <input class="mdl-textfield__input" ng-model="addChild.child.name" type="text" id="nameField">
+      <label class="mdl-textfield__label" for="nameField">Name</label>
+    </div>
   </div>
+
+  <div class="mdl-cell mdl-cell--middle">
+    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+      <input class="mdl-textfield__input" ng-model="addChild.child.dob" type="date" id="dobField" placeholder="dd/MM/yyyy">
+      <label class="mdl-textfield__label" for="dobField">Dob</label>
+    </div>
   </div>
-</main>
-</main>
+
+  <div class="mdl-cell mdl-cell--middle">
+    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" ng-click="addChild.add()">
+      Add
+    </button>
+  </div>
+</form>

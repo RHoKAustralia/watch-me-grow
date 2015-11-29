@@ -1,1 +1,17 @@
 @import '../node_modules/material-design-lite/src/material-design-lite';
+
+.wmg-content {
+  max-width: 930px;
+}
+
+.wmg-card {
+  min-width: 0;
+  width: auto;
+  min-height: 0;
+
+  .mdl-card__title {
+    min-height: 200px;
+    color: #fff;
+    background: url('../assets/dog.png') bottom right 15% no-repeat #46B6AC;
+  }
+}

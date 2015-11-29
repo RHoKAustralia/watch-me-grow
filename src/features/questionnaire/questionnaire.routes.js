@@ -5,9 +5,13 @@ routes.$inject = ['$stateProvider'];
 export default function routes($stateProvider) {
   $stateProvider
     .state('questionnaire', {
-      url: '/questionnaire/:questionnaireId/:ageId?childId',
+      url: 'questionnaire/:questionnaireId/:ageId?childId',
       template: require('./questionnaire.html'),
       controller: 'QuestionnaireController',
-      controllerAs: 'controller'
+      controllerAs: 'controller',
+      data: {
+        title: 'Questionnaire'
+      },
+      parent: 'root'
     });
 }

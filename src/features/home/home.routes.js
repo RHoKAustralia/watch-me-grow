@@ -5,9 +5,13 @@ routes.$inject = ['$stateProvider'];
 export default function routes($stateProvider) {
   $stateProvider
     .state('dashboard', {
-      url: '/dashboard/{childId:int}',
+      url: 'dashboard/{childId:int}',
       template: require('./home.html'),
       controller: 'HomeController',
-      controllerAs: 'home'
+      controllerAs: 'home',
+      parent: 'root',
+      data: {
+        title: 'Dashboard'
+      }
     });
 }
