@@ -13,7 +13,7 @@ import result from './features/result/index';
 
 import routing from './app.config';
 
-angular.module('app', [uirouter, root, home, questionnaire, child_selection, add_child])
+angular.module('app', [uirouter, root, home, questionnaire, child_selection, add_child, result])
   .run(function ($rootScope, $timeout) {
     $rootScope.$on('$viewContentLoaded', ()=> {
       $timeout(() => {

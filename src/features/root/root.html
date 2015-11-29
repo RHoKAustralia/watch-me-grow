@@ -1,6 +1,8 @@
+<div class="root mdl-layout mdl-js-layout mdl-layout--fixed-header">
+  <header class="root-header mdl-layout__header mdl-color--primary">
+    <ui-view name="header"></ui-view>
+    <ui-view class="mdl-layout__tab-bar mdl-js-ripple-effect wmg-tab-bar" name="tabs"></ui-view>
+  </header>
 
-  <div class="root mdl-layout mdl-js-layout mdl-layout--fixed-header">
-    <header ui-view name="header" class="root-header mdl-layout__header mdl-color--primary"></header>
-
-    <main class="mdl-layout__content" ui-view></main>
-  </div>
+  <main class="mdl-layout__content" ui-view></main>
+</div>

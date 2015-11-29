@@ -11,3 +11,22 @@
 .mdl-data-table tbody tr.answer-row__AMBER_FLAG:hover {
   background-color: #FFC200;
 }
+
+
+.wmg-red {
+  color: red;
+}
+
+.wmg-amber {
+  color: goldenrod;
+}
+
+.wmg-no {
+  i {
+    color: transparent;
+  }
+}
+
+.wmg-result-overview__flag {
+  text-align: center;
+}

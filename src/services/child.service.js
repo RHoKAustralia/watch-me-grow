@@ -15,7 +15,10 @@ class ChildService {
   }
 
   getChildren() {
-    return this.localStorageService.get("children").map(data => new Child(data));
+    const children = this.localStorageService.get("children");
+    if (children) {
+      return children.map(data => new Child(data));
+    }
   }
 
   addChild(child) {

@@ -15,7 +15,8 @@ export default class ResultController {
         if (answers != null) {
           that.completedQuestionaires.push({
             answers: answers,
-            questionaire: questionaire
+            questionaire: questionaire,
+            age: that.ageId
           })
         }
       });
