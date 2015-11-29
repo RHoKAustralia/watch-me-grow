@@ -2,6 +2,7 @@ import 'material-design-lite/material.js';
 import './base.scss';
 
 import angular from 'angular';
+import 'angular-material-design-lite/dist/angular-material-design-lite';
 import uirouter from 'angular-ui-router';
 
 import root from './features/root'
@@ -19,6 +20,6 @@ angular.module('app', [uirouter, root, home, questionnaire, child_selection, add
       $timeout(() => {
         componentHandler.upgradeAllRegistered();
       })
-    })
+    });
   })
   .config(routing);

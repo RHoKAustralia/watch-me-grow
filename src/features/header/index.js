@@ -1,4 +1,4 @@
-
+import './header.scss';
 
 import angular from 'angular';
 

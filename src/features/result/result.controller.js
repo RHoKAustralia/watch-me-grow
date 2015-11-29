@@ -20,8 +20,6 @@ export default class ResultController {
           })
         }
       });
-
-    console.log(that.completedQuestionaires)
   }
 
   getCompletedQuestionaires() {
@@ -35,7 +33,7 @@ export default class ResultController {
   }
 
   getQuestionResult(question, answers) {
-    var answer = this.getAnswer(question, answers)
+    var answer = this.getAnswer(question, answers);
 
     if(answer.redFlagQuestion) {
       return "RED_FLAG"
