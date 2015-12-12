@@ -10,7 +10,7 @@ import ChildSelectionController from './child.controller';
 import './child_selection.scss';
 
 
-export default angular.module('app.child_selection', [uirouter, ChildService])
+export default angular.module('app.child_selection', [uirouter, ChildService, 'ngMaterial'])
   .config(routing)
   .controller('ChildSelectionController', ChildSelectionController)
   .name;

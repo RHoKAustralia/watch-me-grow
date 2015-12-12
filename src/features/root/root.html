@@ -1,8 +1,8 @@
-<div class="root mdl-layout mdl-js-layout mdl-layout--fixed-header">
-  <header class="root-header mdl-layout__header mdl-color--primary">
+<div class="wmg-root">
+  <md-toolbar class="root-header">
     <ui-view name="header"></ui-view>
-    <div id="tab-bar" ui-view ng-upgrade class="mdl-layout__tab-bar mdl-js-ripple-effect wmg-tab-bar" name="tabs"></div>
-  </header>
+    <ui-view name="tabs"></ui-view>
+  </md-toolbar>
 
-  <main class="mdl-layout__content" ui-view></main>
+  <md-content flex ui-view class="wmg-root__content"></md-content>
 </div>

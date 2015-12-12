@@ -1,8 +1,15 @@
-.wmg-select-child {
-  &__add-button {
-    position: fixed;
-    right: 50px;
-    top: 50px;
-    z-index: 10;
+.wmg-add-child-button {
+  position: absolute;
+  right: 50px;
+  top: -40px;
+  z-index: 1000;
+}
+
+.wmg-child-card {
+  width: 300px;
+
+  &__image {
+    height: 200px;
+    background: url('../../../assets/dog.png') bottom right 15% no-repeat #46B6AC;
   }
 }

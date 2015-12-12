@@ -1,8 +1,9 @@
-import 'material-design-lite/material.js';
 import './base.scss';
 
 import angular from 'angular';
-import 'angular-material-design-lite/dist/angular-material-design-lite';
+import 'angular-aria/angular-aria';
+import 'angular-animate/angular-animate';
+import 'angular-material/angular-material';
 import uirouter from 'angular-ui-router';
 
 import root from './features/root'
@@ -14,12 +15,10 @@ import result from './features/result/index';
 
 import routing from './app.config';
 
-angular.module('app', [uirouter, root, home, questionnaire, child_selection, add_child, result])
-  .run(function ($rootScope, $timeout) {
-    $rootScope.$on('$viewContentLoaded', ()=> {
-      $timeout(() => {
-        componentHandler.upgradeAllRegistered();
-      })
-    });
+angular.module('app', [uirouter, root, home, questionnaire, child_selection, add_child, result, 'ngMaterial'])
+  .config(function($mdThemingProvider) {
+    $mdThemingProvider.theme('default')
+      .primaryPalette('pink')
+      .accentPalette('orange');
   })
   .config(routing);

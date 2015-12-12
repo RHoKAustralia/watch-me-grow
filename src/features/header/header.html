@@ -1,18 +1,7 @@
-<div class="mdl-layout__header-row">
-  <span class="wmg-logo"></span>
-
-  <span class="mdl-layout-title">{{header.title}}</span>
-
-  <!-- Add spacer, to align navigation to the right -->
-  <div class="mdl-layout-spacer"></div>
-  <!-- Navigation. We hide it in small screens. -->
-  <nav class="mdl-navigation">
-
-    <a ui-sref="child_selection" id="select-child-button" class="mdl-button mdl-js-button mdl-button--icon">
-      <i class="material-icons">child_care</i>
-    </a>
-    <div class="mdl-tooltip mdl-tooltip--large" for="select-child-button">
-      Select Child
-    </div>
-  </nav>
+<div class="md-toolbar-tools">
+  <a ui-sref="child_selection" class="wmg-logo"></a>
+  <h2>
+    <span>{{header.title}}</span>
+  </h2>
+  <span flex></span>
 </div>

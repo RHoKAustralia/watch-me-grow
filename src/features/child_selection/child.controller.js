@@ -5,6 +5,7 @@ export default class ChildSelectionController {
     this.childService = childService;
     this.$location = $location
     this.children = this.childService.getChildren();
+    this.imagePath = require('../../../assets/dog.png');
   }
 }
 
