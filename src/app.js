@@ -9,16 +9,15 @@ import uirouter from 'angular-ui-router';
 import root from './features/root'
 import home from './features/home';
 import questionnaire from './features/questionnaire';
-import child_selection from './features/child_selection';
-import add_child from './features/add_child';
+import children from './features/children';
 import result from './features/result/index';
 
 import routing from './app.config';
 
-angular.module('app', [uirouter, root, home, questionnaire, child_selection, add_child, result, 'ngMaterial'])
+angular.module('app', [uirouter, root, home, questionnaire, children, result, 'ngMaterial'])
   .config(function($mdThemingProvider) {
     $mdThemingProvider.theme('default')
-      .primaryPalette('pink')
+      .primaryPalette('blue')
       .accentPalette('orange');
   })
   .config(routing);
