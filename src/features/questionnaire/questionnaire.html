@@ -1,26 +1,18 @@
-<form ng-submit="controller.submit()">
-  <section class="section--center mdl-grid mdl-shadow--2dp wmg-question-group"
-           ng-repeat="question in controller.questionnaire.questions">
-    <div class="mdl-card mdl-cell mdl-cell--12-col wmg-question-group__card wmg-card">
-      <div class="mdl-card__supporting-text mdl-grid mdl-grid--no-spacing">
-        <h5 class="mdl-cell mdl-cell--12-col">{{ $index + 1 }}. {{question.text}}</h5>
+<form ng-submit="controller.submit($event)" layout="column" layout-align="start center">
+    <md-card class="wmg-question-group" ng-repeat="question in controller.questionnaire.questions" ng-class="controller.invalid[question.id] ? 'wmg-question-group--invalid' : ''">
+        <md-card-content>
+            <h2 class="md-title">{{ $index + 1 }}. {{question.text}}</h2>
 
-        <ul class="wmg-question-group__answers">
-          <li ng-repeat="answer in question.answers">
-            <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect">
-              <input type="radio" class="mdl-radio__button" name="{{question.id}}"
-                     value="{{answer.value}}" ng-model="controller.answers[question.id]"
-                     ng-required="!controller.answers[question.id]">
-              <span class="mdl-radio__label">{{answer.text}}</span>
-            </label>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </section>
+            <md-radio-group ng-model="controller.answers[question.id]" class="wmg-question-group__answers md-primary"
+                            name="question.id" ng-required="true">
+                <md-radio-button ng-repeat="answer in question.answers" value="{{answer.value}}">
+                    {{answer.text}}
+                </md-radio-button>
+            </md-radio-group>
+        </md-card-content>
+    </md-card>
 
-  <button type="submit"
-          class="wmg-questionnaire__submit mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
-    Submit
-  </button>
+    <md-button class="md-raised md-primary wmg-questionnaire__submit" type="submit">
+        Submit
+    </md-button>
 </form>

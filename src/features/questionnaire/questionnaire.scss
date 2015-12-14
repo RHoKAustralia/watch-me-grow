@@ -6,14 +6,9 @@
 }
 
 .wmg-question-group {
-  margin-top: 20px;
-  max-width: 768px;
+  width: 600px;
 
-  &__answers {
-    list-style-type: none;
-  }
-
-  &__card {
-    padding-top: 10px;
+  &--invalid {
+    color: #F00;
   }
 }

@@ -9,6 +9,7 @@ export default class QuestionnaireController {
     this.$state = $state;
     this.childId = $stateParams.childId;
     this.ageId = $stateParams.ageId;
+    this.invalid = {};
 
     // TODO: Reject if age is invalid for child or for questionnaire.
     if (!childService.getChild(this.childId)) {
@@ -16,10 +17,21 @@ export default class QuestionnaireController {
     }
   }
 
-  submit() {
-    this.answerService.saveAnswers(this.childId, this.ageId, this.questionnaire.id, this.answers);
+  submit($event) {
+    $event.preventDefault();
 
-    this.$state.go('dashboard', {childId: this.childId});
+    this.invalid = {};
+    this.questionnaire.questions.forEach(question => {
+      if (!this.answers[question.id]) {
+        this.invalid[question.id] = true;
+      }
+    });
+
+    if (!Object.keys(this.invalid).length) {
+      this.answerService.saveAnswers(this.childId, this.ageId, this.questionnaire.id, this.answers);
+
+      this.$state.go('dashboard', {childId: this.childId});
+    }
   }
 }
 
