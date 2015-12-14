@@ -2,6 +2,7 @@
 
 import questions from '../../data/questionnaires';
 import ages from '../../data/ages';
+import _ from 'lodash';
 
 export default class HomeController {
   constructor(answerService, $stateParams, childService, questionnaireService) {
@@ -9,22 +10,20 @@ export default class HomeController {
     this.child = childService.getChild($stateParams.childId);
     this.questionnaireService = questionnaireService;
 
-    this.completedAges = ages
-        .filter(function(age){
-          return this.questionnaireService.getQuestionnaires()
-              .some(function(questionaire) {
-                var answers = this.answerService.getAnswers(this.child.id, age.id, questionaire.id);
-                return answers != null
-              }, this)
-        }, this)
+    this.completedAges = _(ages)
+      .map(age => {
+        return this.questionnaireService.getQuestionnaires().map(questionnaire => [questionnaire, age])
+      })
+      .flatten()
+      .filter(([questionnaire, age]) => {
+        return !!this.answerService.getAnswers(this.child.id, age.id, questionnaire.id);
+      })
+      .map(([questionnaire, age]) => age)
+      .value();
   }
 
   getQuestionnaires() {
-    return this.questionnaireService.getQuestionnaires().map(questionnaire => {
-      return _.extend(questionnaire, {
-        age: this.questionnaireService.getBestAge(this.child.getAgeInDays(), questionnaire.id)
-      });
-    });
+    return this.questionnaireService.getQuestionnaires();
   }
 }
 

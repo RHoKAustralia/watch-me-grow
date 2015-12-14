@@ -2,19 +2,23 @@
 
 
 export default class QuestionnaireController {
-  constructor($stateParams, questionsService, answerService, $state, childService) {
-    this.answerService = answerService;
-    this.questionnaire = questionsService.getQuestionnaire($stateParams.questionnaireId);
-    this.answers = {};
-    this.$state = $state;
+  constructor($stateParams, questionnaireService, answerService, $state, childService) {
     this.childId = $stateParams.childId;
-    this.ageId = $stateParams.ageId;
-    this.invalid = {};
+    this.child = childService.getChild(this.childId);
+    this.questionnaire = questionnaireService.getQuestionnaire($stateParams.questionnaireId);
 
     // TODO: Reject if age is invalid for child or for questionnaire.
-    if (!childService.getChild(this.childId)) {
+    if (!this.child) {
       this.$state.go('home');
+      return;
+    } else {
+      this.ageId = questionnaireService.getBestAge(this.child.getAgeInDays(), this.questionnaire.id);
     }
+
+    this.answerService = answerService;
+    this.answers = {};
+    this.$state = $state;
+    this.invalid = {};
   }
 
   submit($event) {
@@ -28,7 +32,7 @@ export default class QuestionnaireController {
     });
 
     if (!Object.keys(this.invalid).length) {
-      this.answerService.saveAnswers(this.childId, this.ageId, this.questionnaire.id, this.answers);
+      this.answerService.saveAnswers(this.childId, this.ageId.id, this.questionnaire.id, this.answers);
 
       this.$state.go('dashboard', {childId: this.childId});
     }

@@ -13,7 +13,7 @@ export default class AddChildController {
   add($event) {
     $event.preventDefault();
 
-    if (child.dob) {
+    if (this.child.dob) {
       this.childService.addChild(this.child);
       this.$mdDialog.hide();
     }

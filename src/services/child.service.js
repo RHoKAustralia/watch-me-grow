@@ -15,7 +15,7 @@ class ChildService {
   }
 
   getChildren() {
-    if (!this.childrenCache) {
+    if (!this.childrenCache && this.$localStorage.children) {
       this.childrenCache = this.$localStorage.children.map(data => new Child(data));
     }
 
