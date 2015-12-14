@@ -1,61 +1,38 @@
-<div class="mdl-grid wmg-content">
-  <div class="mdl-cell--12-col">
+<div flex="100" class="wmg-content" layout="row">
     <h3>Questionnaires to complete</h3>
-  </div>
-
-  <section ng-repeat="questionnaire in home.getQuestionnaires() track by $index"
-           class="mdl-cell mdl-cell--4-col-tablet">
-
-    <div class="wmg-card mdl-card mdl-shadow--2dp">
-      <div class="mdl-card__title mdl-card--expand">
-        <h2 class="mdl-card__title-text">{{questionnaire.title}}</h2>
-
-      </div>
-      <div class="mdl-card__supporting-text">
-        {{questionnaire.description}}
-      </div>
-
-      <div class="mdl-card__actions">
-        <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect"
-           href="{{questionnaire.detail_link}}">
-          Find out more
-        </a>
-      </div>
-
-      <div class="mdl-card__actions mdl-card--border">
-        <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect"
-           ui-sref="questionnaire({questionnaireId: questionnaire.id, childId: home.child.id, ageId: questionnaire.age.id})">
-          Fill out now
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <div ng-if="home.completedAges.length > 0" class="mdl-cell--12-col">
-    <h3>Completed</h3>
-  </div>
-
-  <div ng-repeat="age in home.completedAges track by age.id"
-       class="mdl-cell mdl-cell--4-col-tablet">
-
-    <section class="wmg-card mdl-card mdl-shadow--2dp">
-      <div class="mdl-card__title mdl-card--expand">
-        <h2 class="mdl-card__title-text">
-          <span>{{age.label}}</span>
-        </h2>
-      </div>
-      <div class="mdl-card__actions mdl-card--border">
-        <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect"
-           href="/result/{{home.child.id}}/{{age.id}}">
-          See results
-        </a>
-      </div>
-
-      <div class="mdl-card__actions mdl-card--border">
-        <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="/questions}}">
-          See answers
-        </a>
-      </div>
-    </section>
-  </div>
 </div>
+
+<section flex="100" layout="row" layout-wrap>
+    <md-card class="wmg-questionnaire-card" ng-repeat="questionnaire in home.getQuestionnaires() track by $index">
+        <md-card-content>
+            <h2 class="md-title">{{questionnaire.title}}</h2>
+
+            <div>{{questionnaire.description}}</div>
+        </md-card-content>
+
+
+        <div class="md-actions" layout="row" layout-align="end end">
+            <md-button href="{{questionnaire.detail_link}}">Find out more</md-button>
+            <md-button
+                    ui-sref="questionnaire({questionnaireId: questionnaire.id, childId: home.child.id, ageId: questionnaire.age.id})">
+                Fill out now
+            </md-button>
+        </div>
+    </md-card>
+</section>
+
+<div ng-if="home.completedAges.length > 0" flex="100" class="wmg-content" layout="row">
+    <h3>Completed</h3>
+</div>
+
+<section flex="100" layout="row" layout-wrap>
+    <md-card ng-repeat="age in home.completedAges track by age.id" layout="column">
+        <md-card-content>
+            <h2 class="md-title">{{age.label}}</h2>
+        </md-card-content>
+        <div class="md-actions" layout="row" layout-align="end center">
+            <md-button href="/result/{{home.child.id}}/{{age.id}}">See results</md-button>
+            <md-button href="/questions">See answers</md-button>
+        </div>
+    </md-card>
+</section>
