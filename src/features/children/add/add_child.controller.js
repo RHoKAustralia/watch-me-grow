@@ -6,11 +6,17 @@ export default class AddChildController {
     this.$state = $state;
     this.child = {};
     this.$mdDialog = $mdDialog;
+
+    this.maxDate = new Date();
   }
 
-  add() {
-    this.childService.addChild(this.child);
-    this.$mdDialog.hide();
+  add($event) {
+    $event.preventDefault();
+
+    if (child.dob) {
+      this.childService.addChild(this.child);
+      this.$mdDialog.hide();
+    }
   }
 
   cancel($event) {
@@ -19,4 +25,4 @@ export default class AddChildController {
   }
 }
 
-AddChildController.$inject = ['ChildService', '$state', '$mdDialog', '$scope', '$timeout'];
+AddChildController.$inject = ['ChildService', '$state', '$mdDialog'];

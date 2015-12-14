@@ -1,19 +1,18 @@
 'use strict';
 
 import angular from 'angular';
-import localDataStorage from 'angular-local-storage';
 
 class Answers {
-  constructor(localStorageService) {
-    this.localStorageService = localStorageService
+  constructor($localStorage) {
+    this.$localStorage = $localStorage
   }
 
   getAnswers(childId, ageId, questionaireId) {
-    return this.localStorageService.get(Answers.composeKey(childId, ageId, questionaireId));
+    return this.$localStorage[Answers.composeKey(childId, ageId, questionaireId)];
   }
 
   saveAnswers(childId, ageId, questionaireId, answers) {
-    return this.localStorageService.set(Answers.composeKey(childId, ageId, questionaireId), answers);
+    return this.$localStorage[Answers.composeKey(childId, ageId, questionaireId)] = answers;
   }
 
   static composeKey(childId, ageId, questionaireId) {
@@ -21,8 +20,8 @@ class Answers {
   }
 }
 
-Answers.$inject = ["localStorageService"];
+Answers.$inject = ["$localStorage"];
 
-export default angular.module('services.answers', ['LocalStorageModule'])
+export default angular.module('services.answers', ['ngStorage'])
   .service('AnswerService', Answers)
   .name;

@@ -23,7 +23,7 @@
 
 html, body {
   overflow-y: auto !important;
-//  position: relative !important; // stops angular modals ruining the layout.
+  //  position: relative !important; // stops angular modals ruining the layout.
   min-height: 100%;
   top: 0 !important;
 }
@@ -31,3 +31,5 @@ html, body {
 .md-dialog-container {
   top: 0px !important;
 }
+
+@import './fix-md-datepicker';
