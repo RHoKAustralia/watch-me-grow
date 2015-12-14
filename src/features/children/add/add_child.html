@@ -1,45 +1,30 @@
 <md-dialog aria-label="Mango (Fruit)">
-    <form class="wmg-content" ng-submit="addChild.add()">
+    <form class="wmg-content">
         <md-toolbar>
             <div class="md-toolbar-tools">
                 <h2>Add Child</h2>
                 <span flex></span>
-                <md-button class="md-icon-button" ng-click="cancel()">
+                <md-button class="md-icon-button" ng-click="addChild.cancel($event)">
                     <md-icon aria-label="Close dialog">close</md-icon>
                 </md-button>
             </div>
         </md-toolbar>
         <md-dialog-content style="max-width:800px;max-height:810px; ">
-            <div class="md-dialog-content">
-                <div>
-                    <div>
-                        <input class="mdl-textfield__input" ng-model="addChild.child.patientReference" type="text"
-                               id="referenceIdField">
-                        <label class="mdl-textfield__label" for="referenceIdField">Patient reference</label>
-                    </div>
-                </div>
-
-                <div>
-                    <div>
-                        <input class="mdl-textfield__input" ng-model="addChild.child.name" type="text" id="nameField">
-                        <label class="mdl-textfield__label" for="nameField">Name</label>
-                    </div>
-                </div>
-
-                <div>
-                    <div>
-                        <input class="mdl-textfield__input" ng-model="addChild.child.dob" type="date" id="dobField"
-                               placeholder="dd/MM/yyyy">
-                        <label class="mdl-textfield__label" for="dobField">Dob</label>
-                    </div>
-                </div>
-
-                <div>
-                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"
-                            ng-click="addChild.add()">
-                        Add
-                    </button>
-                </div>
+            <div class="md-dialog-content" layout="column">
+                <md-input-container>
+                    <label>Patient reference</label>
+                    <input ng-model="addChild.child.patientReference" type="text">
+                </md-input-container>
+                <md-input-container>
+                    <label>Name</label>
+                    <input ng-model="addChild.child.name" type="text">
+                </md-input-container>
+                <md-input-container>
+                    <label>Dob</label>
+                    <input ng-model="addChild.child.dob" type="date" id="dobField"
+                           placeholder="dd/MM/yyyy">
+                </md-input-container>
+                <md-button class="md-raised md-primary" layout-align="start end" ng-click="addChild.add($event)">Add</md-button>
             </div>
         </md-dialog-content>
     </form>

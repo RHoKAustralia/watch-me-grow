@@ -20,8 +20,14 @@
   min-height: 0;
   height: auto;
 }
-//
-//body {
-//  overflow-y: scroll;
+
+html, body {
+  overflow-y: auto !important;
 //  position: relative !important; // stops angular modals ruining the layout.
-//}
+  min-height: 100%;
+  top: 0 !important;
+}
+
+.md-dialog-container {
+  top: 0px !important;
+}

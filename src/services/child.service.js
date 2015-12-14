@@ -1,40 +1,43 @@
 'use strict';
 
 import angular from 'angular';
-import localDataStorage from 'angular-local-storage';
+import 'ngstorage';
 import _ from 'lodash';
 import Child from '../models/Child';
 
 class ChildService {
-  constructor(localStorageService) {
-    this.localStorageService = localStorageService
+  constructor($localStorage) {
+    this.$localStorage = $localStorage;
   }
 
   getChild(id) {
-    return new Child(_.find(this.localStorageService.get("children"), {'id': id}));
+    return new Child(_.find(this.getChildren(), {'id': id}));
   }
 
   getChildren() {
-    const children = this.localStorageService.get("children");
-    if (children) {
-      return children.map(data => new Child(data));
+    if (!this.childrenCache) {
+      this.childrenCache = this.$localStorage.children.map(data => new Child(data));
     }
+
+    return this.childrenCache;
   }
 
   addChild(child) {
+    delete this.childrenCache;
+
     var children = this.getChildren();
     if(children == null) {
       children = []
     }
     child.id = children.length;
     children.push(child);
-    this.localStorageService.set("children", children)
+    this.$localStorage.children = children;
   }
 
 }
 
-ChildService.$inject = ["localStorageService"];
+ChildService.$inject = ["$localStorage"];
 
-export default angular.module('services.child', ['LocalStorageModule'])
+export default angular.module('services.child', ['ngStorage'])
   .service('ChildService', ChildService)
   .name;

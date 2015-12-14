@@ -2,28 +2,21 @@
 
 export default class AddChildController {
   constructor(childService, $state, $mdDialog) {
-    this.childService = childService
+    this.childService = childService;
     this.$state = $state;
-    this.child = {}
+    this.child = {};
+    this.$mdDialog = $mdDialog;
   }
 
   add() {
     this.childService.addChild(this.child);
-    this.$state.go('children');
+    this.$mdDialog.hide();
   }
 
-  show() {
-    $mdDialog.show(
-      $mdDialog.alert()
-        .parent(angular.element(document.querySelector('#popupContainer')))
-        .clickOutsideToClose(true)
-        .title('This is an alert title')
-        .content('You can specify some description text in here.')
-        .ariaLabel('Alert Dialog Demo')
-        .ok('Got it!')
-        .targetEvent(ev)
-    );
+  cancel($event) {
+    $event.preventDefault();
+    this.$mdDialog.cancel();
   }
 }
 
-AddChildController.$inject = ['ChildService', '$state', '$mdDialog'];
+AddChildController.$inject = ['ChildService', '$state', '$mdDialog', '$scope', '$timeout'];

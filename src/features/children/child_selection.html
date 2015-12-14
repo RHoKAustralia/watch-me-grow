@@ -3,7 +3,7 @@
 </md-button>
 
 <div flex="100" layout="row" layout-align="center" layout-wrap>
-    <md-card ng-repeat="child in childSelection.children track by child.id" class="wmg-child-card">
+    <md-card ng-repeat="child in childSelection.getChildren() track by child.id" class="wmg-child-card">
         <div alt="Child Image" class="md-card-image wmg-child-card__image"></div>
         <md-card-content>
             <h2 class="md-title">{{child.name}}</h2>
