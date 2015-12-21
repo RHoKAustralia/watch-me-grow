@@ -12,13 +12,17 @@ export default class QuestionnaireController {
       this.$state.go('home');
       return;
     } else {
-      this.ageId = questionnaireService.getBestAge(this.child.getAgeInDays(), this.questionnaire.id);
+      this.age = questionnaireService.getBestAge(this.child.getAgeInDays(), this.questionnaire.id);
     }
 
     this.answerService = answerService;
     this.answers = {};
     this.$state = $state;
     this.invalid = {};
+  }
+
+  getHeaderText() {
+    return this.questionnaire.title + ' (' + this.age.label + ') -' + this.child.name;
   }
 
   submit($event) {
@@ -32,7 +36,7 @@ export default class QuestionnaireController {
     });
 
     if (!Object.keys(this.invalid).length) {
-      this.answerService.saveAnswers(this.childId, this.ageId.id, this.questionnaire.id, this.answers);
+      this.answerService.saveAnswers(this.childId, this.age.id, this.questionnaire.id, this.answers);
 
       this.$state.go('dashboard', {childId: this.childId});
     }

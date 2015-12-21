@@ -7,6 +7,10 @@ export default class ChildSelectionController {
     this.imagePath = require('../../../assets/dog.png');
   }
 
+  getHeaderTitle() {
+    return 'Choose Child'
+  }
+
   getChildren() {
     return this.childService.getChildren();
   }

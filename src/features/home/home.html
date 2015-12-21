@@ -1,5 +1,5 @@
 <div flex="100" class="wmg-content" layout="row">
-    <h3>Questionnaires to complete</h3>
+    <h3>Questionnaires to Complete</h3>
 </div>
 
 <section flex="100" layout="row" layout-wrap>
@@ -22,7 +22,7 @@
 </section>
 
 <div ng-if="home.completedAges.length > 0" flex="100" class="wmg-content" layout="row">
-    <h3>Completed</h3>
+    <h3>Past Age Milestones</h3>
 </div>
 
 <section flex="100" layout="row" layout-wrap>
@@ -32,7 +32,6 @@
         </md-card-content>
         <div class="md-actions" layout="row" layout-align="end center">
             <md-button href="/result/{{home.child.id}}/{{age.id}}">See results</md-button>
-            <md-button href="/questions">See answers</md-button>
         </div>
     </md-card>
 </section>

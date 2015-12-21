@@ -2,13 +2,13 @@
 
 import angular from 'angular';
 import questions from '../data/questionnaires';
-import ages from '../data/ages';
+import ageService from './age.service';
 import _ from 'lodash';
 
 class QuestionnaireService {
-  constructor() {
+  constructor(ageService) {
+    this.ageService = ageService;
     this.questionnaireIndex = _.indexBy(questions, 'id');
-    this.agesIndex = _.indexBy(ages, 'id');
   }
 
   getQuestionnaires() {
@@ -22,14 +22,14 @@ class QuestionnaireService {
   getBestAge(ageInDays, questionnaireId) {
     const questionnaire = this.getQuestionnaire(questionnaireId);
 
-    const questionnaireAgeGroups = questionnaire.age_groups.map(age => this.agesIndex[age]);
+    const questionnaireAgeGroups = questionnaire.age_groups.map(ageId => this.ageService.getAgeById(ageId));
 
     return _.findLast(questionnaireAgeGroups, ageGroup => ageInDays > ageGroup.days);
   }
 }
 
-QuestionnaireService.$inject = [];
+QuestionnaireService.$inject = ['AgesService'];
 
-export default angular.module('services.questions', [])
+export default angular.module('services.questions', [ageService])
   .service('QuestionnaireService', QuestionnaireService)
   .name;

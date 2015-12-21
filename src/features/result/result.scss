@@ -28,3 +28,15 @@
 .wmg-result-overview__flag {
   text-align: center;
 }
+
+.wmg-result-card {
+  width: 250px;
+  text-align: center;
+
+  &__heading {
+    margin-top: 0;
+  }
+
+  &__flag-container {
+  }
+}

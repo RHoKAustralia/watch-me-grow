@@ -27,8 +27,7 @@ export default function routes($stateProvider) {
          */
         'header@root': {
           template: headerTemplate,
-          controller: 'HeaderController',
-          controllerAs: 'header'
+          controllerAs: 'controller'
         }
 
       }

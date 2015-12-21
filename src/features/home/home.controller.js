@@ -25,6 +25,10 @@ export default class HomeController {
   getQuestionnaires() {
     return this.questionnaireService.getQuestionnaires();
   }
+
+  getHeaderTitle() {
+    return 'Dashboard: ' + this.child.name;
+  }
 }
 
 HomeController.$inject = ['AnswerService', '$stateParams', 'ChildService', 'QuestionnaireService'];

@@ -1,25 +1,31 @@
 'use strict';
 
 export default class ResultController {
-  constructor(childService, $stateParams, questionnaireService, answerService) {
+  constructor(childService, $stateParams, questionnaireService, answerService, ageService) {
     this.childService = childService;
-    this.ageId = $stateParams.ageId;
-    this.childId = $stateParams.childId;
+    this.age = ageService.getAgeById($stateParams.ageId);
+    this.child = childService.getChild($stateParams.childId);
 
-    this.completedQuestionaires = []
-    var that = this
+    this.completedQuestionaires = [];
+    var that = this;
     questionnaireService
       .getQuestionnaires()
       .forEach(function(questionaire) {
-        var answers = answerService.getAnswers(that.childId, that.ageId, questionaire.id)
+        var answers = answerService.getAnswers(that.child.id, that.age.id, questionaire.id);
         if (answers != null) {
           that.completedQuestionaires.push({
             answers: answers,
             questionaire: questionaire,
-            age: that.ageId
+            age: that.age
           })
         }
       });
+  }
+
+  getHeaderTitle() {
+    if (this.age && this.child) {
+      return 'Results: ' + this.age.label + ' for ' + this.child.name;
+    }
   }
 
   getCompletedQuestionaires() {
@@ -52,7 +58,7 @@ export default class ResultController {
     var redFlagScore = 0;
     var amberFlagScore = 0;
 
-    var that = this
+    var that = this;
     if(questionaire.analysis.strategy == "simple") {
       questionaire.questions.forEach(function(question) {
         var answer = that.getAnswer(question, answers)
@@ -75,4 +81,4 @@ export default class ResultController {
   }
 }
 
-ResultController.$inject = ['ChildService', '$stateParams', 'QuestionnaireService', 'AnswerService'];
+ResultController.$inject = ['ChildService', '$stateParams', 'QuestionnaireService', 'AnswerService', 'AgesService'];
