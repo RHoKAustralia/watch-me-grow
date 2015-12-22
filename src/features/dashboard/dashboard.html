@@ -1,24 +1,27 @@
-<div flex="100" class="wmg-content" layout="row">
-    <h3>Questionnaires to Complete</h3>
+
+    <div flex="100" class="wmg-content" layout="row">
+        <h3>Questionnaires to Complete</h3>
+    </div>
+
+    <section flex="100" layout="row" layout-wrap>
+        <md-card class="wmg-questionnaire-card" ng-repeat="toDo in dashboard.toDos track by toDo.questionnaire.id">
+            <md-card-content>
+                <h2 class="md-title">{{toDo.questionnaire.title}} - {{toDo.age.label}}</h2>
+
+                <div>{{questionnaire.description}}</div>
+            </md-card-content>
+
+
+            <div class="md-actions" layout="row" layout-align="end end">
+                <md-button href="{{toDo.questionnaire.detail_link}}">Find out more</md-button>
+                <md-button
+                        ui-sref="questionnaire({questionnaireId: toDo.questionnaire.id, childId: dashboard.child.id})">
+                    Fill out now
+                </md-button>
+            </div>
+        </md-card>
+    </section>
 </div>
-
-<section flex="100" layout="row" layout-wrap>
-    <md-card class="wmg-questionnaire-card" ng-repeat="toDo in dashboard.toDos track by toDo.questionnaire.id">
-        <md-card-content>
-            <h2 class="md-title">{{toDo.questionnaire.title}} - {{toDo.age.label}}</h2>
-
-            <div>{{questionnaire.description}}</div>
-        </md-card-content>
-
-
-        <div class="md-actions" layout="row" layout-align="end end">
-            <md-button href="{{toDo.questionnaire.detail_link}}">Find out more</md-button>
-            <md-button ui-sref="questionnaire({questionnaireId: toDo.questionnaire.id, childId: dashboard.child.id})">
-                Fill out now
-            </md-button>
-        </div>
-    </md-card>
-</section>
 
 <div ng-if="dashboard.completedAges.length > 0" flex="100" class="wmg-content" layout="row">
     <h3>View Results at Age:</h3>

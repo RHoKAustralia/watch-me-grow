@@ -10,16 +10,9 @@ export default class DashboardController {
     this.child = childService.getChild($stateParams.childId);
     this.questionnaireService = questionnaireService;
 
-    this.completedAges = _(ages)
-      .map(age => {
-        return this.questionnaireService.getQuestionnaires().map(questionnaire => [questionnaire, age])
-      })
-      .flatten()
-      .filter(([questionnaire, age]) => {
-        return !!this.answerService.getAnswers(this.child.id, age.id, questionnaire.id);
-      })
-      .map(([questionnaire, age]) => age)
-      .value();
+    this.completedAges = ages.filter(age => {
+      return this.questionnaireService.getQuestionnaires().some(questionnaire => !!this.answerService.getAnswers(this.child.id, age.id, questionnaire.id))
+    });
 
     this.toDos = this.questionnaireService.getQuestionnaires()
       .map(questionnaire => [questionnaire, this.questionnaireService.getBestAge(this.child.getAgeInDays(), questionnaire.id)])
