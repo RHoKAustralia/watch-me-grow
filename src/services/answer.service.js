@@ -7,12 +7,12 @@ class Answers {
     this.$localStorage = $localStorage
   }
 
-  getAnswers(childId, ageId, questionaireId) {
-    return this.$localStorage[Answers.composeKey(childId, ageId, questionaireId)];
+  getAnswers(childId, ageId, questionnaireId) {
+    return this.$localStorage[Answers.composeKey(childId, ageId, questionnaireId)];
   }
 
-  saveAnswers(childId, ageId, questionaireId, answers) {
-    return this.$localStorage[Answers.composeKey(childId, ageId, questionaireId)] = answers;
+  saveAnswers(childId, ageId, questionnaireId, answers) {
+    return this.$localStorage[Answers.composeKey(childId, ageId, questionnaireId)] = answers;
   }
 
   static composeKey(childId, ageId, questionaireId) {

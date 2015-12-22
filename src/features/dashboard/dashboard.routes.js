@@ -11,11 +11,11 @@ export default function routes($stateProvider) {
       parent: 'root',
       views: {
         '': {
-          template: require('./home.html'),
-          controller: 'HomeController',
-          controllerAs: 'home'
+          template: require('./dashboard.html'),
+          controller: 'DashboardController',
+          controllerAs: 'dashboard'
         },
-        'header@root': defineHeader('HomeController')
+        'header@root': defineHeader('DashboardController')
       }
     });
 }
