@@ -28,8 +28,8 @@ class ChildService {
     var children = this.$localStorage.children || [];
     child.id = children.length;
     children.push(child);
+    this.$localStorage.children = children;
   }
-
 }
 
 ChildService.$inject = ["$localStorage"];

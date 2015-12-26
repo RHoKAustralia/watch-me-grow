@@ -13,7 +13,7 @@ export default class ChildSelectionController {
   }
 
   refreshChildren() {
-    this.children = this.childService.getChildren()
+    this.children = (this.childService.getChildren() || [])
       .map(child => ({
         metadata: child,
         age: this.ageService.getBestAge(child.getAgeInDays())
