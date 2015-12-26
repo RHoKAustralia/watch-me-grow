@@ -47,6 +47,10 @@ export default class ResultController {
     }
   }
 
+  getChildId() {
+    return this.child.id;
+  }
+
   getCompletedQuestionnaires() {
     return this.completedQuestionnaires
   }
