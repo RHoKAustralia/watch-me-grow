@@ -1,58 +1,61 @@
 <md-tabs md-dynamic-height>
     <md-tab label="overview">
         <md-content class="md-padding">
-            <md-card ng-repeat="x in result.getCompletedQuestionaires()"
-                     ng-init="overallResult = result.getOverallResult(x.questionaire, x.answers)"
-                     class="wmg-result-card">
-                <md-card-content>
-                    <h2 class="wmg-result-card__heading">{{x.questionaire.title}}</h2>
-                    <h3>{{x.age.label}}</h3>
+            <section layout="row" layout-align="center">
+                <md-card ng-repeat="questionnaire in controller.allQuestionnaires"
+                         class="wmg-result-card">
+                    <md-card-content>
+                        <h2 class="wmg-result-card__heading">{{questionnaire.metadata.title}}</h2>
 
-                    <div class="wmg-result-card__flag-container" ng-class="{
-          'wmg-red': overallResult === 'RED_FLAG',
-          'wmg-amber': overallResult === 'AMBER_FLAG',
-          'wmg-no': overallResult === 'NO_FLAG'}">
-                        <i class="material-icons">flag</i>
+                        <h3>{{questionnaire.metadata.age.label}}</h3>
 
-                        <div ng-switch="overallResult">
-                            <span ng-switch-when="RED_FLAG">Red Flag</span>
-                            <span ng-switch-when="AMBER_FLAG">Amber Flag</span>
-                            <span ng-switch-when="NO_FLAG">No Concerns</span>
+                        <div class="wmg-result-card__flag-container" ng-class="{
+                              'wmg-red': questionnaire.result === 'RED_FLAG',
+                              'wmg-amber': questionnaire.result === 'AMBER_FLAG',
+                              'wmg-no': questionnaire.result === 'NO_FLAG'}">
+                            <i class="material-icons">flag</i>
+
+                            <div ng-switch="questionnaire.result">
+                                <span ng-switch-when="RED_FLAG">Red Flag</span>
+                                <span ng-switch-when="AMBER_FLAG">Amber Flag</span>
+                                <span ng-switch-when="NO_FLAG">No Concerns</span>
+                                <span ng-switch-when="INCOMPLETE">Not Completed</span>
+                            </div>
                         </div>
-                    </div>
-                </md-card-content>
-            </md-card>
+                    </md-card-content>
+                </md-card>
+            </section>
 
 
-            <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col wmg-dynamic-height">
-                <div class="mdl-card__title">
-                    <h2 class="mdl-card__title-text">
+            <div>
+                <div>
+                    <h2>
                         If PEDS and Q-CHAT-10 are negative
                     </h2>
                 </div>
 
 
-                <div class="mdl-card__supporting-text mdl-card--border">
+                <div>
                     No further referral
                 </div>
 
-                <div class="mdl-card__actions mdl-card--border">
-                    <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect"
-                       href="http://www.resourcingparents.nsw.gov.au/page/love-talk-sing-read-play">PHR anticipatory
-                        guidelines</a>
+                <div>
+                    <md-button href="http://www.resourcingparents.nsw.gov.au/page/love-talk-sing-read-play">
+                        PHR anticipatory guidelines
+                    </md-button>
                 </div>
             </div>
 
 
-            <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col wmg-dynamic-height">
-                <div class="mdl-card__title">
-                    <h2 class="mdl-card__title-text">
+            <div>
+                <div>
+                    <h2>
                         If PEDS or Q-CHAT-10 are positive
                     </h2>
                 </div>
 
 
-                <div class="mdl-card__supporting-text mdl-card--border">
+                <div>
                     <b>Single domain concern</b>
                     consider refer to allied health specialist as below for
                     assessment and intervention
@@ -86,7 +89,7 @@
                     </table>
                 </div>
 
-                <div class="mdl-card__supporting-text mdl-card--border">
+                <div>
                     <b>More than one PEDS concern or Q-CHAT-10 postive</b>
                     <ul>
                         <li>refer to paediatrician for further developmental assessment</li>
@@ -94,55 +97,60 @@
                     </ul>
                 </div>
 
-                <div class="mdl-card__supporting-text mdl-card--border">
+                <div>
                     <b>Has hearing been tested in last 6 months?</b>
                     If not, refer for hearing assessment
                 </div>
             </div>
 
 
-            <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col wmg-dynamic-height">
-                <div class="mdl-card__title">
-                    <h2 class="mdl-card__title-text">
+            <div>
+                <div>
+                    <h2>
                         On balance do you think this child has developmental concerns that warrant intervention?
                     </h2>
                 </div>
             </div>
 
-            <div class="mdl-card mdl-shadow--2dp mdl-card--border mdl-cell mdl-cell--12-col wmg-dynamic-height">
-                <div class="mdl-card__title">
-                    <h2 class="mdl-card__title-text">
+            <div>
+                <div>
+                    <h2 >
                         Do you think this family needs additional support to cater for the child’s needs?
                     </h2>
                 </div>
 
-                <div class="mdl-card__actions mdl-card--border">
-                    <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect"
-                       href="http://raisingchildren.net.au/">rasingchildren.net.au</a>
+                <div >
+                    <md-button class="md-raised md-primary" href="http://raisingchildren.net.au/">raisingchildren.net.au</md-button>
                 </div>
             </div>
         </md-content>
     </md-tab>
 
-    <md-tab ng-repeat="x in result.getCompletedQuestionaires() track by x.questionaire.id"
-            label="Answers for {{x.questionaire.title}}">
-
-        <div class="mdl-grid wmg-content">
-            <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+    <md-tab ng-repeat="questionnaire in controller.getCompletedQuestionnaires() track by questionnaire.id"
+            label="Answers for {{questionnaire.metadata.title}}">
+        <md-content>
+            <table>
                 <thead>
                 <tr>
-                    <th class="mdl-data-table__cell--non-numeric">Question</th>
+                    <th>Question</th>
                     <th>Answer</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="question in x.questionaire.questions track by question.id"
-                    class="answer-row__{{result.getQuestionResult(question, x.answers)}}">
-                    <td class="mdl-data-table__cell--non-numeric">{{question.text}}</td>
-                    <td>{{result.getAnswer(question, x.answers).text}}</td>
+                <tr ng-repeat-start="question in questionnaire.questions track by question.metadata.id"
+                    class="wmg-answer-row"
+                    ng-class="{
+                      'wmg-answer-row--red': question.answer.metadata.redFlagQuestion,
+                      'wmg-answer-row--amber': question.answer.metadata.amberFlagQuestion
+                    }">
+                    <td>{{question.metadata.text}}</td>
+                    <td>{{question.answer.metadata.text}}</td>
+                </tr>
+                <tr ng-if="question.answer.comments" ng-repeat-end>
+                    <td colspan="2">Comments: {{question.answer.comments}}</td>
                 </tr>
                 </tbody>
             </table>
-        </div>
+        </md-content>
     </md-tab>
 </md-tabs>

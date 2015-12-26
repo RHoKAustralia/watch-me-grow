@@ -1,17 +1,14 @@
-.answer-row__RED_FLAG {
-  background-color: #FFB6C1;
+.wmg-answer-row {
+  background-color: #cad6b1;
 }
-.mdl-data-table tbody tr.answer-row__RED_FLAG:hover {
+
+.wmg-answer-row--red {
   background-color: #FFB6C1;
 }
 
-.answer-row__AMBER_FLAG {
+.wmg-answer-row--amber {
   background-color: #FFC200;
 }
-.mdl-data-table tbody tr.answer-row__AMBER_FLAG:hover {
-  background-color: #FFC200;
-}
-
 
 .wmg-red {
   color: red;

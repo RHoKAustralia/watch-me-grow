@@ -353,6 +353,7 @@ export default [
         "id": "conerncs",
         "order": 0,
         "text": "Do you have any concerns about your child’s learning, development or behaviour? Please describe",
+        "comments": true,
         "answers": [
           {
             "value": "no",
@@ -376,6 +377,7 @@ export default [
         "id": "speech_sound",
         "order": 1,
         "text": "Do you have any concerns about how your child talks and makes speech sounds?",
+        "comments": true,
         "answers": [
           {
             "value": "no",
@@ -398,6 +400,7 @@ export default [
         "id": "understand_speech",
         "order": 2,
         "text": "Do you have any concerns about how your child understands what you say?",
+        "comments": true,
         "answers": [
           {
             "value": "no",
@@ -420,6 +423,7 @@ export default [
         "id": "using_hand",
         "order": 3,
         "text": "Do you have any concerns about how your child uses his / her hands and fingers to do things?",
+        "comments": true,
         "answers": [
           {
             "value": "no",
@@ -442,6 +446,7 @@ export default [
         "id": "using_arm_leg",
         "order": 4,
         "text": "Do you have any concerns about how your child uses his / her arms and legs?",
+        "comments": true,
         "answers": [
           {
             "value": "no",
@@ -464,6 +469,7 @@ export default [
         "id": "behaviour",
         "order": 5,
         "text": "Do you have any concerns about how your child behaves?",
+        "comments": true,
         "answers": [
           {
             "value": "no",
@@ -486,6 +492,7 @@ export default [
         "id": "getting_along",
         "order": 6,
         "text": "Do you have any concerns about how your child gets along with others?",
+        "comments": true,
         "answers": [
           {
             "value": "no",
@@ -508,6 +515,7 @@ export default [
         "id": "learning",
         "order": 7,
         "text": "Do you have any concerns about how your child is learning to do things for themselves?",
+        "comments": true,
         "answers": [
           {
             "value": "no",
@@ -530,6 +538,7 @@ export default [
         "id": "learning_at_preschool",
         "order": 8,
         "text": "Do you have any concerns about how your child is learning preschool or school skills?",
+        "comments": true,
         "answers": [
           {
             "value": "no",
@@ -552,6 +561,7 @@ export default [
         "id": "other_concerns",
         "order": 9,
         "text": "Any other concerns? (like Hearing, Vision, Physical health, Weight, ???)", //TODO
+        "comments": true,
         "answers": [
           {
             "value": "no",

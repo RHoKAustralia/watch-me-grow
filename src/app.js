@@ -17,7 +17,7 @@ import routing from './app.config';
 angular.module('app', [uirouter, root, home, questionnaire, children, result, 'ngMaterial'])
   .config(function($mdThemingProvider) {
     $mdThemingProvider.theme('default')
-      .primaryPalette('blue')
+      .primaryPalette('indigo')
       .accentPalette('orange');
   })
   .config(routing);

@@ -16,7 +16,7 @@ export default class DashboardController {
 
     this.toDos = this.questionnaireService.getQuestionnaires()
       .map(questionnaire => [questionnaire, this.questionnaireService.getBestAge(this.child.getAgeInDays(), questionnaire.id)])
-      .filter(([questionnaire, age]) => !this.answerService.getAnswers(this.child.id, age.id, questionnaire.id))
+      .filter(([questionnaire, age]) => !!age && !this.answerService.getAnswers(this.child.id, age.id, questionnaire.id))
       .map(([questionnaire, age]) => ({questionnaire, age}));
   }
 

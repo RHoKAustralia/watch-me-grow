@@ -6,20 +6,34 @@ export default class ResultController {
     this.age = ageService.getAgeById($stateParams.ageId);
     this.child = childService.getChild($stateParams.childId);
 
-    this.completedQuestionaires = [];
-    var that = this;
-    questionnaireService
-      .getQuestionnaires()
-      .forEach(function(questionaire) {
-        var answers = answerService.getAnswers(that.child.id, that.age.id, questionaire.id);
-        if (answers != null) {
-          that.completedQuestionaires.push({
-            answers: answers,
-            questionaire: questionaire,
-            age: that.age
-          })
-        }
-      });
+    this.completedQuestionnaires = questionnaireService.getQuestionnaires()
+      .map(questionnaire => [questionnaire, answerService.getAnswers(this.child.id, this.age.id, questionnaire.id)])
+      .filter(([questionnaire, answers]) => !!answers)
+      .map(([questionnaire, answers]) => ({
+        metadata: questionnaire,
+        questions: questionnaire.questions.map(question => {
+          const rawAnswer = answers[question.id];
+
+          return {
+            metadata: question,
+            answer: Object.assign(rawAnswer, {
+              metadata: question.answers.find(answerMetadata => answerMetadata.value === rawAnswer.answer)
+            })
+          };
+        })
+      }))
+      .map(questionnaire => Object.assign(questionnaire, {
+        result: this.getOverallResult(questionnaire),
+      }));
+
+    this.uncompletedQuestionnaires = questionnaireService.getQuestionnaires()
+      .filter(questionnaire => !answerService.getAnswers(this.child.id, this.age.id, questionnaire.id))
+      .map(questionnaire => ({
+        metadata: questionnaire,
+        result: 'INCOMPLETE'
+      }));
+
+    this.allQuestionnaires = this.completedQuestionnaires.concat(this.uncompletedQuestionnaires);
   }
 
   getHeaderTitle() {
@@ -28,51 +42,31 @@ export default class ResultController {
     }
   }
 
-  getCompletedQuestionaires() {
-    return this.completedQuestionaires
-  }
-
-  getAnswer(question, answers) {
-    var answervalue = answers[question.id];
-    return question.answers
-        .find(function(a) {return a.value == answervalue})
-  }
-
-  getQuestionResult(question, answers) {
-    var answer = this.getAnswer(question, answers);
-
-    if(answer.redFlagQuestion) {
-      return "RED_FLAG"
-    }
-    if(answer.amberFlagQuestion) {
-      return "AMBER_FLAG"
-    }
-    return "NO_FLAG"
+  getCompletedQuestionnaires() {
+    return this.completedQuestionnaires
   }
 
   addChild() {
     this.$location.path('/add_child')
   }
 
-  getOverallResult(questionaire, answers) {
+  getOverallResult(questionnaire) {
     var redFlagScore = 0;
     var amberFlagScore = 0;
 
-    var that = this;
-    if(questionaire.analysis.strategy == "simple") {
-      questionaire.questions.forEach(function(question) {
-        var answer = that.getAnswer(question, answers)
-        if(answer.redFlagQuestion) {
+    if (questionnaire.metadata.analysis.strategy === "simple") {
+      questionnaire.questions.forEach(function (question) {
+        if (question.answer.metadata.redFlagQuestion) {
           redFlagScore++
         }
-        if(answer.amberFlagQuestion) {
+        if (question.answer.metadata.amberFlagQuestion) {
           amberFlagScore++
         }
       });
 
-      if(redFlagScore >= questionaire.analysis.redFlagThreshold) {
+      if (redFlagScore >= questionnaire.metadata.analysis.redFlagThreshold) {
         return "RED_FLAG"
-      } else if(redFlagScore >= questionaire.analysis.amberFlagThreshold) {
+      } else if (redFlagScore >= questionnaire.metadata.analysis.amberFlagThreshold) {
         return "AMBER_FLAG"
       } else {
         return "NO_FLAG"

@@ -11,7 +11,7 @@ export default function routes($stateProvider) {
         '': {
           template: require('./result.html'),
           controller: 'ResultController',
-          controllerAs: 'result'
+          controllerAs: 'controller'
         },
         'tabs@root': {
           template: require('./result-tabs.html'),
