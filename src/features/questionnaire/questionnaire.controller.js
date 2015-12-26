@@ -2,7 +2,7 @@
 
 
 export default class QuestionnaireController {
-  constructor($stateParams, questionnaireService, answerService, $state, childService) {
+  constructor($stateParams, questionnaireService, answerService, $state, childService, ageService) {
     this.childId = $stateParams.childId;
     this.child = childService.getChild(this.childId);
     this.questionnaire = questionnaireService.getQuestionnaire($stateParams.questionnaireId);
@@ -12,7 +12,7 @@ export default class QuestionnaireController {
       this.$state.go('home');
       return;
     } else {
-      this.age = questionnaireService.getBestAge(this.child.getAgeInDays(), this.questionnaire.id);
+      this.age = ageService.getBestAge(this.child.getAgeInDays(), this.questionnaire);
     }
 
     this.answerService = answerService;
@@ -43,4 +43,4 @@ export default class QuestionnaireController {
   }
 }
 
-QuestionnaireController.$inject = ['$stateParams', 'QuestionnaireService', 'AnswerService', '$state', 'ChildService'];
+QuestionnaireController.$inject = ['$stateParams', 'QuestionnaireService', 'AnswerService', '$state', 'ChildService', 'AgeService'];

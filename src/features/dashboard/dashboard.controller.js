@@ -5,7 +5,7 @@ import ages from '../../data/ages';
 import _ from 'lodash';
 
 export default class DashboardController {
-  constructor(answerService, $stateParams, childService, questionnaireService) {
+  constructor(answerService, $stateParams, childService, questionnaireService, ageService) {
     this.answerService = answerService;
     this.child = childService.getChild($stateParams.childId);
     this.questionnaireService = questionnaireService;
@@ -15,7 +15,7 @@ export default class DashboardController {
     });
 
     this.toDos = this.questionnaireService.getQuestionnaires()
-      .map(questionnaire => [questionnaire, this.questionnaireService.getBestAge(this.child.getAgeInDays(), questionnaire.id)])
+      .map(questionnaire => [questionnaire, ageService.getBestAge(this.child.getAgeInDays(), questionnaire)])
       .filter(([questionnaire, age]) => !!age && !this.answerService.getAnswers(this.child.id, age.id, questionnaire.id))
       .map(([questionnaire, age]) => ({questionnaire, age}));
   }
@@ -25,4 +25,4 @@ export default class DashboardController {
   }
 }
 
-DashboardController.$inject = ['AnswerService', '$stateParams', 'ChildService', 'QuestionnaireService'];
+DashboardController.$inject = ['AnswerService', '$stateParams', 'ChildService', 'QuestionnaireService', 'AgeService'];

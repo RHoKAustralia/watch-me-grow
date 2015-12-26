@@ -10,8 +10,9 @@ import QuestionsController from './questionnaire.controller.js';
 import QuestionnaireService from '../../services/questionnaire.service.js';
 import AnswerService from '../../services/answer.service';
 import ChildService from '../../services/child.service';
+import AgeService from '../../services/age.service';
 
-export default angular.module('app.questionnaire', [uirouter, QuestionnaireService, AnswerService, ChildService])
+export default angular.module('app.questionnaire', [uirouter, QuestionnaireService, AnswerService, ChildService, AgeService])
   .config(routing)
   .controller('QuestionnaireController', QuestionsController)
   .name;

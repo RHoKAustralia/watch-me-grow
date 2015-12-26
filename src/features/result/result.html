@@ -7,7 +7,7 @@
                     <md-card-content>
                         <h2 class="wmg-result-card__heading">{{questionnaire.metadata.title}}</h2>
 
-                        <h3>{{questionnaire.metadata.age.label}}</h3>
+                        <h4>({{questionnaire.age.label}})</h4>
 
                         <div class="wmg-result-card__flag-container" ng-class="{
                               'wmg-red': questionnaire.result === 'RED_FLAG',
@@ -40,7 +40,7 @@
                 </div>
 
                 <div>
-                    <md-button href="http://www.resourcingparents.nsw.gov.au/page/love-talk-sing-read-play">
+                    <md-button class="md-primary md-raised" href="http://www.resourcingparents.nsw.gov.au/page/love-talk-sing-read-play">
                         PHR anticipatory guidelines
                     </md-button>
                 </div>
@@ -126,7 +126,7 @@
         </md-content>
     </md-tab>
 
-    <md-tab ng-repeat="questionnaire in controller.getCompletedQuestionnaires() track by questionnaire.id"
+    <md-tab ng-repeat="questionnaire in controller.getCompletedQuestionnaires() track by questionnaire.metadata.id"
             label="Answers for {{questionnaire.metadata.title}}">
         <md-content>
             <table>

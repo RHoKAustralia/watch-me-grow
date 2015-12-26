@@ -6,11 +6,15 @@ export default class ResultController {
     this.age = ageService.getAgeById($stateParams.ageId);
     this.child = childService.getChild($stateParams.childId);
 
-    this.completedQuestionnaires = questionnaireService.getQuestionnaires()
-      .map(questionnaire => [questionnaire, answerService.getAnswers(this.child.id, this.age.id, questionnaire.id)])
-      .filter(([questionnaire, answers]) => !!answers)
-      .map(([questionnaire, answers]) => ({
+    const questionnaireAges = questionnaireService.getQuestionnaires()
+      .map(questionnaire => [questionnaire, ageService.getBestAge(this.age.days, questionnaire)]);
+
+    this.completedQuestionnaires = questionnaireAges
+      .map(([questionnaire, age]) => [questionnaire, age, answerService.getAnswers(this.child.id, age.id, questionnaire.id)])
+      .filter(([questionnaire, age, answers]) => !!answers)
+      .map(([questionnaire, age, answers]) => ({
         metadata: questionnaire,
+        age: age,
         questions: questionnaire.questions.map(question => {
           const rawAnswer = answers[question.id];
 
@@ -26,10 +30,11 @@ export default class ResultController {
         result: this.getOverallResult(questionnaire),
       }));
 
-    this.uncompletedQuestionnaires = questionnaireService.getQuestionnaires()
-      .filter(questionnaire => !answerService.getAnswers(this.child.id, this.age.id, questionnaire.id))
-      .map(questionnaire => ({
+    this.uncompletedQuestionnaires = questionnaireAges
+      .filter(([questionnaire, age]) => !answerService.getAnswers(this.child.id, age.id, questionnaire.id))
+      .map(([questionnaire, age]) => ({
         metadata: questionnaire,
+        age: age,
         result: 'INCOMPLETE'
       }));
 
@@ -75,4 +80,4 @@ export default class ResultController {
   }
 }
 
-ResultController.$inject = ['ChildService', '$stateParams', 'QuestionnaireService', 'AnswerService', 'AgesService'];
+ResultController.$inject = ['ChildService', '$stateParams', 'QuestionnaireService', 'AnswerService', 'AgeService'];

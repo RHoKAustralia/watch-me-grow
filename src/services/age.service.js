@@ -4,7 +4,7 @@ import angular from 'angular';
 import ages from '../data/ages';
 import _ from 'lodash';
 
-class AgesService {
+class AgeService {
   constructor() {
     this.agesIndex = _.indexBy(ages, 'id');
   }
@@ -16,10 +16,16 @@ class AgesService {
   getAgeById(id) {
     return this.agesIndex[id];
   }
+
+  getBestAge(ageInDays, questionnaire) {
+    const questionnaireAgeGroups = questionnaire.age_groups.map(ageId => this.getAgeById(ageId));
+
+    return _.findLast(questionnaireAgeGroups, ageGroup => ageInDays >= ageGroup.days);
+  }
 }
 
-AgesService.$inject = [];
+AgeService.$inject = [];
 
-export default angular.module('services.ages', [])
-  .service('AgesService', AgesService)
+export default angular.module('services.age', [])
+  .service('AgeService', AgeService)
   .name;
