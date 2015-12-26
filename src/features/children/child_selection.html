@@ -2,14 +2,17 @@
     <md-icon>add</md-icon>
 </md-button>
 
-<div flex="100" layout="row" layout-align="center" layout-wrap>
-    <md-card ng-repeat="child in childSelection.getChildren() track by child.id" class="wmg-child-card">
-        <div alt="Child Image" class="md-card-image wmg-child-card__image"></div>
-        <md-card-content>
-            <h2 class="md-title">{{child.name}}</h2>
-        </md-card-content>
-        <div class="md-actions" layout="row" layout-align="end center">
-            <md-button ui-sref="dashboard({childId: child.id})">See dashboard</md-button>
-        </div>
+<md-card-actions flex="100" layout="row" layout-align="center" layout-wrap>
+    <md-card ng-repeat="child in childSelection.children track by child.metadata.id" class="wmg-child-card">
+        <div alt="Child Image" class="md-card-image wmg-child-card__image {{child.age.bgClass}}"></div>
+        <md-card-title>
+            <md-card-title-text>
+                <span class="md-headline">{{child.metadata.name}}</span>
+                <span class="md-subhead">{{child.age.label}} old</span>
+            </md-card-title-text>
+        </md-card-title>
+        <md-card-actions layout="row" layout-align="end center">
+            <md-button ui-sref="dashboard({childId: child.metadata.id})">See dashboard</md-button>
+        </md-card-actions>
     </md-card>
 </div>

@@ -1,5 +1,7 @@
 'use strict';
 
+import Moment from 'moment';
+
 export default class AddChildController {
   constructor(childService, $state, $mdDialog) {
     this.childService = childService;
@@ -7,7 +9,7 @@ export default class AddChildController {
     this.child = {};
     this.$mdDialog = $mdDialog;
 
-    this.maxDate = new Date();
+    this.maxDate = Moment().subtract(6, 'months').toDate();
   }
 
   add($event) {

@@ -7,7 +7,8 @@ export default class ResultController {
     this.child = childService.getChild($stateParams.childId);
 
     const questionnaireAges = questionnaireService.getQuestionnaires()
-      .map(questionnaire => [questionnaire, ageService.getBestAge(this.age.days, questionnaire)]);
+      .map(questionnaire => [questionnaire, ageService.getBestAge(this.age.days, questionnaire)])
+      .filter(([questionnaire, age]) => !!age);
 
     this.completedQuestionnaires = questionnaireAges
       .map(([questionnaire, age]) => [questionnaire, age, answerService.getAnswers(this.child.id, age.id, questionnaire.id)])
@@ -27,7 +28,7 @@ export default class ResultController {
         })
       }))
       .map(questionnaire => Object.assign(questionnaire, {
-        result: this.getOverallResult(questionnaire),
+        result: this.getOverallResult(questionnaire)
       }));
 
     this.uncompletedQuestionnaires = questionnaireAges

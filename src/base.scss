@@ -30,3 +30,19 @@ html, body {
 .md-dialog-container {
   top: 0px !important;
 }
+
+@mixin age-image($ageInMonths) {
+  &--#{$ageInMonths}-months {
+    background: url('../assets/illustrations/' + $ageInMonths + 'months.png') bottom right 15% no-repeat #FFFFFF;
+    border-bottom: 1px solid #dddddd;
+    background-size: contain;
+  }
+}
+
+.wmg-age-image {
+  @include age-image(6);
+  @include age-image(12);
+  @include age-image(24);
+  @include age-image(36);
+  @include age-image(48);
+}

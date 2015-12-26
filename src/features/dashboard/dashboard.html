@@ -1,26 +1,29 @@
+<div flex="100" class="wmg-content" layout="row">
+    <h3>Questionnaires to Complete:</h3>
+</div>
 
-    <div flex="100" class="wmg-content" layout="row">
-        <h3>Questionnaires to Complete</h3>
+<section flex="100" layout="row" layout-wrap>
+    <div ng-if="!dashboard.toDos.length">
+        All questionnaires complete! See results below...
     </div>
 
-    <section flex="100" layout="row" layout-wrap>
-        <md-card class="wmg-questionnaire-card" ng-repeat="toDo in dashboard.toDos track by toDo.questionnaire.id">
-            <md-card-content>
-                <h2 class="md-title">{{toDo.questionnaire.title}} - {{toDo.age.label}}</h2>
+    <md-card class="wmg-questionnaire-card" ng-repeat="toDo in dashboard.toDos track by toDo.questionnaire.id">
+        <md-card-content>
+            <h2 class="md-title">{{toDo.questionnaire.title}} - {{toDo.age.label}}</h2>
 
-                <div>{{questionnaire.description}}</div>
-            </md-card-content>
+            <div>{{questionnaire.description}}</div>
+        </md-card-content>
 
 
-            <div class="md-actions" layout="row" layout-align="end end">
-                <md-button href="{{toDo.questionnaire.detail_link}}">Find out more</md-button>
-                <md-button
-                        ui-sref="questionnaire({questionnaireId: toDo.questionnaire.id, childId: dashboard.child.id})">
-                    Fill out now
-                </md-button>
-            </div>
-        </md-card>
-    </section>
+        <div class="md-actions" layout="row" layout-align="end end">
+            <md-button href="{{toDo.questionnaire.detail_link}}">Find out more</md-button>
+            <md-button
+                    ui-sref="questionnaire({questionnaireId: toDo.questionnaire.id, childId: dashboard.child.id})">
+                Fill out now
+            </md-button>
+        </div>
+    </md-card>
+</section>
 </div>
 
 <div ng-if="dashboard.completedAges.length > 0" flex="100" class="wmg-content" layout="row">
@@ -28,12 +31,15 @@
 </div>
 
 <section flex="100" layout="row" layout-wrap>
-    <md-card ng-repeat="age in dashboard.completedAges track by age.id" layout="column">
-        <md-card-content>
-            <h2 class="md-title">{{age.label}}</h2>
-        </md-card-content>
-        <div class="md-actions" layout="row" layout-align="end center">
+    <md-card ng-repeat="age in dashboard.completedAges track by age.id" layout="column"  class="wmg-child-card">
+        <div alt="Child Image" class="md-card-image wmg-child-card__image {{age.bgClass}}"></div>
+        <md-card-title>
+            <md-card-title-text>
+                <span class="md-headline">{{age.label}}</span>
+            </md-card-title-text>
+        </md-card-title>
+        <md-card-actions layout="row" layout-align="end center">
             <md-button ui-sref="result({childId: dashboard.child.id, ageId: age.id})">See results</md-button>
-        </div>
+        </md-card-actions>
     </md-card>
 </section>

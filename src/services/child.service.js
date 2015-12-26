@@ -25,13 +25,9 @@ class ChildService {
   addChild(child) {
     delete this.childrenCache;
 
-    var children = this.getChildren();
-    if(children == null) {
-      children = []
-    }
+    var children = this.$localStorage.children || [];
     child.id = children.length;
     children.push(child);
-    this.$localStorage.children = children;
   }
 
 }
