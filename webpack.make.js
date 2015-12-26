@@ -51,7 +51,7 @@ module.exports = function makeWebpackConfig (options) {
 
       // Output path from the view of the page
       // Uses webpack-dev-server in development
-      publicPath: BUILD ? '/' : 'http://localhost:8080/',
+      publicPath: BUILD ? '/watch-me-grow/public/' : 'http://localhost:8080/',
 
       // Filename for entry points
       // Only adds hash in build mode
@@ -71,7 +71,7 @@ module.exports = function makeWebpackConfig (options) {
   if (TEST) {
     config.devtool = 'inline-source-map';
   } else if (BUILD) {
-    config.devtool = 'source-map';
+    config.devtool = 'cheap-source-map';
   } else {
     config.devtool = 'cheap-source-map';
   }

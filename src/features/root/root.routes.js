@@ -1,7 +1,7 @@
-routes.$inject = ['$stateProvider'];
-
 import rootTemplate from './root.html';
 import headerTemplate from '../header/header.html';
+
+routes.$inject = ['$stateProvider'];
 
 export default function routes($stateProvider) {
   $stateProvider
