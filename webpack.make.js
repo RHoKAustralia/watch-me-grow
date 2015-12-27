@@ -6,7 +6,7 @@ var autoprefixer = require('autoprefixer');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-module.exports = function makeWebpackConfig (options) {
+module.exports = function makeWebpackConfig(options) {
   /**
    * Environment type
    * BUILD is for generating minified builds
@@ -51,7 +51,7 @@ module.exports = function makeWebpackConfig (options) {
 
       // Output path from the view of the page
       // Uses webpack-dev-server in development
-      publicPath: BUILD ? '/watch-me-grow/public/' : 'http://localhost:8080/',
+      publicPath: BUILD ? '/watch-me-grow/' : 'http://localhost:8080/watch-me-grow/',
 
       // Filename for entry points
       // Only adds hash in build mode
@@ -83,7 +83,7 @@ module.exports = function makeWebpackConfig (options) {
    * This handles most of the magic responsible for converting modules
    */
 
-  // Initialize module
+    // Initialize module
   config.module = {
     preLoaders: [],
     loaders: [{
@@ -182,12 +182,16 @@ module.exports = function makeWebpackConfig (options) {
   if (!TEST) {
     // Reference: https://github.com/ampedandwired/html-webpack-plugin
     // Render index.html
-    config.plugins.push(
+    config.plugins = config.plugins.concat([
       new HtmlWebpackPlugin({
         template: './src/index.html',
         inject: 'body'
+      }), new HtmlWebpackPlugin({
+        template: './src/index.html',
+        inject: 'body',
+        filename: '404.html'
       })
-    )
+    ]);
   }
 
   // Add build specific plugins
@@ -213,7 +217,7 @@ module.exports = function makeWebpackConfig (options) {
    * Reference: http://webpack.github.io/docs/webpack-dev-server.html
    */
   config.devServer = {
-    contentBase: './public',
+    publicPath: 'http://localhost:8080/watch-me-grow/',
     stats: {
       modules: false,
       cached: false,
