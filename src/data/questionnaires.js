@@ -345,7 +345,7 @@ export default [
     "age_groups": ['6_month', '12_month', '18_month', '2_years', '3_years', '4_years'],
     "analysis": {
       "strategy": "simple",
-      "redFlagThreshold": 3,
+      "redFlagThreshold": 1,
       "amberFlagThreshold": 99
     },
     "questions": [
