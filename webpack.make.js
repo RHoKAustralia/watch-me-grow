@@ -51,7 +51,7 @@ module.exports = function makeWebpackConfig(options) {
 
       // Output path from the view of the page
       // Uses webpack-dev-server in development
-      publicPath: BUILD ? '/watch-me-grow/' : 'http://localhost:8080/watch-me-grow/',
+      publicPath: BUILD ? '/watch-me-grow/' : 'http://localhost:8080/',
 
       // Filename for entry points
       // Only adds hash in build mode
@@ -217,7 +217,6 @@ module.exports = function makeWebpackConfig(options) {
    * Reference: http://webpack.github.io/docs/webpack-dev-server.html
    */
   config.devServer = {
-    publicPath: 'http://localhost:8080/watch-me-grow/',
     historyApiFallback: true,
     stats: {
       modules: false,
