@@ -1,8 +1,8 @@
-<md-button class="md-fab wmg-add-child-button" aria-label="Eat cake" ui-sref="children.add">
+<md-button class="md-fab wmg-add-child-button" aria-label="Add child" ui-sref="children.add">
     <md-icon>add</md-icon>
 </md-button>
 
-<md-card-actions flex="100" layout="row" layout-align="center" layout-wrap>
+<div flex="100" layout="row" layout-align="center" layout-wrap>
     <md-card ng-repeat="child in childSelection.children track by child.metadata.id" class="wmg-child-card">
         <div alt="Child Image" class="md-card-image wmg-child-card__image {{child.age.bgClass}}"></div>
         <md-card-title>
@@ -15,4 +15,8 @@
             <md-button ui-sref="dashboard({childId: child.metadata.id})">See dashboard</md-button>
         </md-card-actions>
     </md-card>
+
+    <p ng-if="!childSelection.children || !childSelection.children.length">
+        You have not created any children. Use the orange (+) button above to create one.
+    </p>
 </div>

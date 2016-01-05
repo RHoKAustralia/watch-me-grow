@@ -218,6 +218,7 @@ module.exports = function makeWebpackConfig(options) {
    */
   config.devServer = {
     publicPath: 'http://localhost:8080/watch-me-grow/',
+    historyApiFallback: true,
     stats: {
       modules: false,
       cached: false,
