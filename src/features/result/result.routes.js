@@ -13,11 +13,6 @@ export default function routes($stateProvider) {
           controller: 'ResultController',
           controllerAs: 'controller'
         },
-        'tabs@root': {
-          template: require('./result-tabs.html'),
-          controller: 'ResultController',
-          controllerAs: 'result'
-        },
         'header@root': defineHeader('ResultController')
       },
       parent: 'root',
