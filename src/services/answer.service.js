@@ -1,27 +1,48 @@
 'use strict';
 
 import angular from 'angular';
+import _ from 'lodash';
+import moment from 'moment';
+import QuestionnaireAnswer from '../models/questionnaire-answer';
 
-class Answers {
+class AnswersService {
   constructor($localStorage) {
     this.$localStorage = $localStorage
   }
 
-  getAnswers(childId, ageId, questionnaireId) {
-    return this.$localStorage[Answers.composeKey(childId, ageId, questionnaireId)];
+  getAnswersForChild(childId) {
+    const rawChildAnswers = this.$localStorage[AnswersService.composeKey(childId)];
+
+    if (rawChildAnswers) {
+      return Object.keys(rawChildAnswers).reduce((acc, key) => {
+        acc[key] = new QuestionnaireAnswer(rawChildAnswers[key]);
+        return acc;
+      }, {});
+    }
   }
 
-  saveAnswers(childId, ageId, questionnaireId, answers) {
-    return this.$localStorage[Answers.composeKey(childId, ageId, questionnaireId)] = answers;
+  addAnswers(childId, questionnaireId, ageId, answers) {
+    const now = moment().toISOString();
+    const toSave = {
+      answers,
+      questionnaireId,
+      ageId,
+      dateTime: now
+    };
+
+    const answersForChild = this.getAnswersForChild(childId) || {};
+    answersForChild[now] = toSave;
+
+    this.$localStorage[AnswersService.composeKey(childId)] = answersForChild;
   }
 
-  static composeKey(childId, ageId, questionaireId) {
-    return "answer_" + childId + '_' + ageId + "_" + questionaireId;
+  static composeKey(childId) {
+    return "answers_" + childId;
   }
 }
 
-Answers.$inject = ["$localStorage"];
+AnswersService.$inject = ["$localStorage"];
 
 export default angular.module('services.answers', ['ngStorage'])
-  .service('AnswerService', Answers)
+  .service('AnswerService', AnswersService)
   .name;

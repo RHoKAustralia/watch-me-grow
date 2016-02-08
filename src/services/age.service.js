@@ -17,15 +17,8 @@ class AgeService {
     return this.agesIndex[id];
   }
 
-  getBestAge(ageInDays, questionnaire) {
-    let ages;
-    if (questionnaire) {
-      ages = questionnaire.age_groups.map(ageId => this.getAgeById(ageId));
-    } else {
-      ages = this.getAllAges();
-    }
-
-    return _.findLast(ages, age => ageInDays >= age.days);
+  getBestAge(ageInDays) {
+    return _.findLast(this.getAllAges(), age => ageInDays >= age.days);
   }
 }
 

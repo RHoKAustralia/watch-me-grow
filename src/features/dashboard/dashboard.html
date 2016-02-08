@@ -1,24 +1,19 @@
 <div flex="100" class="wmg-content" layout="row">
-    <h3>Questionnaires to Complete:</h3>
+    <h3>Questionnaires</h3>
 </div>
 
 <section flex="100" layout="row" layout-wrap>
-    <div ng-if="!dashboard.toDos.length">
-        All questionnaires complete! See results below...
-    </div>
-
-    <md-card class="wmg-questionnaire-card" ng-repeat="toDo in dashboard.toDos track by toDo.questionnaire.id">
+    <md-card class="wmg-questionnaire-card" ng-repeat="toDo in dashboard.toDos track by toDo.id">
         <md-card-content>
-            <h2 class="md-title">{{toDo.questionnaire.title}} - {{toDo.age.label}}</h2>
+            <h2 class="md-title">{{toDo.title}}</h2>
 
-            <div>{{questionnaire.description}}</div>
+            <div>{{toDo.description}}</div>
         </md-card-content>
 
-
         <div class="md-actions" layout="row" layout-align="end end">
-            <md-button href="{{toDo.questionnaire.detail_link}}">Find out more</md-button>
+            <md-button href="{{toDo.detail_link}}">Find out more</md-button>
             <md-button
-                    ui-sref="questionnaire({questionnaireId: toDo.questionnaire.id, childId: dashboard.child.id})">
+                    ui-sref="questionnaire({questionnaireId: toDo.id, childId: dashboard.child.id})">
                 Fill out now
             </md-button>
         </div>
@@ -26,20 +21,23 @@
 </section>
 </div>
 
-<div ng-if="dashboard.completedAges.length > 0" flex="100" class="wmg-content" layout="row">
-    <h3>View Results at Age:</h3>
+<div ng-if="dashboard.completed.length > 0" flex="100" class="wmg-content" layout="row">
+    <h3>Completed Questionnaires</h3>
 </div>
 
 <section flex="100" layout="row" layout-wrap>
-    <md-card ng-repeat="age in dashboard.completedAges track by age.id" layout="column"  class="wmg-child-card">
-        <div alt="Child Image" class="md-card-image wmg-child-card__image {{age.bgClass}}"></div>
+    <md-card ng-repeat="completed in dashboard.completed track by completed.answers.dateTime" layout="column"  class="wmg-child-card">
+        <div alt="Child Image" class="md-card-image wmg-child-card__image {{completed.age.bgClass}}"></div>
         <md-card-title>
             <md-card-title-text>
-                <span class="md-headline">{{age.label}}</span>
+                <span class="md-headline">{{completed.questionnaire.title}} at {{completed.age.label}}</span>
             </md-card-title-text>
         </md-card-title>
+        <md-card-content>
+            <p>Completed on {{completed.answers.completedMoment.format('D/M/YYYY')}}</p>
+        </md-card-content>
         <md-card-actions layout="row" layout-align="end center">
-            <md-button ui-sref="result({childId: dashboard.child.id, ageId: age.id})">See results</md-button>
+            <md-button ui-sref="result({childId: dashboard.child.id, dateTime: completed.dateTime})">See results</md-button>
         </md-card-actions>
     </md-card>
 </section>

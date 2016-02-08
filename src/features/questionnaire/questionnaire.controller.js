@@ -6,13 +6,12 @@ export default class QuestionnaireController {
     this.childId = $stateParams.childId;
     this.child = childService.getChild(this.childId);
     this.questionnaire = questionnaireService.getQuestionnaire($stateParams.questionnaireId);
+    this.ageService = ageService;
 
     // TODO: Reject if age is invalid for child or for questionnaire.
     if (!this.child) {
       this.$state.go('home');
       return;
-    } else {
-      this.age = ageService.getBestAge(this.child.getAgeInDays(), this.questionnaire);
     }
 
     this.answerService = answerService;
@@ -36,7 +35,9 @@ export default class QuestionnaireController {
     });
 
     if (!Object.keys(this.invalid).length) {
-      this.answerService.saveAnswers(this.childId, this.age.id, this.questionnaire.id, this.answers);
+      const age = this.ageService.getBestAge(this.child.getAgeInDays());
+
+      this.answerService.addAnswers(this.childId, this.questionnaire.id, age.id, this.answers);
 
       this.$state.go('dashboard', {childId: this.childId});
     }
