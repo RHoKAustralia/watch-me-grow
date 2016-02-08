@@ -20,4 +20,10 @@ angular.module('app', [uirouter, root, home, questionnaire, children, result, 'n
       .primaryPalette('indigo')
       .accentPalette('orange');
   }])
+  .config([
+    '$compileProvider',
+    function ($compileProvider) {
+      $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|data):/);
+    }
+  ])
   .config(routing);

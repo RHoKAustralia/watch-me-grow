@@ -15,9 +15,6 @@ export default function routes($stateProvider) {
         },
         'header@root': defineHeader('ResultController')
       },
-      parent: 'root',
-      data: {
-        title: 'Answers'
-      }
+      parent: 'root'
     });
 }

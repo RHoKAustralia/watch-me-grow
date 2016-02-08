@@ -3,6 +3,9 @@
 import questions from '../../data/questionnaires';
 import ages from '../../data/ages';
 import _ from 'lodash';
+import {combineQuestionsAndAnswers, getOverallResult} from '../../models/data.functions';
+
+const CSV_HEADER = ['type_id', 'type_name', 'date_time', 'child_name', 'flag'];
 
 export default class DashboardController {
   constructor(answerService, $stateParams, childService, questionnaireService, ageService) {
@@ -15,17 +18,62 @@ export default class DashboardController {
     this.completed =
       Object.keys(childAnswers)
         .map(key => childAnswers[key])
-        .map(questionnaireAnswers => ({
-          result: questionnaireAnswers,
-          questionnaire: this.questionnaireService.getQuestionnaire(questionnaireAnswers.questionnaireId),
-          age: ageService.getAgeById(questionnaireAnswers.ageId)
-        }));
+        .map(questionnaireAnswers => {
+          const questionnaire = this.questionnaireService.getQuestionnaire(questionnaireAnswers.questionnaireId);
+          const combinedQuestions = combineQuestionsAndAnswers(questionnaire.questions, questionnaireAnswers.answers);
+
+          return {
+            result: questionnaireAnswers,
+            questionnaire,
+            combinedQuestions,
+            flag: getOverallResult(questionnaire, combinedQuestions),
+            age: ageService.getAgeById(questionnaireAnswers.ageId)
+          }
+        });
 
     this.toDos = this.questionnaireService.getQuestionnaires();
+
+    this.reportCsvHref = this.generateReportCsvHref();
   }
 
   getHeaderTitle() {
     return 'Dashboard for ' + this.child.name;
+  }
+
+  generateReportCsvHref() {
+    const results = [CSV_HEADER].concat(this.completed.map(completed => {
+      const list = [
+        completed.questionnaire.id,
+        completed.questionnaire.title,
+        completed.result.dateTime,
+        this.child.name,
+        completed.flag
+      ];
+
+      completed.combinedQuestions.forEach(question => {
+        list.push(question.metadata.text);
+        list.push(question.answer.metadata.text);
+        list.push(question.answer.comments);
+      });
+
+      return list;
+    }));
+
+    const longestRow = results.reduce((longest, current) => current.length >= longest ? current.length : longest, 0);
+    const answerHeadingsNeeded = (longestRow - CSV_HEADER.length) / 3;
+    for (let i = 0; i < answerHeadingsNeeded; i++) {
+      results[0].push("answer_" + i + "_question");
+      results[0].push("answer_" + i + "_answer");
+      results[0].push("answer_" + i + "_comments");
+    }
+
+    const csv = results.reduce((textSoFar, row) => {
+      const escaped = '"' + row.map(value => value ? value.replace(/"/g, '\'') : '').join('","') + '"\n'
+
+      return textSoFar + escaped;
+    }, '');
+
+    return 'data:attachment/csv,' + encodeURIComponent(csv);
   }
 }
 

@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import Moment from 'moment';
 
-export default class QuestionnaireAnswer {
+export default class Result {
   constructor(data) {
     _.assign(this, data);
 

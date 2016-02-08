@@ -3,7 +3,7 @@
 import angular from 'angular';
 import _ from 'lodash';
 import moment from 'moment';
-import QuestionnaireAnswer from '../models/questionnaire-answer';
+import QuestionnaireAnswer from '../models/result';
 import uuid from 'node-uuid';
 
 class AnswersService {
