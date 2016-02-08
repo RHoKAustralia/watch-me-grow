@@ -4,7 +4,8 @@
         <md-card-content>
             <h2 class="md-title">{{ $index + 1 }}. {{question.text}}</h2>
 
-            <md-radio-group ng-model="controller.answers[question.id].answer" class="wmg-question-group__answers md-primary"
+            <md-radio-group ng-model="controller.result[question.id].answer"
+                            class="wmg-question-group__answers md-primary"
                             name="question.id" ng-required="true">
                 <md-radio-button ng-repeat="answer in question.answers" value="{{answer.value}}">
                     {{answer.text}}
@@ -13,7 +14,8 @@
 
             <md-input-container ng-if="question.comments" class="wmg-question-group__comments-container">
                 <label>Comments</label>
-                <textarea columns="2" md-maxlength="300" rows="5" ng-model="controller.answers[question.id].comments"></textarea>
+                <textarea columns="2" md-maxlength="300" rows="5" ng-required="true"
+                          ng-model="controller.result[question.id].comments"></textarea>
             </md-input-container>
         </md-card-content>
     </md-card>

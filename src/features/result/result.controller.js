@@ -14,7 +14,7 @@ export default class ResultController {
       return {
         metadata: question,
         answer: Object.assign(rawAnswer, {
-          metadata: question.result.find(answerMetadata => answerMetadata.value === rawAnswer.answer)
+          metadata: question.answers.find(answerMetadata => answerMetadata.value === rawAnswer.answer)
         })
       };
     });

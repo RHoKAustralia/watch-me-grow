@@ -26,7 +26,7 @@
 </div>
 
 <section flex="100" layout="row" layout-wrap>
-    <md-card ng-repeat="completed in dashboard.completed track by completed.answers.dateTime" layout="column"  class="wmg-child-card">
+    <md-card ng-repeat="completed in dashboard.completed track by completed.result.id" layout="column"  class="wmg-child-card">
         <div alt="Child Image" class="md-card-image wmg-child-card__image {{completed.age.bgClass}}"></div>
         <md-card-title>
             <md-card-title-text>
