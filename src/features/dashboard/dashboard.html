@@ -34,10 +34,10 @@
             </md-card-title-text>
         </md-card-title>
         <md-card-content>
-            <p>Completed on {{completed.answers.completedMoment.format('D/M/YYYY')}}</p>
+            <p>Completed on {{completed.result.completedMoment.format('D/M/YYYY')}}</p>
         </md-card-content>
         <md-card-actions layout="row" layout-align="end center">
-            <md-button ui-sref="result({childId: dashboard.child.id, dateTime: completed.dateTime})">See results</md-button>
+            <md-button ui-sref="result({childId: dashboard.child.id, answerId: completed.result.id})">See results</md-button>
         </md-card-actions>
     </md-card>
 </section>

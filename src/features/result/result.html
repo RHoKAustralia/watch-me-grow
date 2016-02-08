@@ -2,20 +2,18 @@
     <md-tab label="overview">
         <md-content class="md-padding">
             <section layout="row" layout-align="center">
-                <md-card ng-repeat="questionnaire in controller.allQuestionnaires"
-                         class="wmg-result-card">
+                <md-card class="wmg-result-card">
                     <md-card-content>
-                        <h2 class="wmg-result-card__heading">{{questionnaire.metadata.title}}</h2>
-
-                        <h4>({{questionnaire.age.label}})</h4>
+                        <h2 class="wmg-result-card__heading">{{controller.questionnaire.title}}</h2>
+                        <h4>({{controller.age.label}})</h4>
 
                         <div class="wmg-result-card__flag-container" ng-class="{
-                              'wmg-red': questionnaire.result === 'RED_FLAG',
-                              'wmg-amber': questionnaire.result === 'AMBER_FLAG',
-                              'wmg-no': questionnaire.result === 'NO_FLAG'}">
+                              'wmg-red': controller.overallResult === 'RED_FLAG',
+                              'wmg-amber':  controller.overallResult === 'AMBER_FLAG',
+                              'wmg-no':  controller.overallResult === 'NO_FLAG'}">
                             <i class="material-icons">flag</i>
 
-                            <div ng-switch="questionnaire.result">
+                            <div ng-switch="controller.overallResult">
                                 <span ng-switch-when="RED_FLAG">Red Flag</span>
                                 <span ng-switch-when="AMBER_FLAG">Amber Flag</span>
                                 <span ng-switch-when="NO_FLAG">No Concerns</span>
@@ -43,8 +41,7 @@
         </md-content>
     </md-tab>
 
-    <md-tab ng-repeat="questionnaire in controller.getCompletedQuestionnaires() track by questionnaire.metadata.id"
-            label="Answers for {{questionnaire.metadata.title}}">
+    <md-tab label="Answers">
         <md-content>
             <table>
                 <thead>
@@ -54,7 +51,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat-start="question in questionnaire.questions track by question.metadata.id"
+                <tr ng-repeat-start="question in controller.questions track by question.metadata.id"
                     class="wmg-answer-row"
                     ng-class="{
                       'wmg-answer-row--red': question.answer.metadata.redFlagQuestion,

@@ -10,13 +10,13 @@ export default class DashboardController {
     this.child = childService.getChild($stateParams.childId);
     this.questionnaireService = questionnaireService;
 
-    const childAnswers = this.answerService.getAnswersForChild(this.child.id) || {};
+    const childAnswers = this.answerService.getResultsForChild(this.child.id) || {};
 
     this.completed =
       Object.keys(childAnswers)
         .map(key => childAnswers[key])
         .map(questionnaireAnswers => ({
-          answers: questionnaireAnswers,
+          result: questionnaireAnswers,
           questionnaire: this.questionnaireService.getQuestionnaire(questionnaireAnswers.questionnaireId),
           age: ageService.getAgeById(questionnaireAnswers.ageId)
         }));

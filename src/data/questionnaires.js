@@ -19,7 +19,7 @@ export default [
         "id": "lookatyou",
         "order": 0,
         "text": "Does your child look at you when you call his/her name?",
-        "answers": [
+        "result": [
           {
             "value": "always",
             "text": "always",
@@ -51,7 +51,7 @@ export default [
         "id": "eyecontacteasiness",
         "order": 1,
         "text": "How easy is it for you to get eye contact with your child?",
-        "answers": [
+        "result": [
           {
             "value": "veryeasy",
             "text": "very easy",
@@ -83,7 +83,7 @@ export default [
         "id": "pointwant",
         "order": 2,
         "text": "Does your child point to indicate that s/he wants something? (e.g. a toy that is out of reach)",
-        "answers": [
+        "result": [
           {
             "value": "manyday",
             "text": "many times a day",
@@ -115,7 +115,7 @@ export default [
         "id": "pointshareinterest",
         "order": 3,
         "text": "Does your child point to share interest with you (e.g. pointing at an interesting sight)?",
-        "answers": [
+        "result": [
           {
             "value": "manyday",
             "text": "many times a day",
@@ -147,7 +147,7 @@ export default [
         "id": "pretending",
         "order": 4,
         "text": "Does your child pretend (e.g. care for dolls, talk on a toy phone)?",
-        "answers": [
+        "result": [
           {
             "value": "manyday",
             "text": "many times a day",
@@ -179,7 +179,7 @@ export default [
         "id": "followlooking",
         "order": 5,
         "text": "Does your child follow where you’re looking?",
-        "answers": [
+        "result": [
           {
             "value": "manyday",
             "text": "many times a day",
@@ -211,7 +211,7 @@ export default [
         "id": "comfort",
         "order": 6,
         "text": "If you or someone else in the family is visibly upset, does your child show signs of wanting to comfort them(e.g. stroking their hair, hugging them)?",
-        "answers": [
+        "result": [
           {
             "value": "always",
             "text": "always",
@@ -243,7 +243,7 @@ export default [
         "id": "firstwords",
         "order": 7,
         "text": "Would you describe your child’s first words as:",
-        "answers": [
+        "result": [
           {
             "value": "verytypical",
             "text": "very typical",
@@ -275,7 +275,7 @@ export default [
         "id": "simplegestures",
         "order": 8,
         "text": "Does your child use simple gestures (e.g. wave goodbye)?",
-        "answers": [
+        "result": [
           {
             "value": "manyday",
             "text": "many times a day",
@@ -307,7 +307,7 @@ export default [
         "id": "stareatnothing",
         "order": 9,
         "text": "Does your child stare at nothing with no apparent purpose?",
-        "answers": [
+        "result": [
           {
             "value": "manyday",
             "text": "many times a day",
@@ -354,7 +354,7 @@ export default [
         "order": 0,
         "text": "Do you have any concerns about your child’s learning, development or behaviour? Please describe",
         "comments": true,
-        "answers": [
+        "result": [
           {
             "value": "no",
             "text": "No",
@@ -378,7 +378,7 @@ export default [
         "order": 1,
         "text": "Do you have any concerns about how your child talks and makes speech sounds?",
         "comments": true,
-        "answers": [
+        "result": [
           {
             "value": "no",
             "text": "No",
@@ -401,7 +401,7 @@ export default [
         "order": 2,
         "text": "Do you have any concerns about how your child understands what you say?",
         "comments": true,
-        "answers": [
+        "result": [
           {
             "value": "no",
             "text": "No",
@@ -424,7 +424,7 @@ export default [
         "order": 3,
         "text": "Do you have any concerns about how your child uses his / her hands and fingers to do things?",
         "comments": true,
-        "answers": [
+        "result": [
           {
             "value": "no",
             "text": "No",
@@ -447,7 +447,7 @@ export default [
         "order": 4,
         "text": "Do you have any concerns about how your child uses his / her arms and legs?",
         "comments": true,
-        "answers": [
+        "result": [
           {
             "value": "no",
             "text": "No",
@@ -470,7 +470,7 @@ export default [
         "order": 5,
         "text": "Do you have any concerns about how your child behaves?",
         "comments": true,
-        "answers": [
+        "result": [
           {
             "value": "no",
             "text": "No",
@@ -493,7 +493,7 @@ export default [
         "order": 6,
         "text": "Do you have any concerns about how your child gets along with others?",
         "comments": true,
-        "answers": [
+        "result": [
           {
             "value": "no",
             "text": "No",
@@ -516,7 +516,7 @@ export default [
         "order": 7,
         "text": "Do you have any concerns about how your child is learning to do things for themselves?",
         "comments": true,
-        "answers": [
+        "result": [
           {
             "value": "no",
             "text": "No",
@@ -539,7 +539,7 @@ export default [
         "order": 8,
         "text": "Do you have any concerns about how your child is learning preschool or school skills?",
         "comments": true,
-        "answers": [
+        "result": [
           {
             "value": "no",
             "text": "No",
@@ -562,7 +562,7 @@ export default [
         "order": 9,
         "text": "Any other concerns? (like Hearing, Vision, Physical health, Weight, ???)", //TODO
         "comments": true,
-        "answers": [
+        "result": [
           {
             "value": "no",
             "text": "No",

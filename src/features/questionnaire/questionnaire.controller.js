@@ -15,7 +15,7 @@ export default class QuestionnaireController {
     }
 
     this.answerService = answerService;
-    this.answers = {};
+    this.result = {};
     this.$state = $state;
     this.invalid = {};
   }
@@ -29,7 +29,7 @@ export default class QuestionnaireController {
 
     this.invalid = {};
     this.questionnaire.questions.forEach(question => {
-      if (!this.answers[question.id]) {
+      if (!this.result[question.id]) {
         this.invalid[question.id] = true;
       }
     });
@@ -37,7 +37,7 @@ export default class QuestionnaireController {
     if (!Object.keys(this.invalid).length) {
       const age = this.ageService.getBestAge(this.child.getAgeInDays());
 
-      this.answerService.addAnswers(this.childId, this.questionnaire.id, age.id, this.answers);
+      this.answerService.addResult(this.childId, this.questionnaire.id, age.id, this.result);
 
       this.$state.go('dashboard', {childId: this.childId});
     }

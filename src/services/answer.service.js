@@ -4,13 +4,14 @@ import angular from 'angular';
 import _ from 'lodash';
 import moment from 'moment';
 import QuestionnaireAnswer from '../models/questionnaire-answer';
+import uuid from 'node-uuid';
 
 class AnswersService {
   constructor($localStorage) {
     this.$localStorage = $localStorage
   }
 
-  getAnswersForChild(childId) {
+  getResultsForChild(childId) {
     const rawChildAnswers = this.$localStorage[AnswersService.composeKey(childId)];
 
     if (rawChildAnswers) {
@@ -21,17 +22,26 @@ class AnswersService {
     }
   }
 
-  addAnswers(childId, questionnaireId, ageId, answers) {
-    const now = moment().toISOString();
+  getResultById(childId, id) {
+    const rawChildAnswers = this.$localStorage[AnswersService.composeKey(childId)];
+
+    if (rawChildAnswers && rawChildAnswers[id]) {
+      return new QuestionnaireAnswer(rawChildAnswers[id]);
+    }
+  }
+
+  addResult(childId, questionnaireId, ageId, answers) {
+    const id = uuid.v1();
+
     const toSave = {
       answers,
       questionnaireId,
       ageId,
-      dateTime: now
+      dateTime: moment().toISOString(),
+      id
     };
-
-    const answersForChild = this.getAnswersForChild(childId) || {};
-    answersForChild[now] = toSave;
+    const answersForChild = this.getResultsForChild(childId) || {};
+    answersForChild[id] = toSave;
 
     this.$localStorage[AnswersService.composeKey(childId)] = answersForChild;
   }
