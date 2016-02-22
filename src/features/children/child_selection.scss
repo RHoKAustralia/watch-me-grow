@@ -1,7 +1,7 @@
 .wmg-add-child-button {
   position: absolute;
-  right: 50px;
-  top: -40px;
+  top: -10px;
+  right: 5px;
   z-index: 1000;
 }
 
@@ -11,4 +11,17 @@
   &__image {
     height: 200px;
   }
+}
+
+.wmg-select-child {
+  position: relative;
+  padding-bottom: 20px;
+}
+
+.wmg-intro__heading {
+  margin-bottom: 5px;
+}
+
+.wmg-intro-footer {
+  margin-top: 30px;
 }

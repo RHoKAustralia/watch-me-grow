@@ -1,22 +1,74 @@
-<md-button class="md-fab wmg-add-child-button" aria-label="Add child" ui-sref="children.add">
-    <md-icon>add</md-icon>
-</md-button>
+<section>
+    <h1 class="wmg-intro__heading">Watch Me Grow</h1>
 
-<div flex="100" layout="row" layout-align="center" layout-wrap>
-    <md-card ng-repeat="child in childSelection.children track by child.metadata.id" class="wmg-child-card">
-        <div alt="Child Image" class="md-card-image wmg-child-card__image {{child.age.bgClass}}"></div>
-        <md-card-title>
-            <md-card-title-text>
-                <span class="md-headline">{{child.metadata.name}}</span>
-                <span class="md-subhead">{{child.age.label}} old</span>
-            </md-card-title-text>
-        </md-card-title>
-        <md-card-actions layout="row" layout-align="end center">
-            <md-button ui-sref="dashboard({childId: child.metadata.id})">See dashboard</md-button>
-        </md-card-actions>
-    </md-card>
-
-    <p ng-if="!childSelection.children || !childSelection.children.length">
-        You have not created any children. Use the orange (+) button above to create one.
+    <p>
+        The Watch Me Grow (WMG) web app is a tool designed for you as a parent to
+        track how well your child is developing. The WMG app uses two questionnaires:
+        Q-CHAT is a quick referral guide for parents to indicate any concerns about
+        their child’s language and social skills. PEDS asks questions about your
+        child’s overall development. Parents are encouraged to use the WMG app at key
+        stages in your child’s development at 6, 12, 18, 24, 36, and 48 months of age. If
+        any concerns are flagged on either of these screening tools it is important to
+        make an appointment to see your GP or another health professional.
     </p>
-</div>
+    <ul>
+        <li>
+            <a href="http://docs.autismresearchcentre.com/papers/2012_Allisonetal_JAACAP_RedFlags.pdf">Q-CHAT
+                (Quantitative Checklist for Autism in Toddlers)</a> is validated for use from 18 to 30 months
+        </li>
+        <li>
+            Parents can complete <a href="http://www.pedstest.com/AboutOurTools/LearnAboutPEDS/IntroductiontoPEDS.aspx">
+            PEDS (Parents’ Evaluation of Developmental Status)</a> from the age of 6 months which is used
+            internationally
+            and across Australia (e.g. NSW Personal Health Record).
+        </li>
+    </ul>
+</section>
+
+<md-divider></md-divider>
+
+<section class="wmg-select-child">
+    <h2>
+        Choose Child
+    </h2>
+
+    <md-button class="md-fab wmg-add-child-button" aria-label="Add child" ui-sref="children.add">
+        <md-icon>add</md-icon>
+        <md-tooltip md-direction="above">
+            Add New Child
+        </md-tooltip>
+    </md-button>
+
+    <div flex="100" layout="row" layout-align="left" layout-wrap>
+        <md-card ng-repeat="child in childSelection.children track by child.metadata.id" class="wmg-child-card">
+            <div alt="Child Image" class="md-card-image wmg-child-card__image {{child.age.bgClass}}"></div>
+            <md-divider></md-divider>
+            <md-card-title>
+                <md-card-title-text>
+                    <span class="md-headline">{{child.metadata.name}}</span>
+                    <span class="md-subhead">{{child.age.label}} old</span>
+                </md-card-title-text>
+            </md-card-title>
+            <md-card-actions layout="row" layout-align="end center">
+                <md-button ui-sref="dashboard({childId: child.metadata.id})" class="md-raised md-primary">See dashboard</md-button>
+            </md-card-actions>
+        </md-card>
+
+        <md-subheader ng-if="!childSelection.children || !childSelection.children.length">
+            You have not created any children. Use the orange (+) button to create one.
+        </md-subheader>
+    </div>
+</section>
+
+<md-divider></md-divider>
+
+<section class="wmg-intro-footer">
+    <p>
+        More information can be found at the Australian Parenting websites:
+    </p>
+    <ul>
+        <li><a href="http://raisingchildren.net.au">http://raisingchildren.net.au</a></li>
+        <li><a href="http://www.resourcingparents.nsw.gov.au/page/love-talk-sing-read-play">http://www.resourcingparents.nsw.gov.au/page/love-talk-sing-read-play</a>
+        </li>
+    </ul>
+</section>

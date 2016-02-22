@@ -1,12 +1,11 @@
 'use strict';
 
-import angular from 'angular';
-
 export default [
   {
     "id": "qchat",
     "title": "QCHAT",
     "description": "Q-CHAT-10 (Quantitative Checklist for Autism in Toddlers) is a quick referral guide for parents to complete about their toddler (18 – 24 months) with concerns about autism.",
+    "introduction": "Some questions about your child’s speech and socialising skills.",
     "detail_link": "http://www.autismresearchcentre.com/arc_tests",
     "age_groups": ['18_month', '2_years'],
     "analysis": {
@@ -341,6 +340,7 @@ export default [
     "id": "peds",
     "title": "PEDS",
     "description": "Parents’ Evaluation of Developmental Status (PEDS) (developed by Glascoe FP)  is included in the My Personal Health Record.",
+    "introduction": "PEDS – Some questions about how your child is developing in general. It’s important to answer all 10 questions as well as a short comment in the comment sections",
     "detail_link": "http://www.kidsfamilies.health.nsw.gov.au/publications/child-personal-health-record-(blue-book)/",
     "age_groups": ['6_month', '12_month', '18_month', '2_years', '3_years', '4_years'],
     "analysis": {

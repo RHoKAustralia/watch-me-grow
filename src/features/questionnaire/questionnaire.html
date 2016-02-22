@@ -1,3 +1,5 @@
+<p>{{controller.questionnaire.introduction}}</p>
+
 <form ng-submit="controller.submit($event)" layout="column" layout-align="start center">
     <md-card class="wmg-question-group" ng-repeat="question in controller.questionnaire.questions"
              ng-class="controller.invalid[question.id] ? 'wmg-question-group--invalid' : ''">

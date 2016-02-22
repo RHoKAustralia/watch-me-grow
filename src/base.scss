@@ -34,7 +34,6 @@ html, body {
 @mixin age-image($ageInMonths) {
   &--#{$ageInMonths}-months {
     background: url('../assets/illustrations/' + $ageInMonths + 'months.png') bottom right 15% no-repeat #FFFFFF;
-    border-bottom: 1px solid #dddddd;
     background-size: contain;
   }
 }

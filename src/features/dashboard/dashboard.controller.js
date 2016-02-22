@@ -11,6 +11,7 @@ export default class DashboardController {
   constructor(answerService, $stateParams, childService, questionnaireService, ageService) {
     this.answerService = answerService;
     this.child = childService.getChild($stateParams.childId);
+    this.age = ageService.getBestAge(this.child.getAgeInDays());
     this.questionnaireService = questionnaireService;
 
     const childAnswers = this.answerService.getResultsForChild(this.child.id) || {};
