@@ -5,7 +5,7 @@ import ages from '../../data/ages';
 import _ from 'lodash';
 import {combineQuestionsAndAnswers, getOverallResult} from '../../models/data.functions';
 
-const CSV_HEADER = ['type_id', 'type_name', 'date_time', 'child_name', 'flag'];
+const CSV_HEADER = ['Questionnaire ID', 'Questionnaire Name', 'Date/Time', 'Child Name', 'Result Flag'];
 
 export default class DashboardController {
   constructor(answerService, $stateParams, childService, questionnaireService, ageService) {
@@ -62,10 +62,10 @@ export default class DashboardController {
 
     const longestRow = results.reduce((longest, current) => current.length >= longest ? current.length : longest, 0);
     const answerHeadingsNeeded = (longestRow - CSV_HEADER.length) / 3;
-    for (let i = 0; i < answerHeadingsNeeded; i++) {
-      results[0].push("answer_" + i + "_question");
-      results[0].push("answer_" + i + "_answer");
-      results[0].push("answer_" + i + "_comments");
+    for (let i = 1; i <= answerHeadingsNeeded; i++) {
+      results[0].push("Question " + i);
+      results[0].push("Answer for Question " + i);
+      results[0].push("Comments for Question " + i);
     }
 
     const csv = results.reduce((textSoFar, row) => {
