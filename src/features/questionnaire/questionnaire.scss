@@ -10,9 +10,23 @@
 
   &--invalid {
     color: #F00;
+
+    .md-char-counter {
+      color: #000;
+    }
   }
 
   &__comments-container {
     width: 100%;
+
+    &--blank {
+      .md-char-counter {
+        color: #F00;
+      }
+
+      .wmg-question-group__comments {
+        border-color: #F00;
+      }
+    }
   }
 }

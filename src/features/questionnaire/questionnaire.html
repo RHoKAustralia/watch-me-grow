@@ -1,8 +1,8 @@
 <p>{{controller.questionnaire.introduction}}</p>
 
-<form ng-submit="controller.submit($event)" layout="column" layout-align="start center">
+<form ng-submit="controller.trySubmit($event)" layout="column" layout-align="start center">
     <md-card class="wmg-question-group" ng-repeat="question in controller.questionnaire.questions"
-             ng-class="controller.invalid[question.id] ? 'wmg-question-group--invalid' : ''">
+             ng-class="{'wmg-question-group--invalid': controller.invalid[question.id]}">
         <md-card-content>
             <h2 class="md-title">{{ $index + 1 }}. {{question.text}}</h2>
 
@@ -14,9 +14,11 @@
                 </md-radio-button>
             </md-radio-group>
 
-            <md-input-container ng-if="question.comments" class="wmg-question-group__comments-container">
+            <md-input-container ng-if="question.comments" class="wmg-question-group__comments-container"
+                ng-class="{'wmg-question-group__comments-container--blank': controller.noComments[question.id]}">
                 <label>Comments</label>
-                <textarea columns="2" md-maxlength="300" rows="5" ng-required="true"
+                <textarea columns="2" md-maxlength="300" rows="5"
+                          class="wmg-question-group__comments"
                           ng-model="controller.result[question.id].comments"></textarea>
             </md-input-container>
         </md-card-content>
