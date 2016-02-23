@@ -26,14 +26,10 @@
   text-align: center;
 }
 
-.wmg-result-card {
-  width: 250px;
+.wmg-result-card__flag-container {
   text-align: center;
-
-  &__heading {
-    margin-top: 0;
-  }
-
-  &__flag-container {
-  }
+  width: 100px;
+  border: 1px solid #CCC;
+  margin: 10px;
+  padding: 10px;
 }
