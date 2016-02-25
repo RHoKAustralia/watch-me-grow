@@ -13,24 +13,25 @@ export default class DashboardController {
     this.child = childService.getChild($stateParams.childId);
     this.age = ageService.getBestAge(this.child.getAgeInDays());
     this.questionnaireService = questionnaireService;
+    this.completed = [];
 
-    const childAnswers = this.answerService.getResultsForChild(this.child.id) || {};
+    this.answerService.getResultsForChild(this.child.id).then((childAnswers = {}) => {
+      this.completed =
+        Object.keys(childAnswers)
+          .map(key => childAnswers[key])
+          .map(questionnaireAnswers => {
+            const questionnaire = this.questionnaireService.getQuestionnaire(questionnaireAnswers.questionnaireId);
+            const combinedQuestions = combineQuestionsAndAnswers(questionnaire.questions, questionnaireAnswers.answers);
 
-    this.completed =
-      Object.keys(childAnswers)
-        .map(key => childAnswers[key])
-        .map(questionnaireAnswers => {
-          const questionnaire = this.questionnaireService.getQuestionnaire(questionnaireAnswers.questionnaireId);
-          const combinedQuestions = combineQuestionsAndAnswers(questionnaire.questions, questionnaireAnswers.answers);
-
-          return {
-            result: questionnaireAnswers,
-            questionnaire,
-            combinedQuestions,
-            flag: getOverallResult(questionnaire, combinedQuestions),
-            age: ageService.getAgeById(questionnaireAnswers.ageId)
-          }
-        });
+            return {
+              result: questionnaireAnswers,
+              questionnaire,
+              combinedQuestions,
+              flag: getOverallResult(questionnaire, combinedQuestions),
+              age: ageService.getAgeById(questionnaireAnswers.ageId)
+            }
+          });
+    });
 
     this.toDos = this.questionnaireService.getQuestionnaires();
 

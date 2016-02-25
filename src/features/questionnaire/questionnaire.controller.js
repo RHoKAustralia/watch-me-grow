@@ -70,8 +70,9 @@ export default class QuestionnaireController {
   }
 
   submit() {
-    this.answerService.addResult(this.child.id, this.questionnaire.id, this.age.id, this.result);
-    this.$state.go('dashboard', {childId: this.child.id});
+    this.answerService.addResult(this.child.id, this.questionnaire.id, this.age.id, this.result).then(() => {
+      this.$state.go('dashboard', {childId: this.child.id});
+    });
   }
 }
 

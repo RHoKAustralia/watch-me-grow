@@ -4,14 +4,14 @@ import {combineQuestionsAndAnswers, getOverallResult} from '../../models/data.fu
 
 export default class ResultController {
   constructor(childService, $stateParams, questionnaireService, answerService, ageService) {
-    const result = answerService.getResultById($stateParams.childId, $stateParams.answerId);
+    answerService.getResultById($stateParams.childId, $stateParams.answerId).then(result => {
+      this.child = childService.getChild($stateParams.childId);
+      this.questionnaire = questionnaireService.getQuestionnaire(result.questionnaireId);
+      this.age = ageService.getAgeById(result.ageId);
+      this.questions = combineQuestionsAndAnswers(this.questionnaire.questions, result.answers);
 
-    this.child = childService.getChild($stateParams.childId);
-    this.questionnaire = questionnaireService.getQuestionnaire(result.questionnaireId);
-    this.age = ageService.getAgeById(result.ageId);
-    this.questions = combineQuestionsAndAnswers(this.questionnaire.questions, result.answers);
-
-    this.overallResult = getOverallResult(this.questionnaire, this.questions);
+      this.overallResult = getOverallResult(this.questionnaire, this.questions);
+    });
   }
 
   getHeaderTitle() {

@@ -33,7 +33,7 @@ module.exports = function makeWebpackConfig(options) {
     config.entry = {}
   } else {
     config.entry = {
-      app: './src/app.js'
+      app: ['babel-polyfill', './src/app.js']
     }
   }
 
