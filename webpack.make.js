@@ -5,6 +5,7 @@ var webpack = require('webpack');
 var autoprefixer = require('autoprefixer');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var StringReplacePlugin = require('string-replace-webpack-plugin');
 
 module.exports = function makeWebpackConfig(options) {
   /**
@@ -86,7 +87,21 @@ module.exports = function makeWebpackConfig(options) {
     // Initialize module
   config.module = {
     preLoaders: [],
-    loaders: [{
+    loaders: [
+      // Heinous hack which string-replaces the unconfigurable angular-material dark contrast colour to our green.
+      {
+        test: /angular-material.js$/,
+        loader: StringReplacePlugin.replace({
+          replacements: [
+            {
+              pattern: /var DARK_CONTRAST_COLOR = colorToRgbaArray\('rgba\(0,0,0,0.87\)'\)/,
+              replacement: function (match, p1, offset, string) {
+                return 'var DARK_CONTRAST_COLOR = colorToRgbaArray(\'rgba(11,79,91, 1)\')';
+              }
+            }
+          ]})
+      },
+      {
       // JS LOADER
       // Reference: https://github.com/babel/babel-loader
       // Transpile .js files using babel-loader
@@ -175,7 +190,8 @@ module.exports = function makeWebpackConfig(options) {
     // Disabled when in test mode or not in build mode
     new ExtractTextPlugin('[name].[hash].css', {
       disable: !BUILD || TEST
-    })
+    }),
+    new StringReplacePlugin()
   ];
 
   // Skip rendering index.html in test mode

@@ -16,8 +16,16 @@ import routing from './app.config';
 
 angular.module('app', [uirouter, root, home, questionnaire, children, result, 'ngMaterial'])
   .config(['$mdThemingProvider', function ($mdThemingProvider) {
+    // Extend the red theme with a few different colors
+    var wmgCyan = $mdThemingProvider.extendPalette('cyan', {
+      'contrastDefaultColor': 'dark'
+    });
+    // Register the new color palette map with the name <code>neonRed</code>
+    $mdThemingProvider.definePalette('wmgCyan', wmgCyan);
+    // Use that theme for the primary intention
+
     $mdThemingProvider.theme('default')
-      .primaryPalette('indigo')
+      .primaryPalette('wmgCyan')
       .accentPalette('orange');
   }])
   .config([
