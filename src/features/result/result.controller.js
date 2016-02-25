@@ -5,7 +5,9 @@ import {combineQuestionsAndAnswers, getOverallResult} from '../../models/data.fu
 export default class ResultController {
   constructor(childService, $stateParams, questionnaireService, answerService, ageService) {
     answerService.getResultById($stateParams.childId, $stateParams.answerId).then(result => {
-      this.child = childService.getChild($stateParams.childId);
+      childService.getChild($stateParams.childId).then(child => {
+        this.child = child;
+      });
       this.questionnaire = questionnaireService.getQuestionnaire(result.questionnaireId);
       this.age = ageService.getAgeById(result.ageId);
       this.questions = combineQuestionsAndAnswers(this.questionnaire.questions, result.answers);

@@ -13,11 +13,12 @@ export default class ChildSelectionController {
   }
 
   refreshChildren() {
-    this.children = (this.childService.getChildren() || [])
-      .map(child => ({
+    this.childService.getChildren().then((children = []) => {
+      this.children = children.map(child => ({
         metadata: child,
         age: this.ageService.getBestAge(child.getAgeInDays())
       }));
+    });
   }
 
   getHeaderTitle() {

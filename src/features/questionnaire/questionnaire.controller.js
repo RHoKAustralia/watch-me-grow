@@ -3,16 +3,18 @@
 
 export default class QuestionnaireController {
   constructor($stateParams, questionnaireService, answerService, $state, childService, ageService, $mdDialog) {
-    this.child = childService.getChild($stateParams.childId);
     this.questionnaire = questionnaireService.getQuestionnaire($stateParams.questionnaireId);
-    this.age = ageService.getBestAge(this.child.getAgeInDays());
     this.$mdDialog = $mdDialog;
 
-    // TODO: Reject if age is invalid for child or for questionnaire.
-    if (!this.child) {
-      this.$state.go('home');
-      return;
-    }
+    childService.getChild($stateParams.childId).then(child => {
+      this.child = child;
+      this.age = ageService.getBestAge(this.child.getAgeInDays());
+      
+      // TODO: Reject if age is invalid for child or for questionnaire.
+      if (!this.child) {
+        this.$state.go('home');
+      }
+    });
 
     this.answerService = answerService;
     this.result = {};

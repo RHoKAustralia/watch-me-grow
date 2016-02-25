@@ -10,28 +10,33 @@ const CSV_HEADER = ['Questionnaire ID', 'Questionnaire Name', 'Date/Time', 'Chil
 export default class DashboardController {
   constructor(answerService, $stateParams, childService, questionnaireService, ageService) {
     this.answerService = answerService;
-    this.child = childService.getChild($stateParams.childId);
-    this.age = ageService.getBestAge(this.child.getAgeInDays());
     this.questionnaireService = questionnaireService;
     this.completed = [];
 
-    this.answerService.getResultsForChild(this.child.id).then((childAnswers = {}) => {
-      this.completed =
-        Object.keys(childAnswers)
-          .map(key => childAnswers[key])
-          .map(questionnaireAnswers => {
-            const questionnaire = this.questionnaireService.getQuestionnaire(questionnaireAnswers.questionnaireId);
-            const combinedQuestions = combineQuestionsAndAnswers(questionnaire.questions, questionnaireAnswers.answers);
+    childService.getChild($stateParams.childId)
+      .then(child => {
+        this.child = child;
+        this.age = ageService.getBestAge(this.child.getAgeInDays());
 
-            return {
-              result: questionnaireAnswers,
-              questionnaire,
-              combinedQuestions,
-              flag: getOverallResult(questionnaire, combinedQuestions),
-              age: ageService.getAgeById(questionnaireAnswers.ageId)
-            }
-          });
-    });
+        return this.answerService.getResultsForChild(this.child.id)
+      })
+      .then((childAnswers = {}) => {
+        this.completed =
+          Object.keys(childAnswers)
+            .map(key => childAnswers[key])
+            .map(questionnaireAnswers => {
+              const questionnaire = this.questionnaireService.getQuestionnaire(questionnaireAnswers.questionnaireId);
+              const combinedQuestions = combineQuestionsAndAnswers(questionnaire.questions, questionnaireAnswers.answers);
+
+              return {
+                result: questionnaireAnswers,
+                questionnaire,
+                combinedQuestions,
+                flag: getOverallResult(questionnaire, combinedQuestions),
+                age: ageService.getAgeById(questionnaireAnswers.ageId)
+              }
+            });
+      });
 
     this.toDos = this.questionnaireService.getQuestionnaires();
 
