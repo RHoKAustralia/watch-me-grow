@@ -1,7 +1,7 @@
 'use strict';
 
 import angular from 'angular';
-import defineHeader from '../header/define-header';
+import addHeader from '../root/header/define-header';
 
 routes.$inject = ['$stateProvider'];
 
@@ -10,14 +10,13 @@ export default function routes($stateProvider) {
     .state('children', {
       url: 'children',
       parent: 'root',
-      views: {
+      views: addHeader({
         '': {
           template: require('./child_selection.html'),
           controller: 'ChildSelectionController',
           controllerAs: 'childSelection'
-        },
-        'header@root': defineHeader('ChildSelectionController')
-      }
+        }
+      }, 'ChildSelectionController')
     })
     .state('children.add', {
       url: '/add',

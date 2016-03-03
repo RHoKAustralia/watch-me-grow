@@ -1,12 +1,11 @@
 import rootTemplate from './root.html';
-import headerTemplate from '../header/header.html';
+import headerTemplate from './header/header.html';
 
 routes.$inject = ['$stateProvider'];
 
 export default function routes($stateProvider) {
   $stateProvider
     .state('root', {
-
       url: '/',
       abstract: true,
 
@@ -20,16 +19,7 @@ export default function routes($stateProvider) {
           template: rootTemplate,
           controller: 'RootController',
           controllerAs: 'root'
-        },
-
-        /**
-         * Navbar view to be inserted with ui-view[name="header"]
-         */
-        'header@root': {
-          template: headerTemplate,
-          controllerAs: 'controller'
         }
-
       }
     });
 }

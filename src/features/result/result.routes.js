@@ -1,20 +1,19 @@
 'use strict';
 
 routes.$inject = ['$stateProvider'];
-import defineHeader from '../header/define-header';
+import defineHeader from '../root/header/define-header';
 
 export default function routes($stateProvider) {
   $stateProvider
     .state('result', {
       url: 'result/{childId:int}/:answerId',
-      views: {
+      views: defineHeader({
         '': {
           template: require('./result.html'),
           controller: 'ResultController',
           controllerAs: 'controller'
-        },
-        'header@root': defineHeader('ResultController')
-      },
+        }
+      }, 'ResultController'),
       parent: 'root'
     });
 }

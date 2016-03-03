@@ -9,7 +9,7 @@ export default class QuestionnaireController {
     childService.getChild($stateParams.childId).then(child => {
       this.child = child;
       this.age = ageService.getBestAge(this.child.getAgeInDays());
-      
+
       // TODO: Reject if age is invalid for child or for questionnaire.
       if (!this.child) {
         this.$state.go('home');
