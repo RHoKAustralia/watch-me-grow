@@ -12,10 +12,14 @@ class UserService {
     this.$cookies = $cookies;
   }
 
-  setToken(token, expiry) {
-    const expiryMoment = moment().add(expiry, 'seconds');
-
-    this.$cookies.put('wmg-login', token, {expires: expiryMoment.toDate()});
+  login(token) {
+    return fetch(`https://www.dailycred.com/graph/me.json?access_token=${token}`)
+      .then(response => response.json())
+      .then(({access_token, email}) => {
+        return fetch(`https://ayzo3fhfm8.execute-api.us-east-1.amazonaws.com/test/cognito?token=${access_token}&email=${email}`)
+          .then(response => response.json())
+          .then(amazonDetails => Object.assign(amazonDetails, {access_token, email}));
+      }).then(allDetails => this.$cookies.putObject('wmg-login', allDetails, {expires: moment().add(1, 'day').toDate()}));
   }
 
   isLoggedIn() {
