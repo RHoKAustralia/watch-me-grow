@@ -24,7 +24,7 @@ export default function (views, controllerName) {
 
   views['general@root'] = {
     template: headerTemplate,
-    controller: 'RootController',
+    controller: 'HeaderController',
     controllerAs: 'controller'
   };
 

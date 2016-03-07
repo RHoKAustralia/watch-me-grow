@@ -4,26 +4,31 @@ import angular from 'angular';
 import 'ngstorage';
 import _ from 'lodash';
 import Child from '../models/Child';
+import moment from 'moment';
+import 'angular-cookies';
 
 class UserService {
-  constructor($timeout) {
-    this.$timeout = $timeout;
+  constructor($cookies) {
+    this.$cookies = $cookies;
   }
 
   setToken(token, expiry) {
-    const expiryTimer = this.$timeout(() => {
-      this.currentLogin = undefined;
-    });
-    this.currentLogin = {token, expiry, expiryTimer};
+    const expiryMoment = moment().add(expiry, 'seconds');
+
+    this.$cookies.put('wmg-login', token, {expires: expiryMoment.toDate()});
   }
 
   isLoggedIn() {
-    return !!this.currentLogin;
+    return !!this.$cookies.get('wmg-login');
+  }
+
+  logout() {
+    this.$cookies.remove('wmg-login');
   }
 }
 
-UserService.$inject = ['$timeout'];
+UserService.$inject = ['$cookies'];
 
-export default angular.module('services.user', [])
+export default angular.module('services.user', ['ngCookies'])
   .service('UserService', UserService)
   .name;

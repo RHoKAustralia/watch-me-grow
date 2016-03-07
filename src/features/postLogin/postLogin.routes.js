@@ -20,7 +20,7 @@ export default function routes($stateProvider) {
 
         userService.setToken(hashParams.access_token, parseInt(hashParams.expires_in));
 
-        $state.go('dashboard');
+        $state.go('children');
       }]
     });
 }

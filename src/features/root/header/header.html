@@ -4,11 +4,20 @@
     </md-tooltip>
     <i class="material-icons">child_care</i>
 </md-button>
-<md-button
-        href="https://www.dailycred.com/oauth/authorize?response_type=token&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fwatch-me-grow%2FpostLogin&simple=false&client_id=7af5e26d-cf13-47e1-b74b-f93a66fd318f#"
+<md-button ng-if="!controller.isLoggedIn()"
+        href="{{controller.loginUrl}}"
         class="md-icon-button" aria-label="Sign In">
     <md-tooltip md-direction="below">
         Sign In
     </md-tooltip>
     <i class="material-icons">person</i>
+</md-button>
+<md-button ng-if="controller.isLoggedIn()"
+        href="#"
+        ng-click="controller.logout()"
+        class="md-icon-button" aria-label="Sign Out">
+    <md-tooltip md-direction="below">
+        Sign Out
+    </md-tooltip>
+    <i class="material-icons">person_outline</i>
 </md-button>
