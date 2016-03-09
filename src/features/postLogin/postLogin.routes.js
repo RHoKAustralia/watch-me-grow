@@ -18,9 +18,7 @@ export default function routes($stateProvider) {
             return acc;
           }, {});
 
-        userService.login(hashParams.access_token, parseInt(hashParams.expires_in));
-
-        $state.go('children');
+        userService.login(hashParams.access_token, parseInt(hashParams.expires_in)).then(() => $state.go('children'));
       }]
     });
 }
