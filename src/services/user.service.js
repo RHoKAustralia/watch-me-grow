@@ -40,9 +40,9 @@ class UserService {
           .then(response => response.json())
           .then(amazonDetails => Object.assign(amazonDetails, {access_token, email}));
       }).then(allDetails => {
-        AWS.config.credentials.params.Logins = {
-          'dailycred.watchmegrow': allDetails.email
-        };
+        //AWS.config.credentials.params.Logins = {
+        //  'dailycred.watchmegrow': allDetails.email
+        //};
         AWS.config.credentials.IdentityId = allDetails.IdentityId;
         AWS.config.credentials.expired = true;
         return new Promise((resolve, reject) => {

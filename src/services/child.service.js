@@ -8,6 +8,7 @@ import UserService from './user.service';
 import 'aws-sdk/dist/aws-sdk';
 const AWS = window.AWS;
 
+import 'amazon-cognito-js/dist/amazon-cognito.min';
 
 class ChildService {
   constructor($q, userService) {
@@ -29,19 +30,29 @@ class ChildService {
             reject(err);
             return;
           }
-          this.cognitoSyncClient.listDatasets({
-            IdentityId: AWS.config.credentials.identityId,
-            IdentityPoolId: "us-east-1:e6b4594e-c060-4fbe-81dc-0d56af9b8ad3"
-          }, function (err, data) {
+          const client = new AWS.CognitoSyncManager();
+          client.openOrCreateDataset('children', function(err, dataset) {
             if (err) {
               reject(err);
             }
 
-            if (data && data.children) {
-              resolve(this.data.children.map(data => new Child(data)));
-            } else {
-              reject(new Error('no children'));
-            }
+            const child = dataset.get('child', (err, value) => {
+              if (err) {
+                reject(err);
+              }
+
+              if (!value) {
+                dataset.put('child', 'child-value', (err, record) => {
+                  if (err) {
+                    reject(err);
+                  }
+
+                  console.log(record);
+                });
+              } else {
+                console.log(value);
+              }
+            });
           });
         });
       }).catch(e => {

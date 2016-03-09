@@ -16,11 +16,6 @@ import userService from './services/user.service';
 
 import routing from './app.config';
 
-import 'aws-sdk/dist/aws-sdk';
-const AWS = window.AWS;
-
-
-
 angular.module('app', [uirouter, root, home, questionnaire, children, result, 'ngMaterial', postLogin, userService])
   .config(['$mdThemingProvider', function ($mdThemingProvider) {
     // Extend the red theme with a few different colors
@@ -41,13 +36,6 @@ angular.module('app', [uirouter, root, home, questionnaire, children, result, 'n
       $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|data):/);
     }
   ]).run(['UserService', userService => {
-    AWS.config.update({
-      region: 'us-east-1',
-      credentials: new AWS.CognitoIdentityCredentials({
-        AccountId: '754729660372',
-        RoleArn: 'arn:aws:iam::754729660372:role/Cognito_WatchMeGrowUnauth_Role',
-        IdentityPoolId: 'us-east-1:e6b4594e-c060-4fbe-81dc-0d56af9b8ad3'
-      })
-    });
+    userService.init();
   }])
   .config(routing);
