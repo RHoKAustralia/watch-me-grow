@@ -36,6 +36,6 @@ angular.module('app', [uirouter, root, home, questionnaire, children, result, 'n
       $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|data):/);
     }
   ]).run(['UserService', userService => {
-    userService.init();
+    //userService.init();
   }])
   .config(routing);
