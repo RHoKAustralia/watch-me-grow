@@ -5,8 +5,9 @@ import 'ngstorage';
 import _ from 'lodash';
 import Child from '../models/Child';
 import UserService from './user.service';
-import cbtp from '../util/cb-to-promise'
-
+import cbtp from '../util/cb-to-promise';
+import uuid from 'node-uuid';
+import cstp from '../util/cognito-sync-to-promise';
 
 //import 'aws-sdk/dist/aws-sdk';
 //const AWS = window.AWS;
@@ -33,22 +34,17 @@ class ChildService {
           const client = new AWS.CognitoSyncManager();
           return cbtp.call(client, this.$q, client.openOrCreateDataset, 'children')
         })
-        .then(dataSet => {
-          return this.$q((resolve, reject) => dataSet.synchronize({
-            onSuccess: function (dataset, newRecords) {
-              resolve(dataSet);
-            },
-
-            onFailure: function (err) {
-              reject(err);
-            }
-          }));
-        })
+        //.then(dataSet => cbtp.call(dataSet, this.$q, dataSet.remove, 'children').then(() => dataSet))
+        .then(dataSet => cstp(this.$q, dataSet))
+        .then(({dataSet}) => dataSet)
         .then(dataset => {
-          return cbtp.call(dataset, this.$q, dataset.get, 'children');
+          return cbtp.call(dataset, this.$q, dataset.getAll);
         })
-        .then(childrenJson => childrenJson ? JSON.parse(childrenJson) : [])
-        .then(children => children.map(childData => new Child(childData)))
+        .then(allData => {
+          return _.values(allData)
+            .filter(dataString => dataString.length > 0)
+            .map(rawChild => new Child(JSON.parse(rawChild)))
+        })
         .catch(e => {
           console.error(e.stack);
         });
@@ -58,46 +54,23 @@ class ChildService {
   }
 
   addChild(child) {
-    return  this.userService.init()
+    return this.userService.init()
       .then(() => {
         const client = new AWS.CognitoSyncManager();
 
         return cbtp.call(client, this.$q, client.openOrCreateDataset, 'children');
       })
       .then(dataSet => {
-        return cbtp.call(dataSet, this.$q, dataSet.get, 'children')
-          .then(childrenJson => childrenJson ? JSON.parse(childrenJson) : [])
-          .then(children => ({dataSet, children}));
+        child.id = uuid.v1();
+        return cbtp.call(dataSet, this.$q, dataSet.put, child.id, JSON.stringify(child)).then(() => dataSet);
       })
-      .then(({dataSet, children = []}) => {
-        child.id = children.length;
-        children.push(child);
-        return cbtp.call(dataSet, this.$q, dataSet.put, 'children', JSON.stringify(children)).then(() => dataSet);
-      })
-      .then(dataSet => {
-        return this.$q((resolve, reject) => {
-          dataSet.synchronize({
-            onSuccess: function (dataset, newRecords) {
-              resolve();
-            },
+      .then(cstp(this.$q, dataSet))
+      .then(({conflicts, dataSet}) => {
+        if (conflicts) {
+          console.log(conflicts);
+        }
 
-            onFailure: function (err) {
-              reject(err);
-            },
-
-            onConflict: function (dataset, conflicts, callback) {
-              reject(new Error('conflict'));
-            },
-
-            onDatasetDeleted: function (dataset, datasetName, callback) {
-              return callback(true);
-            },
-
-            onDatasetMerged: function (dataset, datasetNames, callback) {
-              return callback(false);
-            }
-          });
-        });
+        return dataSet;
       })
       .catch(e => {
         console.error(e.stack);

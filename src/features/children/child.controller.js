@@ -17,7 +17,7 @@ export default class ChildSelectionController {
       this.children = children.map(child => ({
         metadata: child,
         age: this.ageService.getBestAge(child.getAgeInDays())
-      }));
+      }))
     });
   }
 
