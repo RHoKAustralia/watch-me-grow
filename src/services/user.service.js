@@ -8,8 +8,8 @@ import moment from 'moment';
 import 'angular-cookies';
 import cbtp from '../util/cb-to-promise'
 
-//import 'aws-sdk/dist/aws-sdk';
-//const AWS = window.AWS;
+import 'aws-sdk/dist/aws-sdk';
+const AWS = window.AWS;
 
 AWS.config.region = 'us-east-1';
 
@@ -21,30 +21,25 @@ class UserService {
   }
 
   init() {
-    if (!this.initPromise) {
+    if (!this.initPromise || !AWS.config.credentials || AWS.config.credentials.expired) {
       const loginDetails = this.getLoginDetails();
 
-      const identityParams = {
-        IdentityPoolId: 'us-east-1:e6b4594e-c060-4fbe-81dc-0d56af9b8ad3'
-      };
-      if (loginDetails) {
-        identityParams.IdentityId = loginDetails.IdentityId;
-        identityParams.Logins = {
-          'cognito-identity.amazonaws.com': loginDetails.Token
-        }
-      }
-      AWS.config.credentials = new AWS.CognitoIdentityCredentials(identityParams);
-
-      this.initPromise = cbtp.call(AWS.config.credentials, this.$q, AWS.config.credentials.refresh);
+      this.initPromise = loginDetails ? this.initCognito(loginDetails.accessToken, loginDetails.email) : this.loginAnon();
     }
 
     return this.initPromise;
   }
 
-  login(token) {
-    return this.$http.get(`https://www.dailycred.com/graph/me.json?access_token=${token}`)
-      .then(response => response.data)
-      .then(({access_token, email}) => this.$http.get(`https://ayzo3fhfm8.execute-api.us-east-1.amazonaws.com/test/cognito?token=${access_token}&email=${email}`))
+  loginAnon() {
+    AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+      IdentityPoolId: 'us-east-1:e6b4594e-c060-4fbe-81dc-0d56af9b8ad3'
+    });
+
+    return cbtp.call(AWS.config.credentials, this.$q, AWS.config.credentials.refresh);
+  }
+
+  initCognito(accessToken, email) {
+    return this.$http.get(`https://ayzo3fhfm8.execute-api.us-east-1.amazonaws.com/test/cognito?token=${accessToken}&email=${email}`)
       .then(response => response.data)
       .then(amazonDetails => {
         AWS.config.credentials = new AWS.CognitoIdentityCredentials({
@@ -54,10 +49,21 @@ class UserService {
             'cognito-identity.amazonaws.com': amazonDetails.Token
           }
         });
-        return cbtp.call(AWS.config.credentials, this.$q, AWS.config.credentials.refresh).then(() => amazonDetails);
-      }).then((amazonDetails) => {
-        this.$cookies.putObject('wmg-login', amazonDetails, {expires: moment().add(1, 'hours').toDate()});
-      }).catch(err => console.error(err));
+        return cbtp.call(AWS.config.credentials, this.$q, AWS.config.credentials.refresh);
+      });
+  }
+
+  login(accessToken) {
+    return this.$http.get(`https://www.dailycred.com/graph/me.json?access_token=${accessToken}`)
+      .then(response => response.data)
+      .then(({access_token, email}) => {
+        const loginDetails = {accessToken: access_token, email};
+        this.$cookies.putObject('wmg-login', loginDetails, {expires: moment().add(1, 'day').toDate()});
+        this.initPromise = undefined;
+        return loginDetails;
+      })
+      .then(({accessToken, email}) => this.initCognito(accessToken, email))
+      .catch(err => console.error(err));
   }
 
   getLoginDetails() {
