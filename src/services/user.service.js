@@ -28,13 +28,7 @@ class UserService {
     if (!this.initPromise || credsExpired) {
       const loginDetails = this.getLoginDetails();
 
-      this.initPromise = (loginDetails ? this.initCognito(loginDetails.accessToken, loginDetails.email) : this.loginAnon())
-        .then(() => {
-          return this.$q((resolve) => {
-            // Attempt to avoid problems with async cookies.
-            setTimeout(resolve, 500);
-          });
-        });
+      this.initPromise = (loginDetails ? this.initCognito(loginDetails.accessToken, loginDetails.email) : this.loginAnon());
 
       if (credsExpired) {
         this.handlingExpiry = true;

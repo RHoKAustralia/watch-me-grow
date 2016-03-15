@@ -13,10 +13,7 @@ export default class HeaderController {
 
   logout() {
     this.userService.logout();
-
-    setTimeout(() => {
-      window.location.reload();
-    }, 500);
+    window.location.reload();
   }
 
   isLoggedIn() {
