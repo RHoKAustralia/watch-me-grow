@@ -7,7 +7,7 @@ routes.$inject = ['$stateProvider'];
 export default function routes($stateProvider) {
   $stateProvider
     .state('questionnaire', {
-      url: 'questionnaire/:questionnaireId?{childId:int}',
+      url: 'questionnaire/:questionnaireId?{childId:string}',
       parent: 'root',
       views: defineHeader({
         '': {

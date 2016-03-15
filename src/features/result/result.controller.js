@@ -23,7 +23,7 @@ export default class ResultController {
   }
 
   getChildId() {
-    return this.child.id;
+    return this.child && this.child.id;
   }
 
   getCompletedQuestionnaires() {

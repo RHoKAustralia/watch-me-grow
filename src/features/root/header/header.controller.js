@@ -13,11 +13,22 @@ export default class HeaderController {
 
   logout() {
     this.userService.logout();
-    this.$state.go('children');
+
+    setTimeout(() => {
+      window.location.reload();
+    }, 500);
   }
 
   isLoggedIn() {
     return this.userService.isLoggedIn();
+  }
+
+  onLoginClicked(e) {
+    e.preventDefault();
+
+    this.userService.clearCredentials();
+
+    window.location = this.loginUrl;
   }
 }
 

@@ -9,42 +9,79 @@ const CSV_HEADER = ['Questionnaire ID', 'Questionnaire Name', 'Date/Time', 'Chil
 
 export default class DashboardController {
   constructor(answerService, $stateParams, childService, questionnaireService, ageService) {
+    this.childId = $stateParams.childId;
+    this.childService = childService;
+    this.ageService = ageService;
     this.answerService = answerService;
     this.questionnaireService = questionnaireService;
     this.completed = [];
 
-    childService.getChild($stateParams.childId)
-      .then(child => {
-        this.child = child;
-        this.age = ageService.getBestAge(this.child.getAgeInDays());
-
-        return this.answerService.getResultsForChild(this.child.id)
-      })
-      .then((childAnswers = {}) => {
-        this.completed =
-          Object.keys(childAnswers)
-            .map(key => childAnswers[key])
-            .map(questionnaireAnswers => {
-              const questionnaire = this.questionnaireService.getQuestionnaire(questionnaireAnswers.questionnaireId);
-              const combinedQuestions = combineQuestionsAndAnswers(questionnaire.questions, questionnaireAnswers.answers);
-
-              return {
-                result: questionnaireAnswers,
-                questionnaire,
-                combinedQuestions,
-                flag: getOverallResult(questionnaire, combinedQuestions),
-                age: ageService.getAgeById(questionnaireAnswers.ageId)
-              }
-            });
-      });
-
     this.toDos = this.questionnaireService.getQuestionnaires();
-
     this.reportCsvHref = this.generateReportCsvHref();
   }
 
+  getInfo() {
+    if (!this.infoPromise) {
+      this.infoPromise = this._getChildPromise()
+        .then(() => {
+          this.age = this.ageService.getBestAge(this.child.getAgeInDays());
+
+          return this.answerService.getResultsForChild(this.child.id)
+        })
+        .then((childAnswers = {}) => {
+          this.completed =
+            Object.keys(childAnswers)
+              .map(key => childAnswers[key])
+              .map(questionnaireAnswers => {
+                const questionnaire = this.questionnaireService.getQuestionnaire(questionnaireAnswers.questionnaireId);
+                const combinedQuestions = combineQuestionsAndAnswers(questionnaire.questions, questionnaireAnswers.answers);
+
+                return {
+                  result: questionnaireAnswers,
+                  questionnaire,
+                  combinedQuestions,
+                  flag: getOverallResult(questionnaire, combinedQuestions),
+                  age: this.ageService.getAgeById(questionnaireAnswers.ageId)
+                }
+              });
+        });
+    }
+
+    return this.infoPromise;
+  }
+
+  _getChildPromise() {
+    if (!this.childPromise) {
+      this.childPromise = this.childService.getChild(this.childId).then(child => this.child = child);
+    }
+
+    return this.childPromise;
+  }
+
+  getChild() {
+    this._getChildPromise();
+
+    return this.child;
+  }
+
+  getAge() {
+    if (this.age) {
+      return this.age;
+    }
+    return this.getInfo().then(() => this.age);
+  }
+
+  getCompleted() {
+    if (this.completed) {
+      return this.completed;
+    }
+    return this.getInfo().then(() => this.completed);
+  }
+
   getHeaderTitle() {
-    return 'Dashboard for ' + this.child.name;
+    this._getChildPromise();
+
+    return !this.child ? 'Loading...' : 'Dashboard for ' + this.child.name;
   }
 
   generateReportCsvHref() {

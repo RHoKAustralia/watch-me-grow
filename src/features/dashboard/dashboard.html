@@ -1,17 +1,17 @@
-<p>
-    This is the dashboard for {{dashboard.child.name}}. On it you'll find questionnaires you can take for
-    {{dashboard.child.name}}, as well as the results recorded for them so far.
+<p ng-if="!dashboard.loading">
+    This is the dashboard for {{dashboard.getChild().name}}. On it you'll find questionnaires you can take for
+    {{dashboard.getChild().name}}, as well as the results recorded for them so far.
 </p>
 
 <div flex="100" class="wmg-content" layout="row" layout-align="center">
-    <md-card>
+    <md-card ng-if="!dashboard.loading">
         <md-card-title>
             <md-card-title-text>
-                <span class="md-headline">{{dashboard.child.name}}</span>
-                <span class="md-subhead">{{dashboard.age.label}}</span>
+                <span class="md-headline">{{dashboard.getChild().name}}</span>
+                <span class="md-subhead">{{dashboard.getAge().label}}</span>
             </md-card-title-text>
             <md-card-title-media>
-                <div class="md-media-lg {{dashboard.age.bgClass}}"></div>
+                <div class="md-media-lg {{dashboard.getAge().bgClass}}"></div>
             </md-card-title-media>
         </md-card-title>
     </md-card>
@@ -30,7 +30,7 @@
         <div class="md-actions" layout="row" layout-align="end end">
             <md-button href="{{toDo.detail_link}}">Find out more</md-button>
             <md-button
-                    ui-sref="questionnaire({questionnaireId: toDo.id, childId: dashboard.child.id})">
+                    ui-sref="questionnaire({questionnaireId: toDo.id, childId: dashboard.getChild().id})">
                 Fill out now
             </md-button>
         </div>
@@ -38,12 +38,12 @@
 </section>
 </div>
 
-<div ng-if="dashboard.completed.length > 0" flex="100" class="wmg-content" layout="row">
+<div ng-if="dashboard.getCompleted().length > 0" flex="100" class="wmg-content" layout="row">
     <h1>Completed Questionnaires</h1>
 </div>
 
 <section flex="100" layout="row" layout-wrap>
-    <md-card ng-repeat="completed in dashboard.completed track by completed.result.id" layout="column"
+    <md-card ng-repeat="completed in dashboard.getCompleted() track by completed.result.id" layout="column"
              class="wmg-child-card">
         <div alt="Child Image" class="md-card-image wmg-child-card__image {{completed.age.bgClass}}"></div>
         <md-divider></md-divider>
@@ -56,7 +56,7 @@
             <p>Completed on {{completed.result.completedMoment.format('D/M/YYYY')}}</p>
         </md-card-content>
         <md-card-actions layout="row" layout-align="end center">
-            <md-button ui-sref="result({childId: dashboard.child.id, answerId: completed.result.id})">See results
+            <md-button ui-sref="result({childId: dashboard.getChild().id, answerId: completed.result.id})">See results
             </md-button>
         </md-card-actions>
     </md-card>

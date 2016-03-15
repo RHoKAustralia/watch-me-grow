@@ -5,62 +5,70 @@ import _ from 'lodash';
 import moment from 'moment';
 import QuestionnaireAnswer from '../models/result';
 import uuid from 'node-uuid';
+import cbtp from '../util/cb-to-promise';
+import cstp from '../util/cognito-sync-to-promise';
+import getDataSet from '../util/get-data-set';
+import UserService from './user.service';
 
 class AnswersService {
-  constructor($localStorage, $q) {
-    this.$localStorage = $localStorage
+  constructor($q, userService) {
     this.$q = $q;
+    this.userService = userService;
   }
 
   getResultsForChild(childId) {
-    return this.$q((resolve, reject) => {
-      const rawChildAnswers = this.$localStorage[AnswersService.composeKey(childId)];
-
-      if (rawChildAnswers) {
-        resolve(Object.keys(rawChildAnswers).reduce((acc, key) => {
-          acc[key] = new QuestionnaireAnswer(rawChildAnswers[key]);
-          return acc;
-        }, {}));
-      }
-    });
+    return this.getResultsWithDataSet(childId)
+      .then(({result, dataSet}) => result)
   }
 
   getResultById(childId, id) {
-    return this.$q((resolve, reject) => {
-      const rawChildAnswers = this.$localStorage[AnswersService.composeKey(childId)];
-
-      if (rawChildAnswers && rawChildAnswers[id]) {
-        resolve(new QuestionnaireAnswer(rawChildAnswers[id]));
-      }
-    });
+    return this.getResultsForChild(childId)
+      .then(results => results[id]);
   }
 
   addResult(childId, questionnaireId, ageId, answers) {
     const id = uuid.v1();
 
-    return this.$q((resolve) => {
-      resolve(this.getResultsForChild(childId));
-    }).then((answersForChild = {}) => {
-      const toSave = {
-        answers,
-        questionnaireId,
-        ageId,
-        dateTime: moment().toISOString(),
-        id
-      };
+    return this.getResultsWithDataSet(childId)
+      .then(({result, dataSet}) => {
+        const toSave = {
+          answers,
+          questionnaireId,
+          ageId,
+          dateTime: moment().toISOString(),
+          id
+        };
 
-      answersForChild[id] = toSave;
+        result[id] = toSave;
 
-      this.$localStorage[AnswersService.composeKey(childId)] = answersForChild;
-    });
+        return cbtp.call(dataSet, this.$q, dataSet.put, childId, JSON.stringify(result)).then(() => dataSet);
+      })
+      .then(dataSet => cstp(this.$q, dataSet, true))
+      .catch(e => {
+        console.error(e.stack);
+      });
   }
 
-  static composeKey(childId) {
-    return "answers_" + childId;
+  getResultsWithDataSet(childId) {
+    return getDataSet('answers', this.userService, this.$q)
+      .then(dataSet => {
+        return cbtp.call(dataSet, this.$q, dataSet.get, childId).then(json => ({
+          json,
+          dataSet
+        }));
+      })
+      .then(({json = '{}', dataSet}) => {
+        return {
+          result: _.mapValues(JSON.parse(json), rawAnswer => {
+            return new QuestionnaireAnswer(rawAnswer);
+          }),
+          dataSet
+        };
+      });
   }
 }
 
-AnswersService.$inject = ['$localStorage', '$q'];
+AnswersService.$inject = ['$q', 'UserService'];
 
 export default angular.module('services.answers', ['ngStorage'])
   .service('AnswerService', AnswersService)

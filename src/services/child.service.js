@@ -8,9 +8,7 @@ import UserService from './user.service';
 import cbtp from '../util/cb-to-promise';
 import uuid from 'node-uuid';
 import cstp from '../util/cognito-sync-to-promise';
-
-//import 'aws-sdk/dist/aws-sdk';
-//const AWS = window.AWS;
+import getDataSet from '../util/get-data-set';
 
 import 'amazon-cognito-js/dist/amazon-cognito.min';
 
@@ -22,23 +20,18 @@ class ChildService {
   }
 
   getChild(id) {
-    return this.$q(resolve => resolve(this.getChildren()))
-      .then(children => new Child(_.find(children, {'id': id})));
+    return getDataSet('children', this.userService, this.$q)
+      .then(dataSet => {
+        return cbtp.call(dataSet, this.$q, dataSet.get, id);
+      })
+      .then(childJson => new Child(JSON.parse(childJson)));
   }
 
   getChildren() {
     if (!this.childrenPromise) {
-
-      this.childrenPromise = this.userService.init()
-        .then(() => {
-          const client = new AWS.CognitoSyncManager();
-          return cbtp.call(client, this.$q, client.openOrCreateDataset, 'children')
-        })
-        //.then(dataSet => cbtp.call(dataSet, this.$q, dataSet.remove, 'children').then(() => dataSet))
-        .then(dataSet => cstp(this.$q, dataSet))
-        .then(({dataSet}) => dataSet)
-        .then(dataset => {
-          return cbtp.call(dataset, this.$q, dataset.getAll);
+      this.childrenPromise = getDataSet('children', this.userService, this.$q)
+        .then(dataSet => {
+          return cbtp.call(dataSet, this.$q, dataSet.getAll);
         })
         .then(allData => {
           return _.values(allData)
@@ -54,24 +47,12 @@ class ChildService {
   }
 
   addChild(child) {
-    return this.userService.init()
-      .then(() => {
-        const client = new AWS.CognitoSyncManager();
-
-        return cbtp.call(client, this.$q, client.openOrCreateDataset, 'children');
-      })
+    return getDataSet('children', this.userService, this.$q)
       .then(dataSet => {
         child.id = uuid.v1();
         return cbtp.call(dataSet, this.$q, dataSet.put, child.id, JSON.stringify(child)).then(() => dataSet);
       })
-      .then(cstp(this.$q, dataSet))
-      .then(({conflicts, dataSet}) => {
-        if (conflicts) {
-          console.log(conflicts);
-        }
-
-        return dataSet;
-      })
+      .then(dataSet => cstp(this.$q, dataSet, true))
       .catch(e => {
         console.error(e.stack);
       });
