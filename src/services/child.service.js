@@ -53,6 +53,7 @@ class ChildService {
         return cbtp.call(dataSet, this.$q, dataSet.put, child.id, JSON.stringify(child)).then(() => dataSet);
       })
       .then(dataSet => cstp(this.$q, dataSet, true))
+      .then(() => this.childrenPromise = undefined)
       .catch(e => {
         console.error(e.stack);
       });
