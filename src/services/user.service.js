@@ -41,15 +41,6 @@ class UserService {
     return this.initPromise;
   }
 
-  loginAnon() {
-    this.loggingIn = true;
-    AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-      IdentityPoolId: 'us-east-1:e6b4594e-c060-4fbe-81dc-0d56af9b8ad3'
-    });
-
-    return cbtp.call(AWS.config.credentials, this.$q, AWS.config.credentials.refresh).finally(() => this.loggingIn = false);
-  }
-
   initCognito(accessToken, email) {
     this.loggingIn = true;
     let url = `https://ayzo3fhfm8.execute-api.us-east-1.amazonaws.com/test/cognito?token=${accessToken}&email=${email}`
@@ -73,18 +64,30 @@ class UserService {
       }).finally(() => this.loggingIn = false);
   }
 
+  loginAnon() {
+    this.loggingIn = true;
+    AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+      IdentityPoolId: 'us-east-1:e6b4594e-c060-4fbe-81dc-0d56af9b8ad3'
+    });
+
+    return cbtp.call(AWS.config.credentials, this.$q, AWS.config.credentials.refresh).finally(() => this.loggingIn = false);
+  }
+
   login(accessToken) {
-    return this.init()
-      .then(() => this.$http.get(`https://www.dailycred.com/graph/me.json?access_token=${accessToken}`))
-      .then(response => response.data)
-      .then(({access_token, email}) => {
-        const loginDetails = {accessToken: access_token, email};
-        this.$cookies.putObject('wmg-login', loginDetails, {expires: moment().add(1, 'day').toDate()});
-        this.initPromise = undefined;
-        return loginDetails;
-      })
-      .then(({accessToken, email}) => this.initCognito(accessToken, email))
-      .catch(err => console.error(err));
+    if (!this.loginPromise) {
+      this.initPromise = this.loginPromise = this.init() // so we can pick up the cognito identity the user was using before if they just signed up.
+        .then(() => this.$http.get(`https://www.dailycred.com/graph/me.json?access_token=${accessToken}`))
+        .then(response => response.data)
+        .then(({access_token, email}) => {
+          const loginDetails = {accessToken: access_token, email};
+          this.$cookies.putObject('wmg-login', loginDetails, {expires: moment().add(1, 'day').toDate()});
+          return loginDetails;
+        })
+        .then(({accessToken, email}) => this.initCognito(accessToken, email))
+        .catch(err => console.error(err));
+    }
+
+    return this.loginPromise;
   }
 
   getLoginDetails() {
@@ -104,6 +107,7 @@ class UserService {
 
     this.$cookies.remove('wmg-login');
     this.initPromise = undefined;
+    this.loginPromise = undefined;
   }
 }
 
