@@ -20,10 +20,14 @@ export default class HeaderController {
     return this.userService.isLoggedIn();
   }
 
+  getLoginDetails() {
+    return this.userService.getLoginDetails();
+  }
+
   onLoginClicked(e) {
     e.preventDefault();
 
-    this.userService.clearCredentials();
+    //this.userService.clearCredentials();
 
     window.location = this.loginUrl;
   }

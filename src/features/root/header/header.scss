@@ -5,3 +5,13 @@
   margin-right: 10px;
   background-size: 140px;
 }
+
+.login-details {
+  font-size: 12px;
+  vertical-align: 14px;
+
+  &--warn {
+    color: #FFF;
+    font-weight: bold;
+  }
+}

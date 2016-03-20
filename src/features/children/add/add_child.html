@@ -15,8 +15,12 @@
                     <label>Name</label>
                     <input ng-model="addChild.child.name" type="text" required>
                 </md-input-container>
-                <md-datepicker ng-model="addChild.child.dob" md-max-date="addChild.maxDate" md-placeholder="Date of Birth" required></md-datepicker>
-                <md-button type="submit" class="md-raised md-primary" layout-align="start end" >Add</md-button>
+                <md-datepicker ng-model="addChild.child.dob" md-max-date="addChild.maxDate"
+                               md-placeholder="Date of Birth" required></md-datepicker>
+                <md-button type="submit" class="wmg-add-child__button md-raised md-primary" layout-align="start end">
+                    <span ng-if="!addChild.isSubmitting">Add</span>
+                    <md-progress-circular ng-if="addChild.isSubmitting" class="md-accent wmg-add-child__loader" md-diameter="50"></md-progress-circular>
+                </md-button>
             </div>
         </md-dialog-content>
     </form>

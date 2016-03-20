@@ -52,7 +52,13 @@ class UserService {
 
   initCognito(accessToken, email) {
     this.loggingIn = true;
-    return this.$http.get(`https://ayzo3fhfm8.execute-api.us-east-1.amazonaws.com/test/cognito?token=${accessToken}&email=${email}`)
+    let url = `https://ayzo3fhfm8.execute-api.us-east-1.amazonaws.com/test/cognito?token=${accessToken}&email=${email}`
+
+    if (AWS.config.credentials && AWS.config.credentials.identityId) {
+      url += `&identityId=${AWS.config.credentials.identityId}`;
+    }
+
+    return this.$http.get(url)
       .then(response => response.data)
       .then(amazonDetails => {
         AWS.config.credentials = new AWS.CognitoIdentityCredentials({
@@ -68,7 +74,8 @@ class UserService {
   }
 
   login(accessToken) {
-    return this.$http.get(`https://www.dailycred.com/graph/me.json?access_token=${accessToken}`)
+    return this.init()
+      .then(() => this.$http.get(`https://www.dailycred.com/graph/me.json?access_token=${accessToken}`))
       .then(response => response.data)
       .then(({access_token, email}) => {
         const loginDetails = {accessToken: access_token, email};
