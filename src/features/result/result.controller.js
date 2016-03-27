@@ -4,7 +4,7 @@ import {combineQuestionsAndAnswers, getOverallResult} from '../../models/data.fu
 
 export default class ResultController {
   constructor(childService, $stateParams, questionnaireService, answerService, ageService) {
-    answerService.getResultById($stateParams.childId, $stateParams.answerId).then(result => {
+    answerService.getResponseById($stateParams.childId, $stateParams.answerId).then(result => {
       childService.getChild($stateParams.childId).then(child => {
         this.child = child;
       });

@@ -1,7 +1,7 @@
 'use strict';
 
 import angular from 'angular';
-import questions from '../data/questionnaires';
+import questionnaires from '../data/questionnaires';
 import _ from 'lodash';
 
 class QuestionnaireService {
@@ -10,7 +10,7 @@ class QuestionnaireService {
   }
 
   getQuestionnaires() {
-    return questions;
+    return questionnaires;
   }
 
   getQuestionnaire(id) {

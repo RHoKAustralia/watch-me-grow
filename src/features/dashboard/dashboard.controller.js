@@ -26,7 +26,7 @@ export default class DashboardController {
         .then(() => {
           this.age = this.ageService.getBestAge(this.child.getAgeInDays());
 
-          return this.answerService.getResultsForChild(this.child.id)
+          return this.answerService.getResponsesForChild(this.child.id)
         })
         .then((childAnswers = {}) => {
           this.completed =
