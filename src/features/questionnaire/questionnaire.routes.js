@@ -5,16 +5,23 @@ import defineHeader from '../root/header/define-header';
 routes.$inject = ['$stateProvider'];
 
 export default function routes($stateProvider) {
+  const views = defineHeader({
+    '': {
+      template: require('./questionnaire.html'),
+      controller: 'QuestionnaireController',
+      controllerAs: 'controller'
+    }
+  }, 'QuestionnaireController');
+
   $stateProvider
-    .state('questionnaire', {
-      url: 'questionnaire/:questionnaireId?{childId:string}',
+    .state('response', {
+      url: 'child/{childId:string}/responses/add',
       parent: 'root',
-      views: defineHeader({
-        '': {
-          template: require('./questionnaire.html'),
-          controller: 'QuestionnaireController',
-          controllerAs: 'controller'
-        }
-      }, 'QuestionnaireController')
+      views
+    })
+    .state('response.edit', {
+      url: 'child/{childId:string}/responses/{responseId:string}',
+      parent: 'root',
+      views
     });
 }

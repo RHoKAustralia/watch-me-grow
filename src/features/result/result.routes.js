@@ -6,7 +6,7 @@ import defineHeader from '../root/header/define-header';
 export default function routes($stateProvider) {
   $stateProvider
     .state('result', {
-      url: 'result/{childId:string}/:answerId',
+      url: 'result/{responseId:string}',
       views: defineHeader({
         '': {
           template: require('./result.html'),

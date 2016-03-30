@@ -6,7 +6,7 @@ import _ from 'lodash';
 
 class QuestionnaireService {
   constructor() {
-    this.questionnaireIndex = _.indexBy(questions, 'id');
+    this.questionnaireIndex = _.indexBy(questionnaires, 'id');
   }
 
   getQuestionnaires() {

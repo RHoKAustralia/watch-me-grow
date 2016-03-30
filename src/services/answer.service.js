@@ -17,6 +17,8 @@ class AnswersService {
   constructor($q, userService) {
     this.$q = $q;
     this.userService = userService;
+
+    this.responseAddCache = {};
   }
 
   getResponsesForChild(childId) {
@@ -27,13 +29,13 @@ class AnswersService {
   _getResponseIdsForChildWithDataSet(childId) {
     return getDataSet(CHILD_TO_RESPONSES_DS_NAME, this.userService, this.$q)
       .then(dataSet =>  cbtp.call(dataSet, this.$q, dataSet.get, childId)
-        .then(json => {
+        .then(json => ({
           dataSet, json
-        })
+        }))
       )
-      .then(({dataSet, json = '{}'}) => {
+      .then(({dataSet, json = '[]'}) => ({
         responseIds: JSON.parse(json), dataSet
-      })
+      }));
   }
 
   getResponseById(id) {
@@ -42,36 +44,41 @@ class AnswersService {
 
   _getResponseByIdWithDataSet(id) {
     return getDataSet(RESPONSES_DS_NAME, this.userService, this.$q)
-      .then(dataSet => ({
-        dataSet, json: cbtp.call(dataSet, this.$q, dataSet.get, id)
-      }))
-      .then(({json = '{}', dataSet}) => {
+      .then(dataSet => cbtp.call(dataSet, this.$q, dataSet.get, id).then(json => ({json, dataSet})))
+      .then(({json = '{}', dataSet}) => ({
         response: JSON.parse(json), dataSet
-      });
+      }));
   }
 
   addResponse(childId, ageId) {
-    const id = uuid.v1();
+    const key = `${childId}-${ageId}`;
 
-    const response = {
-      id,
-      ageId,
-      created: moment().toISOString(),
-      modified: moment().toISOString(),
-      questionnaires: []
-    };
+    if (!this.responseAddCache[key]) {
+      const id = uuid.v1();
 
-    const responsesPromise = getDataSet(RESPONSES_DS_NAME, this.userService, this.$q)
-      .then(dataSet => cbtp.call(dataSet, this.$q, dataSet.put, id, JSON.stringify(response)).then(() => dataSet))
-      .then(dataSet => cstp(this.$q, dataSet, true));
+      const response = {
+        id,
+        ageId,
+        created: moment().toISOString(),
+        modified: moment().toISOString(),
+        childId,
+        questionnaires: []
+      };
 
-    const childIdPromise = this._getResponseIdsForChildWithDataSet(childId)
-      .then(({responseIds, dataSet}) => cbtp.call(dataSet, this.$q, dataSet.put, id, JSON.stringify(responseIds.concat(id)))
-        .then(() => dataSet)
-      )
-      .then(dataSet => cstp(this.$q, dataSet, true));
+      const responsesPromise = getDataSet(RESPONSES_DS_NAME, this.userService, this.$q)
+        .then(dataSet => cbtp.call(dataSet, this.$q, dataSet.put, id, JSON.stringify(response)).then(() => dataSet))
+        .then(dataSet => cstp(this.$q, dataSet, true));
 
-    return this.$q.all(responsesPromise, childIdPromise);
+      const childIdPromise = this._getResponseIdsForChildWithDataSet(childId)
+        .then(({responseIds, dataSet}) => cbtp.call(dataSet, this.$q, dataSet.put, id, JSON.stringify(responseIds.concat(id)))
+          .then(() => dataSet)
+        )
+        .then(dataSet => cstp(this.$q, dataSet, true));
+
+      this.responseAddCache[key] = this.$q.all(responsesPromise, childIdPromise).then(() => response);
+    }
+
+    return this.responseAddCache[key];
   }
 
   addAnswersToResponse(responseId, questionnaireId, answers) {
@@ -82,9 +89,12 @@ class AnswersService {
         response.questionnaires[questionnaireId] = answers;
         response.modified = moment().toISOString();
 
-        return cbtp.call(dataSet, this.$q, dataSet.put, responseId, JSON.stringify(response)).then(() => dataSet);
+        return cbtp.call(dataSet, this.$q, dataSet.put, responseId, JSON.stringify(response)).then(() => ({
+          dataSet,
+          response
+        }));
       })
-      .then(dataSet => cstp(this.$q, dataSet, true))
+      .then(({dataSet, response}) => cstp(this.$q, dataSet, true).then(() => response))
       .catch(e => {
         console.error(e.stack);
       });

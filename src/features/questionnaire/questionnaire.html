@@ -1,7 +1,8 @@
-<p>{{controller.questionnaire.introduction}}</p>
+<h1>{{controller.getCurrentQuestionnaire().title}} (Test {{controller.getCurrentQuestionnaireIndex()}} of {{controller.getTotalQuestionnaires()}})</h1>
+<p>{{controller.getCurrentQuestionnaire().introduction}}</p>
 
 <form ng-submit="controller.trySubmit($event)" layout="column" layout-align="start center">
-    <md-card class="wmg-question-group" ng-repeat="question in controller.questionnaire.questions"
+    <md-card class="wmg-question-group" ng-repeat="question in controller.getCurrentQuestionnaire().questions"
              ng-class="{'wmg-question-group--invalid': controller.invalid[question.id]}">
         <md-card-content>
             <h2 class="md-title">{{ $index + 1 }}. {{question.text}}</h2>
@@ -25,6 +26,7 @@
     </md-card>
 
     <md-button class="md-raised md-primary wmg-questionnaire__submit" type="submit">
-        Submit
+        <span ng-if="controller.isLastQuestionnaire()">Go To Results</span>
+        <span ng-if="!controller.isLastQuestionnaire()">Next</span>
     </md-button>
 </form>

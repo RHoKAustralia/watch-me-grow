@@ -1,30 +1,100 @@
 'use strict';
 
+import _ from 'lodash';
 
 export default class QuestionnaireController {
   constructor($stateParams, questionnaireService, answerService, $state, childService, ageService, $mdDialog) {
-    this.questionnaire = questionnaireService.getQuestionnaire($stateParams.questionnaireId);
+    this.questionnaires = _.indexBy(questionnaireService.getQuestionnaires(), 'id');
     this.$mdDialog = $mdDialog;
+    this.answerService = answerService;
+    this.$state = $state;
+
 
     childService.getChild($stateParams.childId).then(child => {
       this.child = child;
-      this.age = ageService.getBestAge(this.child.getAgeInDays());
 
-      // TODO: Reject if age is invalid for child or for questionnaire.
       if (!this.child) {
         this.$state.go('home');
+        return;
+      }
+
+      this.age = ageService.getBestAge(this.child.getAgeInDays());
+
+      if (!$stateParams.responseId) {
+        this.answerService.addResponse(this.child.id, this.age.id)
+          .then(response => {
+            this.$state.go('response.edit', {childId: this.child.id, responseId: response.id});
+          });
+        return;
+      }
+
+      return this.answerService.getResponseById($stateParams.responseId);
+    }).then(response => {
+      this.response = response;
+
+      if (response) {
+        this.goToNextQuestionnaire();
       }
     });
+  }
 
-    this.answerService = answerService;
+  goToNextQuestionnaire() {
+    if (!this.response) {
+      throw new Error('Need to get a response before we go to the next questionnaire');
+    }
+
+    const next = this.getNextQuestionnaire();
+
+    if (!next) {
+      throw new Error('Attempted to go to the next questionnaire but there wasn\'t one');
+    }
+
     this.result = {};
-    this.$state = $state;
     this.invalid = {};
+
+    this.currentQuestionnaireId = this.getNextQuestionnaire().id;
+  }
+
+  getCurrentQuestionnaireIndex() {
+    if (this.response) {
+      return this.getTotalQuestionnaires() - Object.keys(this.getIncompleteQuestionnaires()).length + 1;
+    }
+  }
+
+  getTotalQuestionnaires() {
+    return Object.keys(this.questionnaires).length;
+  }
+
+  getIncompleteQuestionnaires() {
+    if (this.response) {
+      return _(this.questionnaires)
+        .filter((questionnaire, id) => !this.response.questionnaires[id])
+        .indexBy('id')
+        .value();
+    }
+
+    return {};
+  }
+
+  getNextQuestionnaire() {
+    const incompleteQuestionnairesIds = Object.keys(this.getIncompleteQuestionnaires());
+
+    if (incompleteQuestionnairesIds.length) {
+      return this.questionnaires[incompleteQuestionnairesIds[0]];
+    }
+  }
+
+  getCurrentQuestionnaire() {
+    return this.questionnaires[this.currentQuestionnaireId];
+  }
+
+  isLastQuestionnaire() {
+    return Object.keys(this.getIncompleteQuestionnaires()).length === 1;
   }
 
   getHeaderTitle() {
-    if (this.questionnaire && this.age && this.child) {
-      return this.questionnaire.title + ' - ' + this.child.name + '(' + this.age.label + ')';
+    if (this.age && this.child) {
+      return 'Testing for ' + this.child.name + '(' + this.age.label + ')';
     }
   }
 
@@ -34,7 +104,7 @@ export default class QuestionnaireController {
     this.invalid = {};
     this.noComments = {};
 
-    this.questionnaire.questions.forEach(question => {
+    this.getCurrentQuestionnaire().questions.forEach(question => {
       const valid = this.result[question.id] && this.result[question.id].answer;
 
       if (!valid) {
@@ -47,7 +117,6 @@ export default class QuestionnaireController {
         }
       }
     });
-
 
     if (!Object.keys(this.invalid).length) {
       if (Object.keys(this.noComments).length) {
@@ -72,9 +141,16 @@ export default class QuestionnaireController {
   }
 
   submit() {
-    this.answerService.addResult(this.child.id, this.questionnaire.id, this.age.id, this.result).then(() => {
-      this.$state.go('dashboard', {childId: this.child.id});
-    });
+    this.answerService.addAnswersToResponse(this.response.id, this.getCurrentQuestionnaire().id, this.result)
+      .then(response => {
+        this.response = response;
+
+        if (Object.keys(this.getIncompleteQuestionnaires()).length) {
+          this.goToNextQuestionnaire();
+        } else {
+          this.$state.go('result', {childId: this.child.id, responseId: this.response.id});
+        }
+      });
   }
 }
 
