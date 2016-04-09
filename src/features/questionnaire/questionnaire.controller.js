@@ -150,7 +150,7 @@ export default class QuestionnaireController {
   submit() {
     this.result[this.currentQuestionnaireId].complete = true;
 
-    this.answerService.addAnswersToResponse(this.response.id, this.getCurrentQuestionnaire().id, this.result)
+    this.answerService.addAnswersToResponse(this.response.id, this.currentQuestionnaireId, this.result[this.currentQuestionnaireId])
       .then(response => {
         this.response = response;
 

@@ -4,6 +4,7 @@ import questions from '../../data/questionnaires';
 import ages from '../../data/ages';
 import _ from 'lodash';
 import {combineQuestionsAndAnswers, getOverallResult} from '../../models/data.functions';
+import moment from 'moment';
 
 const CSV_HEADER = ['Questionnaire ID', 'Questionnaire Name', 'Date/Time', 'Child Name', 'Result Flag'];
 
@@ -31,8 +32,8 @@ export default class DashboardController {
         .then(responses => {
           this.completed = responses.map(response => ({
             id: response.id,
-            flag: getOverallResult(response),
-            date: moment(response.modified).format(),
+            //flag: getOverallResult(response),
+            date: moment(response.modified).format('LL'),
             age: this.ageService.getAgeById(response.ageId)
           }))
         });

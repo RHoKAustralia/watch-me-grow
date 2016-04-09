@@ -33,11 +33,11 @@
         <md-divider></md-divider>
         <md-card-title>
             <md-card-title-text>
-                <span class="md-headline">{{completed.age.label}}</span>
+                <span class="md-headline">At {{completed.age.label}}</span>
             </md-card-title-text>
         </md-card-title>
         <md-card-content>
-            <p>Last modified on {{completed.date}}</p>
+            <p>{{completed.date}}</p>
         </md-card-content>
         <md-card-actions layout="row" layout-align="end center">
             <md-button ui-sref="result({childId: dashboard.getChild().id, answerId: completed.result.id})">

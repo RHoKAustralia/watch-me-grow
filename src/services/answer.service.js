@@ -11,7 +11,7 @@ import getDataSet from '../util/get-data-set';
 import UserService from './user.service';
 
 const CHILD_TO_RESPONSES_DS_NAME = 'childToResponses';
-const RESPONSES_DS_NAME = 'responses';
+const RESPONSES_DATASET_NAME = 'responses';
 
 class AnswersService {
   constructor($q, userService) {
@@ -43,7 +43,7 @@ class AnswersService {
   }
 
   _getResponseByIdWithDataSet(id) {
-    return getDataSet(RESPONSES_DS_NAME, this.userService, this.$q)
+    return getDataSet(RESPONSES_DATASET_NAME, this.userService, this.$q)
       .then(dataSet => cbtp.call(dataSet, this.$q, dataSet.get, id).then(json => ({json, dataSet})))
       .then(({json = '{}', dataSet}) => ({
         response: JSON.parse(json), dataSet
@@ -65,12 +65,12 @@ class AnswersService {
         questionnaires: []
       };
 
-      const responsesPromise = getDataSet(RESPONSES_DS_NAME, this.userService, this.$q)
+      const responsesPromise = getDataSet(RESPONSES_DATASET_NAME, this.userService, this.$q)
         .then(dataSet => cbtp.call(dataSet, this.$q, dataSet.put, id, JSON.stringify(response)).then(() => dataSet))
         .then(dataSet => cstp(this.$q, dataSet, true));
 
       const childIdPromise = this._getResponseIdsForChildWithDataSet(childId)
-        .then(({responseIds, dataSet}) => cbtp.call(dataSet, this.$q, dataSet.put, id, JSON.stringify(responseIds.concat(id)))
+        .then(({responseIds, dataSet}) => cbtp.call(dataSet, this.$q, dataSet.put, childId, JSON.stringify(responseIds.concat(id)))
           .then(() => dataSet)
         )
         .then(dataSet => cstp(this.$q, dataSet, true));
@@ -82,8 +82,6 @@ class AnswersService {
   }
 
   addAnswersToResponse(responseId, questionnaireId, answers) {
-    const id = uuid.v1();
-
     return this._getResponseByIdWithDataSet(responseId)
       .then(({response, dataSet}) => {
         response.questionnaires[questionnaireId] = answers;

@@ -20,7 +20,7 @@ export default function routes($stateProvider) {
       views
     })
     .state('response.edit', {
-      url: 'child/{childId:string}/responses/{responseId:string}',
+      url: 'child/{childId:string}/responses/{responseId:string}/edit',
       parent: 'root',
       views
     });
