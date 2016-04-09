@@ -1,13 +1,14 @@
-<h1>{{controller.getCurrentQuestionnaire().title}} (Test {{controller.getCurrentQuestionnaireIndex()}} of {{controller.getTotalQuestionnaires()}})</h1>
+<h1>{{controller.getCurrentQuestionnaire().title}} (Test {{controller.getCurrentQuestionnaireIndex()}} of
+    {{controller.getTotalQuestionnaires()}})</h1>
 <p>{{controller.getCurrentQuestionnaire().introduction}}</p>
 
 <form ng-submit="controller.trySubmit($event)" layout="column" layout-align="start center">
     <md-card class="wmg-question-group" ng-repeat="question in controller.getCurrentQuestionnaire().questions"
-             ng-class="{'wmg-question-group--invalid': controller.invalid[question.id]}">
+             ng-class="{'wmg-question-group--invalid': controller.invalid[controller.currentQuestionnaireId][question.id]}">
         <md-card-content>
             <h2 class="md-title">{{ $index + 1 }}. {{question.text}}</h2>
 
-            <md-radio-group ng-model="controller.result[question.id].answer"
+            <md-radio-group ng-model="controller.result[controller.currentQuestionnaireId][question.id].answer"
                             class="wmg-question-group__answers md-primary"
                             name="question.id" ng-required="true">
                 <md-radio-button ng-repeat="answer in question.answers" value="{{answer.value}}">
@@ -16,11 +17,11 @@
             </md-radio-group>
 
             <md-input-container ng-if="question.comments" class="wmg-question-group__comments-container"
-                ng-class="{'wmg-question-group__comments-container--blank': controller.noComments[question.id]}">
+                                ng-class="{'wmg-question-group__comments-container--blank': controller.noComments[controller.currentQuestionnaireId][question.id]}">
                 <label>Comments</label>
                 <textarea columns="2" md-maxlength="300" rows="5"
                           class="wmg-question-group__comments"
-                          ng-model="controller.result[question.id].comments"></textarea>
+                          ng-model="controller.result[controller.currentQuestionnaireId][question.id].comments"></textarea>
             </md-input-container>
         </md-card-content>
     </md-card>

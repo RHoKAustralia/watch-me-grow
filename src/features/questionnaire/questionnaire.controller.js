@@ -20,6 +20,7 @@ export default class QuestionnaireController {
 
       this.age = ageService.getBestAge(this.child.getAgeInDays());
 
+      // Add a response and redirect to editing it.
       if (!$stateParams.responseId) {
         this.answerService.addResponse(this.child.id, this.age.id)
           .then(response => {
@@ -36,6 +37,9 @@ export default class QuestionnaireController {
         this.goToNextQuestionnaire();
       }
     });
+
+    this.result = {};
+    this.invalid = {};
   }
 
   goToNextQuestionnaire() {
@@ -49,10 +53,9 @@ export default class QuestionnaireController {
       throw new Error('Attempted to go to the next questionnaire but there wasn\'t one');
     }
 
-    this.result = {};
-    this.invalid = {};
-
     this.currentQuestionnaireId = this.getNextQuestionnaire().id;
+    this.result[this.currentQuestionnaireId] = {};
+    this.invalid[this.currentQuestionnaireId] = {};
   }
 
   getCurrentQuestionnaireIndex() {
@@ -68,7 +71,7 @@ export default class QuestionnaireController {
   getIncompleteQuestionnaires() {
     if (this.response) {
       return _(this.questionnaires)
-        .filter((questionnaire, id) => !this.response.questionnaires[id])
+        .filter((questionnaire, id) => !(this.result[id] && this.result[id].complete))
         .indexBy('id')
         .value();
     }
@@ -101,25 +104,29 @@ export default class QuestionnaireController {
   trySubmit($event) {
     $event.preventDefault();
 
-    this.invalid = {};
-    this.noComments = {};
+    const currentQuestionnaire = this.getCurrentQuestionnaire();
+    this.invalid = this.invalid || {};
+    this.invalid[currentQuestionnaire.id] = {};
+    this.noComments = this.noComments || {};
+    this.noComments[currentQuestionnaire.id] = {};
 
-    this.getCurrentQuestionnaire().questions.forEach(question => {
-      const valid = this.result[question.id] && this.result[question.id].answer;
+    currentQuestionnaire.questions.forEach(question => {
+      const result = this.result[currentQuestionnaire.id][question.id];
+      const valid = result && result.answer;
 
       if (!valid) {
-        this.invalid[question.id] = true;
-        this.noComments[question.id] = true;
+        this.invalid[currentQuestionnaire.id][question.id] = true;
+        this.noComments[currentQuestionnaire.id][question.id] = true;
       } else {
-        const noComments = question.comments && !this.result[question.id].comments;
+        const noComments = question.comments && !this.result[currentQuestionnaire.id][question.id].comments;
         if (noComments) {
-          this.noComments[question.id] = true;
+          this.noComments[currentQuestionnaire.id][question.id] = true;
         }
       }
     });
 
-    if (!Object.keys(this.invalid).length) {
-      if (Object.keys(this.noComments).length) {
+    if (!Object.keys(this.invalid[currentQuestionnaire.id]).length) {
+      if (Object.keys(this.noComments[currentQuestionnaire.id]).length) {
         this.confirmNoCommentsDialog($event);
       } else {
         this.submit();
@@ -141,6 +148,8 @@ export default class QuestionnaireController {
   }
 
   submit() {
+    this.result[this.currentQuestionnaireId].complete = true;
+
     this.answerService.addAnswersToResponse(this.response.id, this.getCurrentQuestionnaire().id, this.result)
       .then(response => {
         this.response = response;

@@ -39,7 +39,7 @@ class AnswersService {
   }
 
   getResponseById(id) {
-    return this._getResponseByIdWithDataSet(id).response;
+    return this._getResponseByIdWithDataSet(id).then(result => result.response);
   }
 
   _getResponseByIdWithDataSet(id) {
