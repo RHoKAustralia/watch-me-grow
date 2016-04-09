@@ -43,7 +43,7 @@ class UserService {
 
   initCognito(accessToken, email) {
     this.loggingIn = true;
-    let url = `https://ayzo3fhfm8.execute-api.us-east-1.amazonaws.com/test/cognito?token=${accessToken}&email=${email}`
+    let url = `https://ayzo3fhfm8.execute-api.us-east-1.amazonaws.com/test/cognito?token=${accessToken}&email=${email}`;
 
     if (AWS.config.credentials && AWS.config.credentials.identityId) {
       url += `&identityId=${AWS.config.credentials.identityId}`;

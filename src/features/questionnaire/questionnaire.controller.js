@@ -8,7 +8,7 @@ export default class QuestionnaireController {
     this.$mdDialog = $mdDialog;
     this.answerService = answerService;
     this.$state = $state;
-
+    this.loading = true;
 
     childService.getChild($stateParams.childId).then(child => {
       this.child = child;
@@ -31,6 +31,7 @@ export default class QuestionnaireController {
 
       return this.answerService.getResponseById($stateParams.responseId);
     }).then(response => {
+      this.loading = false;
       this.response = response;
 
       if (response) {
@@ -150,8 +151,10 @@ export default class QuestionnaireController {
   submit() {
     this.result[this.currentQuestionnaireId].complete = true;
 
+    this.loading = true;
     this.answerService.addAnswersToResponse(this.response.id, this.currentQuestionnaireId, this.result[this.currentQuestionnaireId])
       .then(response => {
+        this.loading = false;
         this.response = response;
 
         if (Object.keys(this.getIncompleteQuestionnaires()).length) {

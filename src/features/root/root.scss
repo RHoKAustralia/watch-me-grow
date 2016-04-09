@@ -1,6 +1,29 @@
 
 .root-header {
   z-index: 1;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 64px !important;
+
+  .md-toolbar-tools {
+    height: 64px !important;
+    max-height: 64px !important;
+  }
+}
+
+.wmg-root {
+  margin-top: 64px;
+  padding-top: 10px;
+}
+
+.wmg-root__progress {
+  position: fixed;
+  top: 64px;
+  left: 0;
+  right: 0;
+  z-index: 1;
 }
 
 .wmg-tab-bar {
