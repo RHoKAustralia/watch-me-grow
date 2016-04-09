@@ -27,7 +27,7 @@
     <md-subheader ng-if="dashboard.getCompleted().length === 0" flex="100" class="wmg-content" layout="row">
         You have not started any tests - <a ui-sref="response({childId: dashboard.getChild().id})">start one now?</a>
     </md-subheader>
-    <md-card ng-repeat="completed in dashboard.getCompleted() track by completed.result.id" layout="column"
+    <md-card ng-repeat="completed in dashboard.getCompleted() track by completed.id" layout="column"
              class="wmg-child-card">
         <div alt="Child Image" class="md-card-image wmg-child-card__image {{completed.age.bgClass}}"></div>
         <md-divider></md-divider>
@@ -40,7 +40,7 @@
             <p>{{completed.date}}</p>
         </md-card-content>
         <md-card-actions layout="row" layout-align="end center">
-            <md-button ui-sref="result({childId: dashboard.getChild().id, answerId: completed.result.id})">
+            <md-button ui-sref="result({childId: dashboard.getChild().id, responseId: completed.id})">
                 See results
             </md-button>
         </md-card-actions>

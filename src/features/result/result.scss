@@ -21,15 +21,23 @@
 .wmg-no {
   color: green;
 }
+.wmg-result-card {
+  width: 250px;
+
+  .md-headline {
+    text-align: center;
+  }
+
+  &__flag-container {
+    text-align: center;
+    width: 100px;
+    //border: 1px solid #CCC;
+    //margin: 10px;
+    padding: 10px;
+  }
+}
+
 
 .wmg-result-overview__flag {
   text-align: center;
-}
-
-.wmg-result-card__flag-container {
-  text-align: center;
-  width: 100px;
-  border: 1px solid #CCC;
-  margin: 10px;
-  padding: 10px;
 }

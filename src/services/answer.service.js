@@ -19,6 +19,7 @@ class AnswersService {
     this.userService = userService;
 
     this.responseAddCache = {};
+    this.responseGetCache = {};
   }
 
   getResponsesForChild(childId) {
@@ -43,11 +44,15 @@ class AnswersService {
   }
 
   _getResponseByIdWithDataSet(id) {
-    return getDataSet(RESPONSES_DATASET_NAME, this.userService, this.$q)
-      .then(dataSet => cbtp.call(dataSet, this.$q, dataSet.get, id).then(json => ({json, dataSet})))
-      .then(({json = '{}', dataSet}) => ({
-        response: JSON.parse(json), dataSet
-      }));
+    if (!this.responseGetCache[id]) {
+      this.responseGetCache[id] = getDataSet(RESPONSES_DATASET_NAME, this.userService, this.$q)
+        .then(dataSet => cbtp.call(dataSet, this.$q, dataSet.get, id).then(json => ({json, dataSet})))
+        .then(({json = '{}', dataSet}) => ({
+          response: JSON.parse(json), dataSet
+        }));
+    }
+
+    return this.responseGetCache[id]
   }
 
   addResponse(childId, ageId) {
@@ -62,7 +67,7 @@ class AnswersService {
         created: moment().toISOString(),
         modified: moment().toISOString(),
         childId,
-        questionnaires: []
+        questionnaires: {}
       };
 
       const responsesPromise = getDataSet(RESPONSES_DATASET_NAME, this.userService, this.$q)
@@ -82,6 +87,8 @@ class AnswersService {
   }
 
   addAnswersToResponse(responseId, questionnaireId, answers) {
+    delete this.responseGetCache[responseId];
+
     return this._getResponseByIdWithDataSet(responseId)
       .then(({response, dataSet}) => {
         response.questionnaires[questionnaireId] = answers;

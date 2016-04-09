@@ -1,24 +1,44 @@
 'use strict';
 
+import moment from 'moment';
 import {combineQuestionsAndAnswers, getOverallResult} from '../../models/data.functions';
 
 export default class ResultController {
   constructor(childService, $stateParams, questionnaireService, answerService, ageService) {
-    answerService.getResponseById($stateParams.childId, $stateParams.answerId).then(result => {
-      childService.getChild($stateParams.childId).then(child => {
-        this.child = child;
-      });
-      this.questionnaire = questionnaireService.getQuestionnaire(result.questionnaireId);
-      this.age = ageService.getAgeById(result.ageId);
-      this.questions = combineQuestionsAndAnswers(this.questionnaire.questions, result.answers);
+    this.responseId = $stateParams.responseId;
+    this.questionnaireService = questionnaireService;
+    this.answerService = answerService;
+    this.ageService = ageService;
 
-      this.overallResult = getOverallResult(this.questionnaire, this.questions);
+    childService.getChild($stateParams.childId).then(child => {
+      this.child = child;
+    });
+
+    this.questionnairesPromise = this.answerService.getResponseById(this.responseId).then(result => {
+      this.questionnaires = _(result.questionnaires)
+        .map((answers, questionnaireId) => {
+          const questionnaire = this.questionnaireService.getQuestionnaire(questionnaireId);
+          const combinedQuestions = combineQuestionsAndAnswers(questionnaire.questions, answers);
+          return {
+            metadata: questionnaire,
+            questions: combinedQuestions,
+            result: getOverallResult(questionnaire, combinedQuestions)
+          }
+        })
+        .value();
+
+      this.date = moment(result.lastModified);
+      this.age = this.ageService.getAgeById(result.ageId);
     });
   }
 
+  getQuestionnaires() {
+    return this.questionnaires;
+  }
+
   getHeaderTitle() {
-    if (this.age && this.child && this.questionnaire) {
-      return 'Results of ' + this.questionnaire.title + ' at ' + this.age.label + ' for ' + this.child.name;
+    if (this.child && this.date) {
+      return `Results for ${this.child.name} at ${this.date.format('LL')}`;
     }
   }
 
