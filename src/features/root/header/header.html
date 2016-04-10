@@ -1,5 +1,13 @@
+<md-button ui-sref="children" class="md-icon-button" aria-label="Select Child">
+    <md-tooltip md-direction="below">
+        Select Child
+    </md-tooltip>
+    <i class="material-icons">child_care</i>
+</md-button>
 <span class="login-details" ng-if="controller.isLoggedIn()">{{controller.getLoginDetails().email}}</span>
-<span class="login-details login-details--warn" ng-if="!controller.isLoggedIn()">Signed Out - Sign Up to save your data!</span>
+<span class="login-details login-details--warn"
+      ng-if="!controller.isLoggedIn()">Signed Out - Sign Up to save your data!</span>
+
 <md-button ng-if="controller.isLoggedIn()"
            href="#"
            ng-click="controller.logout()"
@@ -17,10 +25,4 @@
         Sign In
     </md-tooltip>
     <i class="material-icons">person</i>
-</md-button>
-<md-button ui-sref="children" class="md-icon-button" aria-label="Select Child">
-    <md-tooltip md-direction="below">
-        Select Child
-    </md-tooltip>
-    <i class="material-icons">child_care</i>
 </md-button>

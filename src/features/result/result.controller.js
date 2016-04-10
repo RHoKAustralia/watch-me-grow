@@ -39,6 +39,8 @@ export default class ResultController {
   getHeaderTitle() {
     if (this.child && this.date) {
       return `Results for ${this.child.name} at ${this.date.format('LL')}`;
+    } else {
+      return 'Loading results...';
     }
   }
 

@@ -81,7 +81,7 @@ export default class DashboardController {
   getHeaderTitle() {
     this._getChildPromise();
 
-    return !this.child ? 'Loading...' : 'Dashboard for ' + this.child.name;
+    return !this.child ? 'Loading dashboard...' : 'Dashboard for ' + this.child.name;
   }
 
   // TODO: Do this on demand somehow?

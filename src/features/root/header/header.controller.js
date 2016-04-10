@@ -13,6 +13,9 @@ export default class HeaderController {
 
   logout() {
     this.userService.logout();
+    this.$state.go('children');
+
+    // Quick and dirty way to clear every cache etc.
     window.location.reload();
   }
 
