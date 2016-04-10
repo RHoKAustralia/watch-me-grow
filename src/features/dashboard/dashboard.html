@@ -1,48 +1,53 @@
-<p ng-if="!dashboard.loading">
-    This is the dashboard for {{dashboard.getChild().name}}. You can do tests for {{dashboard.getChild().name}}
-    and view the results recorded for them so far.
-</p>
+<div ng-if="!dashboard.loading">
+    <p>
+        This is the dashboard for {{dashboard.getChild().name}}. You can do tests for {{dashboard.getChild().name}}
+        and view the results recorded for them so far.
+    </p>
 
-<div flex="100" class="wmg-content" layout="row" layout-align="center">
-    <md-card ng-if="!dashboard.loading">
-        <md-card-title>
-            <md-card-title-text>
-                <span class="md-headline">{{dashboard.getChild().name}}</span>
-                <span class="md-subhead">{{dashboard.getAge().label}}</span>
-            </md-card-title-text>
-            <md-card-title-media>
-                <div class="md-media-lg {{dashboard.getAge().bgClass}}"></div>
-            </md-card-title-media>
-        </md-card-title>
+    <div flex="100" class="wmg-content" layout="row" layout-align="center">
+        <md-card>
+            <md-card-title>
+                <md-card-title-text>
+                    <span class="md-headline">{{dashboard.getChild().name}}</span>
+                    <span class="md-subhead">{{dashboard.getAge().label}}</span>
+                </md-card-title-text>
+                <md-card-title-media>
+                    <div class="md-media-lg {{dashboard.getAge().bgClass}}"></div>
+                </md-card-title-media>
+            </md-card-title>
             <md-card-actions layout="column">
-                <md-button class="md-accent md-raised" ui-sref="response({childId: dashboard.getChild().id})">Start New Test</md-button>
+                <md-button class="md-accent md-raised" ui-sref="response({childId: dashboard.getChild().id})">Start New
+                    Test
+                </md-button>
             </md-card-actions>
-        </md-card-content>
-    </md-card>
+            </md-card-content>
+        </md-card>
+    </div>
+
+    <h1>Previous Tests</h1>
+
+    <section flex="100" layout="row" layout-wrap>
+        <md-subheader ng-if="dashboard.getCompleted().length === 0" flex="100" class="wmg-content" layout="row">
+            You have not started any tests - <a ui-sref="response({childId: dashboard.getChild().id})">start one
+            now?</a>
+        </md-subheader>
+        <md-card ng-repeat="completed in dashboard.getCompleted() track by completed.id" layout="column"
+                 class="wmg-child-card">
+            <div alt="Child Image" class="md-card-image wmg-child-card__image {{completed.age.bgClass}}"></div>
+            <md-divider></md-divider>
+            <md-card-title>
+                <md-card-title-text>
+                    <span class="md-headline">At {{completed.age.label}}</span>
+                </md-card-title-text>
+            </md-card-title>
+            <md-card-content>
+                <p>{{completed.date}}</p>
+            </md-card-content>
+            <md-card-actions layout="row" layout-align="end center">
+                <md-button ui-sref="result({childId: dashboard.getChild().id, responseId: completed.id})">
+                    See results
+                </md-button>
+            </md-card-actions>
+        </md-card>
+    </section>
 </div>
-
-<h1>Previous Tests</h1>
-
-<section flex="100" layout="row" layout-wrap>
-    <md-subheader ng-if="dashboard.getCompleted().length === 0" flex="100" class="wmg-content" layout="row">
-        You have not started any tests - <a ui-sref="response({childId: dashboard.getChild().id})">start one now?</a>
-    </md-subheader>
-    <md-card ng-repeat="completed in dashboard.getCompleted() track by completed.id" layout="column"
-             class="wmg-child-card">
-        <div alt="Child Image" class="md-card-image wmg-child-card__image {{completed.age.bgClass}}"></div>
-        <md-divider></md-divider>
-        <md-card-title>
-            <md-card-title-text>
-                <span class="md-headline">At {{completed.age.label}}</span>
-            </md-card-title-text>
-        </md-card-title>
-        <md-card-content>
-            <p>{{completed.date}}</p>
-        </md-card-content>
-        <md-card-actions layout="row" layout-align="end center">
-            <md-button ui-sref="result({childId: dashboard.getChild().id, responseId: completed.id})">
-                See results
-            </md-button>
-        </md-card-actions>
-    </md-card>
-</section>

@@ -23,6 +23,7 @@ export default class DashboardController {
 
   getInfo() {
     if (!this.infoPromise) {
+      this.loading = true;
       this.infoPromise = this._getChildPromise()
         .then(() => {
           this.age = this.ageService.getBestAge(this.child.getAgeInDays());
@@ -30,9 +31,9 @@ export default class DashboardController {
           return this.answerService.getResponsesForChild(this.child.id)
         })
         .then(responses => {
+          this.loading = false;
           this.completed = responses.map(response => ({
             id: response.id,
-            //flag: getOverallResult(response),
             date: moment(response.modified).format('LL'),
             age: this.ageService.getAgeById(response.ageId)
           }))
@@ -67,7 +68,7 @@ export default class DashboardController {
     if (this.completed) {
       return this.completed;
     }
-    return this.getInfo().then(() => this.completed);
+    this.getInfo().then(() => this.completed);
   }
 
   getHeaderTitle() {
