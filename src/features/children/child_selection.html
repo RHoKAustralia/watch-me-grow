@@ -38,7 +38,7 @@
 <section class="wmg-select-child">
     <h2> Choose Child </h2>
 
-    <md-button class="md-fab wmg-add-child-button" aria-label="Add child" ui-sref="children.add">
+    <md-button class="md-fab wmg-add-child-button" aria-label="Add child" ui-sref="children.add" ng-click="childSelection.warnNotLoggedIn($event)">
         <md-icon>add</md-icon>
         <md-tooltip md-direction="above">
             Add New Child
@@ -61,8 +61,6 @@
                 </md-button>
             </md-card-actions>
         </md-card>
-
-        <md-progress-linear ng-if="childSelection.loading" md-mode="indeterminate"></md-progress-linear>
 
         <md-subheader ng-if="!childSelection.loading && (!childSelection.children || !childSelection.children.length)">
             You have not created any children. Use the orange (+) button to create one.
