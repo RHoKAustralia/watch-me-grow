@@ -14,9 +14,14 @@
 }
 
 .wmg-root {
-  margin-top: 64px;
   padding-top: 10px;
+
+  &__header-spacer {
+    height: 64px;
+  }
 }
+
+
 
 .wmg-root__progress {
   position: fixed;
