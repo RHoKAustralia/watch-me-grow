@@ -1,10 +1,10 @@
-<md-button ng-if="controller.reportCsvHref" download="{{controller.child.name}}.csv" href="{{controller.reportCsvHref}}" class="md-icon-button" aria-label="Download in Excel Format">
+<md-button ng-if="controller.getReportCsvHref" download="{{controller.child.name}}.csv" href="{{controller.getReportCsvHref()}}" class="md-icon-button" aria-label="Download in Excel Format">
     <md-tooltip md-direction="below">
         Download in Excel Format (doesn't work in IE/Edge)
     </md-tooltip>
     <i class="material-icons">file_download</i>
 </md-button>
-<md-button ng-if="controller.getChildId() >= 0" ui-sref="dashboard({childId: controller.getChildId()})"  class="md-icon-button" aria-label="Dashboard">
+<md-button ng-if="controller.getChildId()" ui-sref="dashboard({childId: controller.getChildId()})"  class="md-icon-button" aria-label="Dashboard">
     <md-tooltip md-direction="below">
         Dashboard
     </md-tooltip>

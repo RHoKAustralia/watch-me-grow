@@ -24,6 +24,7 @@
     "angular-ui-router": "^0.2.15",
     "aws-sdk": "^2.2.41",
     "babel-polyfill": "^6.5.0",
+    "lodash": "^4.9.0",
     "moment": "^2.10.6",
     "ngstorage": "^0.3.10",
     "node-uuid": "^1.4.7"

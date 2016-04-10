@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 export default class QuestionnaireController {
   constructor($stateParams, questionnaireService, answerService, $state, childService, ageService, $mdDialog) {
-    this.questionnaires = _.indexBy(questionnaireService.getQuestionnaires(), 'id');
+    this.questionnaires = _.keyBy(questionnaireService.getQuestionnaires(), 'id');
     this.$mdDialog = $mdDialog;
     this.answerService = answerService;
     this.$state = $state;
@@ -73,7 +73,7 @@ export default class QuestionnaireController {
     if (this.response) {
       return _(this.questionnaires)
         .filter((questionnaire, id) => !(this.result[id] && this.result[id].complete))
-        .indexBy('id')
+        .keyBy('id')
         .value();
     }
 

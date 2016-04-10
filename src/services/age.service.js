@@ -6,7 +6,7 @@ import _ from 'lodash';
 
 class AgeService {
   constructor() {
-    this.agesIndex = _.indexBy(ages, 'id');
+    this.agesIndex = _.keyBy(ages, 'id');
   }
 
   getAllAges() {
