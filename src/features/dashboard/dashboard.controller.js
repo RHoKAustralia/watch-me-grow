@@ -21,7 +21,32 @@ export default class DashboardController {
     this.toDos = this.questionnaireService.getQuestionnaires();
   }
 
-  getInfo() {
+  getChild() {
+    this._getChildPromise();
+
+    return this.child;
+  }
+
+  getAge() {
+    if (this.age) {
+      return this.age;
+    } else {
+      this._getInfo();
+    }
+  }
+
+  getCompleted() {
+    if (this.completed) {
+      return this.completed;
+    } else {
+      this._getInfo();
+    }
+  }
+
+  /**
+   * Gets info for the child and the responses for that child and stores it in this.infoPromise as well as returning it.
+   */
+  _getInfo() {
     if (!this.infoPromise) {
       this.loading = true;
 
@@ -48,6 +73,10 @@ export default class DashboardController {
     return this.infoPromise;
   }
 
+  /**
+   * Creates a promise that retrieves details about the current child from the service. Returns the promise and stores
+   * it as this.childPromise.
+   */
   _getChildPromise() {
     if (!this.childPromise) {
       this.childPromise = this.childService.getChild(this.childId).then(child => this.child = child);
@@ -56,38 +85,20 @@ export default class DashboardController {
     return this.childPromise;
   }
 
-  getChild() {
-    this._getChildPromise();
-
-    return this.child;
-  }
-
-  getAge() {
-    if (this.age) {
-      return this.age;
-    } else {
-      this.getInfo();
-    }
-  }
-
-  getCompleted() {
-    if (this.completed) {
-      return this.completed;
-    } else {
-      this.getInfo();
-    }
-  }
-
   getHeaderTitle() {
     this._getChildPromise();
 
     return !this.child ? 'Loading dashboard...' : 'Dashboard for ' + this.child.name;
   }
 
-  // TODO: Do this on demand somehow?
+  /**
+   * Creates a CSV report of all the responses made for this child as a data URI.
+   */
   getReportCsvHref() {
+    // TODO: This is run every render - do this on demand somehow?
+      
     if (!this.csvHrefPromise) {
-      this.getInfo();
+      this._getInfo();
       this.csvHrefPromise = this.responsePromise.then(responses => {
         const completed = _.flatMap(responses, response => (
           _.map(response.questionnaires, (results, questionnaireId) => {

@@ -13,6 +13,10 @@ export default class AddChildController {
     this.maxDate = Moment().subtract(6, 'months').toDate();
   }
 
+  /**
+   * Triggered when the user clicks OK on the dialog. If the child has a valid DOB, sets isSubmitting to true so the
+   * UI can show a loading bar, then hides itself and hides the loading bar once successfully submitted.
+   */
   add($event) {
     $event.preventDefault();
 
@@ -26,6 +30,9 @@ export default class AddChildController {
     }
   }
 
+  /**
+   * Cancels the dialog.
+   */
   cancel($event) {
     $event.preventDefault();
     this.$mdDialog.cancel();

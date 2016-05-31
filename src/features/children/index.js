@@ -11,7 +11,10 @@ import UserService from '../../services/user.service';
 
 import './child_selection.scss';
 
-
+/**
+ * Shows all the children created by the user, allowing the user to create more or view the dashboard of an individual
+ * child.
+ */
 export default angular.module('app.children', [uirouter, ChildService, 'ngMaterial', AddChild, UserService])
   .config(routing)
   .controller('ChildSelectionController', ChildSelectionController)

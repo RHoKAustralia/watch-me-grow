@@ -30,8 +30,6 @@ export default class HeaderController {
   onLoginClicked(e) {
     e.preventDefault();
 
-    //this.userService.clearCredentials();
-
     window.location = this.loginUrl;
   }
 }

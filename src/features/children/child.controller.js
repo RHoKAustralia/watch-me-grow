@@ -15,6 +15,9 @@ export default class ChildSelectionController {
     this.refreshChildren();
   }
 
+  /**
+   * Gets back a fresh list of children from the service.
+   */
   refreshChildren() {
     this.loading = true;
     this.childService.getChildren().then((children = []) => {
@@ -26,6 +29,10 @@ export default class ChildSelectionController {
     });
   }
 
+  /**
+   * Displays a warning to the user that they're not logged in and they need to do so in order to properly save their
+   * data.
+   */
   warnNotLoggedIn(e) {
     if (!this.userService.isLoggedIn()) {
       e.preventDefault();
@@ -43,7 +50,8 @@ export default class ChildSelectionController {
       this.$mdDialog.show(dialog).then(() => this.$state.go('children.add'));
     }
   }
-
+  
+  /** Gets the title that will be displayed in the header at the top */
   getHeaderTitle() {
     return 'Choose Child'
   }

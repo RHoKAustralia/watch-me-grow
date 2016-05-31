@@ -3,7 +3,7 @@
 import angular from 'angular';
 import 'ngstorage';
 import _ from 'lodash';
-import Child from '../models/Child';
+import Child from '../models/child';
 import UserService from './user.service';
 import cbtp from '../util/cb-to-promise';
 import uuid from 'node-uuid';
@@ -12,6 +12,9 @@ import getDataSet from '../util/get-data-set';
 
 import 'amazon-cognito-js/dist/amazon-cognito.min';
 
+/**
+ * Adds and retrieves child data from Amazon Cognito.
+ */
 class ChildService {
   constructor($q, userService) {
     this.$q = $q;
@@ -19,6 +22,9 @@ class ChildService {
     this.cognitoSyncClient = new AWS.CognitoSync();
   }
 
+  /**
+   * Gets a child for a given id.
+   */
   getChild(id) {
     return getDataSet('children', this.userService, this.$q)
       .then(dataSet => {
@@ -27,6 +33,9 @@ class ChildService {
       .then(childJson => new Child(JSON.parse(childJson)));
   }
 
+  /**
+   * Gets all of a user's children and caches the promise.
+   */
   getChildren() {
     if (!this.childrenPromise) {
       this.childrenPromise = getDataSet('children', this.userService, this.$q)
@@ -46,6 +55,9 @@ class ChildService {
     return this.childrenPromise;
   }
 
+  /**
+   * Adds a child to a user's account.
+   */
   addChild(child) {
     return getDataSet('children', this.userService, this.$q)
       .then(dataSet => {

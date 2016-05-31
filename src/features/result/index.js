@@ -11,7 +11,9 @@ import ResultController from './result.controller';
 
 import './result.scss';
 
-
+/**
+ * Shows the result of a response (a set of questionnaires).
+ */
 export default angular.module('app.result', [uirouter, ChildService, AnswerService, AgeService])
   .config(routing)
   .controller('ResultController', ResultController)

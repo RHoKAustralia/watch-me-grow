@@ -1,7 +1,16 @@
-var slice = Array.prototype.slice;
+const slice = Array.prototype.slice;
+
+/**
+ * Turns a callback-based async call into an angular promise.
+ * 
+ * @param $q Angular $q
+ * @param fn The function to call - should accept a callback as its final argument, with the callback taking an error
+ *           as the first argument and the result as the second.
+ * @param others - anything after the first two arguments will be applied to fn
+ */
 export default function callBackToPromise($q, fn) {
-  var ctx = this;
-  var outerArgs = arguments;
+  const ctx = this;
+  const outerArgs = arguments;
 
   return $q(function (resolve, reject) {
     const args = slice.call(outerArgs, 2).concat([

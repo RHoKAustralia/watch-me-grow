@@ -4,6 +4,9 @@ import angular from 'angular';
 import questionnaires from '../data/questionnaires';
 import _ from 'lodash';
 
+/**
+ * Gets questionnaires from the questionnaires data json.
+ */
 class QuestionnaireService {
   constructor() {
     this.questionnaireIndex = _.keyBy(questionnaires, 'id');

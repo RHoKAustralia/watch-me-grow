@@ -43,6 +43,7 @@ export default class QuestionnaireController {
     this.invalid = {};
   }
 
+  /** Moves the user to the next questionnaire by advancing currentQuestionnaireId if possible. */
   goToNextQuestionnaire() {
     if (!this.response) {
       throw new Error('Need to get a response before we go to the next questionnaire');
@@ -59,16 +60,27 @@ export default class QuestionnaireController {
     this.invalid[this.currentQuestionnaireId] = {};
   }
 
-  getCurrentQuestionnaireIndex() {
+  /** 
+   * Gets the number of the questionnaire that we're up to (i.e. starts at 1 then increases to the number of
+   * questionnaires available).
+   */
+  getCurrentQuestionnaireNumber() {
     if (this.response) {
       return this.getTotalQuestionnaires() - Object.keys(this.getIncompleteQuestionnaires()).length + 1;
     }
   }
 
+  /**
+   * Gets the total number of questionnaires that the user is going to complete.
+   */
   getTotalQuestionnaires() {
     return Object.keys(this.questionnaires).length;
   }
 
+  /**
+   * Filters the list of questionnaires and returns only the ones that haven't been completed as part of this
+   * response yet.
+   */
   getIncompleteQuestionnaires() {
     if (this.response) {
       return _(this.questionnaires)
@@ -80,6 +92,7 @@ export default class QuestionnaireController {
     return {};
   }
 
+  /** Gets the next questionnaire that is due to be completed. */
   getNextQuestionnaire() {
     const incompleteQuestionnairesIds = Object.keys(this.getIncompleteQuestionnaires());
 
@@ -88,10 +101,12 @@ export default class QuestionnaireController {
     }
   }
 
+  /** Gets the questionnaire that we're currently completing. */
   getCurrentQuestionnaire() {
     return this.questionnaires[this.currentQuestionnaireId];
   }
 
+  /** Returns true if this is the last questionnaire we'll complete for this response. */
   isLastQuestionnaire() {
     return Object.keys(this.getIncompleteQuestionnaires()).length === 1;
   }
@@ -102,6 +117,12 @@ export default class QuestionnaireController {
     }
   }
 
+  /** Validates and submits the current questionnaire answers - three possible outcomes:
+   *    - All validated correctly, form submits.
+   *    - Missing answers, the question is marked as invalid and submission stops.
+   *    - Missing comments - a dialog is displayed asking if the user really wants to skip comments. From there
+   *      the form either submits or submission halts.
+   */
   trySubmit($event) {
     $event.preventDefault();
 
@@ -135,6 +156,9 @@ export default class QuestionnaireController {
     }
   }
 
+  /**
+   * Launches a dialog to confirm whether the user really wants to submit with missing comments. Calls {@link #submit} if so.
+   */
   confirmNoCommentsDialog(ev) {
     var confirm = this.$mdDialog.confirm()
       .title('Not All Answers Have Comments')
@@ -148,6 +172,9 @@ export default class QuestionnaireController {
     this.$mdDialog.show(confirm).then(this.submit.bind(this));
   }
 
+  /**
+   * Submits the questions, regardless of whether they're valid, then moves to the next questionnaire upon submission success.
+   */
   submit() {
     this.result[this.currentQuestionnaireId].complete = true;
 

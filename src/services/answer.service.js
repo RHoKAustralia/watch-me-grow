@@ -13,6 +13,11 @@ import UserService from './user.service';
 const CHILD_TO_RESPONSES_DS_NAME = 'childToResponses';
 const RESPONSES_DATASET_NAME = 'responses';
 
+/**
+ * Adds and retrieves answers from Amazon Cognito.
+ * 
+ * @see the Cognito API docs.
+ */
 class AnswersService {
   constructor($q, userService) {
     this.$q = $q;
@@ -22,11 +27,18 @@ class AnswersService {
     this.responseGetCache = {};
   }
 
+  /** 
+   * Gets all responses for a child by first retrieving all of the ids of their responses, then retrieving the
+   * response for each id.
+   */
   getResponsesForChild(childId) {
     return this._getResponseIdsForChildWithDataSet(childId)
       .then(({responseIds}) => this.$q.all(responseIds.map(id => this.getResponseById(id))))
   }
 
+  /**
+   * Gets all the response ids for a child.  
+   */
   _getResponseIdsForChildWithDataSet(childId) {
     return getDataSet(CHILD_TO_RESPONSES_DS_NAME, this.userService, this.$q)
       .then(dataSet =>  cbtp.call(dataSet, this.$q, dataSet.get, childId)
@@ -39,22 +51,34 @@ class AnswersService {
       }));
   }
 
+  /** Gets a passed response with the passed id */
   getResponseById(id) {
     return this._getResponseByIdWithDataSet(id).then(result => result.response);
   }
 
+  /**
+   * Gets the response for the passed ID, returning both the parsed response object and a reference to the
+   * Cognito dataset in case further operations need to be made with it.
+   */
   _getResponseByIdWithDataSet(id) {
     if (!this.responseGetCache[id]) {
       this.responseGetCache[id] = getDataSet(RESPONSES_DATASET_NAME, this.userService, this.$q)
         .then(dataSet => cbtp.call(dataSet, this.$q, dataSet.get, id).then(json => ({json, dataSet})))
         .then(({json = '{}', dataSet}) => ({
-          response: JSON.parse(json), dataSet
+          response: JSON.parse(json),
+          dataSet
         }));
     }
 
     return this.responseGetCache[id]
   }
 
+  /**
+   * Adds a response for a child.
+   * 
+   * @param childId the id of the child.
+   * @param ageId the age to associate with the result.
+   */
   addResponse(childId, ageId) {
     const key = `${childId}-${ageId}`;
 
@@ -70,22 +94,28 @@ class AnswersService {
         questionnaires: {}
       };
 
+      // Add the response to the responses datastore 
       const responsesPromise = getDataSet(RESPONSES_DATASET_NAME, this.userService, this.$q)
         .then(dataSet => cbtp.call(dataSet, this.$q, dataSet.put, id, JSON.stringify(response)).then(() => dataSet))
         .then(dataSet => cstp(this.$q, dataSet, true));
 
-      const childIdPromise = this._getResponseIdsForChildWithDataSet(childId)
+      // Add the id of the response to the childToResponses datastore - this is necessary because Cognito isn't an RDBMS 
+      const addResponseIdToChildPromise = this._getResponseIdsForChildWithDataSet(childId)
         .then(({responseIds, dataSet}) => cbtp.call(dataSet, this.$q, dataSet.put, childId, JSON.stringify(responseIds.concat(id)))
           .then(() => dataSet)
         )
         .then(dataSet => cstp(this.$q, dataSet, true));
 
-      this.responseAddCache[key] = this.$q.all(responsesPromise, childIdPromise).then(() => response);
+      // We cache the add operation just in case multiples get triggered - we only want one per child/age combination.
+      this.responseAddCache[key] = this.$q.all(responsesPromise, addResponseIdToChildPromise).then(() => response);
     }
 
     return this.responseAddCache[key];
   }
 
+  /**
+   * Adds a result for a single questionnaire to a response (a response is multiple questionnaire results).
+   */
   addAnswersToResponse(responseId, questionnaireId, answers) {
     delete this.responseGetCache[responseId];
 

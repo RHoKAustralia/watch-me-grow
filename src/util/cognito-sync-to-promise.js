@@ -2,6 +2,11 @@ const syncsInProgress = {};
 
 export {syncsInProgress};
 
+/**
+ * Calls synchronize on a cognito dataset and returns a promise that will resolve with new records when it 
+ * completes. Subsequent calls to sync a dataset while the first is still in progress will return the original
+ * promise.
+ */
 export default function cognitoSyncToPromise($q, dataSet, force) {
   if (force) {
     delete syncsInProgress[dataSet.datasetName];

@@ -9,7 +9,6 @@ import titleTemplate from './title.html';
  * @param controllerName The name of the controller to bind to.
  */
 export default function (views, controllerName) {
-
   views['title@root'] = {
     template: titleTemplate,
     controller: controllerName,

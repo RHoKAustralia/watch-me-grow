@@ -1,5 +1,11 @@
 "use strict";
 
+/**
+ * Combines an array of questions and a map of question ids to answers into an array of combined objects. The
+ * combined objects puts the question under "metadata" and the answer under "answer", with the metadata of the
+ * answer (i.e. the actual question text) under "answer.metadata".
+ * 
+ */
 export function combineQuestionsAndAnswers(questions, answers) {
   return questions.map(question => {
     const rawAnswer = answers[question.id];
@@ -13,6 +19,10 @@ export function combineQuestionsAndAnswers(questions, answers) {
   });
 };
 
+/**
+ * Scores the result of a questionnaire based on its analysis strategy and an array of combined questions and answers
+ * as returned from {@link #combineQuestionsAndAnswers}.
+ */
 export function getOverallResult(questionnaire, combinedQuestions) {
   var redFlagScore = 0;
   var amberFlagScore = 0;

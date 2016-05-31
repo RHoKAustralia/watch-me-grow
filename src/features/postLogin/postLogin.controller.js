@@ -1,6 +1,7 @@
 
 export default class PostLoginController {
   constructor($state, userService) {
+    // Dailycred redirects back to us with params about the user in after a # in the URL.
     const hashParams = window.location.hash.substring(1)
       .split("&")
       .map(pair => pair.split('='))
