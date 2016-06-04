@@ -1,9 +1,20 @@
+@import '~angular-material/angular-material';
+
 .wmg-logo {
-  background: url('../../../../assets/Logo_trans.png');
-  width: 139px;
-  height: 51px;
-  margin-right: 10px;
-  background-size: 140px;
+  background-image: url('../../../../assets/Logo_mobile.png');
+  width: 40px;
+  height: $toolbar-height-mobile-portrait - 3px;
+  margin-right: 5px;
+  background-size: 40px;
+  flex-shrink: 0;
+
+  @media (min-width: $layout-breakpoint-xs) {
+    background-image: url('../../../../assets/Logo_trans.png');
+    height: $toolbar-height - 14px;
+    width: 139px;
+    margin-right: 10px;
+    background-size: 140px;
+  }
 }
 
 .login-details {

@@ -72,7 +72,7 @@ module.exports = function makeWebpackConfig(options) {
   if (TEST) {
     config.devtool = 'inline-source-map';
   } else if (BUILD) {
-    config.devtool = 'source-map';
+    config.devtool = 'cheap-source-map';
   } else {
     config.devtool = 'source-map';
   }
