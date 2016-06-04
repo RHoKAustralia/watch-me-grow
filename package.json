@@ -15,7 +15,6 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "amazon-cognito-js": "git+https://github.com/aws/amazon-cognito-js.git",
     "angular": "^1.4.7",
     "angular-animate": "^1.4.8",
     "angular-aria": "^1.4.8",

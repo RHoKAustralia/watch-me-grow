@@ -35,35 +35,9 @@
 
 <md-divider></md-divider>
 
-<section class="wmg-select-child">
-    <h2> Choose Child </h2>
-
-    <md-button class="md-fab wmg-add-child-button" aria-label="Add child" ui-sref="children.add" ng-click="childSelection.warnNotLoggedIn($event)">
-        <md-icon>add</md-icon>
-        <md-tooltip md-direction="above">
-            Add New Child
-        </md-tooltip>
-    </md-button>
-
-    <div flex="100" layout="row" layout-align="left" layout-wrap>
-        <md-card ng-repeat="child in childSelection.children track by child.metadata.id" class="wmg-child-card">
-            <div alt="Child Image" class="md-card-image wmg-child-card__image {{child.age.bgClass}}"></div>
-            <md-divider></md-divider>
-            <md-card-title>
-                <md-card-title-text>
-                    <span class="md-headline">{{child.metadata.name}}</span>
-                    <span class="md-subhead">{{child.age.label}} old</span>
-                </md-card-title-text>
-            </md-card-title>
-            <md-card-actions layout="row" layout-align="end center">
-                <md-button ui-sref="dashboard({childId: child.metadata.id})" class="md-raised md-primary">See
-                    dashboard
-                </md-button>
-            </md-card-actions>
-        </md-card>
-
-        <md-subheader ng-if="!childSelection.loading && (!childSelection.children || !childSelection.children.length)">
-            You have not created any children. Use the orange (+) button to create one.
-        </md-subheader>
-    </div>
-</section>
+<md-button class="md-fab wmg-add-child-button" aria-label="Add child" ui-sref="enterDetails">
+    <md-icon>add</md-icon>
+    <md-tooltip md-direction="above">
+        Add New Child
+    </md-tooltip>
+</md-button>
