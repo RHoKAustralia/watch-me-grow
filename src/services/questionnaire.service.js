@@ -17,7 +17,7 @@ class QuestionnaireService {
     }, []);
   }
 
-  static getQuestionnaires() {
+  getQuestionnaires() {
     return questionnaires;
   }
 

@@ -4,57 +4,23 @@ import moment from 'moment';
 import {combineQuestionsAndAnswers, getOverallResult} from '../../models/data.functions';
 
 export default class ResultController {
-  constructor(childService, $stateParams, questionnaireService, answerService, ageService) {
-    this.responseId = $stateParams.responseId;
+  constructor(questionnaireService, answerService, $q) {
     this.questionnaireService = questionnaireService;
     this.answerService = answerService;
-    this.ageService = ageService;
 
-    childService.getChild($stateParams.childId).then(child => {
-      this.child = child;
-    });
+    this.concerns = this.questionnaireService.getQuestionnaires()
+      .map(questionnaire => {
+        const fullAnswers = this.answerService.getQuestionnaireAnswers(questionnaire.id);
+        const combinedQuestions = combineQuestionsAndAnswers(questionnaire.questions, fullAnswers);
 
-    this.questionnairesPromise = this.answerService.getResponseById(this.responseId).then(result => {
-      this.questionnaires = _(result.questionnaires)
-        .map((answers, questionnaireId) => {
-          const questionnaire = this.questionnaireService.getQuestionnaire(questionnaireId);
-          const combinedQuestions = combineQuestionsAndAnswers(questionnaire.questions, answers);
-          return {
-            metadata: questionnaire,
-            questions: combinedQuestions,
-            result: getOverallResult(questionnaire, combinedQuestions)
-          }
-        })
-        .value();
-
-      this.date = moment(result.lastModified);
-      this.age = this.ageService.getAgeById(result.ageId);
-    });
+        return getOverallResult(questionnaire, combinedQuestions);
+      })
+      .some(flag => flag !== 'NO_FLAG');
   }
 
-  getQuestionnaires() {
-    return this.questionnaires;
-  }
-
-  getHeaderTitle() {
-    if (this.child && this.date) {
-      return `Results for ${this.child.name} at ${this.date.format('LL')}`;
-    } else {
-      return 'Loading results...';
-    }
-  }
-
-  getChildId() {
-    return this.child && this.child.id;
-  }
-
-  getCompletedQuestionnaires() {
-    return this.completedQuestionnaires
-  }
-
-  addChild() {
-    this.$location.path('/add_child')
+  static getHeaderTitle() {
+    return 'Result';
   }
 }
 
-ResultController.$inject = ['ChildService', '$stateParams', 'QuestionnaireService', 'AnswerService', 'AgeService'];
+ResultController.$inject = ['QuestionnaireService', 'AnswerService', '$q'];
