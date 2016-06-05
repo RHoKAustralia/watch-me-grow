@@ -1,40 +1,32 @@
 <section ng-if="controller.loading">
-    Loading next section...
+    Loading next question...
 </section>
 
 <section ng-if="!controller.loading">
-    <h1>{{controller.getCurrentQuestionnaire().title}} (Test {{controller.getCurrentQuestionnaireNumber()}} of
-    {{controller.getTotalQuestionnaires()}})</h1>
-
-    <p>{{controller.getCurrentQuestionnaire().introduction}}</p>
-
-    <form ng-submit="controller.trySubmit($event)" layout="column" layout-align="start center">
-        <md-card class="wmg-question-group" ng-repeat="question in controller.getCurrentQuestionnaire().questions"
-                 ng-class="{'wmg-question-group--invalid': controller.invalid[controller.currentQuestionnaireId][question.id]}">
+    <form ng-submit="controller.tryAnswer($event)" layout="column" layout-align="start center">
+        <md-card class="wmg-question-group"
+                 ng-class="{'wmg-question-group--invalid': controller.invalid}">
+            <h2>{{controller.question.text}}</h2>
             <md-card-content>
-                <h2 class="md-title">{{ $index + 1 }}. {{question.text}}</h2>
-
-                <md-radio-group ng-model="controller.result[controller.currentQuestionnaireId][question.id].answer"
+                <md-radio-group ng-model="controller.answer.value"
                                 class="wmg-question-group__answers md-primary"
                                 name="question.id" ng-required="true">
-                    <md-radio-button ng-repeat="answer in question.answers" value="{{answer.value}}">
+                    <md-radio-button ng-repeat="answer in controller.question.answers" value="{{answer.value}}">
                         {{answer.text}}
                     </md-radio-button>
                 </md-radio-group>
 
-                <md-input-container ng-if="question.comments" class="wmg-question-group__comments-container"
-                                    ng-class="{'wmg-question-group__comments-container--blank': controller.noComments[controller.currentQuestionnaireId][question.id]}">
+                <md-input-container ng-if="controller.question.comments" class="wmg-question-group__comments-container">
                     <label>Comments</label>
                 <textarea columns="2" md-maxlength="300" rows="5"
                           class="wmg-question-group__comments"
-                          ng-model="controller.result[controller.currentQuestionnaireId][question.id].comments"></textarea>
+                          ng-model="controller.answer.comments"></textarea>
                 </md-input-container>
             </md-card-content>
         </md-card>
 
         <md-button class="md-raised md-primary wmg-questionnaire__submit" type="submit">
-            <span ng-if="controller.isLastQuestionnaire()">Go To Results</span>
-            <span ng-if="!controller.isLastQuestionnaire()">Next</span>
+            <span>Next</span>
         </md-button>
     </form>
 </section>

@@ -1,21 +1,13 @@
 <form class="wmg-content" ng-submit="controller.add($event)">
-    <div class="md-toolbar-tools">
-        <h2>Add Child</h2>
-        <span flex></span>
-        <md-button class="md-icon-button" ng-click="controller.cancel($event)">
-            <md-icon aria-label="Close dialog">close</md-icon>
-        </md-button>
-    </div>
-    <div class="md-dialog-content" layout="column">
-        <md-input-container>
-            <label>Name</label>
-            <input ng-model="controller.child.name" type="text" required>
-        </md-input-container>
-        <md-datepicker ng-model="controller.child.dob"
-                       md-max-date="controller.maxDate"
-                       md-placeholder="Date of Birth"
-                       required>
-        </md-datepicker>
-        <md-button type="submit" class="md-raised md-primary" layout-align="start end">Add</md-button>
-    </div>
+    <h2>Add Child</h2>
+    <md-input-container>
+        <label>Name</label>
+        <input ng-model="controller.child.name" type="text" required>
+    </md-input-container>
+    <md-datepicker ng-model="controller.child.dob"
+                   md-max-date="controller.maxDate"
+                   md-placeholder="Date of Birth"
+                   required>
+    </md-datepicker>
+    <md-button type="submit" class="md-raised md-primary" layout-align="start end">Add</md-button>
 </form>

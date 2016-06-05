@@ -15,7 +15,7 @@ class AnswersService {
 
     addAnswer(questionnaireId, questionId, answerId, comment) {
         return this.$q((resolve, reject) => {
-            getQuestionnaireAnswers(questionnaireId)[questionId] = {
+            this._getQuestionnaireAnswers(questionnaireId)[questionId] = {
                 answerId: answerId,
                 comment: comment
             };
@@ -35,11 +35,22 @@ class AnswersService {
         return this.getCurrentQuestionnaire()
             .then(currentQuestionnaire => {
                 if (currentQuestionnaire) {
-                    return currentQuestionnaire.questions.find(question =>
+                    const q = currentQuestionnaire.questions.find(question =>
                         !this._getQuestionnaireAnswers(currentQuestionnaire.id)[question.id]
                     );
+
+                    if (q) {
+                        q.questionnaire = currentQuestionnaire;
+                        return q;
+                    }
                 }
             });
+    }
+
+    getAnswer(questionnaireId, questionId) {
+        return this.$q(resolve => {
+            resolve(this._getQuestionnaireAnswers(questionnaireId)[questionId]);
+        });
     }
 
     clear() {
