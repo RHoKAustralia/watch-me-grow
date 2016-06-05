@@ -10,14 +10,27 @@ import _ from 'lodash';
 class QuestionnaireService {
   constructor() {
     this.questionnaireIndex = _.keyBy(questionnaires, 'id');
+
+    this.allQuestions = questionnaires.reduce((soFar, questionnaire) => {
+      const questions = questionnaire.questions.map(question => Object.assign({}, question, {questionnaire}));
+      return soFar.concat(questions);
+    }, []);
   }
 
-  getQuestionnaires() {
+  static getQuestionnaires() {
     return questionnaires;
   }
 
   getQuestionnaire(id) {
     return this.questionnaireIndex[id];
+  }
+
+  getQuestionCount() {
+    return this.allQuestions.length;
+  }
+
+  getQuestionByNumber(number) {
+    return this.allQuestions[number];
   }
 }
 

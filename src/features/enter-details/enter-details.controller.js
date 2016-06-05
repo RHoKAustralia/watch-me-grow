@@ -3,11 +3,10 @@
 import Moment from 'moment';
 
 export default class EnterDetailsController {
-  constructor(childService, $state, $mdDialog) {
+  constructor(childService, $state) {
     this.childService = childService;
     this.$state = $state;
     this.child = {};
-    this.$mdDialog = $mdDialog;
     this.isSubmitting = false;
 
     this.maxDate = Moment().subtract(6, 'months').toDate();
@@ -24,19 +23,11 @@ export default class EnterDetailsController {
       this.isSubmitting = true;
       this.childService.setChild(this.child)
         .then(() => {
-          this.$mdDialog.hide();
           this.isSubmitting = false;
+          this.$state.go('questionnaire');
         });
     }
   }
-
-  /**
-   * Cancels the dialog.
-   */
-  cancel($event) {
-    $event.preventDefault();
-    this.$mdDialog.cancel();
-  }
 }
 
-EnterDetailsController.$inject = ['ChildService', '$state', '$mdDialog'];
+EnterDetailsController.$inject = ['ChildService', '$state'];

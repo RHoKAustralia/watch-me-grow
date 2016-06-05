@@ -16,7 +16,7 @@ class ChildService {
   }
 
   setChild(child) {
-    this.$q(resolve => {
+    return this.$q(resolve => {
       this.$localStorage.child = child;
 
       resolve();
