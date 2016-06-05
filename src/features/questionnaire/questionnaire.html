@@ -3,27 +3,29 @@
 </section>
 
 <section ng-if="!controller.loading">
-    <form ng-submit="controller.tryAnswer($event)" layout="column" layout-align="start center">
-        <md-card class="wmg-question-group"
-                 ng-class="{'wmg-question-group--invalid': controller.invalid}">
-            <h2>{{controller.question.text}}</h2>
-            <md-card-content>
-                <md-radio-group ng-model="controller.answer.value"
-                                class="wmg-question-group__answers md-primary"
-                                name="question.id" ng-required="true">
-                    <md-radio-button ng-repeat="answer in controller.question.answers" value="{{answer.value}}">
-                        {{answer.text}}
-                    </md-radio-button>
-                </md-radio-group>
+    <form class="wmg-question-group"
+          ng-class="{'wmg-question-group--invalid': controller.invalid}"
+          ng-submit="controller.tryAnswer($event)"
+          layout="column"
+          layout-align="start center">
+        <h2>{{controller.question.text}}</h2>
+        <md-radio-group ng-model="controller.answer.value"
+                        class="wmg-question-group__answers md-primary"
+                        ng-change="controller.radioButtonClicked()"
+                        name="question.id" ng-required="true">
+            <md-radio-button
+                    class="wmg-question-group__answer"
+                    ng-repeat="answer in controller.question.answers" value="{{answer.value}}">
+                {{answer.text}}
+            </md-radio-button>
+        </md-radio-group>
 
-                <md-input-container ng-if="controller.question.comments" class="wmg-question-group__comments-container">
-                    <label>Comments</label>
+        <md-input-container ng-if="controller.question.comments" class="wmg-question-group__comments-container">
+            <label>Comments</label>
                 <textarea columns="2" md-maxlength="300" rows="5"
                           class="wmg-question-group__comments"
                           ng-model="controller.answer.comments"></textarea>
-                </md-input-container>
-            </md-card-content>
-        </md-card>
+        </md-input-container>
 
         <md-button class="md-raised md-primary wmg-questionnaire__submit" type="submit">
             <span>Next</span>
