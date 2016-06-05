@@ -1,13 +1,24 @@
-<form class="wmg-content" ng-submit="controller.add($event)">
-    <h2>Add Child</h2>
+<form class="wmg-enter-details" ng-submit="controller.add($event)" layout="column">
     <md-input-container>
-        <label>Name</label>
+        <label>Your baby's name</label>
         <input ng-model="controller.child.name" type="text" required>
     </md-input-container>
+
     <md-datepicker ng-model="controller.child.dob"
                    md-max-date="controller.maxDate"
-                   md-placeholder="Date of Birth"
+                   md-placeholder="Your baby's DOB"
                    required>
     </md-datepicker>
+
+    <md-input-container>
+        <label>Your name</label>
+        <input ng-model="controller.child.parentName" type="text" required>
+    </md-input-container>
+
+    <md-input-container>
+        <label>Your email address (so we can send you results)</label>
+        <input ng-model="controller.child.parentEmail" type="text" required>
+    </md-input-container>
+
     <md-button type="submit" class="md-raised md-primary" layout-align="start end">Add</md-button>
 </form>

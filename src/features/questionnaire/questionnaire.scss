@@ -16,6 +16,20 @@
     }
   }
 
+  &__answers {
+    width: 100%;
+  }
+
+  &__answer {
+    width: 100%;
+    border: 2px solid rgb(0,188,212);
+    padding: 10px;
+
+    .md-ink-ripple {
+      margin-left: 15px;
+    }
+  }
+
   &__comments-container {
     width: 100%;
 
