@@ -4,24 +4,3 @@
     </md-tooltip>
     <i class="material-icons">child_care</i>
 </md-button>
-<span class="login-details" ng-if="controller.isLoggedIn()">{{controller.getLoginDetails().email}}</span>
-<span class="login-details login-details--warn"
-      ng-if="!controller.isLoggedIn()">Signed Out - Sign Up to save your data!</span>
-
-<md-button ng-if="controller.isLoggedIn()"
-           href="#"
-           ng-click="controller.logout()"
-           class="md-icon-button" aria-label="Sign Out">
-    <md-tooltip md-direction="below">
-        Sign Out
-    </md-tooltip>
-    <i class="material-icons">person_outline</i>
-</md-button>
-<md-button ng-if="!controller.isLoggedIn()"
-           ng-click="controller.onLoginClicked($event)"
-           class="md-icon-button" aria-label="Sign In">
-    <md-tooltip md-direction="below">
-        Sign In
-    </md-tooltip>
-    <i class="material-icons">person</i>
-</md-button>
