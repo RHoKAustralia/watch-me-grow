@@ -6,7 +6,7 @@ import uirouter from 'angular-ui-router';
 import routing from './landing.routes.js';
 import ChildService from '../../services/child.service.localstorage';
 import LandingController from './landing.controller.js';
-import EnterDetails from './enter-details';
+import EnterDetails from '../enter-details';
 import UserService from '../../services/user.service.localstorage';
 
 import './landing.scss';
