@@ -2,7 +2,7 @@
 
 import Moment from 'moment';
 
-export default class AddChildController {
+export default class EnterDetailsController {
   constructor(childService, $state, $mdDialog) {
     this.childService = childService;
     this.$state = $state;
@@ -22,9 +22,9 @@ export default class AddChildController {
 
     if (this.child.dob) {
       this.isSubmitting = true;
-      this.childService.addChild(this.child)
+      this.childService.setChild(this.child)
         .then(() => {
-          this.$mdDialog.hide()
+          this.$mdDialog.hide();
           this.isSubmitting = false;
         });
     }
@@ -39,4 +39,4 @@ export default class AddChildController {
   }
 }
 
-AddChildController.$inject = ['ChildService', '$state', '$mdDialog'];
+EnterDetailsController.$inject = ['ChildService', '$state', '$mdDialog'];

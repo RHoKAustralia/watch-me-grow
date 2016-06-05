@@ -74,7 +74,7 @@ module.exports = function makeWebpackConfig(options) {
   } else if (BUILD) {
     config.devtool = 'cheap-source-map';
   } else {
-    config.devtool = 'cheap-source-map';
+    config.devtool = 'source-map';
   }
 
   /**

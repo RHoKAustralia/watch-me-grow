@@ -8,8 +8,8 @@ import uirouter from 'angular-ui-router';
 import routing from './questionnaire.routes.js';
 import QuestionsController from './questionnaire.controller.js';
 import QuestionnaireService from '../../services/questionnaire.service.js';
-import AnswerService from '../../services/answer.service';
-import ChildService from '../../services/child.service';
+import AnswerService from '../../services/answer.service.localstorage';
+import ChildService from '../../services/child.service.localstorage';
 import AgeService from '../../services/age.service';
 
 /**

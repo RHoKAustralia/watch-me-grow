@@ -4,8 +4,8 @@ import angular from 'angular';
 import uirouter from 'angular-ui-router';
 
 import routing from './result.routes';
-import ChildService from '../../services/child.service';
-import AnswerService from '../../services/answer.service';
+import ChildService from '../../services/child.service.localstorage';
+import AnswerService from '../../services/answer.service.localstorage';
 import AgeService from '../../services/age.service';
 import ResultController from './result.controller';
 
