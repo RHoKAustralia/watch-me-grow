@@ -12,6 +12,10 @@ export default class EnterDetailsController {
     this.maxDate = Moment().subtract(6, 'months').toDate();
   }
 
+  getHeaderTitle() {
+    return "Enter Details";
+  }
+
   /**
    * Triggered when the user clicks OK on the dialog. If the child has a valid DOB, sets isSubmitting to true so the
    * UI can show a loading bar, then hides itself and hides the loading bar once successfully submitted.

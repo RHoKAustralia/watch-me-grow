@@ -6,7 +6,7 @@
 }
 
 .wmg-question-group {
-  width: 600px;
+  padding: 10px;
 
   &--invalid {
     color: #F00;
@@ -22,7 +22,7 @@
 
   &__answer {
     width: 100%;
-    border: 2px solid rgb(0,188,212);
+    border: 2px solid rgb(0,150,136);
     padding: 10px;
 
     .md-ink-ripple {

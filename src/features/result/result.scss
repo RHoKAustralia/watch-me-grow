@@ -22,7 +22,7 @@
   color: green;
 }
 .wmg-result-card {
-  width: 250px;
+  margin: 0;
 
   .md-headline {
     text-align: center;
@@ -39,5 +39,9 @@
 
 
 .wmg-result-overview__flag {
+  text-align: center;
+}
+
+.wmg-relevant-links {
   text-align: center;
 }

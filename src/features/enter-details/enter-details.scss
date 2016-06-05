@@ -18,4 +18,10 @@
 
 .wmg-enter-details {
   margin-top: 20px;
+  padding: 10px;
+
+  .md-datepicker {
+    padding-right: 0;
+    margin-right: 0;
+  }
 }

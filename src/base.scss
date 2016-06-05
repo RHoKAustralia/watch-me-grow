@@ -12,6 +12,7 @@
 html, body {
   min-height: 100%;
   top: 0 !important;
+  background: rgb(0,150,136) !important;
 }
 
 .md-dialog-container {
@@ -31,4 +32,11 @@ html, body {
   @include age-image(24);
   @include age-image(36);
   @include age-image(48);
+}
+
+.md-toolbar-tools {
+  background: #FFF;
+  color: darken(rgb(0,150,136), 10%);
+  border-bottom: 2px solid rgb(0,150,136);
+  z-index: 100000;
 }

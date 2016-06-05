@@ -18,7 +18,7 @@ import routing from './app.config';
 angular.module('app', [uirouter, root, questionnaire, landing, result, enterDetails, 'ngMaterial', userService])
   .config(['$mdThemingProvider', function ($mdThemingProvider) {
     // Extend the red theme with a few different colors
-    var wmgCyan = $mdThemingProvider.extendPalette('cyan', {
+    var wmgCyan = $mdThemingProvider.extendPalette('teal', {
       'contrastDefaultColor': 'dark'
     });
     // Register the new color palette map with the name <code>neonRed</code>
