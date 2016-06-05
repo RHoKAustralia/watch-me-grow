@@ -13,7 +13,7 @@ export function combineQuestionsAndAnswers(questions, answers) {
     return {
       metadata: question,
       answer: Object.assign(rawAnswer, {
-        metadata: question.answers.find(answerMetadata => answerMetadata.value === rawAnswer.answer)
+        metadata: question.answers.find(answerMetadata => answerMetadata.value === rawAnswer.answerId)
       })
     };
   });

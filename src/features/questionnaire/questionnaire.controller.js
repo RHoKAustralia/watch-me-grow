@@ -38,7 +38,7 @@ export default class QuestionnaireController {
         return this.answerService.addAnswer(
             this.question.questionnaire.id,
             this.question.id,
-            this.answer,
+            this.answer.value,
             this.comment
         ).then(() => {
             if (this.atLastQuestion()) {

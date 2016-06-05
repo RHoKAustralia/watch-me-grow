@@ -4,9 +4,8 @@ import angular from 'angular';
 import uirouter from 'angular-ui-router';
 
 import routing from './result.routes';
-import ChildService from '../../services/child.service.localstorage';
+import QuestionnaireService from '../../services/questionnaire.service.js';
 import AnswerService from '../../services/answer.service.localstorage';
-import AgeService from '../../services/age.service';
 import ResultController from './result.controller';
 
 import './result.scss';
@@ -14,7 +13,7 @@ import './result.scss';
 /**
  * Shows the result of a response (a set of questionnaires).
  */
-export default angular.module('app.result', [uirouter, ChildService, AnswerService, AgeService])
+export default angular.module('app.result', [uirouter, QuestionnaireService, AnswerService])
   .config(routing)
   .controller('ResultController', ResultController)
   .name;
