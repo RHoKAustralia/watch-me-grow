@@ -4,8 +4,6 @@
     </md-tooltip>
     <i class="material-icons">child_care</i>
 </md-button>
-
-<!-- hack removal of login related stuff
 <span class="login-details" ng-if="controller.isLoggedIn()">{{controller.getLoginDetails().email}}</span>
 <span class="login-details login-details--warn"
       ng-if="!controller.isLoggedIn()">Signed Out - Sign Up to save your data!</span>
@@ -20,7 +18,6 @@
     <i class="material-icons">person_outline</i>
 </md-button>
 <md-button ng-if="!controller.isLoggedIn()"
-           href="{{controller.loginUrl}}"
            ng-click="controller.onLoginClicked($event)"
            class="md-icon-button" aria-label="Sign In">
     <md-tooltip md-direction="below">
@@ -28,4 +25,3 @@
     </md-tooltip>
     <i class="material-icons">person</i>
 </md-button>
-hack removal of login related stuff -->

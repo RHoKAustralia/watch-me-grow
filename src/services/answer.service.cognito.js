@@ -19,15 +19,16 @@ const RESPONSES_DATASET_NAME = 'responses';
  * @see the Cognito API docs.
  */
 class AnswersService {
-  constructor($q, userService) {
+  constructor($q, userService, $localStorage) {
     this.$q = $q;
     this.userService = userService;
+    this.$localStorage = $localStorage;
 
     this.responseAddCache = {};
     this.responseGetCache = {};
   }
 
-  /** 
+  /**
    * Gets all responses for a child by first retrieving all of the ids of their responses, then retrieving the
    * response for each id.
    */
@@ -40,6 +41,10 @@ class AnswersService {
    * Gets all the response ids for a child.  
    */
   _getResponseIdsForChildWithDataSet(childId) {
+    return this.$q((resolve, reject) => {
+      this.$localStorage.responses[childId]
+    });
+
     return getDataSet(CHILD_TO_RESPONSES_DS_NAME, this.userService, this.$q)
       .then(dataSet =>  cbtp.call(dataSet, this.$q, dataSet.get, childId)
         .then(json => ({

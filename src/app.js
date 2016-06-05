@@ -7,16 +7,15 @@ import 'angular-material/angular-material';
 import uirouter from 'angular-ui-router';
 
 import root from './features/root'
-import home from './features/dashboard';
 import questionnaire from './features/questionnaire';
-import children from './features/children';
-import result from './features/result/index';
-import postLogin from './features/postLogin';
-import userService from './services/user.service';
+import landing from './features/landing';
+import result from './features/result';
+import enterDetails from './features/enter-details';
+import userService from './services/user.service.localstorage';
 
 import routing from './app.config';
 
-angular.module('app', [uirouter, root, home, questionnaire, children, result, 'ngMaterial', postLogin, userService])
+angular.module('app', [uirouter, root, questionnaire, landing, result, enterDetails, 'ngMaterial', userService])
   .config(['$mdThemingProvider', function ($mdThemingProvider) {
     // Extend the red theme with a few different colors
     var wmgCyan = $mdThemingProvider.extendPalette('cyan', {
