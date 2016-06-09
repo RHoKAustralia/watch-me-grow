@@ -11,7 +11,7 @@ import ReactDOM from 'react-dom';
 import { Router, browserHistory } from 'react-router';
 
 // Routes
-import Routes from './common/components/Routes';
+import Routes from './common/components/routes';
 
 // Base styling
 import './common/base.less';

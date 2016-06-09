@@ -2,7 +2,7 @@ import test from 'ava';
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import App from '../../../src/common/components/App';
+import App from '../../../src/common/components/app';
 
 
 test('render with container div', t => {

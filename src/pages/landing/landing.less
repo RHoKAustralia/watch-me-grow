@@ -1,8 +1,25 @@
+@import '../../common/variables';
+
 .content {
-  margin-top: 20px;
+  margin-top: 70px;
+  color: #FFFFFF;
+  line-height: 1.2rem;
+  text-align: center;
 }
 
-.welcomeText {
-  font-size: 20px;
-  color: #7F7F7F;
+.heading {
+  font-size: 2rem;
+  margin-bottom: 40px;
+}
+
+.paragraph {
+  margin: 15px 0;
+}
+
+.button {
+  composes: button--main from '../../common/buttons.less';
+
+  display: block;
+  margin-top: 50px;
+  width: 100%;
 }

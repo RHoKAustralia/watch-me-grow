@@ -1,0 +1,25 @@
+@import './variables';
+
+.button {
+  display: inline-block;
+  height: 60px;
+  line-height: 60px;
+  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.3);
+  font-size: 1.3rem;
+  text-decoration: none;
+
+  &:active {
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.3) inset;
+  }
+}
+
+.button--main {
+  composes: button;
+
+  color: @colour-text;
+  background-color: @colour-main;
+
+  &:hover {
+    background-color: darken(@colour-main, 5%);
+  }
+}

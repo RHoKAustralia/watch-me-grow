@@ -49,8 +49,8 @@ module.exports = {
   module: {
     loaders: [
       { test: /\.js?$/, exclude: /node_modules/, loaders: ["react-hot", "babel-loader"] },
-      { test: /\.less$/, loader: 'style-loader!css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!less-loader' }
-      // { test: /\.less$/, loader: ExtractTextPlugin.extract('style-loader', 'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!less-loader') }
+      { test: /\.less$/, loader: 'style-loader!css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!less-loader' },
+      { test: /\.png$/, loaders: ["url-loader?limit=100000"] },
     ]
   },
 
