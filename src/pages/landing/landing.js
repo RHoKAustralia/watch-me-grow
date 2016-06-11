@@ -1,5 +1,6 @@
 import React from "react";
 import Styles from "./landing.less";
+import {Link} from 'react-router';
 
 
 export default class HomePage extends React.Component {
@@ -12,7 +13,7 @@ export default class HomePage extends React.Component {
           This programme is designed for children aged 6 months to 4 years and is supported by the University of New
           South Wales.
         </p>
-        <a className={Styles.button} href="questionnaire">Start Questionnaire</a>
+        <Link className={Styles.button} to="questionnaire">Start Questionnaire</Link>
       </div>
     );
   }

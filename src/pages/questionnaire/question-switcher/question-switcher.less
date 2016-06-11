@@ -1,0 +1,40 @@
+@import '../../../common/variables';
+
+.question-switcher {
+  display: flex;
+  justify-content: space-between;
+}
+
+.element {
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.1) inset;
+  background-color: @colour-tertiary;
+  height: 35px;
+  line-height: 35px;
+}
+
+.button {
+  composes: button--small from '../../../common/buttons.less';
+  composes: element;
+  width: 60px;
+
+  &:hover {
+    background-color: darken(@colour-tertiary, 10%);
+  }
+}
+
+.button--left {
+  composes: button;
+}
+
+.button--right {
+  composes: button;
+}
+
+.title {
+  composes: element;
+
+  display: inline-block;
+  flex-grow: 1;
+  margin: 0 5px;
+  text-align: center;
+}

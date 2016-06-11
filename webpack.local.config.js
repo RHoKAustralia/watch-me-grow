@@ -1,6 +1,10 @@
 var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+var postCSSNested = require('postcss-nested');
+var postCSSSimpleVariables = require('postcss-simple-vars');
+var postCSSImport = require('postcss-import');
+var autoprefixer = require('autoprefixer');
 
 /**
  * This is the Webpack configuration file for local development. It contains
@@ -18,7 +22,7 @@ module.exports = {
   devtool: "eval",
 
   // Set entry point to ./src/main and include necessary files for hot load
-  entry:  [
+  entry: [
     "./src/main"
   ],
 
@@ -31,7 +35,8 @@ module.exports = {
   },
 
   devServer: {
-    // contentBase: 'build/'
+    port: 8080,
+    historyApiFallback: true
   },
 
   // Necessary plugins for hot load
@@ -48,14 +53,17 @@ module.exports = {
   // Transform source code using Babel and React Hot Loader
   module: {
     loaders: [
-      { test: /\.js?$/, exclude: /node_modules/, loaders: ["react-hot", "babel-loader"] },
-      { test: /\.less$/, loader: 'style-loader!css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!less-loader' },
-      { test: /\.png$/, loaders: ["url-loader?limit=100000"] },
+      {test: /\.(js|jsx)$/, exclude: /node_modules/, loaders: ["react-hot", "babel-loader"]},
+      {
+        test: /\.(css|less)$/,
+        loader: 'style-loader!css-loader?camelCase&modules&importLoaders=1&localIdentName=[name]__[local]!less-loader?sourceMap'
+      },
+      {test: /\.png$/, loaders: ["url-loader?limit=100000"]}
     ]
   },
 
   // Automatically transform files with these extensions
   resolve: {
-    extensions: ['', '.js', '.jsx', '.css']
-  },
-}
+    extensions: ['', '.js', '.jsx', '.css', 'less']
+  }
+};
