@@ -59,10 +59,12 @@
     "classnames": "^2.2.5",
     "css-loader": "^0.23.1",
     "express": "^4.12.3",
-    "material-icons": "^0.1.0",
+    "material-design-icons": "^2.2.3",
+    "material-ui": "^0.15.0",
     "react": "^15.0.1",
     "react-dom": "^15.0.1",
     "react-router": "^2.0.0",
+    "react-tap-event-plugin": "^1.0.0",
     "reset-css": "^2.0.2011012603",
     "style-loader": "^0.13.1"
   }

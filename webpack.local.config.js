@@ -58,7 +58,7 @@ module.exports = {
         test: /\.(css|less)$/,
         loader: 'style-loader!css-loader?camelCase&modules&importLoaders=1&localIdentName=[name]__[local]!less-loader?sourceMap'
       },
-      {test: /\.png$/, loaders: ["url-loader?limit=100000"]}
+      {test: /\.(png|woff|woff2|ttf)$/, loader: "url-loader?limit=10000"}
     ]
   },
 

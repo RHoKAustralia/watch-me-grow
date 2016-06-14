@@ -6,10 +6,12 @@ import QuestionSwitcher from './question-switcher/question-switcher';
 export default class LoginPage extends React.Component {
   render() {
     return (
-      <Card className={Styles.content} fullWidth={true}>
-        <QuestionSwitcher />
-        Hello
-      </Card>
+      <div className={Styles.questionnaire}>
+        <div className={Styles.inner}>
+          <QuestionSwitcher />
+          {this.props.children}
+        </div>
+      </div>
     );
   }
 }
