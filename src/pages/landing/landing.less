@@ -18,10 +18,15 @@
 }
 
 .button {
-  composes: button--main from '../../common/buttons.less';
   composes: button--large from '../../common/buttons.less';
 
   display: block;
   margin-top: 50px;
   width: 100%;
+  color: @colour-text;
+  background-color: @colour-main;
+
+  &:hover {
+    background-color: darken(@colour-main, 5%);
+  }
 }

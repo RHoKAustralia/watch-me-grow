@@ -1,10 +1,8 @@
 var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
-var postCSSNested = require('postcss-nested');
-var postCSSSimpleVariables = require('postcss-simple-vars');
-var postCSSImport = require('postcss-import');
 var autoprefixer = require('autoprefixer');
+var path = require('path');
 
 /**
  * This is the Webpack configuration file for local development. It contains
@@ -39,9 +37,12 @@ module.exports = {
     historyApiFallback: true
   },
 
+  sassLoader: {
+    data: '@import "' + path.resolve(__dirname, 'src/common/theme.scss') + '";'
+  },
+
   // Necessary plugins for hot load
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
     // new webpack.NoErrorsPlugin(),
     // new ExtractTextPlugin('style.css', { allChunks: true }),
     new HtmlWebpackPlugin({
@@ -57,6 +58,10 @@ module.exports = {
       {
         test: /\.(css|less)$/,
         loader: 'style-loader!css-loader?camelCase&modules&importLoaders=1&localIdentName=[name]__[local]!less-loader?sourceMap'
+      },
+      {
+        test: /\.scss$/,
+        loader: 'style-loader!css-loader?camelCase&modules&importLoaders=1&localIdentName=[name]__[local]!sass-loader?sourceMap'
       },
       {test: /\.(png|woff|woff2|ttf)$/, loader: "url-loader?limit=10000"}
     ]
