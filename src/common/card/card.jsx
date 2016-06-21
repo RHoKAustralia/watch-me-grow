@@ -1,5 +1,5 @@
 import React from 'react';
-import Styles from './card.less';
+import Styles from './card.scss';
 import classNames from 'classnames';
 
 const Card = React.createClass({

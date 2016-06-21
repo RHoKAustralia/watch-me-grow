@@ -1,0 +1,12 @@
+@import './variables';
+@import 'less/material-icons.scss';
+@import 'fonts/fonts.scss';
+
+body {
+  background-color: $colour-accent;
+  font-family: Roboto, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}

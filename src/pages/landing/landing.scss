@@ -1,8 +1,8 @@
-@import '../../common/variables.less';
+@import '../../common/variables.scss';
 
 .content {
   color: #FFFFFF;
-  background-color: @colour-accent;
+  background-color: $colour-accent;
   line-height: 1.2rem;
   text-align: center;
   padding-top: 30px;
@@ -18,15 +18,15 @@
 }
 
 .button {
-  composes: button--large from '../../common/buttons.less';
+  composes: button--large from '../../common/buttons.scss';
 
   display: block;
   margin-top: 50px;
   width: 100%;
-  color: @colour-text;
-  background-color: @colour-main;
+  color: $colour-text;
+  background-color: $colour-main;
 
   &:hover {
-    background-color: darken(@colour-main, 5%);
+    background-color: darken($colour-main, 5%);
   }
 }

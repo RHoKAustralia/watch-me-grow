@@ -4,8 +4,8 @@
 }
 
 .next-button {
-  composes: button--main from '../../../common/buttons.less';
-  composes: button--large from '../../../common/buttons.less';
+  composes: button--main from '../../../common/buttons.scss';
+  composes: button--large from '../../../common/buttons.scss';
 
   margin-top: 20px;
   width: 140px;

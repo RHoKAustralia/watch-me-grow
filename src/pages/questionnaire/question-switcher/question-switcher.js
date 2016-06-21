@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router';
 import classNames from 'classnames';
-import Styles from './question-switcher.less';
+import Styles from './question-switcher.scss';
 
 const QuestionSwitcher = React.createClass({
   propTypes: {
@@ -10,7 +10,7 @@ const QuestionSwitcher = React.createClass({
 
   leftHref() {
     if (this.props.questionNumber > 1) {
-      return '/questionnaire/question/' + (this.props.questionNumber - 1);
+      return '/questionnaire/questions/' + (this.props.questionNumber - 1);
     } else if (this.props.questionNumber === 1) {
       return '/questionnaire/details';
     } else {
@@ -19,7 +19,7 @@ const QuestionSwitcher = React.createClass({
   },
 
   rightHref() {
-    return '/questionnaire/question/' +
+    return '/questionnaire/questions/' +
       (typeof this.props.questionNumber === 'undefined' ? 1 : this.props.questionNumber + 1);
   },
 

@@ -17,11 +17,11 @@
 .button--main {
   composes: button;
 
-  color: @colour-main;
-  background-color: @colour-accent;
+  color: $colour-main;
+  background-color: $colour-accent;
 
   &:hover {
-    background-color: darken(@colour-accent, 5%);
+    background-color: darken($colour-accent, 5%);
   }
 }
 

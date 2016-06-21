@@ -1,5 +1,5 @@
 import React from "react";
-import Styles from "./landing.less";
+import Styles from "./landing.scss";
 import {Link} from 'react-router';
 
 

@@ -3,7 +3,7 @@ import DevTools from 'mobx-react-devtools';
 
 import Header from './header/header';
 import Footer from './footer/footer';
-import Styles from './app.less';
+import Styles from './app.scss';
 import ResultStore from '../model/result-store';
 import DetailsStore from '../model/details-store';
 

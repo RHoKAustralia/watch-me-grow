@@ -1,4 +1,4 @@
-@import '../../../common/variables';
+@import '../../../common/variables.scss';
 
 .question-switcher {
   display: flex;
@@ -7,24 +7,24 @@
 
 .element {
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.1) inset;
-  background-color: @colour-tertiary;
+  background-color: $colour-tertiary;
   height: 35px;
   line-height: 35px;
 }
 
 .button {
-  composes: button--small from '../../../common/buttons.less';
+  composes: button--small from '../../../common/buttons.scss';
   composes: element;
   width: 60px;
   padding-top: 3px;
-  color: @colour-text;
+  color: $colour-text;
 
   i {
     font-size: 30px;
   }
 
   &:hover {
-    background-color: darken(@colour-tertiary, 10%);
+    background-color: darken($colour-tertiary, 10%);
   }
 
   &--left {

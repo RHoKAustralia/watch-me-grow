@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Styles from './header.less';
+import Styles from './header.scss';
 
 const Header = React.createClass({
   render() {

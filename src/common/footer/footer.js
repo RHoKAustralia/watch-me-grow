@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Styles from './footer.less';
+import Styles from './footer.scss';
 
 const Header = React.createClass({
   render() {

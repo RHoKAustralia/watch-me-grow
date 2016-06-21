@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Styles from './question.less';
+import Styles from './question.scss';
 
 const Question = React.createClass({
   render() {

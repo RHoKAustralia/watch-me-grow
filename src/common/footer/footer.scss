@@ -1,8 +1,8 @@
-@import '../variables';
+@import '../variables.scss';
 
 .footer {
   align-self: flex-end;
-  background: @colour-accent-dark;
+  background: $colour-accent-dark;
   width: 100%;
 }
 
@@ -13,7 +13,7 @@
 
 .blurb {
   font-weight: bold;
-  color: @colour-main;
+  color: $colour-main;
   line-height: 1.4rem;
   text-align: center;
 }

@@ -14,7 +14,7 @@ export default (
     <Route path="questionnaire" component={QuestionnairePage}>
       <IndexRoute component={Details}/>
       <Route path="details" component={Details}/>
-      <Route path="question/:questionNumber" component={Question}/>
+      <Route path="questions/:questionNumber" component={Question}/>
     </Route>
   </Route>
 );

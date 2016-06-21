@@ -56,12 +56,8 @@ module.exports = {
     loaders: [
       {test: /\.(js|jsx)$/, exclude: /node_modules/, loaders: ["react-hot", "babel-loader"]},
       {
-        test: /\.(css|less)$/,
-        loader: 'style-loader!css-loader?camelCase&modules&importLoaders=1&localIdentName=[name]__[local]!less-loader?sourceMap'
-      },
-      {
-        test: /\.scss$/,
-        loader: 'style-loader!css-loader?camelCase&modules&importLoaders=1&localIdentName=[name]__[local]!sass-loader?sourceMap'
+        test: /\.(css|scss)$/,
+        loader: 'style-loader!css-loader?camelCase&modules&importLoaders=2&localIdentName=[name]__[local]__[hash]!resolve-url-loader!sass-loader?sourceMap'
       },
       {test: /\.(png|woff|woff2|ttf)$/, loader: "url-loader?limit=10000"}
     ]
