@@ -17,6 +17,7 @@
   composes: element;
   width: 60px;
   padding-top: 3px;
+  color: @colour-text;
 
   i {
     font-size: 30px;
@@ -25,14 +26,22 @@
   &:hover {
     background-color: darken(@colour-tertiary, 10%);
   }
-}
 
-.button--left {
-  composes: button;
-}
+  &--left {
+    composes: button;
+  }
 
-.button--right {
-  composes: button;
+  &--right {
+    composes: button;
+  }
+
+  &--disabled {
+    pointer-events: none;
+
+    i {
+      display: none;
+    }
+  }
 }
 
 .title {

@@ -1,4 +1,6 @@
 import React from 'react';
+import {Link} from 'react-router';
+import classNames from 'classnames';
 import Styles from './question-switcher.less';
 
 const QuestionSwitcher = React.createClass({
@@ -8,22 +10,30 @@ const QuestionSwitcher = React.createClass({
 
   leftHref() {
     if (this.props.questionNumber > 1) {
-      return 'questionnaire/question/' + this.props.questionNumber - 1;
+      return '/questionnaire/question/' + (this.props.questionNumber - 1);
     } else if (this.props.questionNumber === 1) {
-      return 'questionnaire/details';
+      return '/questionnaire/details';
+    } else {
+      return '';
     }
   },
 
   rightHref() {
-
+    return '/questionnaire/question/' +
+      (typeof this.props.questionNumber === 'undefined' ? 1 : this.props.questionNumber + 1);
   },
 
   render() {
     return (
       <div className={Styles.questionSwitcher}>
-        <a className={Styles.buttonLeft}>
+        <Link
+          to={this.leftHref()}
+          className={classNames(
+            Styles.buttonLeft,
+            {[Styles.buttonDisabled]: !this.leftHref().length}
+          )}>
           <i className="material-icons">chevron_left</i>
-        </a>
+        </Link>
         <span className={Styles.title}>
           <Choose>
             <When condition={this.props.questionNumber}>
@@ -34,9 +44,14 @@ const QuestionSwitcher = React.createClass({
             </Otherwise>
           </Choose>
         </span>
-        <a className={Styles.buttonRight}>
+        <Link
+          className={classNames(
+            Styles.buttonRight,
+            {[Styles.buttonDisabled]: !this.rightHref().length}
+          )}
+          to={this.rightHref()}>
           <i className="material-icons">chevron_right</i>
-        </a>
+        </Link>
       </div>
     );
   }
