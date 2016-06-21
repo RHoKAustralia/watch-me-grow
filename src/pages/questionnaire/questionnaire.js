@@ -1,17 +1,20 @@
 import React from 'react';
 import Styles from './questionnaire.less';
-import Card from '../../common/card/card';
 import QuestionSwitcher from './question-switcher/question-switcher';
 
-export default class LoginPage extends React.Component {
+const Questionnaire = React.createClass({
   render() {
     return (
       <div className={Styles.questionnaire}>
         <div className={Styles.inner}>
-          <QuestionSwitcher />
-          {this.props.children}
+          <QuestionSwitcher questionNumber={this.props.params.questionNumber} />
+          {React.Children.map(this.props.children, child => React.cloneElement(child, {
+            stores: this.props.stores
+          }))}
         </div>
       </div>
     );
   }
-}
+});
+
+export default Questionnaire;

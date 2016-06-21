@@ -2,16 +2,41 @@ import React from 'react';
 import Styles from './question-switcher.less';
 
 const QuestionSwitcher = React.createClass({
+  propTypes: {
+    questionNumber: React.PropTypes.number
+  },
+
+  leftHref() {
+    if (this.props.questionNumber > 1) {
+      return 'questionnaire/question/' + this.props.questionNumber - 1;
+    } else if (this.props.questionNumber === 1) {
+      return 'questionnaire/details';
+    }
+  },
+
+  rightHref() {
+
+  },
+
   render() {
     return (
       <div className={Styles.questionSwitcher}>
-        <button className={Styles.buttonLeft}>
+        <a className={Styles.buttonLeft}>
           <i className="material-icons">chevron_left</i>
-        </button>
-        <span className={Styles.title}>Personal Details</span>
-        <button className={Styles.buttonRight}>
+        </a>
+        <span className={Styles.title}>
+          <Choose>
+            <When condition={this.props.questionNumber}>
+              {this.props.questionNumber}
+            </When>
+            <Otherwise>
+              Personal Details
+            </Otherwise>
+          </Choose>
+        </span>
+        <a className={Styles.buttonRight}>
           <i className="material-icons">chevron_right</i>
-        </button>
+        </a>
       </div>
     );
   }

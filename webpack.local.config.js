@@ -17,7 +17,7 @@ var path = require('path');
 module.exports = {
 
   // Efficiently evaluate modules with source maps
-  devtool: "eval",
+  devtool: "cheap-inline-sourcemap",
 
   // Set entry point to ./src/main and include necessary files for hot load
   entry: [

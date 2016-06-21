@@ -2,23 +2,18 @@
  * App entry point
  */
 
-// Polyfill
 import 'babel-polyfill';
-
-// Libraries
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, browserHistory } from 'react-router';
-
-// Routes
-import Routes from './common/routes';
-
-// Base styling
+import Routes from './common/routes';// Base styling
 import './common/base.less';
-
+import injectTapEventPlugin from 'react-tap-event-plugin';
 
 // ID of the DOM element to mount app on
 const DOM_APP_EL_ID = 'app';
+
+injectTapEventPlugin();
 
 // Render the router
 ReactDOM.render((
