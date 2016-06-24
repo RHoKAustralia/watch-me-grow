@@ -12,6 +12,7 @@ const Details = observer(React.createClass({
     event.preventDefault();
     
     if (this.props.stores.details.validate()) {
+      this.props.stores.details.save();
       this.props.router.push('/questionnaire/questions/1');
     }
   },
