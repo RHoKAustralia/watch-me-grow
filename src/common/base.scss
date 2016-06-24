@@ -1,5 +1,6 @@
 @import './variables';
 @import 'less/material-icons.scss';
+@import '~react-toolbox/lib/commons.scss';
 @import 'fonts/fonts.scss';
 
 body {
@@ -9,4 +10,8 @@ body {
 
 * {
   box-sizing: border-box;
+}
+
+body {
+  margin: 0;
 }
