@@ -1,6 +1,9 @@
 import React from 'react';
 import {Link} from 'react-router';
 import classNames from 'classnames';
+
+import questions from '../../../model/questions';
+
 import Styles from './question-switcher.scss';
 
 const QuestionSwitcher = React.createClass({
@@ -37,7 +40,7 @@ const QuestionSwitcher = React.createClass({
         <span className={Styles.title}>
           <Choose>
             <When condition={this.props.questionNumber}>
-              {this.props.questionNumber}
+              {this.props.questionNumber} of {questions.length}
             </When>
             <Otherwise>
               Personal Details
