@@ -1,4 +1,51 @@
+.root {
+  position: relative;
+
+  :global {
+    .fly-enter {
+      transform: translate(100vw, 0);
+    }
+    .fly-enter.fly-enter-active {
+      transform: translate(0);
+      transition: transform 200ms ease-in;
+    }
+
+    .fly-leave {
+      transform: translate(0);
+    }
+
+
+    .fly-leave.fly-leave-active {
+      transform: translate(-100vw, 0);
+      transition: transform 200ms ease-in;
+    }
+  }
+
+  &.reverse {
+    :global {
+      .fly-enter {
+        transform: translate(-100vw, 0);
+      }
+
+      .fly-enter.fly-enter-active {
+        transform: translate(0);
+        transition: transform 200ms ease-in;
+      }
+
+      .fly-leave {
+        transform: translate(0);
+      }
+
+      .fly-leave.fly-leave-active {
+        transform: translate(100vw, 0);
+      }
+    }
+  }
+}
+
 .question {
+  position: absolute;
+  width: 100%;
 }
 
 .text {
@@ -8,7 +55,7 @@
 }
 
 .button {
-  composes: button--main  from '../../../common/buttons.scss';
+  composes: button--main from '../../../common/buttons.scss';
 
   margin: 5px;
   flex-grow: 1;

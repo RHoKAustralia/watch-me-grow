@@ -1,6 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import {withRouter} from 'react-router';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 import questions from '../../../model/questions';
 
@@ -16,7 +17,14 @@ const Question = React.createClass({
   },
 
   processProps(props) {
-    this.questionNumber = parseInt(props.params.questionNumber);
+    const oldQuestionNumber = this.questionNumber || 0;
+    const newQuestionNumber = parseInt(props.params.questionNumber);
+
+    this.setState({
+      reverse: oldQuestionNumber > newQuestionNumber
+    });
+
+    this.questionNumber = newQuestionNumber;
     this.question = questions[this.questionNumber];
   },
 
@@ -43,23 +51,28 @@ const Question = React.createClass({
     const question = this.question;
 
     return (
-      <div className={Styles.question}>
-        <div className={Styles.text}>
-          {question.text}
-        </div>
-        <div className={classNames(
-          Styles.answers,
-          {[Styles.answersVertical]: question.answers.length > 3}
-        )}>
-          <For each="answer" of={question.answers}>
-            <button
-              key={answer.value}
-              className={Styles.button}
-              onClick={this.onAnswerClicked.bind(this, answer)}>
-              {answer.text}
-            </button>
-          </For>
-        </div>
+      <div className={classNames(Styles.root, {[Styles.reverse]: this.state.reverse})}>
+        <ReactCSSTransitionGroup transitionName="fly" transitionEnterTimeout={200} transitionLeaveTimeout={200}>
+          <div className={Styles.question} key={question.id}>
+            <div className={Styles.text}>
+              {question.text}
+            </div>
+            <div
+              className={classNames(
+                Styles.answers,
+                {[Styles.answersVertical]: question.answers.length > 3}
+              )}>
+              <For each="answer" of={question.answers}>
+                <button
+                  key={answer.value}
+                  className={Styles.button}
+                  onClick={this.onAnswerClicked.bind(this, answer)}>
+                  {answer.text}
+                </button>
+              </For>
+            </div>
+          </div>
+        </ReactCSSTransitionGroup>
       </div>
     );
   }
