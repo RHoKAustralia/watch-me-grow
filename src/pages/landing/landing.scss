@@ -5,12 +5,19 @@
   background-color: $colour-accent;
   line-height: 1.2rem;
   text-align: center;
-  padding-top: 30px;
+  padding: 10px;
 }
 
 .heading {
   font-size: 2rem;
-  margin-bottom: 40px;
+
+  margin-top: 10px;
+  margin-bottom: 20px;
+
+  @media screen and (min-width: $width-md-min) {
+    margin-top: 30px;
+    margin-bottom: 40px;
+  }
 }
 
 .paragraph {
@@ -21,10 +28,15 @@
   composes: button--large from '../../common/buttons.scss';
 
   display: block;
-  margin-top: 50px;
   width: 100%;
   color: $colour-text;
   background-color: $colour-main;
+  margin-top: 30px;
+  margin-bottom: 10px;
+
+  @media screen and (min-width: $width-md-min) {
+    margin-top: 50px;
+  }
 
   &:hover {
     background-color: darken($colour-main, 5%);

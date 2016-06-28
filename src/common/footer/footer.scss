@@ -4,11 +4,16 @@
   align-self: flex-end;
   background: $colour-accent-dark;
   width: 100%;
+  padding: 10px;
 }
 
 .inner {
   max-width: 768px;
-  margin: 50px auto 40px auto;
+  margin: 10px auto 10px auto;
+
+  @media screen and (min-width: $width-md-min) {
+    margin: 50px auto 40px auto;
+  }
 }
 
 .blurb {

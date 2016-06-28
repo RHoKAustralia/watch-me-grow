@@ -1,5 +1,8 @@
+@import '../../../common/variables';
+
 .details {
   text-align: center;
+  padding-top: 10px;
   padding-bottom: 30px;
 }
 
@@ -9,5 +12,8 @@
 
   margin-top: 20px;
   width: 140px;
-  float: right;
+
+  @media screen and (min-width: $width-md-min) {
+    float: right;
+  }
 }

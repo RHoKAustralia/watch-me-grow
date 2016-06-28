@@ -16,7 +16,6 @@
       transform: translate(0);
     }
 
-
     .fly-leave.fly-leave-active {
       transform: translate(-100vw, 0);
       transition: transform 200ms ease-in;
@@ -51,9 +50,13 @@
 }
 
 .text {
-  padding: 75px 0;
   text-align: center;
   font-size: 2rem;
+  padding: 20px 0;
+
+  @media screen and (min-width: $width-md-min) {
+    padding: 75px 0;
+  }
 }
 
 .button {
@@ -64,7 +67,6 @@
   text-transform: capitalize;
 
   &--current-answer {
-    //border: 5px solid $colour-accent-dark;
     background-color: lighten($colour-accent, 20%);
   }
 }
