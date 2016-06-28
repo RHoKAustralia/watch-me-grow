@@ -4,6 +4,9 @@
   text-align: center;
   padding-top: 10px;
   padding-bottom: 30px;
+  max-width: $width-inner;
+  width: 100%;
+  margin: 0 auto;
 }
 
 .next-button {

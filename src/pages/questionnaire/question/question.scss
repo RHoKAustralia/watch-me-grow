@@ -73,7 +73,7 @@
 
 .answers {
   display: flex;
-  max-width: 500px;
+  max-width: $width-inner;
   margin: 0 auto;
 
   &--vertical {
