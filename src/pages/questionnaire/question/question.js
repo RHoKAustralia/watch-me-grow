@@ -43,8 +43,9 @@ const Question = React.createClass({
 
   goToNext() {
     const nextQuestionNumber = (this.questionNumber + 1);
+    const questionsLength = Object.keys(questions).length;
 
-    const nextRoute = nextQuestionNumber <= questions.length ?
+    const nextRoute = nextQuestionNumber <= questionsLength ?
       `/questionnaire/questions/${nextQuestionNumber}` :
       '/results';
 

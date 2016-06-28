@@ -8,7 +8,8 @@ import Styles from './question-switcher.scss';
 
 const QuestionSwitcher = React.createClass({
   propTypes: {
-    questionNumber: React.PropTypes.number
+    questionNumber: React.PropTypes.number.isRequired,
+    hasAnswered: React.PropTypes.bool.isRequired
   },
 
   leftHref() {
@@ -22,8 +23,13 @@ const QuestionSwitcher = React.createClass({
   },
 
   rightHref() {
-    return '/questionnaire/questions/' +
-      (typeof this.props.questionNumber === 'undefined' ? 1 : this.props.questionNumber + 1);
+    if (!this.props.questionNumber) {
+      return '/questionnaire/questions/1';
+    } else if (this.props.hasAnswered) {
+      return `/questionnaire/questions/${this.props.questionNumber + 1}`;
+    } else {
+      return '';
+    }
   },
 
   render() {
