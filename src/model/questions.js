@@ -7,4 +7,5 @@ export default questionnaires
       return question;
     });
   })
-  .reduce((soFar, questions) => soFar.concat(questions));
+  .reduce((soFar, questions) => soFar.concat(questions))
+  .reduce((soFar, question, i) => {soFar[i + 1] = question; return soFar}, {});

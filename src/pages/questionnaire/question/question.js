@@ -8,6 +8,10 @@ import questions from '../../../model/questions';
 import Styles from './question.scss'
 
 const Question = React.createClass({
+  propTypes: {
+    questionNumber: React.PropTypes.number.isRequired
+  },
+
   componentWillMount() {
     this.processProps(this.props);
   },
@@ -18,7 +22,7 @@ const Question = React.createClass({
 
   processProps(props) {
     const oldQuestionNumber = this.questionNumber || 0;
-    const newQuestionNumber = parseInt(props.params.questionNumber);
+    const newQuestionNumber = props.questionNumber;
 
     this.setState({
       reverse: oldQuestionNumber > newQuestionNumber

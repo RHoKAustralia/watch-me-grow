@@ -40,7 +40,7 @@ const QuestionSwitcher = React.createClass({
         <span className={Styles.title}>
           <Choose>
             <When condition={this.props.questionNumber}>
-              {this.props.questionNumber} of {questions.length}
+              {this.props.questionNumber} of {Object.keys(questions).length}
             </When>
             <Otherwise>
               Personal Details

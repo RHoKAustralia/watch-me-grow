@@ -15,7 +15,9 @@ const Questionnaire = React.createClass({
       <div className={Styles.questionnaire}>
         <div className={Styles.inner}>
           <QuestionSwitcher questionNumber={this.getQuestionNumber()}/>
-          {React.Children.map(this.props.children, child => React.cloneElement(child, this.props))}
+          {React.Children.map(this.props.children, child => React.cloneElement(child, Object.assign({}, this.props, {
+            questionNumber: this.getQuestionNumber()
+          })))}
         </div>
       </div>
     );
