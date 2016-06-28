@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import classNames from 'classnames';
 import {withRouter} from 'react-router';
 import {observer} from 'mobx-react';
@@ -49,6 +50,8 @@ const Question = React.createClass({
 
     if (!(this.question.comments && (answer.redFlagQuestion || answer.amberFlagQuestion))) {
       this.goToNext();
+    } else {
+      setTimeout(() => ReactDOM.findDOMNode(this.commentsElement).querySelector('textarea').focus());
     }
   },
 
@@ -102,14 +105,14 @@ const Question = React.createClass({
               </div>
             </div>
 
-            <If condition={question.comments && storedAnswer}>
+            <div style={{display: question.comments && storedAnswer ? 'block' : 'none'}}>
               <Input
                 ref={ref => this.commentsElement = ref}
                 className={Styles.comments}
                 type="text"
                 label="Can you briefly describe your concern?"
                 name="Comments"
-                value={storedAnswer.comments || ''}
+                value={(storedAnswer && storedAnswer.comments) || ''}
                 onChange={this.onCommentChanged.bind(this, storedAnswer)}
                 maxLength={300}
                 multiline={true}
@@ -122,7 +125,7 @@ const Question = React.createClass({
                 onClick={this.goToNext}>
                 Next
               </button>
-            </If>
+            </div>
           </div>
         </ReactCSSTransitionGroup>
       </div>
