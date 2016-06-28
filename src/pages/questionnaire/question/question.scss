@@ -55,28 +55,43 @@
   padding: 20px 0;
 
   @media screen and (min-width: $width-md-min) {
-    padding: 75px 0;
+    padding: 60px 0 50px 0;
   }
 }
 
-.button {
+.answer-button {
   composes: button--main from '../../../common/buttons.scss';
 
   margin: 5px;
   flex-grow: 1;
   text-transform: capitalize;
 
-  &--current-answer {
+  &--current {
     background-color: lighten($colour-accent, 20%);
   }
 }
 
-.answers {
-  display: flex;
+.answer-wrapper {
   max-width: $width-inner;
   margin: 0 auto;
+}
+
+.answers {
+  display: flex;
 
   &--vertical {
     flex-direction: column;
   }
+}
+
+.comments {
+  margin: 40px 10px 20px 10px;
+}
+
+.next-button {
+  composes: button--main from '../../../common/buttons.scss';
+
+  margin-top: 20px;
+  width: 150px;
+  float: right;
 }

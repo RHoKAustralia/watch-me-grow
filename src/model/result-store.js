@@ -1,4 +1,4 @@
-import { observable } from 'mobx';
+import { observable, computed, extendObservable, action, map } from 'mobx';
 
 const LOCAL_STORAGE_KEY = 'wmg-results';
 
@@ -9,24 +9,30 @@ class ResultStore {
     const resultsString = sessionStorage.getItem(LOCAL_STORAGE_KEY);
 
     if (resultsString) {
-      this.results = JSON.parse(resultsString);
+      const resultsMap = JSON.parse(resultsString);
+
+      this.results = Object.keys(resultsMap).reduce((soFar, key) => {
+        soFar.set(key, map(resultsMap[key]));
+        return soFar;
+      }, map());
     } else {
-      this.results = {};
+      this.results = map();
     }
   }
 
-  saveAnswer(questionnaireId, questionId, value) {
-    this.getQuestionnaireResults(questionnaireId)[questionId] = value;
+  @action
+  saveAnswer(questionnaireId, questionId, value, comments) {
+    if (!this.results.has(questionnaireId)) {
+      this.results.set(questionnaireId, map());
+    }
+
+    this.results.get(questionnaireId).set(questionId, {value, comments});
 
     this.save();
   }
 
-  getAnswer(questionnaireId, questionId) {
-    return this.getQuestionnaireResults(questionnaireId)[questionId];
-  }
-
-  getQuestionnaireResults(questionnaireId) {
-    return this.results[questionnaireId] = this.results[questionnaireId] || {};
+  static getAnswer(results, questionnaireId, questionId) {
+    return (results.has(questionnaireId) ? results.get(questionnaireId) : map()).get(questionId);
   }
 
   save() {

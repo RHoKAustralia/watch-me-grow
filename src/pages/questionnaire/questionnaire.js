@@ -2,6 +2,7 @@ import React from 'react';
 import Styles from './questionnaire.scss';
 import QuestionSwitcher from './question-switcher/question-switcher';
 import questions from '../../model/questions';
+import ResultsStore from '../../model/result-store';
 
 const Questionnaire = React.createClass({
   getQuestionNumber() {
@@ -16,7 +17,7 @@ const Questionnaire = React.createClass({
 
     if (questionNumber) {
       const question = questions[questionNumber];
-      return !!this.props.stores.results.getAnswer(question.questionnaire.id, question.id);
+      return !!ResultsStore.getAnswer(this.props.stores.results.results, question.questionnaire.id, question.id);
     }
 
     return false;

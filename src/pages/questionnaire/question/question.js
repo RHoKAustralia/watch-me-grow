@@ -1,7 +1,10 @@
 import React from 'react';
 import classNames from 'classnames';
 import {withRouter} from 'react-router';
+import {observer} from 'mobx-react';
+import Input from 'react-toolbox/lib/input';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import ResultsStore from '../../../model/result-store';
 
 import questions from '../../../model/questions';
 
@@ -10,6 +13,12 @@ import Styles from './question.scss'
 const Question = React.createClass({
   propTypes: {
     questionNumber: React.PropTypes.number.isRequired
+  },
+
+  getInitialState() {
+    return {
+      reverse: false
+    };
   },
 
   componentWillMount() {
@@ -38,13 +47,14 @@ const Question = React.createClass({
 
     resultStore.saveAnswer(question.questionnaire.id, question.id, answer.value);
 
-    this.goToNext();
+    if (!(this.question.comments && (answer.redFlagQuestion || answer.amberFlagQuestion))) {
+      this.goToNext();
+    }
   },
 
   goToNext() {
     const nextQuestionNumber = (this.questionNumber + 1);
     const questionsLength = Object.keys(questions).length;
-
     const nextRoute = nextQuestionNumber <= questionsLength ?
       `/questionnaire/questions/${nextQuestionNumber}` :
       '/results';
@@ -54,7 +64,8 @@ const Question = React.createClass({
 
   render() {
     const question = this.question;
-    const answerValue = this.props.stores.results.getAnswer(question.questionnaire.id, question.id);
+    this.props.stores.results.results.blah;
+    const storedAnswer = ResultsStore.getAnswer(this.props.stores.results.results, question.questionnaire.id, question.id);
 
     return (
       <div className={classNames(Styles.root, {[Styles.reverse]: this.state.reverse})}>
@@ -63,20 +74,47 @@ const Question = React.createClass({
             <div className={Styles.text}>
               {question.text}
             </div>
-            <div
-              className={classNames(
+            <div className={Styles.answerWrapper}>
+              <div
+                className={classNames(
                 Styles.answers,
                 {[Styles.answersVertical]: question.answers.length > 3}
               )}>
-              <For each="answer" of={question.answers}>
-                <button
-                  key={answer.value}
-                  className={classNames(Styles.button, {[Styles.buttonCurrentAnswer]: answerValue === answer.value})}
-                  onClick={this.onAnswerClicked.bind(this, answer)}>
-                  {answer.text}
-                </button>
-              </For>
+                <For each="answer" of={question.answers}>
+                  <button
+                    key={answer.value}
+                    className={classNames(
+                    Styles.answerButton,
+                    {[Styles.answerButtonCurrent]: storedAnswer && storedAnswer.value === answer.value}
+                  )}
+                    onClick={this.onAnswerClicked.bind(this, answer)}>
+                    {answer.text}
+                  </button>
+                </For>
+              </div>
             </div>
+
+            <If condition={question.comments && storedAnswer}>
+              <Input
+                ref={ref => this.commentsElement = ref}
+                className={Styles.comments}
+                type="text"
+                label="Can you briefly describe your concern?"
+                name="Comments"
+                value={storedAnswer.comments || ''}
+                onChange={this.onCommentChanged}
+                maxLength={300}
+                multiline={true}
+                theme={{
+                  inputElement: Styles.commentsTextarea
+                }}
+              />
+              <button
+                className={Styles.nextButton}
+                onClick={this.goToNext}>
+                Next
+              </button>
+            </If>
           </div>
         </ReactCSSTransitionGroup>
       </div>
@@ -84,4 +122,4 @@ const Question = React.createClass({
   }
 });
 
-export default withRouter(Question);
+export default withRouter(observer(Question));
