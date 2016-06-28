@@ -49,6 +49,7 @@ const Question = React.createClass({
 
   render() {
     const question = this.question;
+    const answerValue = this.props.stores.results.getAnswer(question.questionnaire.id, question.id);
 
     return (
       <div className={classNames(Styles.root, {[Styles.reverse]: this.state.reverse})}>
@@ -65,7 +66,7 @@ const Question = React.createClass({
               <For each="answer" of={question.answers}>
                 <button
                   key={answer.value}
-                  className={Styles.button}
+                  className={classNames(Styles.button, {[Styles.buttonCurrentAnswer]: answerValue === answer.value})}
                   onClick={this.onAnswerClicked.bind(this, answer)}>
                   {answer.text}
                 </button>

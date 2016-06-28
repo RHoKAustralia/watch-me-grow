@@ -6,7 +6,7 @@ class ResultStore {
   @observable results;
 
   constructor() {
-    const resultsString = localStorage.getItem(LOCAL_STORAGE_KEY);
+    const resultsString = sessionStorage.getItem(LOCAL_STORAGE_KEY);
 
     if (resultsString) {
       this.results = JSON.parse(resultsString);
@@ -16,14 +16,21 @@ class ResultStore {
   }
 
   saveAnswer(questionnaireId, questionId, value) {
-    const questionnaireResults = this.results[questionnaireId] = this.results[questionnaireId] || {};
-    questionnaireResults[questionId] = value;
+    this.getQuestionnaireResults(questionnaireId)[questionId] = value;
 
     this.save();
   }
 
+  getAnswer(questionnaireId, questionId) {
+    return this.getQuestionnaireResults(questionnaireId)[questionId];
+  }
+
+  getQuestionnaireResults(questionnaireId) {
+    return this.results[questionnaireId] = this.results[questionnaireId] || {};
+  }
+
   save() {
-    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(this.results));
+    sessionStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(this.results));
   }
 }
 

@@ -14,7 +14,7 @@ class DetailsStore {
   @observable errors = {};
 
   constructor() {
-    const fromStorageRaw = localStorage.getItem(LOCAL_STORAGE_KEY);
+    const fromStorageRaw = sessionStorage.getItem(LOCAL_STORAGE_KEY);
     if (fromStorageRaw) {
       const storedDetails = JSON.parse(fromStorageRaw);
       this.babyName = storedDetails.babyName;
@@ -49,7 +49,7 @@ class DetailsStore {
   }
 
   save() {
-    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify({
+    sessionStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify({
       babyName: this.babyName,
       babyDob: this.babyDob.toString(),
       parentName: this.parentName,

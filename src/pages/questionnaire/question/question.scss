@@ -1,3 +1,5 @@
+@import '../../../common/variables';
+
 .root {
   position: relative;
 
@@ -60,6 +62,11 @@
   margin: 5px;
   flex-grow: 1;
   text-transform: capitalize;
+
+  &--current-answer {
+    //border: 5px solid $colour-accent-dark;
+    background-color: lighten($colour-accent, 20%);
+  }
 }
 
 .answers {
