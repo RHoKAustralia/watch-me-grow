@@ -41,11 +41,11 @@ const Question = React.createClass({
     this.question = questions[this.questionNumber];
   },
 
-  onAnswerClicked(answer, event) {
+  onAnswerClicked(answer, storedAnswer, event) {
     const question = this.question;
     const resultStore = this.props.stores.results;
 
-    resultStore.saveAnswer(question.questionnaire.id, question.id, answer.value);
+    resultStore.saveAnswer(question.questionnaire.id, question.id, answer.value, storedAnswer && storedAnswer.comments);
 
     if (!(this.question.comments && (answer.redFlagQuestion || answer.amberFlagQuestion))) {
       this.goToNext();
@@ -53,6 +53,8 @@ const Question = React.createClass({
   },
 
   goToNext() {
+    this.props.stores.results.save();
+
     const nextQuestionNumber = (this.questionNumber + 1);
     const questionsLength = Object.keys(questions).length;
     const nextRoute = nextQuestionNumber <= questionsLength ?
@@ -62,9 +64,15 @@ const Question = React.createClass({
     this.props.router.push(nextRoute);
   },
 
+  onCommentChanged(storedAnswer, newValue) {
+    const question = this.question;
+    const resultStore = this.props.stores.results;
+
+    resultStore.saveAnswer(question.questionnaire.id, question.id, storedAnswer.value, newValue);
+  },
+
   render() {
     const question = this.question;
-    this.props.stores.results.results.blah;
     const storedAnswer = ResultsStore.getAnswer(this.props.stores.results.results, question.questionnaire.id, question.id);
 
     return (
@@ -87,7 +95,7 @@ const Question = React.createClass({
                     Styles.answerButton,
                     {[Styles.answerButtonCurrent]: storedAnswer && storedAnswer.value === answer.value}
                   )}
-                    onClick={this.onAnswerClicked.bind(this, answer)}>
+                    onClick={this.onAnswerClicked.bind(this, answer, storedAnswer)}>
                     {answer.text}
                   </button>
                 </For>
@@ -102,7 +110,7 @@ const Question = React.createClass({
                 label="Can you briefly describe your concern?"
                 name="Comments"
                 value={storedAnswer.comments || ''}
-                onChange={this.onCommentChanged}
+                onChange={this.onCommentChanged.bind(this, storedAnswer)}
                 maxLength={300}
                 multiline={true}
                 theme={{

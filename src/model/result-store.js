@@ -1,4 +1,4 @@
-import { observable, computed, extendObservable, action, map } from 'mobx';
+import {observable, computed, extendObservable, action, map} from 'mobx';
 
 const LOCAL_STORAGE_KEY = 'wmg-results';
 
@@ -9,10 +9,17 @@ class ResultStore {
     const resultsString = sessionStorage.getItem(LOCAL_STORAGE_KEY);
 
     if (resultsString) {
-      const resultsMap = JSON.parse(resultsString);
+      const resultsByQuestionnaire = JSON.parse(resultsString);
 
-      this.results = Object.keys(resultsMap).reduce((soFar, key) => {
-        soFar.set(key, map(resultsMap[key]));
+      this.results = Object.keys(resultsByQuestionnaire).reduce((soFar, questionnaireId) => {
+        const resultsByQuestion = resultsByQuestionnaire[questionnaireId];
+
+        soFar.set(questionnaireId, Object.keys(resultsByQuestion)
+          .reduce((soFar, key) => {
+            soFar.set(key, observable(resultsByQuestion[key]));
+            return soFar;
+          }, map()));
+
         return soFar;
       }, map());
     } else {
@@ -26,9 +33,7 @@ class ResultStore {
       this.results.set(questionnaireId, map());
     }
 
-    this.results.get(questionnaireId).set(questionId, {value, comments});
-
-    this.save();
+    this.results.get(questionnaireId).set(questionId, observable({value, comments}));
   }
 
   static getAnswer(results, questionnaireId, questionId) {
