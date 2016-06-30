@@ -2,7 +2,7 @@ import React from 'react';
 import {Link} from 'react-router';
 import classNames from 'classnames';
 
-import questions from '../../../model/questions';
+import questions from '../../../../model/questions';
 
 import Styles from './question-switcher.scss';
 

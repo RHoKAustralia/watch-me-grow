@@ -6,9 +6,9 @@ import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, browserHistory } from 'react-router';
-import Routes from './common/routes';
+import Routes from './components/routes';
 // Base styling
-import './common/base.scss';
+import './components/base.scss';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
 // ID of the DOM element to mount app on

@@ -1,8 +1,8 @@
 import React from 'react';
 import Styles from './questionnaire.scss';
 import QuestionSwitcher from './question-switcher/question-switcher';
-import questions from '../../model/questions';
-import ResultsStore from '../../model/result-store';
+import questions from '../../../model/questions';
+import ResultsStore from '../../../model/result-store';
 
 const Questionnaire = React.createClass({
   getQuestionNumber() {

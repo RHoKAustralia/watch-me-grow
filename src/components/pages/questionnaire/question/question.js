@@ -5,9 +5,9 @@ import {withRouter} from 'react-router';
 import {observer} from 'mobx-react';
 import Input from 'react-toolbox/lib/input';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-import ResultsStore from '../../../model/result-store';
+import ResultsStore from '../../../../model/result-store';
 
-import questions from '../../../model/questions';
+import questions from '../../../../model/questions';
 
 import Styles from './question.scss'
 

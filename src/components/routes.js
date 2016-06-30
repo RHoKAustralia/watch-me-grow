@@ -2,10 +2,10 @@ import React from 'react';
 import {Route, IndexRoute} from 'react-router';
 
 import App from './app';
-import LandingPage from '../pages/landing/landing';
-import QuestionnairePage from '../pages/questionnaire/questionnaire';
-import Question from '../pages/questionnaire/question/question';
-import Details from '../pages/questionnaire/details/details';
+import LandingPage from './pages/landing/landing';
+import QuestionnairePage from './pages/questionnaire/questionnaire';
+import Question from './pages/questionnaire/question/question';
+import Details from './pages/questionnaire/details/details';
 
 export default (
   <Route path="/" component={App}>

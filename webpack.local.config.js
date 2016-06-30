@@ -38,7 +38,7 @@ module.exports = {
   },
 
   sassLoader: {
-    data: '@import "' + path.resolve(__dirname, 'src/common/theme.scss') + '";'
+    data: '@import "' + path.resolve(__dirname, 'src/components/theme.scss') + '";'
   },
 
   // Necessary plugins for hot load
@@ -65,6 +65,7 @@ module.exports = {
 
   // Automatically transform files with these extensions
   resolve: {
+    root: path.resolve('./src'),
     extensions: ['', '.js', '.jsx', '.css', 'less']
   }
 };

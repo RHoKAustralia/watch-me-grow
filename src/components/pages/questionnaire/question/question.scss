@@ -1,4 +1,4 @@
-@import '../../../common/variables';
+@import '~components/variables';
 
 .root {
   position: relative;
@@ -60,7 +60,7 @@
 }
 
 .answer-button {
-  composes: button--main from '../../../common/buttons.scss';
+  composes: button--main from 'components/buttons.scss';
 
   margin: 5px;
   flex-grow: 1;
@@ -89,7 +89,7 @@
 }
 
 .next-button {
-  composes: button--main from '../../../common/buttons.scss';
+  composes: button--main from 'components/buttons.scss';
 
   margin-top: 20px;
   width: 150px;

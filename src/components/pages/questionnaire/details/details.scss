@@ -1,4 +1,4 @@
-@import '../../../common/variables';
+@import '~components/variables.scss';
 
 .details {
   text-align: center;
@@ -10,8 +10,8 @@
 }
 
 .next-button {
-  composes: button--main from '../../../common/buttons.scss';
-  composes: button--large from '../../../common/buttons.scss';
+  composes: button--main from '../../../buttons.scss';
+  composes: button--large from '../../../buttons.scss';
 
   margin-top: 20px;
   width: 140px;
