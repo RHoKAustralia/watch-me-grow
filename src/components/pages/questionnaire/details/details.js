@@ -1,5 +1,4 @@
 import React from 'react';
-import {observer} from 'mobx-react';
 import moment from 'moment';
 import {withRouter} from 'react-router';
 
@@ -7,18 +6,26 @@ import Styles from './details.scss';
 import Input from 'react-toolbox/lib/input';
 import DatePicker from 'react-toolbox/lib/date_picker';
 
-const Details = observer(React.createClass({
+const Details = React.createClass({
+  propTypes: {
+    details: React.PropTypes.object.isRequired
+  },
+
   onSubmit(event) {
     event.preventDefault();
-    
-    if (this.props.stores.details.validate()) {
-      this.props.stores.details.save();
+
+    if (this.props.details.validate()) {
+      this.props.details.save();
       this.props.router.push('/questionnaire/questions/1');
     }
   },
-  
+
+  onChange(propertyName, newValue) {
+    this.props.details.setState({[propertyName]: newValue});
+  },
+
   render() {
-    const detailsStore = this.props.stores.details;
+    const details = this.props.details;
 
     return (
       <form className={Styles.details} onSubmit={this.onSubmit}>
@@ -26,36 +33,36 @@ const Details = observer(React.createClass({
           type="text"
           className={Styles.textBox}
           label="Your baby's name"
-          value={detailsStore.babyName}
-          error={detailsStore.errors.babyName}
+          value={details.babyName}
+          error={details.errors.babyName}
           maxLength={100}
-          onChange={value => detailsStore.babyName = value}
+          onChange={this.onChange.bind(this, 'babyName')}
         />
         <DatePicker
           type="text"
           className={Styles.textBox}
           label="Your baby's date of birth"
-          value={detailsStore.babyDob && detailsStore.babyDob.toDate()}
-          error={detailsStore.errors.babyDob}
-          onChange={value => detailsStore.babyDob = moment(value)}
+          value={details.babyDob && details.babyDob.toDate()}
+          error={details.errors.babyDob}
+          onChange={value => this.onChange('babyDob', moment(value))}
         />
         <Input
           type="text"
           className={Styles.textBox}
           label="Your name"
-          value={detailsStore.parentName}
+          value={details.parentName}
           maxLength={100}
-          error={detailsStore.errors.parentName}
-          onChange={value => detailsStore.parentName = value}
+          error={details.errors.parentName}
+          onChange={this.onChange.bind(this, 'parentName')}
         />
         <Input
           type="email"
           className={Styles.textBox}
           label="Your email address (so we can send you the results)"
-          value={detailsStore.parentEmail}
+          value={details.parentEmail}
           maxLength={100}
-          error={detailsStore.errors.parentEmail}
-          onChange={value => detailsStore.parentEmail = value}
+          error={details.errors.parentEmail}
+          onChange={this.onChange.bind(this, 'parentEmail')}
         />
         <button className={Styles.nextButton} type="submit">
           Next
@@ -63,6 +70,6 @@ const Details = observer(React.createClass({
       </form>
     );
   }
-}));
+});
 
 export default withRouter(Details);

@@ -5,14 +5,17 @@ import Header from './header/header';
 import Footer from './footer/footer';
 import Styles from './app.scss';
 import ResultStore from '../model/result-store';
-import DetailsStore from '../model/details-store';
+import Details from './stores/details';
 
 const App = React.createClass({
+  propTypes: {
+    details: React.PropTypes.object.isRequired
+  },
+
   componentWillMount() {
     this.setState({
       stores: {
-        results: new ResultStore(),
-        details: new DetailsStore()
+        results: new ResultStore()
       }
     });
   },
@@ -23,7 +26,8 @@ const App = React.createClass({
         <Header />
         <div className={Styles.container}>
           {this.props.children && React.cloneElement(this.props.children, {
-            stores: this.state.stores
+            stores: this.state.stores,
+            details: this.props.details
           })}
         </div>
         <div className={Styles.spacer}/>
@@ -34,4 +38,4 @@ const App = React.createClass({
   }
 });
 
-export default App;
+export default Details(App);
