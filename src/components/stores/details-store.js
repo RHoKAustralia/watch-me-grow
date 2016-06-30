@@ -5,7 +5,7 @@ import moment from 'moment';
 const REQUIRED_TEXT = ['babyName', 'parentName', 'parentEmail'];
 const LOCAL_STORAGE_KEY = 'wmg-details';
 
-const Details = ComposedComponent => React.createClass({
+const DetailsStore = ComposedComponent => React.createClass({
   getInitialState() {
     return {
       babyName: '',
@@ -76,8 +76,8 @@ const Details = ComposedComponent => React.createClass({
       validate: this.validate
     });
 
-    return <ComposedComponent {...this.props} details={details}/>;
+    return <ComposedComponent {...this.props} details={details} />;
   }
 });
 
-export default Details;
+export default DetailsStore;

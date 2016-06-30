@@ -1,23 +1,15 @@
 import React from 'react';
-import DevTools from 'mobx-react-devtools';
 
 import Header from './header/header';
 import Footer from './footer/footer';
 import Styles from './app.scss';
-import ResultStore from '../model/result-store';
-import Details from './stores/details';
+import withDetailsStore from './stores/details-store';
+import withResultsStore from './stores/results-store';
 
 const App = React.createClass({
   propTypes: {
-    details: React.PropTypes.object.isRequired
-  },
-
-  componentWillMount() {
-    this.setState({
-      stores: {
-        results: new ResultStore()
-      }
-    });
+    details: React.PropTypes.object.isRequired,
+    results: React.PropTypes.object.isRequired
   },
 
   render() {
@@ -26,16 +18,15 @@ const App = React.createClass({
         <Header />
         <div className={Styles.container}>
           {this.props.children && React.cloneElement(this.props.children, {
-            stores: this.state.stores,
+            results: this.props.results,
             details: this.props.details
           })}
         </div>
         <div className={Styles.spacer}/>
         <Footer />
-        <DevTools />
       </div>
     );
   }
 });
 
-export default Details(App);
+export default withResultsStore(withDetailsStore((App)));

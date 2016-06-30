@@ -2,10 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import classNames from 'classnames';
 import {withRouter} from 'react-router';
-import {observer} from 'mobx-react';
 import Input from 'react-toolbox/lib/input';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-import ResultsStore from '../../../../model/result-store';
 
 import questions from '../../../../model/questions';
 
@@ -13,7 +11,8 @@ import Styles from './question.scss'
 
 const Question = React.createClass({
   propTypes: {
-    questionNumber: React.PropTypes.number.isRequired
+    questionNumber: React.PropTypes.number.isRequired,
+    results: React.PropTypes.object.isRequired
   },
 
   getInitialState() {
@@ -44,9 +43,9 @@ const Question = React.createClass({
 
   onAnswerClicked(answer, storedAnswer, event) {
     const question = this.question;
-    const resultStore = this.props.stores.results;
+    const resultStore = this.props.results;
 
-    resultStore.saveAnswer(question.questionnaire.id, question.id, answer.value, storedAnswer && storedAnswer.comments);
+    resultStore.setAnswer(question.questionnaire.id, question.id, answer.value, storedAnswer && storedAnswer.comments);
 
     if (!(this.question.comments && (answer.redFlagQuestion || answer.amberFlagQuestion))) {
       this.goToNext();
@@ -56,7 +55,7 @@ const Question = React.createClass({
   },
 
   goToNext() {
-    this.props.stores.results.save();
+    this.props.results.save();
 
     const nextQuestionNumber = (this.questionNumber + 1);
     const questionsLength = Object.keys(questions).length;
@@ -69,14 +68,15 @@ const Question = React.createClass({
 
   onCommentChanged(storedAnswer, newValue) {
     const question = this.question;
-    const resultStore = this.props.stores.results;
+    const resultStore = this.props.results;
 
-    resultStore.saveAnswer(question.questionnaire.id, question.id, storedAnswer.value, newValue);
+    resultStore.setAnswer(question.questionnaire.id, question.id, storedAnswer.value, newValue);
   },
 
   render() {
     const question = this.question;
-    const storedAnswer = ResultsStore.getAnswer(this.props.stores.results.results, question.questionnaire.id, question.id);
+    const resultsStore = this.props.results;
+    const storedAnswer = resultsStore.getAnswer(question.questionnaire.id, question.id);
 
     return (
       <div className={classNames(Styles.root, {[Styles.reverse]: this.state.reverse})}>
@@ -133,4 +133,4 @@ const Question = React.createClass({
   }
 });
 
-export default withRouter(observer(Question));
+export default withRouter(Question);
