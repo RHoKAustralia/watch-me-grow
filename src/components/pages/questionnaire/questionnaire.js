@@ -5,7 +5,8 @@ import questions from '../../../model/questions';
 
 const Questionnaire = React.createClass({
   propTypes: {
-    results: React.PropTypes.object.isRequired
+    results: React.PropTypes.object.isRequired,
+    details: React.PropTypes.object.isRequired
   },
 
   getQuestionNumber() {
@@ -30,7 +31,9 @@ const Questionnaire = React.createClass({
     return (
       <div className={Styles.questionnaire}>
         <div className={Styles.inner}>
-          <QuestionSwitcher questionNumber={this.getQuestionNumber()} hasAnswered={this.hasAnswered()}/>
+          <QuestionSwitcher questionNumber={this.getQuestionNumber()}
+                            hasAnswered={this.hasAnswered()}
+                            details={this.props.details}/>
           {React.Children.map(this.props.children, child => React.cloneElement(child, Object.assign({}, this.props, {
             questionNumber: this.getQuestionNumber()
           })))}

@@ -49,11 +49,14 @@ const DetailsStore = ComposedComponent => React.createClass({
       errors.babyDob = 'Watch Me Grow is intended for babies older than 6 months';
     }
 
+    const validated = !Object.keys(errors).length;
+
     this.setState({
-      errors
+      errors,
+      validated
     });
 
-    return !Object.keys(errors).length;
+    return validated;
   },
 
   save() {
@@ -66,7 +69,7 @@ const DetailsStore = ComposedComponent => React.createClass({
   },
 
   onDetailsChanged(newDetails) {
-    this.setState(newDetails);
+    this.setState(Object.assign({validated: false}, newDetails));
   },
 
   render() {
@@ -76,7 +79,7 @@ const DetailsStore = ComposedComponent => React.createClass({
       validate: this.validate
     });
 
-    return <ComposedComponent {...this.props} details={details} />;
+    return <ComposedComponent {...this.props} details={details}/>;
   }
 });
 
