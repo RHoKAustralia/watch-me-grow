@@ -3,6 +3,7 @@ import {Link} from 'react-router';
 import classNames from 'classnames';
 
 import questions from '../../../../model/questions';
+const totalQuestionCount = Object.keys(questions).length;
 
 import Styles from './question-switcher.scss';
 
@@ -26,7 +27,7 @@ const QuestionSwitcher = React.createClass({
   rightHref() {
     if (!this.props.questionNumber && this.props.details.validated) {
       return '/questionnaire/questions/1';
-    } else if (this.props.hasAnswered) {
+    } else if (this.props.hasAnswered && this.props.questionNumber < totalQuestionCount) {
       return `/questionnaire/questions/${this.props.questionNumber + 1}`;
     } else {
       return '';
@@ -47,7 +48,7 @@ const QuestionSwitcher = React.createClass({
         <span className={Styles.title}>
           <Choose>
             <When condition={this.props.questionNumber}>
-              {this.props.questionNumber} of {Object.keys(questions).length}
+              {this.props.questionNumber} of {totalQuestionCount}
             </When>
             <Otherwise>
               Personal Details

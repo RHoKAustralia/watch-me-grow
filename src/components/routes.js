@@ -6,6 +6,7 @@ import LandingPage from './pages/landing/landing';
 import QuestionnairePage from './pages/questionnaire/questionnaire';
 import Question from './pages/questionnaire/question/question';
 import Details from './pages/questionnaire/details/details';
+import Result from './pages/result/result';
 
 export default (
   <Route path="/" component={App}>
@@ -16,5 +17,6 @@ export default (
       <Route path="details" component={Details}/>
       <Route path="questions/:questionNumber" component={Question}/>
     </Route>
+    <Route path="result" component={Result}/>
   </Route>
 );

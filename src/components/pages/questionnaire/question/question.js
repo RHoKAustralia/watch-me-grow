@@ -6,6 +6,7 @@ import Input from 'react-toolbox/lib/input';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 import questions from '../../../../model/questions';
+const questionsLength = Object.keys(questions).length;
 
 import Styles from './question.scss'
 
@@ -58,10 +59,9 @@ const Question = React.createClass({
     this.props.results.save();
 
     const nextQuestionNumber = (this.questionNumber + 1);
-    const questionsLength = Object.keys(questions).length;
     const nextRoute = nextQuestionNumber <= questionsLength ?
       `/questionnaire/questions/${nextQuestionNumber}` :
-      '/results';
+      '/result';
 
     this.props.router.push(nextRoute);
   },
@@ -123,7 +123,7 @@ const Question = React.createClass({
               <button
                 className={Styles.nextButton}
                 onClick={this.goToNext}>
-                Next
+                {this.questionNumber < questionsLength ? 'Next': 'Finish'}
               </button>
             </div>
           </div>
