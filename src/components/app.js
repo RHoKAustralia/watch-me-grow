@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 
 import Header from './header/header';
 import Footer from './footer/footer';
@@ -8,13 +9,13 @@ import withResultsStore from './stores/results-store';
 
 const App = React.createClass({
   propTypes: {
-    details: React.PropTypes.object.isRequired,
-    results: React.PropTypes.object.isRequired
+    details: React.PropTypes.object,
+    results: React.PropTypes.object
   },
 
   render() {
     return (
-      <div className={Styles.app}>
+      <div className={classNames(Styles.app, {[Styles.concern]: this.props.results.concern})}>
         <Header />
         <div className={Styles.container}>
           {this.props.children && React.cloneElement(this.props.children, {
