@@ -1,0 +1,56 @@
+@import '~components/variables.scss';
+
+.question-switcher {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.element {
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.1) inset;
+  background-color: $colour-tertiary;
+  height: 35px;
+  line-height: 35px;
+  font-size: 1.8rem;
+}
+
+.button {
+  composes: button--small from '../buttons.scss';
+  composes: element;
+  width: 60px;
+  padding-top: 3px;
+  color: $colour-text;
+
+  i {
+    font-size: 30px;
+  }
+
+  &:hover {
+    background-color: darken($colour-tertiary, 10%);
+  }
+
+  &--left {
+    composes: button;
+  }
+
+  &--right {
+    composes: button;
+  }
+
+  &--disabled {
+    pointer-events: none;
+
+    i {
+      display: none;
+    }
+  }
+}
+
+.title {
+  composes: element;
+
+  display: inline-block;
+  flex-grow: 1;
+  margin: 0 5px;
+  text-align: center;
+}
