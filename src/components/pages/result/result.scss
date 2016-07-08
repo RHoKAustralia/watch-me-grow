@@ -1,8 +1,50 @@
 @import '~components/variables.scss';
 
 .root {
-  background-color: #FFF;
-  width: 100%;
-  max-width: $width-inner;
-  margin: 0 auto;
+    background-color: #FFF;
+    width: 100%;
+    max-width: $width-inner;
+    margin: 0 auto;
+    padding: 15px;
+}
+
+.icon {
+    width: 50px;
+    height: 50px;
+    margin: 5px auto 15px auto;
+    display: block;
+
+    &--concern {
+        fill: $colour-concern;
+    }
+
+    &--no-concern {
+        fill: $colour-no-concern;
+    }
+}
+
+.outcome {
+    text-align: center;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #DDD;
+
+    &--title {
+        font-size: 1.7rem;
+    }
+
+    &--subtitle {
+        max-width: 80%;
+        margin: 10px auto;
+        font-size: 1.4rem;
+        line-height: 1.7rem;
+        color: #888;
+    }
+}
+
+.disclaimer {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 1.4rem;
+    line-height: 1.7rem;
+    color: #888;
 }
