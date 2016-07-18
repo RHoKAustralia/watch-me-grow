@@ -1,0 +1,28 @@
+.markdown {
+    font-size: 1.4rem;
+    margin-top: 10px;
+
+    p {
+        margin: 0 0 8px 0;
+        line-height: 2.2rem;
+    }
+
+    h1 {
+        font-size: 2.2rem;
+        font-weight: bold;
+        margin: 10px 0 4px 0;
+        line-height: inherit;
+    }
+
+    h2 {
+        font-size: 1.7rem;
+        margin: 10px 0 5px 0;
+        line-height: inherit;
+    }
+
+    ul {
+        padding-left: 2rem;
+        line-height: 2.2rem;
+        margin: 0 0 8px 0;
+    }
+}

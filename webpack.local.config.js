@@ -60,7 +60,8 @@ module.exports = {
                 loader: 'style-loader!css-loader?camelCase&modules&importLoaders=2&localIdentName=[name]__[local]__[hash]!resolve-url-loader!sass-loader?sourceMap'
             },
             {test: /\.(png|woff|woff2|ttf)$/, loader: "url-loader?limit=10000"},
-            {test: /\.svg$/, loader: "raw-loader"}
+            {test: /\.(svg|md)$/, loader: "raw-loader"},
+            {test: /\.json$/, loader: "json-loader"}
         ]
     },
 

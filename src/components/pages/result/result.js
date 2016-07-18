@@ -3,6 +3,8 @@ import classNames from 'classnames';
 
 import flag from './flag.svg';
 import stethoscope from './stethoscope.svg';
+import StageSwitcher from './stage-switcher';
+import stages from './stages/stages';
 
 import Styles from './result.scss';
 
@@ -45,6 +47,7 @@ const Result = React.createClass({
                     All children grow and develop at their own pace. Please see below for information on what is
                     expected for your child's age.
                 </div>
+                <StageSwitcher stages={stages} />
             </article>
         );
     }
