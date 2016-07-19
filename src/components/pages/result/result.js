@@ -47,7 +47,7 @@ const Result = React.createClass({
                     All children grow and develop at their own pace. Please see below for information on what is
                     expected for your child's age.
                 </div>
-                <StageSwitcher stages={stages} />
+                <StageSwitcher stages={stages}/>
             </article>
         );
     }

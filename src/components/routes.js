@@ -1,5 +1,5 @@
 import React from 'react';
-import {Route, IndexRoute} from 'react-router';
+import {Route, IndexRedirect} from 'react-router';
 
 import App from './app';
 import LandingPage from './pages/landing/landing';
@@ -9,14 +9,14 @@ import Details from './pages/questionnaire/details/details';
 import Result from './pages/result/result';
 
 export default (
-  <Route path="/" component={App}>
-    <IndexRoute component={LandingPage}/>
-    <Route path="landing" component={LandingPage}/>
-    <Route path="questionnaire" component={QuestionnairePage}>
-      <IndexRoute component={Details}/>
-      <Route path="details" component={Details}/>
-      <Route path="questions/:questionNumber" component={Question}/>
+    <Route path="/" component={App}>
+        <IndexRedirect to="landing" />
+        <Route path="landing" component={LandingPage} />
+        <Route path="questionnaire" component={QuestionnairePage}>
+            <IndexRedirect to="details"/>
+            <Route path="details" component={Details}/>
+            <Route path="questions/:questionNumber" component={Question}/>
+        </Route>
+        <Route path="result" component={Result}/>
     </Route>
-    <Route path="result" component={Result}/>
-  </Route>
 );
