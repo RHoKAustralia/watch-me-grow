@@ -72,11 +72,18 @@ const DetailsStore = ComposedComponent => React.createClass({
     this.setState(Object.assign({validated: false}, newDetails));
   },
 
+
+  clear() {
+    sessionStorage.removeItem(LOCAL_STORAGE_KEY);
+    this.setState(this.getInitialState());
+  },
+
   render() {
     const details = Object.assign({}, this.state, {
       setState: this.onDetailsChanged,
       save: this.save,
-      validate: this.validate
+      validate: this.validate,
+      clear: this.clear
     });
 
     return <ComposedComponent {...this.props} details={details}/>;

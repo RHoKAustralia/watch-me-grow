@@ -46,12 +46,21 @@ const ResultStore = ComposedComponent => React.createClass({
         this.setState({concern});
     },
 
+    clear() {
+        sessionStorage.removeItem(LOCAL_STORAGE_KEY);
+        this.setState(Object.keys(this.state).reduce((acc, id) => {
+            acc[id] = undefined;
+            return acc;
+        }, {}));
+    },
+
     render() {
         const results = Object.assign({}, this.state, {
             getAnswer: this.getAnswer,
             setAnswer: this.setAnswer,
             save: this.save,
-            mark: this.mark
+            mark: this.mark,
+            clear: this.clear
         });
 
         return <ComposedComponent {...this.props} results={results}/>;

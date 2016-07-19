@@ -1,25 +1,47 @@
 @import '../variables';
 
 .header {
-  background-color: $colour-main;
-  height: 60px;
-  width: 100%;
-  display: flex;
+    background-color: $colour-main;
+    height: 60px;
+    width: 100%;
+    display: flex;
+    align-items: center;
 }
 
 .logo {
-  height: 54px;
-  width: 40px;
-  margin: 3px;
+    height: 54px;
+    width: 40px;
+    margin: 3px;
 
-  background-image: url('../header/logo-mobile.png');
-  background-size: 40px;
-  background-repeat: no-repeat;
+    background-image: url('../header/logo-mobile.png');
+    background-size: 40px;
+    background-repeat: no-repeat;
 }
 
 .title {
-  font-weight: bold;
-  font-size: 1.5rem;
-  color: $colour-text;
-  align-self: center;
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: $colour-text;
+    flex-grow: 1;
+}
+
+.new-child {
+    border: 1px solid #DDDDDD;
+    padding: 13px 20px;
+    margin-right: 5px;
+    color: #333333;
+    font-size: 1.35rem;
+    position: relative;
+
+    &.active {
+        display: none;
+    }
+
+    &:before {
+        position: absolute;
+        content: "+";
+        top: 3px;
+        left: 3px;
+        color: #CCCCCC;
+    }
 }

@@ -2,8 +2,12 @@ import React from "react";
 import Styles from "./landing.scss";
 import {Link} from 'react-router';
 
-
 export default class HomePage extends React.Component {
+  componentWillMount() {
+    this.props.results.clear();
+    this.props.details.clear();
+  }
+
   render() {
     return (
       <div className={Styles.content}>
