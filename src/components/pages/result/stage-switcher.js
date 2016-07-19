@@ -37,7 +37,7 @@ const StageSwitcher = React.createClass({
 
     render() {
         return (
-            <div>
+            <div className={Styles.root}>
                 <Switcher
                     onLeftClick={this.onLeftClick}
                     onRightClick={this.onRightClick}

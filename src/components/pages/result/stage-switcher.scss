@@ -1,3 +1,7 @@
+.root {
+    margin-top: 20px;
+}
+
 .markdown {
     font-size: 1.4rem;
     margin-top: 10px;
@@ -16,6 +20,7 @@
 
     h2 {
         font-size: 1.7rem;
+        font-weight: bold;
         margin: 10px 0 5px 0;
         line-height: inherit;
     }
