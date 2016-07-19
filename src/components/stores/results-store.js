@@ -56,6 +56,7 @@ const ResultStore = ComposedComponent => React.createClass({
 
     render() {
         const results = Object.assign({}, this.state, {
+            getResultsForQuestionnaire: this.getResultsForQuestionnaire,
             getAnswer: this.getAnswer,
             setAnswer: this.setAnswer,
             save: this.save,

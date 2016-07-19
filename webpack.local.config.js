@@ -21,6 +21,7 @@ module.exports = {
 
     // Set entry point to ./src/main and include necessary files for hot load
     entry: [
+        "whatwg-fetch",
         "./src/main"
     ],
 

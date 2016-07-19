@@ -76,6 +76,7 @@
     "react-tap-event-plugin": "^1.0.0",
     "react-toolbox": "^1.0.0",
     "reset-css": "^2.0.2011012603",
-    "style-loader": "^0.13.1"
+    "style-loader": "^0.13.1",
+    "whatwg-fetch": "^1.0.0"
   }
 }

@@ -5,12 +5,17 @@ import flag from './flag.svg';
 import stethoscope from './stethoscope.svg';
 import StageSwitcher from './stage-switcher';
 import stages from './stages/stages';
+import strings from 'data/strings';
+
+import sendResults from 'send-results';
 
 import Styles from './result.scss';
 
 const Result = React.createClass({
     componentWillMount() {
         this.props.results.mark();
+
+        sendResults(this.props.details, this.props.results);
     },
 
     render() {
@@ -29,16 +34,15 @@ const Result = React.createClass({
                     <Choose>
                         <When condition={concern}>
                             <h5 className={Styles.outcomeTitle}>
-                                Your answers indicate that your child could benefit from a more detailed
-                                assessment by a GP or another health professional.
+                                {strings.result.concerns.title}
                             </h5>
                         </When>
                         <Otherwise>
                             <h5 className={Styles.outcomeTitle}>
-                                Your child is developing as expected for their age.
+                                {strings.result.noConcerns.title}
                             </h5>
                             <h6 className={Styles.outcomeSubtitle}>
-                                Based on your answers you have no concerns about how your child is developing.
+                                {strings.result.noConcerns.subtitle}
                             </h6>
                         </Otherwise>
                     </Choose>
