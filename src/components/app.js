@@ -24,7 +24,7 @@ const App = React.createClass({
           })}
         </div>
         <div className={Styles.spacer}/>
-        <Footer />
+        <Footer concern={this.props.results.concern} />
       </div>
     );
   }

@@ -1,24 +1,28 @@
 @import '../variables.scss';
 
 .footer {
-  align-self: flex-end;
-  background: $colour-accent-dark;
-  width: 100%;
-  padding: 10px;
+    align-self: flex-end;
+    background: $colour-accent-dark;
+    width: 100%;
+    padding: 10px;
+
+    &.concern {
+        background: darken($colour-concern, 30%);
+    }
 }
 
 .inner {
-  max-width: 768px;
-  margin: 10px auto 10px auto;
+    max-width: 768px;
+    margin: 10px auto 10px auto;
 
-  @media screen and (min-width: $width-md-min) {
-    margin: 50px auto 40px auto;
-  }
+    @media screen and (min-width: $width-md-min) {
+        margin: 50px auto 40px auto;
+    }
 }
 
 .blurb {
-  font-weight: bold;
-  color: $colour-main;
-  line-height: 1.4rem;
-  text-align: center;
+    font-weight: bold;
+    color: $colour-main;
+    line-height: 1.4rem;
+    text-align: center;
 }
