@@ -74,7 +74,7 @@
     "react-markdown": "^2.4.2",
     "react-router": "^2.0.0",
     "react-tap-event-plugin": "^1.0.0",
-    "react-toolbox": "^1.0.0",
+    "react-toolbox": "git+https://github.com/AlexGilleran/react-toolbox.git#watch-me-grow",
     "reset-css": "^2.0.2011012603",
     "style-loader": "^0.13.1",
     "whatwg-fetch": "^1.0.0"

@@ -5,6 +5,11 @@ import {withRouter} from 'react-router';
 import Styles from './details.scss';
 import Input from 'react-toolbox/lib/input';
 import DatePicker from 'react-toolbox/lib/date_picker';
+import DatePickerDialog from 'react-toolbox/lib/date_picker/DatePickerDialog'
+
+
+const minDate = moment().subtract(6, 'years');
+const maxDate = moment().subtract(6, 'months');
 
 const Details = React.createClass({
   propTypes: {
@@ -41,6 +46,8 @@ const Details = React.createClass({
         <DatePicker
           type="text"
           className={Styles.textBox}
+          minDate={minDate.toDate()}
+          maxDate={maxDate.toDate()}
           label="Your baby's date of birth"
           value={details.babyDob && details.babyDob.toDate()}
           error={details.errors.babyDob}

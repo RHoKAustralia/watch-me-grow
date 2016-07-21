@@ -5,8 +5,8 @@ import questions from '../../../model/questions';
 
 const Questionnaire = React.createClass({
   propTypes: {
-    results: React.PropTypes.object.isRequired,
-    details: React.PropTypes.object.isRequired
+    results: React.PropTypes.object,
+    details: React.PropTypes.object
   },
 
   getQuestionNumber() {
