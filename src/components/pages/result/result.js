@@ -13,6 +13,7 @@ import Styles from './result.scss';
 
 const Result = React.createClass({
     componentWillMount() {
+        // this.props.details.validate();
         this.props.results.mark();
 
         sendResults(this.props.details, this.props.results);
