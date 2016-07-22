@@ -9,20 +9,20 @@
 }
 
 .logo {
-    height: 54px;
-    width: 40px;
+    height: 50px;
+    width: 45px;
     margin: 3px;
-
-    background-image: url('../header/logo-mobile.png');
     background-size: 40px;
     background-repeat: no-repeat;
 }
 
 .title {
     font-weight: bold;
-    font-size: 1.5rem;
+    font-size: 2rem;
     color: $colour-text;
     flex-grow: 1;
+    padding-top: 0.6rem;
+    padding-left: 0.3rem;
 }
 
 .new-child {

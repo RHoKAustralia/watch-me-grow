@@ -38,4 +38,7 @@ Your child:
 - feels very floppy or stiff
 - can’t sit up or stand up with your help
 - uses one hand a lot more than the other.
-- You should also see a health professional if you notice that your baby has lost skills that she once had.
+
+You should also see a health professional if you notice that your baby has lost skills that she once had.
+
+More at http://raisingchildren.net.au/articles/baby_development_8_months.html/context/423
