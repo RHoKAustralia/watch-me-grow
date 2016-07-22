@@ -1,5 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
+import { withRouter } from 'react-router';
 
 import flag from './flag.svg';
 import stethoscope from './stethoscope.svg';
@@ -13,6 +14,12 @@ import Styles from './result.scss';
 
 const Result = React.createClass({
     componentWillMount() {
+        if (!this.props.results.isComplete() || !this.props.details.validate()) {
+            console.log('Went to result without finishing, redirecting to questionnaire');
+            this.props.router.push('/questionnaire');
+            return;
+        }
+
         this.props.results.mark();
 
         sendResults(this.props.details, this.props.results);
@@ -57,4 +64,4 @@ const Result = React.createClass({
     }
 });
 
-export default Result;
+export default withRouter(Result);

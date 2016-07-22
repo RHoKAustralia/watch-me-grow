@@ -2,6 +2,7 @@ import React from 'react';
 
 import {combineQuestionsAndAnswers, getOverallResult} from '../../data/data-functions';
 import questionnaires from '../../data/questionnaires';
+import questions from 'model/questions';
 
 const LOCAL_STORAGE_KEY = 'wmg-results';
 
@@ -54,6 +55,13 @@ const ResultStore = ComposedComponent => React.createClass({
         }, {}));
     },
 
+    isComplete() {
+        return Object.keys(questions).every(index => {
+            const question = questions[index];
+            return !!this.getAnswer(question.questionnaire.id, question.id);
+        });
+    },
+
     render() {
         const results = Object.assign({}, this.state, {
             getResultsForQuestionnaire: this.getResultsForQuestionnaire,
@@ -61,7 +69,8 @@ const ResultStore = ComposedComponent => React.createClass({
             setAnswer: this.setAnswer,
             save: this.save,
             mark: this.mark,
-            clear: this.clear
+            clear: this.clear,
+            isComplete: this.isComplete
         });
 
         return <ComposedComponent {...this.props} results={results}/>;
