@@ -11,7 +11,7 @@ const DetailsStore = ComposedComponent => React.createClass({
             babyName: '',
             babyDob: '',
             parentName: '',
-            parentEmails: '',
+            parentEmail: '',
             errors: {}
         }
     },

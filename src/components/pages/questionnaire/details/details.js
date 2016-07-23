@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import moment from 'moment';
 import {withRouter} from 'react-router';
 
@@ -27,6 +28,17 @@ const Details = React.createClass({
         this.props.details.setState({[propertyName]: newValue});
     },
 
+    datePickerMounted(elementRef) {
+        if (elementRef) {
+            const input = ReactDOM.findDOMNode(elementRef).querySelector('input');
+            input.addEventListener('focus', event => {
+                const clickEvent = document.createEvent('MouseEvents');
+                clickEvent.initEvent('mousedown', true, true);
+                input.dispatchEvent(clickEvent);
+            });
+        }
+    },
+
     render() {
         const details = this.props.details;
 
@@ -42,6 +54,7 @@ const Details = React.createClass({
                     onChange={this.onChange.bind(this, 'babyName')}
                 />
                 <DatePicker
+                    ref={this.datePickerMounted}
                     type="text"
                     className={Styles.textBox}
                     minDate={minDate.toDate()}
