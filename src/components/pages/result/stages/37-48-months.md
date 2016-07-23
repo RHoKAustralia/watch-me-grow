@@ -95,4 +95,4 @@ You should see a child health professional if at any age your child experiences 
 
 You should also see your child and family health nurse or GP if you notice the signs of postnatal depression in women or postnatal depression in men in yourself or your partner. Symptoms of postnatal depression include feeling sad and crying for no obvious reason, feeling irritable, having difficulty coping and feeling very anxious.
 
-More at http://raisingchildren.net.au/articles/child_development_three_to_four_years.html/context/566
+More at [Raising Children](http://raisingchildren.net.au/articles/child_development_three_to_four_years.html/context/566)

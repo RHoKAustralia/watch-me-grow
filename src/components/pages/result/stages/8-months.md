@@ -41,4 +41,4 @@ Your child:
 
 You should also see a health professional if you notice that your baby has lost skills that she once had.
 
-More at http://raisingchildren.net.au/articles/baby_development_8_months.html/context/423
+More at [Raising Children](http://raisingchildren.net.au/articles/baby_development_8_months.html/context/423)
