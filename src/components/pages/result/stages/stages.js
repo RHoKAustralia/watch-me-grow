@@ -80,7 +80,7 @@ export default [
         description: require('./19-24-months.md')
     },
     {
-        name: '25-36 Months',
+        name: '2-3 years',
         months: {
             min: 25,
             max: 36
@@ -88,19 +88,11 @@ export default [
         description: require('./25-36-months.md')
     },
     {
-        name: '37-48 Months',
+        name: '3-4 Years',
         months: {
             min: 37,
             max: 48
         },
         description: require('./37-48-months.md')
-    },
-    {
-        name: '49-60 Months',
-        months: {
-            min: 49,
-            max: 60
-        },
-        description: require('./49-60-months.md')
     }
 ];

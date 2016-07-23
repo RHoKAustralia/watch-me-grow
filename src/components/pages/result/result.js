@@ -1,6 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
-import { withRouter } from 'react-router';
+import {withRouter} from 'react-router';
+import moment from 'moment';
 
 import flag from './flag.svg';
 import stethoscope from './stethoscope.svg';
@@ -22,7 +23,15 @@ const Result = React.createClass({
 
         this.props.results.mark();
 
-        sendResults(this.props.details, this.props.results);
+        if (false) {
+            sendResults(this.props.details, this.props.results);
+        }
+    },
+
+    getInitialStage() {
+        const months = moment().diff(this.props.details.babyDob, 'months');
+
+        return Math.max(0, stages.findIndex(stage => months >= stage.months.min && months <= stage.months.max));
     },
 
     render() {
@@ -58,7 +67,7 @@ const Result = React.createClass({
                     All children grow and develop at their own pace. Please see below for information on what is
                     expected for your child's age.
                 </div>
-                <StageSwitcher stages={stages}/>
+                <StageSwitcher stages={stages} initialStage={this.getInitialStage()}/>
             </article>
         );
     }

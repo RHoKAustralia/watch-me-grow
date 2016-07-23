@@ -15,7 +15,7 @@ const StageSwitcher = React.createClass({
 
     getInitialState() {
         return {
-            stageIndex: 0
+            stageIndex: this.props.initialStage || 0
         }
     },
 
