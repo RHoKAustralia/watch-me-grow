@@ -47,7 +47,7 @@ const Details = React.createClass({
                 <Input
                     type="text"
                     className={Styles.textBox}
-                    label="Your baby's name"
+                    label="Your child's name"
                     value={details.babyName}
                     error={details.errors.babyName}
                     maxLength={100}
@@ -59,7 +59,7 @@ const Details = React.createClass({
                     className={Styles.textBox}
                     minDate={minDate.toDate()}
                     maxDate={maxDate.toDate()}
-                    label="Your baby's date of birth"
+                    label="Your child's date of birth"
                     value={details.babyDob && details.babyDob.toDate()}
                     error={details.errors.babyDob}
                     onChange={value => this.onChange('babyDob', moment(value))}
