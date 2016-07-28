@@ -2,7 +2,7 @@ import moment from 'moment';
 
 import strings from 'data/strings';
 import questionnaires from 'data/questionnaires';
-import {combineQuestionsAndAnswers} from 'data/data-functions';
+import { combineQuestionsAndAnswers } from 'data/data-functions';
 
 const FORMAT = 'dddd, MMMM Do YYYY';
 
@@ -20,16 +20,14 @@ export default function sendResults(details, results) {
 
     const data = Object.assign({}, metadata, generateQuestionnaireResults(results));
 
-    if (true) {
-        fetch('https://8ims93nxd2.execute-api.us-west-2.amazonaws.com/prod/send-email', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        });
-    }
+    fetch('https://8ims93nxd2.execute-api.us-west-2.amazonaws.com/prod/send-email', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    });
 }
 
 function getResultText(results) {

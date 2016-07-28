@@ -1,84 +1,85 @@
 {
-  "subject": "Watch Me Grow - Result",	
-  	"recipient_email": "littlemingperson@gmail.com",
-  	"test_date": "today",
-  	"name_of_parent": "parent's name",
-  	"name_of_child": "child's name",
-  	"dob_child": "yesterday",
-  	"age_of_child": "0",
-  	"results_text": "Your child could benefit from a visit to a GP",
-  	"qchat_answers":{
-  		"lookatyou": {
-  			"answer":"a little"
-  		},
-  		"eyecontacteasiness": {
-  			"answer":"a little"
-  		},
-  		"pointwant": {
-  			"answer":"a little"
-  		},
-  		"pointshareinterest": {
-  			"answer":"a little"
-  		},
-  		"pretending": {
-  			"answer":"a little"
-  		},
-  		"followlooking": {
-  			"answer":"a little"
-  		},
-  		"comfort": {
-  			"answer":"a little"
-  		},
-  		"firstwords": {
-  			"answer":"a little"
-  		},
-  		"simplegestures": {
-  			"answer":"a little"
-  		},
-  		"stareatnothing": {
-  			"answer":"a little"
-  		}
-  	},
-  	"peds_answers":{
-  		"conerncs": {
-  			"answer":"a little",
-  			"comment": "this is the comment"
-  		},
-  		"speech_sound": {
-  			"answer":"a little",
-  			"comment": "this is the comment"
-  		},
-  		"understand_speech": {
-  			"answer":"a little",
-  			"comment": ""
-  		},
-  		"using_hand": {
-  			"answer":"a little",
-  			"comment": "this is the comment"
-  		},
-  		"using_arm_leg": {
-  			"answer":"a little",
-  			"comment": ""
-  		},
-  		"behaviour": {
-  			"answer":"a little",
-  			"comment": "this is the comment"
-  		},
-  		"getting_along": {
-  			"answer":"a little",
-  			"comment": ""
-  		},
-  		"learning": {
-  			"answer":"a little",
-  			"comment": "this is the comment"
-  		},
-  		"learning_at_preschool": {
-  			"answer":"a little",
-  			"comment": "this is the comment"
-  		},
-  		"other_concerns": {
-  			"answer":"a little",
-  			"comment": "this is the comment"
-  		}
-  	}
+    "subject": "Watch Me Grow - Result",
+    "concerns": true,
+    "recipient_email": "alex@alexgilleran.com",
+    "test_date": "today",
+    "name_of_parent": "parent's name",
+    "name_of_child": "child's name",
+    "dob_child": "yesterday",
+    "age_of_child": "0",
+    "results_text": "Your child could benefit from a visit to a GP",
+    "qchat_answers": {
+        "lookatyou": {
+            "answer": "a little"
+        },
+        "eyecontacteasiness": {
+            "answer": "a little"
+        },
+        "pointwant": {
+            "answer": "a little"
+        },
+        "pointshareinterest": {
+            "answer": "a little"
+        },
+        "pretending": {
+            "answer": "a little"
+        },
+        "followlooking": {
+            "answer": "a little"
+        },
+        "comfort": {
+            "answer": "a little"
+        },
+        "firstwords": {
+            "answer": "a little"
+        },
+        "simplegestures": {
+            "answer": "a little"
+        },
+        "stareatnothing": {
+            "answer": "a little"
+        }
+    },
+    "peds_answers": {
+        "conerncs": {
+            "answer": "a little",
+            "comment": "this is the comment"
+        },
+        "speech_sound": {
+            "answer": "a little",
+            "comment": "this is the comment"
+        },
+        "understand_speech": {
+            "answer": "a little",
+            "comment": ""
+        },
+        "using_hand": {
+            "answer": "a little",
+            "comment": "this is the comment"
+        },
+        "using_arm_leg": {
+            "answer": "a little",
+            "comment": ""
+        },
+        "behaviour": {
+            "answer": "a little",
+            "comment": "this is the comment"
+        },
+        "getting_along": {
+            "answer": "a little",
+            "comment": ""
+        },
+        "learning": {
+            "answer": "a little",
+            "comment": "this is the comment"
+        },
+        "learning_at_preschool": {
+            "answer": "a little",
+            "comment": "this is the comment"
+        },
+        "other_concerns": {
+            "answer": "a little",
+            "comment": "this is the comment"
+        }
+    }
 }
