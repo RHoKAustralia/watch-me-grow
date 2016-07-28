@@ -5,7 +5,7 @@ import {withRouter} from 'react-router';
 import Input from 'react-toolbox/lib/input';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
-import questions from '../../../../model/questions';
+import questions from 'wmg-common/questions';
 const questionsLength = Object.keys(questions).length;
 
 import Styles from './question.scss'

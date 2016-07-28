@@ -1,34 +1,24 @@
 {
-  "name": "essential-react",
-  "version": "0.5.0",
-  "description": "A minimal skeleton for building testable React apps using Babel",
-  "main": "src/main.js",
+  "name": "watch-me-grow",
+  "version": "0.0.1",
+  "description": "A web app for early childhood developmental testing",
   "scripts": {
     "dev": "webpack-dev-server --config webpack.local.config --hot --inline --host 0.0.0.0",
     "build": "webpack -p --progress --config webpack.production.config.js",
-    "test": "nyc ava --fail-fast --verbose --require babel-register",
-    "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "clean": "rm build/app.js"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/pheuter/essential-react.git"
+    "url": "https://github.com/rhokaustralia/watch-me-grow"
   },
-  "keywords": [
-    "skeleton",
-    "template",
-    "react",
-    "quickstart"
-  ],
-  "author": "Mark Fayngersh",
+  "author": "Random Hacks of Kindness Sydney",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/pheuter/essential-react/issues"
+    "url": "https://github.com/rhokaustralia/watch-me-grow/issues"
   },
-  "homepage": "https://github.com/pheuter/essential-react",
+  "homepage": "https://rhokaustralia.github.io/watch-me-grow",
   "devDependencies": {
     "autoprefixer": "^6.3.6",
-    "ava": "^0.12.0",
     "babel-core": "^6.5.2",
     "babel-loader": "^6.2.4",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
@@ -39,22 +29,15 @@
     "babel-preset-stage-0": "^6.5.0",
     "babel-register": "^6.5.2",
     "babel-runtime": "^6.5.0",
-    "coveralls": "^2.11.2",
-    "enzyme": "^2.0.0",
     "extract-text-webpack-plugin": "^0.8.2",
     "file-loader": "^0.8.5",
     "html-webpack-plugin": "^2.19.0",
     "json-loader": "^0.5.4",
     "jsx-control-statements": "^3.1.2",
-    "less": "^2.7.1",
-    "less-loader": "^2.2.3",
-    "nyc": "^5.6.0",
     "raw-loader": "^0.5.1",
-    "react-addons-test-utils": "^15.0.1",
     "react-hot-loader": "^1.3.0",
     "resolve-url-loader": "^1.4.3",
     "sass-loader": "^3.2.0",
-    "sinon": "^1.17.2",
     "url-loader": "^0.5.7",
     "webpack": "^1.12.14",
     "webpack-dev-server": "^1.14.1",
@@ -74,8 +57,8 @@
     "react-router": "^2.0.0",
     "react-tap-event-plugin": "^1.0.0",
     "react-toolbox": "git+https://github.com/AlexGilleran/react-toolbox.git#watch-me-grow",
-    "reset-css": "^2.0.2011012603",
     "style-loader": "^0.13.1",
-    "whatwg-fetch": "^1.0.0"
+    "whatwg-fetch": "^1.0.0",
+    "wmg-common": "file:common"
   }
 }

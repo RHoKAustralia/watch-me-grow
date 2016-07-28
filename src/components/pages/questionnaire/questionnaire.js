@@ -1,7 +1,7 @@
 import React from 'react';
 import Styles from './questionnaire.scss';
 import QuestionSwitcher from './question-switcher/question-switcher';
-import questions from '../../../model/questions';
+import questions from 'wmg-common/questions';
 
 const Questionnaire = React.createClass({
     propTypes: {

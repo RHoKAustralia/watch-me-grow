@@ -7,7 +7,7 @@ import flag from './flag.svg';
 import stethoscope from './stethoscope.svg';
 import StageSwitcher from './stage-switcher';
 import stages from './stages/stages';
-import strings from 'data/strings';
+import strings from 'wmg-common/strings';
 
 import sendResults from 'send-results';
 
@@ -23,9 +23,9 @@ const Result = React.createClass({
 
         this.props.results.mark();
 
-        if (false) {
+        // if (false) {
             sendResults(this.props.details, this.props.results);
-        }
+        // }
     },
 
     getInitialStage() {

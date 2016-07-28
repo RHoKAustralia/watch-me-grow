@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Switcher from '../../../common/switcher';
-import questions from '../../../../model/questions';
+import questions from 'wmg-common/questions';
 const totalQuestionCount = Object.keys(questions).length;
 
 import Styles from './question-switcher.scss';

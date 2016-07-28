@@ -1,85 +1,77 @@
 {
-    "subject": "Watch Me Grow - Result",
-    "concerns": true,
-    "recipient_email": "alex@alexgilleran.com",
-    "test_date": "today",
-    "name_of_parent": "parent's name",
-    "name_of_child": "child's name",
-    "dob_child": "yesterday",
-    "age_of_child": "0",
-    "results_text": "Your child could benefit from a visit to a GP",
-    "qchat_answers": {
-        "lookatyou": {
-            "answer": "a little"
-        },
-        "eyecontacteasiness": {
-            "answer": "a little"
-        },
-        "pointwant": {
-            "answer": "a little"
-        },
-        "pointshareinterest": {
-            "answer": "a little"
-        },
-        "pretending": {
-            "answer": "a little"
-        },
-        "followlooking": {
-            "answer": "a little"
-        },
-        "comfort": {
-            "answer": "a little"
-        },
-        "firstwords": {
-            "answer": "a little"
-        },
-        "simplegestures": {
-            "answer": "a little"
-        },
-        "stareatnothing": {
-            "answer": "a little"
-        }
+    "details": {
+        "recipient_email": "alex@alexgilleran.com",
+        "test_date": "Friday, July 29th 2016",
+        "name_of_parent": "aerg",
+        "name_of_child": "Alex",
+        "dob_child": "Thursday, January 14th 2016",
+        "age_of_child": "6 months",
+        "results_text": "Your child is developing as expected for their age. Based on your answers you have no concerns about how your child is developing."
     },
-    "peds_answers": {
-        "conerncs": {
-            "answer": "a little",
-            "comment": "this is the comment"
+    "results": {
+        "qchat": {
+            "lookatyou": {
+                "value": "always"
+            },
+            "eyecontacteasiness": {
+                "value": "veryeasy"
+            },
+            "pointwant": {
+                "value": "manyday"
+            },
+            "pointshareinterest": {
+                "value": "manyday"
+            },
+            "pretending": {
+                "value": "manyday"
+            },
+            "followlooking": {
+                "value": "manyday"
+            },
+            "comfort": {
+                "value": "always"
+            },
+            "firstwords": {
+                "value": "verytypical"
+            },
+            "simplegestures": {
+                "value": "manyday"
+            },
+            "stareatnothing": {
+                "value": "manyday"
+            }
         },
-        "speech_sound": {
-            "answer": "a little",
-            "comment": "this is the comment"
-        },
-        "understand_speech": {
-            "answer": "a little",
-            "comment": ""
-        },
-        "using_hand": {
-            "answer": "a little",
-            "comment": "this is the comment"
-        },
-        "using_arm_leg": {
-            "answer": "a little",
-            "comment": ""
-        },
-        "behaviour": {
-            "answer": "a little",
-            "comment": "this is the comment"
-        },
-        "getting_along": {
-            "answer": "a little",
-            "comment": ""
-        },
-        "learning": {
-            "answer": "a little",
-            "comment": "this is the comment"
-        },
-        "learning_at_preschool": {
-            "answer": "a little",
-            "comment": "this is the comment"
-        },
-        "other_concerns": {
-            "answer": "a little",
-            "comment": "this is the comment"
+        "peds": {
+            "conerncs": {
+                "value": "no"
+            },
+            "speech_sound": {
+                "value": "no"
+            },
+            "understand_speech": {
+                "value": "no"
+            },
+            "using_hand": {
+                "value": "no"
+            },
+            "using_arm_leg": {
+                "value": "no"
+            },
+            "behaviour": {
+                "value": "no"
+            },
+            "getting_along": {
+                "value": "no"
+            },
+            "learning": {
+                "value": "no"
+            },
+            "learning_at_preschool": {
+                "value": "no"
+            },
+            "other_concerns": {
+                "value": "no"
+            }
         }
     }
 }
