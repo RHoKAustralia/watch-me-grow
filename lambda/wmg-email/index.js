@@ -53,7 +53,7 @@ exports.handler = function (event, context) {
                         event.details.recipient_email
                     ],
                     CcAddresses: [
-                        "alex@alexgilleran.com"
+                        "mail@watchmegrow.care"
                     ]
                 },
                 Message: {
@@ -68,7 +68,7 @@ exports.handler = function (event, context) {
                         Charset: 'UTF-8'
                     }
                 },
-                Source: "alex@alexgilleran.com" //hardcoded verified email source for Amazon SES sandbox
+                Source: "mail@watchmegrow.care" //hardcoded verified email source for Amazon SES sandbox
             };
 
             ses.sendEmail(params, function (err, data) {
