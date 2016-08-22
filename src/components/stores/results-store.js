@@ -1,8 +1,8 @@
 import React from 'react';
 
-import {combineQuestionsAndAnswers, getOverallResult} from '../../data/data-functions';
-import questionnaires from '../../data/questionnaires';
-import questions from 'model/questions';
+import {mark, combineAll, combineQuestionsAndAnswers, getOverallResult} from 'wmg-common/data-functions';
+import questionnaires from 'wmg-common/questionnaires';
+import questions from 'wmg-common/questions';
 
 const LOCAL_STORAGE_KEY = 'wmg-results';
 
@@ -36,15 +36,7 @@ const ResultStore = ComposedComponent => React.createClass({
     },
 
     mark() {
-        const concern = questionnaires.map(questionnaire => {
-            const combined = combineQuestionsAndAnswers(
-                questionnaire.questions, this.getResultsForQuestionnaire(questionnaire.id)
-            );
-
-            return getOverallResult(questionnaire, combined);
-        }).some(flag => flag === 'RED_FLAG' || flag === 'AMBER_FLAG');
-
-        this.setState({concern});
+        this.setState({concern: mark(combineAll(this.state))});
     },
 
     clear() {

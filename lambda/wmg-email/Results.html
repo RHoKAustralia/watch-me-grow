@@ -1,192 +1,56 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="utf-8" />
-    <title></title>
-</head>
-<body>
-	<p>
-		Hi {{name_of_parent}},<br />
-		<p>Thank you for completing the developmental checks for {{name_of_child}}. Please take this information to your GP or other health professional. </p>
-		
-		<table border="0">
-		<tr>
-			<td>CHILD'S NAME</td>
-			<td>{{name_of_child}}</td>
-			<td>TEST DATE</td>
-			<td>{{test_date}}</td>
-		</tr>
-		<tr>
-			<td>DATE OF BIRTH</td>
-			<td>{{dob_child}}</td>
-			<td>CHILD'S AGE</td>
-			<td>{{age_of_child}}</td>
-		</tr>
-		</table>
+<p>
+    Hi {{details.name_of_parent}},
+</p>
+<p>
+    Thank you for completing the developmental checks for {{details.name_of_child}}.
+    {{if concerns}}
+    Please give this information to the health professional who will be in contact with you shortly.
+    {{/if}}
+</p>
 
-		<p>{{results_text}}</p>
-		<br />
-		- Detailed Results Below -<br /><br />
-		Parents Evaluation of Developmental Status (PEDS)<br />
-		<table border="1">
-		<tr>
-			<th>Number</th>
-			<th>Questions</th>
-			<th>Your Response</th>
-		</tr>
-		<tr>
-			<td>1</td>
-			<td>Do you have any concerns about your child’s learning, development or behaviour? Please describe</td>
-			<td>{{peds_answers.conerncs.answer}}</td>
-		</tr>
-		<tr>
-			<td>comment</td>
-			<td>{{peds_answers.conerncs.comment}}</td>
-		</tr>
-		<tr>
-			<td>2</td>
-			<td>Do you have any concerns about how your child talks and makes speech sounds?</td>
-			<td>{{peds_answers.speech_sound.answer}}</td>
-		</tr>
-		<tr>
-			<td>comment</td>
-			<td>{{peds_answers.speech_sound.comment}}</td>
-		</tr>
-		<tr>
-			<td>3</td>
-			<td>Do you have any concerns about how your child understands what you say?</td>
-			<td>{{peds_answers.understand_speech.answer}}</td>
-		</tr>
-		<tr>
-			<td>comment</td>
-			<td>{{peds_answers.understand_speech.comment}}</td>
-		</tr>
-		<tr>
-			<td>4</td>
-			<td>Do you have any concerns about how your child uses his / her hands and fingers to do things?</td>
-			<td>{{peds_answers.using_hand.answer}}</td>
-		</tr>
-		<tr>
-			<td>comment</td>
-			<td>{{peds_answers.using_hand.comment}}</td>
-		</tr>
-		<tr>
-			<td>5</td>
-			<td>Do you have any concerns about how your child uses his / her arms and legs?</td>
-			<td>{{peds_answers.using_arm_leg.answer}}</td>
-		</tr>
-		<tr>
-			<td>comment</td>
-			<td>{{peds_answers.using_arm_leg.comment}}</td>
-		</tr>
-		<tr>
-			<td>6</td>
-			<td>Do you have any concerns about how your child behaves?</td>
-			<td>{{peds_answers.behaviour.answer}}</td>
-		</tr>
-		<tr>
-			<td>comment</td>
-			<td>{{peds_answers.behaviour.comment}}</td>
-		</tr>
-		<tr>
-			<td>7</td>
-			<td>Do you have any concerns about how your child gets along with others?</td>
-			<td>{{peds_answers.getting_along.answer}}</td>
-		</tr>
-		<tr>
-			<td>comment</td>
-			<td>{{peds_answers.getting_along.comment}}</td>
-		</tr>
-		<tr>
-			<td>8</td>
-			<td>Do you have any concerns about how your child is learning to do things for themselves?</td>
-			<td>{{peds_answers.learning.answer}}</td>
-		</tr>
-		<tr>
-			<td>comment</td>
-			<td>{{peds_answers.learning.comment}}</td>
-		</tr>
-		<tr>
-			<td>9</td>
-			<td>Do you have any concerns about how your child is learning preschool or school skills?</td>
-			<td>{{peds_answers.learning_at_preschool.answer}}</td>
-		</tr>
-		<tr>
-			<td>comment</td>
-			<td>{{peds_answers.learning_at_preschool.comment}}</td>
-		</tr>
-		<tr>
-			<td>10</td>
-			<td>Any other concerns? (like Hearing, Vision, Physical health, Weight, ???)</td>
-			<td>{{peds_answers.other_concerns.answer}}</td>
-		</tr>
-		<tr>
-			<td>comment</td>
-			<td>{{peds_answers.other_concerns.comment}}</td>
-		</tr>
-		</table>
-		<br />
-		<br />
-		Quantitative Checklist for Autism in Toddlers (Q-CHAT)<br />
-		<table border="1">
-		<tr>
-			<th>Number</th>
-			<th>Questions</th>
-			<th>Your Response</th>
-		</tr>
-		<tr>
-			<td>1</td>
-			<td>Does your child look at you when you call his/her name?</td>
-			<td>{{qchat_answers.lookatyou.answer}}</td>
-		</tr>
-		<tr>
-			<td>2</td>
-			<td>How easy is it for you to get eye contact with your child?</td>
-			<td>{{qchat_answers.eyecontacteasiness.answer}}</td>
-		</tr>
-		<tr>
-			<td>3</td>
-			<td>Does your child point to indicate that s/he wants something? (e.g. a toy that is out of reach)</td>
-			<td>{{qchat_answers.pointwant.answer}}</td>
-		</tr>
-		<tr>
-			<td>4</td>
-			<td>Does your child point to share interest with you (e.g. pointing at an interesting sight)?</td>
-			<td>{{qchat_answers.pointshareinterest.answer}}</td>
-		</tr>
-		<tr>
-			<td>5</td>
-			<td>Does your child pretend (e.g. care for dolls, talk on a toy phone)?</td>
-			<td>{{qchat_answers.pretending.answer}}</td>
-		</tr>
-		<tr>
-			<td>6</td>
-			<td>Does your child follow where you’re looking?</td>
-			<td>{{qchat_answers.followlooking.answer}}</td>
-		</tr>
-		<tr>
-			<td>7</td>
-			<td>If you or someone else in the family is visibly upset, does your child show signs of wanting to comfort them(e.g. stroking their hair, hugging them)?</td>
-			<td>{{qchat_answers.comfort.answer}}</td>
-		</tr>
-		<tr>
-			<td>8</td>
-			<td>Would you describe your child’s first words as:</td>
-			<td>{{qchat_answers.firstwords.answer}}</td>
-		</tr>
-		<tr>
-			<td>9</td>
-			<td>Does your child use simple gestures (e.g. wave goodbye)?</td>
-			<td>{{qchat_answers.simplegestures.answer}}</td>
-		</tr>
-		<tr>
-			<td>10</td>
-			<td>Does your child stare at nothing with no apparent purpose?</td>
-			<td>{{qchat_answers.stareatnothing.answer}}</td>
-		</tr>
-		</table>
+<table border="0">
+    <tr>
+        <td>Child's Name</td>
+        <td>{{details.name_of_child}}</td>
+        <td>Date of Test</td>
+        <td>{{details.test_date}}</td>
+    </tr>
+    <tr>
+        <td>Date of Birth</td>
+        <td>{{details.dob_child}}</td>
+        <td>Age of Child</td>
+        <td>{{details.age_of_child}}</td>
+    </tr>
+</table>
 
-		<p>This is a confidential email. You’re getting this message because you completed a development check questionnaire. For more information on the study please visit <a href="www.watchmegrow.org">www.watchmegrow.org</a></p>
-	</p>
-</body>
-</html>
+<p>{{resultText}}</p>
+<p>Detailed Results Below</p>
+
+{{allResults}}
+<h3>{{questionnaire.title}}</h3>
+<table border="1">
+    <tr>
+        <th>Number</th>
+        <th>Question</th>
+        <th>Your Response</th>
+    </tr>
+    {{results}}
+    <tr>
+        <td>{{##}}</td>
+        <td>{{metadata.text}}</td>
+        <td>{{answer.metadata.text}}</td>
+    </tr>
+    {{if answer.comments}}
+    <tr>
+        <td>Comment</td>
+        <td colspan="2">{{answer.comments}}</td>
+    </tr>
+    {{/if}}
+    {{/results}}
+</table>
+<br/>
+{{/allResults}}
+<p>
+    This was sent because you completed a questionnaire for the Watch Me Grow pilot.
+</p>

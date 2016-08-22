@@ -1,6 +1,4 @@
-'use strict';
-
-export default [
+module.exports = [
   {
     "id": "qchat",
     "title": "QCHAT",

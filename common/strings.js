@@ -1,7 +1,7 @@
-export default {
+module.exports = {
     "result": {
         "concerns": {
-            "title": "Your answers indicate that your child could benefit from a more detailed assessment by a GP or another health professional.",
+            "title": "Your answers indicate that your child could benefit from a more detailed assessment. A health professional will be in touch with you soon.",
             "subtitle": ""
         },
         "noConcerns": {

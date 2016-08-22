@@ -1,66 +1,74 @@
 'use strict';
+
 let https = require('https');
 var aws = require('aws-sdk');
 var ses = new aws.SES();
-var s3 = new aws.S3();
+var markupJs = require('markup-js');
+var fs = require('fs');
+var dataFunctions = require('wmg-common/data-functions');
+var mark = dataFunctions.mark;
+var combineAll = dataFunctions.combineAll;
+var strings = require('wmg-common/strings');
 
-var config = {
-    "templateBucket" : "wmg-email",
-    "templateKey" : "Templates/Results.html",
-}
+process.env["PATH"] = process.env["PATH"] + ":" + process.env["LAMBDA_TASK_ROOT"];
 
 console.log('Loading function');
 
 /*
-POST with these parameters:
-{
-  "recipient_email": <recipient email>
-  "subject": <subject>,
-  "body": <body>
-}
-*/
+ POST with these parameters:
+ {
+ "recipient_email": <recipient email>
+ "subject": <subject>,
+ "body": <body>
+ }
+ */
 
 exports.handler = function (event, context) {
     console.log("Event: " + JSON.stringify(event));
-    
-    if (event.recipient_email === undefined || event.subject === undefined) {
+
+    if (!event.details.recipient_email) {
         context.fail('Error: Missing parameter.');
     }
 
-
-    s3.getObject({
-        Bucket: config.templateBucket, 
-        Key: config.templateKey
-    }, function (err, data) {
-      if (err) {
+    fs.readFile(__dirname + '/Results.html', 'utf-8', (err, templateBody) => {
+        if (err) {
             // Error
             console.log(err, err.stack);
-            context.fail('Internal Error: Failed to load template from s3.')
-      } else {
-            var templateBody = data.Body.toString();
+            context.fail('Internal Error: Failed to load template.')
+        } else {
+            const combinedResults = combineAll(event.results);
+            const concern = mark(combinedResults);
+            const resultStrings = concern ? strings.result.concerns : strings.result.noConcerns;
 
-            var mark = require('markup-js');
-            var message = mark.up(templateBody, event);
+            var message = markupJs.up(templateBody, {
+                details: event.details,
+                concern: concern,
+                allResults: combinedResults,
+                resultText: resultStrings.title + ' ' + resultStrings.subtitle
+            });
 
             var params = {
                 Destination: {
                     ToAddresses: [
-                      event.recipient_email
+                        event.details.recipient_email
+                    ],
+                    CcAddresses: [
+                        "alex@alexgilleran.com"
                     ]
                 },
                 Message: {
                     Body: {
-                       Html: {
-                           Data: message,
-                           Charset: 'UTF-8'
-                       }
+                        Html: {
+                            Data: message,
+                            Charset: 'UTF-8'
+                        }
                     },
                     Subject: {
-                        Data: event.subject,
+                        Data: 'Watch Me Grow Results for ' + event.details.name_of_child,
                         Charset: 'UTF-8'
                     }
                 },
-                Source: "acicartagena@gmail.com", //hardcoded verified email source for Amazon SES sandbox
+                Source: "alex@alexgilleran.com" //hardcoded verified email source for Amazon SES sandbox
             };
 
             ses.sendEmail(params, function (err, data) {
@@ -69,12 +77,11 @@ exports.handler = function (event, context) {
                     context.fail('Internal Error: The email could not be sent.');
                 } else {
                     console.log(data);           // successful response
-                    context.succeed('The email was successfully sent to ' + event.recipient_email);
+                    context.succeed('The email was successfully sent to ' + event.details.recipient_email);
                 }
-          });
-      }
+            });
+        }
     });
 
-    
-    
+
 };

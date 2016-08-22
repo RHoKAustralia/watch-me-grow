@@ -1,6 +1,6 @@
-import questionnaires from '../data/questionnaires';
+const questionnaires = require('./questionnaires');
 
-export default questionnaires
+module.exports = questionnaires
   .map(questionnaire => {
     return questionnaire.questions.map(question => {
       question.questionnaire = questionnaire;
