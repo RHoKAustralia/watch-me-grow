@@ -23,9 +23,7 @@ const Result = React.createClass({
 
         this.props.results.mark();
 
-        if (false) {
-            sendResults(this.props.details, this.props.results);
-        }
+        sendResults(this.props.details, this.props.results);
     },
 
     getInitialStage() {
