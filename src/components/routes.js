@@ -8,6 +8,8 @@ import Question from './pages/questionnaire/question/question';
 import Details from './pages/questionnaire/details/details';
 import Result from './pages/result/result';
 
+
+
 export default (
     <Route path="/" component={App}>
         <IndexRedirect to="landing" />

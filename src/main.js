@@ -5,7 +5,8 @@
 import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router, browserHistory } from 'react-router';
+import {Router, useRouterHistory, Route, IndexRoute} from 'react-router';
+import {createHistory} from 'history';
 import Routes from './components/routes';
 // Base styling
 import './components/base.scss';
@@ -16,10 +17,14 @@ const DOM_APP_EL_ID = 'app';
 
 injectTapEventPlugin();
 
+const browserHistory = useRouterHistory(createHistory)({
+    basename: process.env.ROOT_ROUTE
+});
+
 // Render the router
 ReactDOM.render((
-  <Router history={browserHistory}>
-    {Routes}
-  </Router>
+    <Router history={browserHistory}>
+        {Routes}
+    </Router>
 ), document.getElementById(DOM_APP_EL_ID));
 

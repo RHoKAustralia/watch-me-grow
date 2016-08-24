@@ -1,11 +1,12 @@
 {
   "name": "watch-me-grow",
-  "version": "0.0.1",
-  "description": "A web app for early childhood developmental testing",
+  "version": "1.0.0",
+  "description": "A web-app for early childhood developmental and autism testing",
+  "main": "src/main.js",
   "scripts": {
     "dev": "webpack-dev-server --config webpack.local.config --hot --inline --host 0.0.0.0",
-    "build": "webpack -p --progress --config webpack.production.config.js",
-    "clean": "rm build/app.js"
+    "build": "webpack -p --progress --config webpack.prod.config.js",
+    "clean": "rm -r public"
   },
   "repository": {
     "type": "git",
@@ -37,7 +38,7 @@
     "raw-loader": "^0.5.1",
     "react-hot-loader": "^1.3.0",
     "resolve-url-loader": "^1.4.3",
-    "sass-loader": "^3.2.0",
+    "sass-loader": "^3.2.3",
     "url-loader": "^0.5.7",
     "webpack": "^1.12.14",
     "webpack-dev-server": "^1.14.1",
@@ -47,6 +48,7 @@
     "classnames": "^2.2.5",
     "css-loader": "^0.23.1",
     "email-validator": "^1.0.4",
+    "history": "2.x.x",
     "material-design-icons": "^2.2.3",
     "moment": "^2.13.0",
     "normalize.css": "^4.1.1",
