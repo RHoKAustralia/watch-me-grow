@@ -5,7 +5,7 @@ var config = base({
     devtool: "cheap-inline-sourcemap",
 
     output: {
-        publicPath: "http://localhost:8080/"
+        publicPath: "/"
     },
 
     devServer: {
@@ -25,7 +25,7 @@ var config = base({
             {test: /\.(js|jsx)$/, exclude: /node_modules/, loaders: ["react-hot", "babel-loader"]},
             {
                 test: /\.(css|scss)$/,
-                loader: 'style-loader!css-loader?camelCase&modules&importLoaders=2&localIdentName=[name]__[local]__[hash:6]!resolve-url-loader!sass-loader?sourceMap'
+                loader: 'style-loader!css-loader?camelCase&modules&importLoaders=3&localIdentName=[name]__[local]__[hash:6]!autoprefixer?{browsers:["last 2 version", "ie>=10"]}!resolve-url-loader!sass-loader?sourceMap'
             }
         ]
     }
