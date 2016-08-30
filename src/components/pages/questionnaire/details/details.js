@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import moment from 'moment';
-import {withRouter} from 'react-router';
+import { withRouter } from 'react-router';
 
 import Styles from './details.scss';
 import Input from 'react-toolbox/lib/input';
@@ -42,11 +42,16 @@ const Details = React.createClass({
     render() {
         const details = this.props.details;
 
+        const inputTheme = {
+            inputElement: Styles.inputElement
+        };
+
         return (
             <form className={Styles.details} onSubmit={this.onSubmit}>
                 <Input
                     type="text"
                     className={Styles.textBox}
+                    theme={inputTheme}
                     label="Your child's name"
                     value={details.babyName}
                     error={details.errors.babyName}
@@ -57,6 +62,7 @@ const Details = React.createClass({
                     ref={this.datePickerMounted}
                     type="text"
                     className={Styles.textBox}
+                    theme={inputTheme}
                     minDate={minDate.toDate()}
                     maxDate={maxDate.toDate()}
                     label="Your child's date of birth"
@@ -67,6 +73,7 @@ const Details = React.createClass({
                 <Input
                     type="text"
                     className={Styles.textBox}
+                    theme={inputTheme}
                     label="Your name"
                     value={details.parentName}
                     maxLength={100}
@@ -76,6 +83,7 @@ const Details = React.createClass({
                 <Input
                     type="email"
                     className={Styles.textBox}
+                    theme={{...inputTheme, label: Styles.label}}
                     label="Your email address (so we can send you the results)"
                     value={details.parentEmail}
                     maxLength={100}

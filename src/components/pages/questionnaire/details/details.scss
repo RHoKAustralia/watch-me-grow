@@ -1,22 +1,31 @@
 @import '~components/variables.scss';
 
 .details {
-  text-align: center;
-  padding-top: 10px;
-  padding-bottom: 30px;
-  max-width: $width-inner;
-  width: 100%;
-  margin: 0 auto;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 30px;
+    max-width: $width-inner;
+    width: 100%;
+    margin: 0 auto;
 }
 
 .next-button {
-  composes: button--main from '../../../buttons.scss';
-  composes: button--large from '../../../buttons.scss';
+    composes: button--main from '../../../buttons.scss';
+    composes: button--large from '../../../buttons.scss';
 
-  margin-top: 20px;
-  width: 140px;
+    margin-top: 20px;
+    width: 140px;
 
-  @media screen and (min-width: $width-md-min) {
-    float: right;
-  }
+    @media screen and (min-width: $width-md-min) {
+        float: right;
+    }
+}
+
+.input-element {
+    height: 40px !important;
+}
+
+.label {
+    top: auto;
+    bottom: 2.8rem;
 }
