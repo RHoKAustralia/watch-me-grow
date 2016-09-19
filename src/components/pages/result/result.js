@@ -23,6 +23,12 @@ const Result = React.createClass({
 
         this.props.results.mark();
 
+        ga('send', {
+            hitType: 'event',
+            eventCategory: 'Completions',
+            eventAction: this.props.results.concern ? 'concern' : 'no-concern'
+        });
+
         sendResults(this.props.details, this.props.results);
     },
 

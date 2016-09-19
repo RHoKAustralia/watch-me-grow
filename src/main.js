@@ -21,6 +21,12 @@ const browserHistory = useRouterHistory(createHistory)({
     basename: process.env.ROOT_ROUTE
 });
 
+browserHistory.listen(location => {
+    ga('send', 'screenview', {
+        screenName: location.pathname
+    });
+});
+
 // Render the router
 ReactDOM.render((
     <Router history={browserHistory}>
