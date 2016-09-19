@@ -9,7 +9,7 @@ var config = base({
     },
 
     devServer: {
-        port: 8080,
+        port: 8081,
         historyApiFallback: true
     },
 
