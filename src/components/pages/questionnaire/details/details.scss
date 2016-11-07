@@ -7,6 +7,18 @@
     max-width: $width-inner;
     width: 100%;
     margin: 0 auto;
+
+    :global {
+        .react-datepicker__input-container {
+            display: block;
+        }
+    }
+}
+
+:global {
+    .react-datepicker {
+        font-size: 1.2em;
+    }
 }
 
 .next-button {

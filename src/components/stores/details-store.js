@@ -9,7 +9,7 @@ const DetailsStore = ComposedComponent => React.createClass({
     getInitialState() {
         return {
             babyName: '',
-            babyDob: '',
+            babyDob: null,
             parentName: '',
             parentEmail: '',
             errors: {}
