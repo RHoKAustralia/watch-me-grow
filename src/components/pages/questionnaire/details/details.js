@@ -58,7 +58,7 @@ const Details = React.createClass({
         };
 
         return (
-            <form className={Styles.details} onSubmit={this.onSubmit}>
+            <form className={Styles.details} onSubmit={this.onSubmit} ref={form => this.form = form}>
                 <Input
                     type="text"
                     className={Styles.textBox}
@@ -113,9 +113,7 @@ const Details = React.createClass({
                     onFocus={this.closeDatePicker}
                     onChange={this.onChange.bind(this, 'parentEmail')}
                 />
-                <button className={Styles.nextButton} type="submit">
-                    Next
-                </button>
+                <input type="submit" className={Styles.nextButton} value="Next" />
             </form>
         );
     }

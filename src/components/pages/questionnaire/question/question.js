@@ -92,15 +92,14 @@ const Question = React.createClass({
                 {[Styles.answersVertical]: question.answers.length > 3}
               )}>
                 <For each="answer" of={question.answers}>
-                  <button
+                  <input
                     key={answer.value}
                     className={classNames(
-                    Styles.answerButton,
-                    {[Styles.answerButtonCurrent]: storedAnswer && storedAnswer.value === answer.value}
-                  )}
-                    onClick={this.onAnswerClicked.bind(this, answer, storedAnswer)}>
-                    {answer.text}
-                  </button>
+                      Styles.answerButton,
+                      {[Styles.answerButtonCurrent]: storedAnswer && storedAnswer.value === answer.value}
+                    )}
+                    onClick={this.onAnswerClicked.bind(this, answer, storedAnswer)}
+                    value={answer.text} />
                 </For>
               </div>
             </div>
@@ -120,11 +119,13 @@ const Question = React.createClass({
                   inputElement: Styles.commentsTextarea
                 }}
               />
-              <button
+              <input
+                type="button"
                 className={Styles.nextButton}
-                onClick={this.goToNext}>
-                {this.questionNumber < questionsLength ? 'Next': 'Finish'}
-              </button>
+                onClick={this.goToNext}
+                readOnly
+                value={this.questionNumber < questionsLength ? 'Next': 'Finish'}>
+              </input>
             </div>
           </div>
         </ReactCSSTransitionGroup>
