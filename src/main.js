@@ -10,12 +10,9 @@ import {createHistory} from 'history';
 import Routes from './components/routes';
 // Base styling
 import './components/base.scss';
-import injectTapEventPlugin from 'react-tap-event-plugin';
 
 // ID of the DOM element to mount app on
 const DOM_APP_EL_ID = 'app';
-
-injectTapEventPlugin();
 
 const browserHistory = useRouterHistory(createHistory)({
     basename: process.env.ROOT_ROUTE

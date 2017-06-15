@@ -17,7 +17,7 @@
   "bugs": {
     "url": "https://github.com/rhokaustralia/watch-me-grow/issues"
   },
-  "homepage": "https://rhokaustralia.github.io/watch-me-grow",
+  "homepage": "https://watchmegrow.care",
   "devDependencies": {
     "autoprefixer": "^6.4.0",
     "autoprefixer-loader": "^3.2.0",

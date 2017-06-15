@@ -24,9 +24,7 @@ export default function sendResults(details, results) {
         results
     };
 
-    // console.log(JSON.stringify(data));
-
-    fetch('https://8ims93nxd2.execute-api.us-west-2.amazonaws.com/prod/send-email', {
+    fetch('https://x1q7y0yp5k.execute-api.ap-southeast-2.amazonaws.com/prod/send-email', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',

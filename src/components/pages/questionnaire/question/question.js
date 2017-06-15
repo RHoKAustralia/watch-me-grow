@@ -43,6 +43,7 @@ const Question = React.createClass({
   },
 
   onAnswerClicked(answer, storedAnswer, event) {
+    event.preventDefault();
     const question = this.question;
     const resultStore = this.props.results;
 
@@ -53,6 +54,11 @@ const Question = React.createClass({
     } else {
       setTimeout(() => ReactDOM.findDOMNode(this.commentsElement).querySelector('textarea').focus());
     }
+  },
+
+  onNextClicked(event) {
+    event.preventDefault();
+    this.goToNext();
   },
 
   goToNext() {
@@ -92,14 +98,15 @@ const Question = React.createClass({
                 {[Styles.answersVertical]: question.answers.length > 3}
               )}>
                 <For each="answer" of={question.answers}>
-                  <input
+                  <a href="#"
                     key={answer.value}
                     className={classNames(
                       Styles.answerButton,
                       {[Styles.answerButtonCurrent]: storedAnswer && storedAnswer.value === answer.value}
                     )}
-                    onClick={this.onAnswerClicked.bind(this, answer, storedAnswer)}
-                    value={answer.text} />
+                    onClick={this.onAnswerClicked.bind(this, answer, storedAnswer)}>
+                    {answer.text}
+                  </a>
                 </For>
               </div>
             </div>
@@ -119,13 +126,11 @@ const Question = React.createClass({
                   inputElement: Styles.commentsTextarea
                 }}
               />
-              <input
-                type="button"
+              <a href="#"
                 className={Styles.nextButton}
-                onClick={this.goToNext}
-                readOnly
-                value={this.questionNumber < questionsLength ? 'Next': 'Finish'}>
-              </input>
+                onClick={this.onNextClicked}>
+                {this.questionNumber < questionsLength ? 'Next': 'Finish'}
+              </a>
             </div>
           </div>
         </ReactCSSTransitionGroup>

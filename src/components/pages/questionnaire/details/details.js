@@ -72,7 +72,7 @@ const Details = React.createClass({
                 />
                 <Input
                     readOnly="true"
-                    onClick={this.onDateClick}
+										onFocus={this.onDateClick}
                     ref={input => this.input = input}
                     label="Your child's date of birth"
                     type="text"
