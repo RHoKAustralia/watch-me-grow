@@ -21,6 +21,7 @@ export default function sendResults(details, results) {
     age_of_child: ageInMonths < 24
       ? ageInMonths + " months"
       : Math.floor(ageInMonths / 12) + " years",
+    age_in_months: ageInMonths,
     results_text: getResultText(results)
   };
 

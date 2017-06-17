@@ -5,9 +5,6 @@ import {withRouter} from 'react-router';
 import Input from 'react-toolbox/lib/input';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
-import questions from 'wmg-common/questions';
-const questionsLength = Object.keys(questions).length;
-
 import Styles from './question.scss'
 
 const Question = React.createClass({
@@ -39,7 +36,7 @@ const Question = React.createClass({
     });
 
     this.questionNumber = newQuestionNumber;
-    this.question = questions[this.questionNumber];
+    this.question = props.questions[this.questionNumber];
   },
 
   onAnswerClicked(answer, storedAnswer, event) {
@@ -61,11 +58,15 @@ const Question = React.createClass({
     this.goToNext();
   },
 
+  questionsLength() {
+    return Object.keys(this.props.questions).length;
+  },
+
   goToNext() {
     this.props.results.save();
 
     const nextQuestionNumber = (this.questionNumber + 1);
-    const nextRoute = nextQuestionNumber <= questionsLength ?
+    const nextRoute = nextQuestionNumber <= this.questionsLength ?
       `/questionnaire/questions/${nextQuestionNumber}` :
       '/result';
 
@@ -129,7 +130,7 @@ const Question = React.createClass({
               <a href="#"
                 className={Styles.nextButton}
                 onClick={this.onNextClicked}>
-                {this.questionNumber < questionsLength ? 'Next': 'Finish'}
+                {this.questionNumber < this.questionsLength() ? 'Next': 'Finish'}
               </a>
             </div>
           </div>
