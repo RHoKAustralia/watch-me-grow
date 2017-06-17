@@ -66,7 +66,7 @@ const Question = React.createClass({
     this.props.results.save();
 
     const nextQuestionNumber = (this.questionNumber + 1);
-    const nextRoute = nextQuestionNumber <= this.questionsLength ?
+    const nextRoute = nextQuestionNumber <= this.questionsLength() ?
       `/questionnaire/questions/${nextQuestionNumber}` :
       '/result';
 
