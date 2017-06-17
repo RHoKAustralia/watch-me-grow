@@ -17,6 +17,7 @@ export default function sendResults(details, results) {
     last_name_of_child: details.babyLastName,
     gender_of_child: details.babyGender,
     dob_child: details.babyDob.format(FORMAT),
+    doctor_email: details.doctorEmail,
     age_of_child: ageInMonths < 24
       ? ageInMonths + " months"
       : Math.floor(ageInMonths / 12) + " years",

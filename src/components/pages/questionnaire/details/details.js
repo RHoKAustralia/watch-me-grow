@@ -135,6 +135,17 @@ const Details = React.createClass({
                     onFocus={this.closeDatePicker}
                     onChange={this.onChange.bind(this, 'parentEmail')}
                 />
+                <Input
+                    type="email"
+                    className={Styles.textBox}
+                    theme={{...inputTheme, label: Styles.label}}
+                    label="Your doctor's email address (optional - so we can send them the results too)"
+                    value={details.doctorEmail}
+                    maxLength={100}
+                    error={details.errors.doctorEmail}
+                    onFocus={this.closeDatePicker}
+                    onChange={this.onChange.bind(this, 'doctorEmail')}
+                />
                 <input type="submit" className={Styles.nextButton} value="Next" />
             </form>
         );
