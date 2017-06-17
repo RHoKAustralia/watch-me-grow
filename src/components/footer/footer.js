@@ -13,9 +13,7 @@ const Header = React.createClass({
             <footer className={classNames(Styles.footer, {[Styles.concern]: this.props.concern})}>
                 <div className={Styles.inner}>
                     <p className={Styles.blurb}>
-                        Watch Me Grow is supported by the University of New South Wales. It uses two well-established
-                        tools that
-                        ask about overall development, as well as language and social skills.
+                        Watch Me Grow is supported by the University of New South Wales. It focuses on general developmental milestones, as well as language and social skills.
                     </p>
                 </div>
             </footer>

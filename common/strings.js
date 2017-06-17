@@ -1,7 +1,7 @@
 module.exports = {
     "result": {
         "concerns": {
-            "title": "Your answers indicate that your child could benefit from a more detailed assessment. A health professional will be in touch with you soon.",
+            "title": "Your answers indicate that your child could benefit from a more detailed assessment. Please discuss these results with your health professional.",
             "subtitle": ""
         },
         "noConcerns": {
