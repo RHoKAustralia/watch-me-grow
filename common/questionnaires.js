@@ -5,7 +5,7 @@ module.exports = [
     "description": "Q-CHAT-10 (Quantitative Checklist for Autism in Toddlers) is a quick referral guide for parents to complete about their toddler (18 – 24 months) with concerns about autism.",
     "introduction": "Some questions about your child’s speech and socialising skills. Please answer all questions.",
     "detail_link": "http://www.autismresearchcentre.com/arc_tests",
-    "age_groups": ['18_month', '2_years'],
+      "age_groups": {"min":0,"max":65536}, // was: "age_groups": ['18_month', '2_years'],
     "analysis": {
       "strategy": "simple",
       "redFlagThreshold": 3,
@@ -335,250 +335,531 @@ module.exports = [
     ]
   },
   {
-    "id": "peds",
-    "title": "PEDS",
-    "description": "Parents’ Evaluation of Developmental Status (PEDS) (developed by Glascoe FP)  is included in the My Personal Health Record.",
-    "introduction": "PEDS – Some questions about how your child is developing in general. It’s important to answer all 10 questions as well as leave a short comment in the comment section of each question.",
-    "detail_link": "http://www.kidsfamilies.health.nsw.gov.au/publications/child-personal-health-record-(blue-book)/",
-    "age_groups": ['6_month', '12_month', '18_month', '2_years', '3_years', '4_years'],
-    "analysis": {
-      "strategy": "simple",
-      "redFlagThreshold": 1,
-      "amberFlagThreshold": 99
+      "id": "cdc12", // "12 Month items from file "New qns.docx" - numbered 1-7 in that document but 0-6 here
+      "title": "CDC",
+      "description" : "DESCRIPTION FOR CDC QUESTIONS TO GO HERE",
+      "introduction" : "INTRODUCTION FOR CDC MATERIAL TO GO HERE",
+      "detail_link": "DETAIL LINK TO GO HERE",
+      "age_groups": {"min":0,"max":12},
+      "analysis": {
+	  "strategy": "simple",
+	  "redFlagThreshold": 1,
+	  "amberFlagThreshold": 99
+      },
+      "questions": [ // Numbers
+	  {
+              "id": "crawl",
+              "order": 0,                      // table 1 question 1
+              "text": "Does your child crawl?", // fixme
+              "comments": false,
+              "answers": [
+		  {
+		      "value": "yes",
+		      "text": "Yes",
+		      "redFlagQuestion": true
+		  },
+		  {
+		      "value": "no",
+		      "text": "No",
+		      "redFlagQuestion": false
+		  },
+		  {
+		      "value": "notsure",
+		      "text": "Not Sure", 
+		      "amberFlagQuestion": true
+		  },
+              ]
+	  },
+	  {
+              "id": "stand",
+              "order": 1,                      
+              "text": "Can your child stand when being supported?",
+              "comments": false,
+              "answers": [
+		  {
+		      "value": "yes",
+		      "text": "Yes",
+		      "redFlagQuestion": true
+		  },
+		  {
+		      "value": "no",
+		      "text": "No",
+		      "redFlagQuestion": false
+		  },
+		  {
+		      "value": "notsure",
+		      "text": "Not Sure", 
+		      "amberFlagQuestion": true
+		  },
+              ]
+	  },
+	  {
+              "id": "search_hidden",
+              "order": 2,                      
+              "text": "Does your child search for things that they see you hide?",
+              "comments": false,
+              "answers": [
+		  {
+		      "value": "yes",
+		      "text": "Yes",
+		      "redFlagQuestion": true
+		  },
+		  {
+		      "value": "no",
+		      "text": "No",
+		      "redFlagQuestion": false
+		  },
+		  {
+		      "value": "notsure",
+		      "text": "Not Sure", 
+		      "amberFlagQuestion": true
+		  },
+              ]
+	  },
+	  {
+              "id": "single_words",
+              "order": 3,                      
+              "text": "Does your child say single words like \"mama\" or \"dada\"?",
+              "comments": false,
+              "answers": [
+		  {
+		      "value": "yes",
+		      "text": "Yes",
+		      "redFlagQuestion": true
+		  },
+		  {
+		      "value": "no",
+		      "text": "No",
+		      "redFlagQuestion": false
+		  },
+		  {
+		      "value": "notsure",
+		      "text": "Not Sure",
+		      "amberFlagQuestion": true
+		  },
+              ]
+	  },
+	  {
+              "id": "gestures",
+              "order": 4,                      
+              "text": "Does your child use gestures like waving or shaking their head?",
+              "comments": false,
+              "answers": [
+		  {
+		      "value": "yes",
+		      "text": "Yes",
+		      "redFlagQuestion": true
+		  },
+		  {
+		      "value": "no",
+		      "text": "No",
+		      "redFlagQuestion": false
+		  },
+		  {
+		      "value": "notsure",
+		      "text": "Not Sure",
+		      "amberFlagQuestion": true
+		  },
+              ]
+	  },
+	  {
+              "id": "point",
+              "order": 5,                      
+              "text": "Does your child point to things?",
+              "comments": false,
+              "answers": [
+		  {
+		      "value": "yes",
+		      "text": "Yes",
+		      "redFlagQuestion": true
+		  },
+		  {
+		      "value": "no",
+		      "text": "No",
+		      "redFlagQuestion": false
+		  },
+		  {
+		      "value": "notsure",
+		      "text": "Not Sure",
+		      "amberFlagQuestion": true
+		  },
+              ]
+	  },
+	  {
+              "id": "lost_skills",
+              "order": 6,                      
+              "text": "Has your child lost any skills they once had?",
+              "comments": false,
+              "answers": [
+		  {
+		      "value": "yes",
+		      "text": "Yes",
+		      "redFlagQuestion": true
+		  },
+		  {
+		      "value": "no",
+		      "text": "No",
+		      "redFlagQuestion": false
+		  },
+		  {
+		      "value": "notsure",
+		      "text": "Not Sure",
+		      "amberFlagQuestion": true
+		  },
+              ]
+	  },
+      ]
+  },
+    {
+	"id": "cdc18", // "18 Month items from file "New qns.docx" - numbered 8-15 in that document but 0-6 here
+	"title": "CDC",
+      "description" : "DESCRIPTION FOR CDC QUESTIONS TO GO HERE",
+      "introduction" : "INTRODUCTION FOR CDC MATERIAL TO GO HERE",
+      "detail_link": "DETAIL LINK TO GO HERE",
+	"age_groups": {"min":13,"max":18},
+      "analysis": {
+	  "strategy": "simple",
+	  "redFlagThreshold": 1,
+	  "amberFlagThreshold": 99
+      },
+      "questions": [ // Numbers
+	  {
+              "id": "point18",
+              "order": 0,                      // table 1 question 1
+              "text": "Does your child point to show things to others?",
+              "comments": false,
+              "answers": [
+		  {
+		      "value": "yes",
+		      "text": "Yes",
+		      "redFlagQuestion": true
+		  },
+		  {
+		      "value": "no",
+		      "text": "No",
+		      "redFlagQuestion": false
+		  },
+		  {
+		      "value": "notsure",
+		      "text": "Not Sure", 
+		      "amberFlagQuestion": true
+		  },
+              ]
+	  },
+	  {
+              "id": "walk18",
+              "order": 1,                      
+              "text": "Can your child walk?",
+              "comments": false,
+              "answers": [
+		  {
+		      "value": "yes",
+		      "text": "Yes",
+		      "redFlagQuestion": true
+		  },
+		  {
+		      "value": "no",
+		      "text": "No",
+		      "redFlagQuestion": false
+		  },
+		  {
+		      "value": "notsure",
+		      "text": "Not Sure", 
+		      "amberFlagQuestion": true
+		  },
+              ]
+	  },
+	  {
+              "id": "know_familiar18",
+              "order": 2,                      
+              "text": "Does your child know what familiar things are for (e.g. a spoon is for eating)?",
+              "comments": false,
+              "answers": [
+		  {
+		      "value": "yes",
+		      "text": "Yes",
+		      "redFlagQuestion": true
+		  },
+		  {
+		      "value": "no",
+		      "text": "No",
+		      "redFlagQuestion": false
+		  },
+		  {
+		      "value": "notsure",
+		      "text": "Not Sure", 
+		      "amberFlagQuestion": true
+		  },
+              ]
+	  },
+	  {
+              "id": "copy_others18",
+              "order": 3,                      
+              "text": "Does your child copy others?",
+              "comments": false,
+              "answers": [
+		  {
+		      "value": "yes",
+		      "text": "Yes",
+		      "redFlagQuestion": true
+		  },
+		  {
+		      "value": "no",
+		      "text": "No",
+		      "redFlagQuestion": false
+		  },
+		  {
+		      "value": "notsure",
+		      "text": "Not Sure",
+		      "amberFlagQuestion": true
+		  },
+              ]
+	  },
+	  {
+              "id": "words18",
+              "order": 4,                      
+              "text": "Does your child have at least 6 words?",
+              "comments": false,
+              "answers": [
+		  {
+		      "value": "yes",
+		      "text": "Yes",
+		      "redFlagQuestion": true
+		  },
+		  {
+		      "value": "no",
+		      "text": "No",
+		      "redFlagQuestion": false
+		  },
+		  {
+		      "value": "notsure",
+		      "text": "Not Sure",
+		      "amberFlagQuestion": true
+		  },
+              ]
+	  },
+	  {
+              "id": "learn_words18",
+              "order": 5,                      
+              "text": "Is your child learning new words?",
+              "comments": false,
+              "answers": [
+		  {
+		      "value": "yes",
+		      "text": "Yes",
+		      "redFlagQuestion": true
+		  },
+		  {
+		      "value": "no",
+		      "text": "No",
+		      "redFlagQuestion": false
+		  },
+		  {
+		      "value": "notsure",
+		      "text": "Not Sure",
+		      "amberFlagQuestion": true
+		  },
+              ]
+	  },
+	  {
+              "id": "notice_carer18",
+              "order": 6,                      
+              "text": "Does your child notice or mind when a caregiver leaves or returns?",
+              "comments": false,
+              "answers": [
+		  {
+		      "value": "yes",
+		      "text": "Yes",
+		      "redFlagQuestion": true
+		  },
+		  {
+		      "value": "no",
+		      "text": "No",
+		      "redFlagQuestion": false
+		  },
+		  {
+		      "value": "notsure",
+		      "text": "Not Sure",
+		      "amberFlagQuestion": true
+		  },
+              ]
+	  },
+	  {
+              "id": "lost_skills18", 
+              "order": 7,                      
+              "text": "Has your child lost skills they once had?",
+              "comments": false,
+              "answers": [
+		  {
+		      "value": "yes",
+		      "text": "Yes",
+		      "redFlagQuestion": true
+		  },
+		  {
+		      "value": "no",
+		      "text": "No",
+		      "redFlagQuestion": false
+		  },
+		  {
+		      "value": "notsure",
+		      "text": "Not Sure",
+		      "amberFlagQuestion": true
+		  },
+              ]
+	  },
+      ]
     },
-    "questions": [
-      {
-        "id": "conerncs",
-        "order": 0,
-        "text": "Do you have any concerns about your child’s learning, development or behaviour? Please describe",
-        "comments": true,
-        "answers": [
-          {
-            "value": "no",
-            "text": "No",
-            "redFlagQuestion": false
-          },
-          {
-            "value": "alittle",
-            "text": "A little",
-            "amberFlagQuestion": true
-          },
-          {
-            "value": "yes",
-            "text": "Yes",
-            "redFlagQuestion": true
-          }
-        ]
-      },
-
-      {
-        "id": "speech_sound",
-        "order": 1,
-        "text": "Do you have any concerns about how your child talks and makes speech sounds?",
-        "comments": true,
-        "answers": [
-          {
-            "value": "no",
-            "text": "No",
-            "redFlagQuestion": false
-          },
-          {
-            "value": "alittle",
-            "text": "A little",
-            "amberFlagQuestion": true
-          },
-          {
-            "value": "yes",
-            "text": "Yes",
-            "redFlagQuestion": true
-          }
-        ]
-      },
-      {
-        "id": "understand_speech",
-        "order": 2,
-        "text": "Do you have any concerns about how your child understands what you say?",
-        "comments": true,
-        "answers": [
-          {
-            "value": "no",
-            "text": "No",
-            "redFlagQuestion": false
-          },
-          {
-            "value": "alittle",
-            "text": "A little",
-            "amberFlagQuestion": true
-          },
-          {
-            "value": "yes",
-            "text": "Yes",
-            "redFlagQuestion": true
-          }
-        ]
-      },
-      {
-        "id": "using_hand",
-        "order": 3,
-        "text": "Do you have any concerns about how your child uses his / her hands and fingers to do things?",
-        "comments": true,
-        "answers": [
-          {
-            "value": "no",
-            "text": "No",
-            "redFlagQuestion": false
-          },
-          {
-            "value": "alittle",
-            "text": "A little",
-            "amberFlagQuestion": true
-          },
-          {
-            "value": "yes",
-            "text": "Yes",
-            "redFlagQuestion": true
-          }
-        ]
-      },
-      {
-        "id": "using_arm_leg",
-        "order": 4,
-        "text": "Do you have any concerns about how your child uses his / her arms and legs?",
-        "comments": true,
-        "answers": [
-          {
-            "value": "no",
-            "text": "No",
-            "redFlagQuestion": false
-          },
-          {
-            "value": "alittle",
-            "text": "A little",
-            "amberFlagQuestion": true
-          },
-          {
-            "value": "yes",
-            "text": "Yes",
-            "redFlagQuestion": true
-          }
-        ]
-      },
-      {
-        "id": "behaviour",
-        "order": 5,
-        "text": "Do you have any concerns about how your child behaves?",
-        "comments": true,
-        "answers": [
-          {
-            "value": "no",
-            "text": "No",
-            "redFlagQuestion": false
-          },
-          {
-            "value": "alittle",
-            "text": "A little",
-            "amberFlagQuestion": true
-          },
-          {
-            "value": "yes",
-            "text": "Yes",
-            "redFlagQuestion": true
-          }
-        ]
-      },
-      {
-        "id": "getting_along",
-        "order": 6,
-        "text": "Do you have any concerns about how your child gets along with others?",
-        "comments": true,
-        "answers": [
-          {
-            "value": "no",
-            "text": "No",
-            "redFlagQuestion": false
-          },
-          {
-            "value": "alittle",
-            "text": "A little",
-            "amberFlagQuestion": true
-          },
-          {
-            "value": "yes",
-            "text": "Yes",
-            "redFlagQuestion": true
-          }
-        ]
-      },
-      {
-        "id": "learning",
-        "order": 7,
-        "text": "Do you have any concerns about how your child is learning to do things for themselves?",
-        "comments": true,
-        "answers": [
-          {
-            "value": "no",
-            "text": "No",
-            "redFlagQuestion": false
-          },
-          {
-            "value": "alittle",
-            "text": "A little",
-            "amberFlagQuestion": true
-          },
-          {
-            "value": "yes",
-            "text": "Yes",
-            "redFlagQuestion": true
-          }
-        ]
-      },
-      {
-        "id": "learning_at_preschool",
-        "order": 8,
-        "text": "Do you have any concerns about how your child is learning preschool or school skills?",
-        "comments": true,
-        "answers": [
-          {
-            "value": "no",
-            "text": "No",
-            "redFlagQuestion": false
-          },
-          {
-            "value": "alittle",
-            "text": "A little",
-            "amberFlagQuestion": true
-          },
-          {
-            "value": "yes",
-            "text": "Yes",
-            "redFlagQuestion": true
-          }
-        ]
-      },
-      {
-        "id": "other_concerns",
-        "order": 9,
-        "text": "Any other concerns? (like Hearing, Vision, Physical health, Weight, ???)", //TODO
-        "comments": true,
-        "answers": [
-          {
-            "value": "no",
-            "text": "No",
-            "redFlagQuestion": false
-          },
-          {
-            "value": "alittle",
-            "text": "A little",
-            "amberFlagQuestion": true
-          },
-          {
-            "value": "yes",
-            "text": "Yes",
-            "redFlagQuestion": true
-          }
-        ]
-      }
-    ]
-  }
+    {
+	"id": "cdc24", // "24 Month items from file "New qns.docx" - numbered 16-21 in that document but 0-5 here
+	"title": "CDC",
+	"description" : "DESCRIPTION FOR CDC QUESTIONS TO GO HERE",
+	"introduction" : "INTRODUCTION FOR CDC MATERIAL TO GO HERE",
+	"detail_link": "DETAIL LINK TO GO HERE",
+	"age_groups": {"min":19,"max":24},
+	"analysis": {
+	    "strategy": "simple",
+	    "redFlagThreshold": 1,
+	    "amberFlagThreshold": 99
+	},
+	"questions": [ // Numbers
+	    {
+		"id": "two_word_phrases24",
+              "order": 0,                      // table 1 question 1
+              "text": "Does your child use two word phrases (e.g. “drink milk”)?",
+              "comments": false,
+              "answers": [
+		  {
+		      "value": "yes",
+		      "text": "Yes",
+		      "redFlagQuestion": true
+		  },
+		  {
+		      "value": "no",
+		      "text": "No",
+		      "redFlagQuestion": false
+		  },
+		  {
+		      "value": "notsure",
+		      "text": "Not Sure", 
+		      "amberFlagQuestion": true
+		  },
+              ]
+	  },
+	  {
+              "id": "common_things24",
+              "order": 1,                      
+              "text": "Does your child know what to do with common things, like a brush, phone, fork, spoon?",
+              "comments": false,
+              "answers": [
+		  {
+		      "value": "yes",
+		      "text": "Yes",
+		      "redFlagQuestion": true
+		  },
+		  {
+		      "value": "no",
+		      "text": "No",
+		      "redFlagQuestion": false
+		  },
+		  {
+		      "value": "notsure",
+		      "text": "Not Sure", 
+		      "amberFlagQuestion": true
+		  },
+              ]
+	  },
+	  {
+              "id": "copy_actions24",
+              "order": 2,                      
+              "text": "Does your child copy actions and words?",
+              "comments": false,
+              "answers": [
+		  {
+		      "value": "yes",
+		      "text": "Yes",
+		      "redFlagQuestion": true
+		  },
+		  {
+		      "value": "no",
+		      "text": "No",
+		      "redFlagQuestion": false
+		  },
+		  {
+		      "value": "notsure",
+		      "text": "Not Sure", 
+		      "amberFlagQuestion": true
+		  },
+              ]
+	  },
+	  {
+              "id": "simple_instructions24",
+              "order": 3,                      
+              "text": "Can your child follow simple instructions?",
+              "comments": false,
+              "answers": [
+		  {
+		      "value": "yes",
+		      "text": "Yes",
+		      "redFlagQuestion": true
+		  },
+		  {
+		      "value": "no",
+		      "text": "No",
+		      "redFlagQuestion": false
+		  },
+		  {
+		      "value": "notsure",
+		      "text": "Not Sure",
+		      "amberFlagQuestion": true
+		  },
+              ]
+	  },
+	  {
+              "id": "walk_steady24",
+              "order": 4,                      
+              "text": "Does your child walk steadily without assistance?",
+              "comments": false,
+              "answers": [
+		  {
+		      "value": "yes",
+		      "text": "Yes",
+		      "redFlagQuestion": true
+		  },
+		  {
+		      "value": "no",
+		      "text": "No",
+		      "redFlagQuestion": false
+		  },
+		  {
+		      "value": "notsure",
+		      "text": "Not Sure",
+		      "amberFlagQuestion": true
+		  },
+              ]
+	  },
+	  {
+              "id": "lost_skills24",
+              "order": 5,                      
+              "text": "Has your child lost skills they once had?",
+              "comments": false,
+              "answers": [
+		  {
+		      "value": "yes",
+		      "text": "Yes",
+		      "redFlagQuestion": true
+		  },
+		  {
+		      "value": "no",
+		      "text": "No",
+		      "redFlagQuestion": false
+		  },
+		  {
+		      "value": "notsure",
+		      "text": "Not Sure",
+		      "amberFlagQuestion": true
+		  },
+              ]
+	  },
+      ],
+    },
 ]
-
