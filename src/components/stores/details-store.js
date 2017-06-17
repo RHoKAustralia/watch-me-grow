@@ -2,13 +2,15 @@ import React from 'react';
 import emailValidator from 'email-validator';
 import moment from 'moment';
 
-const REQUIRED_TEXT = ['babyName', 'parentName', 'parentEmail'];
+const REQUIRED_TEXT = ['babyFirstName', 'babyLastName', 'babyGender', 'parentName', 'parentEmail'];
 const LOCAL_STORAGE_KEY = 'wmg-details';
 
 const DetailsStore = ComposedComponent => React.createClass({
     getInitialState() {
         return {
-            babyName: '',
+            babyFirstName: '',
+            babyLastName: '',
+            babyGender: '',
             babyDob: null,
             parentName: '',
             parentEmail: '',
@@ -22,7 +24,9 @@ const DetailsStore = ComposedComponent => React.createClass({
             const storedDetails = JSON.parse(fromStorageRaw);
 
             this.setState({
-                babyName: storedDetails.babyName,
+                babyFirstName: storedDetails.babyFirstName,
+                babyLastName: storedDetails.babyLastName,
+                babyGender: storedDetails.babyGender,
                 babyDob: moment(storedDetails.babyDob),
                 parentName: storedDetails.parentName,
                 parentEmail: storedDetails.parentEmail
@@ -61,7 +65,9 @@ const DetailsStore = ComposedComponent => React.createClass({
 
     save() {
         sessionStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify({
-            babyName: this.state.babyName,
+            babyFirstName: this.state.babyFirstName,
+            babyLastName: this.state.babyLastName,
+            babyGender: this.state.babyGender,
             babyDob: this.state.babyDob.toString(),
             parentName: this.state.parentName,
             parentEmail: this.state.parentEmail

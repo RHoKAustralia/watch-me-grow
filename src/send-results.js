@@ -13,7 +13,9 @@ export default function sendResults(details, results) {
     recipient_email: details.parentEmail,
     test_date: moment().format(FORMAT),
     name_of_parent: details.parentName,
-    name_of_child: details.babyName,
+    first_name_of_child: details.babyFirstName,
+    last_name_of_child: details.babyLastName,
+    gender_of_child: details.babyGender,
     dob_child: details.babyDob.format(FORMAT),
     age_of_child: ageInMonths < 24
       ? ageInMonths + " months"
