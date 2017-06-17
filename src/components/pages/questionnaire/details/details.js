@@ -63,12 +63,34 @@ const Details = React.createClass({
                     type="text"
                     className={Styles.textBox}
                     theme={inputTheme}
-                    label="Your child's name"
-                    value={details.babyName}
-                    error={details.errors.babyName}
+                    label="First Name"
+                    value={details.babyFirstName}
+                    error={details.errors.babyFirstName}
                     maxLength={100}
                     onFocus={this.closeDatePicker}
-                    onChange={this.onChange.bind(this, 'babyName')}
+                    onChange={this.onChange.bind(this, 'babyFirstName')}
+                />
+                <Input
+                    type="text"
+                    className={Styles.textBox}
+                    theme={inputTheme}
+                    label="Last Name"
+                    value={details.babyLastName}
+                    error={details.errors.babyLastName}
+                    maxLength={100}
+                    onFocus={this.closeDatePicker}
+                    onChange={this.onChange.bind(this, 'babyLastName')}
+                />
+                <Input
+                    type="text"
+                    className={Styles.textBox}
+                    theme={inputTheme}
+                    label="Gender"
+                    value={details.babyGender}
+                    error={details.errors.babyGender}
+                    maxLength={100}
+                    onFocus={this.closeDatePicker}
+                    onChange={this.onChange.bind(this, 'babyGender')}
                 />
                 <Input
                     readOnly="true"

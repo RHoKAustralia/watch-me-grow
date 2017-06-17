@@ -71,6 +71,9 @@ const Result = React.createClass({
                     All children grow and develop at their own pace. Please see below for information on what is
                     expected for your child's age.
                 </div>
+                <div> <p> Age based info: <a href="http://raisingchildren.net.au/toddlers/toddlers.html" target="_blank"> Raising Children </a> </p>
+                </div>
+
                 <StageSwitcher stages={stages} initialStage={this.getInitialStage()}/>
             </article>
         );
