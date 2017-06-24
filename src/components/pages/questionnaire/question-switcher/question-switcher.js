@@ -21,19 +21,29 @@ const QuestionSwitcher = React.createClass({
       return "/questionnaire/questions/" + (this.props.questionNumber - 1);
     } else if (this.props.questionNumber === 1) {
       return "/questionnaire/doctor";
-    } else {
+    } else if (this.props.route === "doctor") {
       return "/questionnaire/details";
+    } else {
+      return "";
     }
   },
 
   rightHref() {
-    if (!this.props.questionNumber && this.props.details.validated) {
-      return "/questionnaire/questions/1";
+    console.log(this.props.details.validated);
+
+    if (
+      !this.props.questionNumber &&
+      this.props.details.validated &&
+      this.props.route === "details"
+    ) {
+      return "/questionnaire/doctor";
     } else if (
       this.props.hasAnswered &&
       this.props.questionNumber < this.totalQuestionCount()
     ) {
       return `/questionnaire/questions/${this.props.questionNumber + 1}`;
+    } else if (this.props.route === "doctor") {
+      return "/questionnaire/questions/1";
     } else {
       return "";
     }

@@ -60,6 +60,7 @@ const Questionnaire = React.createClass({
             questionNumber={this.getQuestionNumber()}
             hasAnswered={this.hasAnswered()}
             details={this.props.details}
+            route={this.props.routes[this.props.routes.length - 1].path}
           />
           {React.Children.map(this.props.children, child =>
             React.cloneElement(
