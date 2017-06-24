@@ -25,7 +25,7 @@ const Details = React.createClass({
 
         if (this.props.details.validate()) {
             this.props.details.save();
-            this.props.router.push('/questionnaire/questions/1');
+            this.props.router.push('/questionnaire/doctor');
         }
     },
 
@@ -135,17 +135,6 @@ const Details = React.createClass({
                     onFocus={this.closeDatePicker}
                     onChange={this.onChange.bind(this, 'parentEmail')}
                 />
-                <Input
-                    type="email"
-                    className={Styles.textBox}
-                    theme={{...inputTheme, label: Styles.label}}
-                    label="Your doctor's email address (optional - so we can send them the results too)"
-                    value={details.doctorEmail}
-                    maxLength={100}
-                    error={details.errors.doctorEmail}
-                    onFocus={this.closeDatePicker}
-                    onChange={this.onChange.bind(this, 'doctorEmail')}
-                />
                 <input type="submit" className={Styles.nextButton} value="Next" />
             </form>
         );
@@ -153,27 +142,15 @@ const Details = React.createClass({
 });
 
 class DatePickerInput extends React.Component {
-    focus() {
-        // ReactDOM.findDOMNode(this.input).querySelector('input').focus()
-    }
-
-    //
-    // onClick(e) {
-    //     this.props.onClick();
-    //     e.preventDefault()
-    // }
-
     render() {
         const inputTheme = {
             inputElement: Styles.inputElement
         };
 
-
         return (
             <Input
                 {... this.props}
                 readOnly="true"
-                // onClick={this.onClick.bind(this)}
                 ref={input => this.input = input}
                 label="Your child's date of birth"
                 type="text"

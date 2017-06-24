@@ -7,6 +7,7 @@ var markupJs = require("markup-js");
 var mark = dataFunctions.mark;
 var combineAll = dataFunctions.combineAll;
 var strings = require("wmg-common/strings");
+const fs = require('fs');
 
 process.env["PATH"] =
   process.env["PATH"] + ":" + process.env["LAMBDA_TASK_ROOT"];

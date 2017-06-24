@@ -8,6 +8,7 @@ exports.mark = function(combinedResults) {
     .some(flag => flag === "RED_FLAG" || flag === "AMBER_FLAG");
 };
 
+
 exports.combineAll = function(results) {
   return questionnaires
     .filter(questionnaire => !!results[questionnaire.id])

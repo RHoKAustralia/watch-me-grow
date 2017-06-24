@@ -20,9 +20,9 @@ const QuestionSwitcher = React.createClass({
     if (this.props.questionNumber > 1) {
       return "/questionnaire/questions/" + (this.props.questionNumber - 1);
     } else if (this.props.questionNumber === 1) {
-      return "/questionnaire/details";
+      return "/questionnaire/doctor";
     } else {
-      return "";
+      return "/questionnaire/details";
     }
   },
 
