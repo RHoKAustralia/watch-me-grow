@@ -5,8 +5,17 @@ exports.mark = function(combinedResults) {
     .map(combined =>
       exports.getOverallResult(combined.questionnaire, combined.results)
     )
-    .some(flag => flag === "RED_FLAG" || flag === "AMBER_FLAG");
+    .reduce((soFar, current) => {
+      if (current === "RED_FLAG") {
+        return "RED_FLAG";
+      } else if (current === "YELLOW_FLAG") {
+        return "YELLOW_FLAG";
+      } else {
+        return soFar;
+      }
+    });
 };
+
 
 exports.combineAll = function(results) {
   return questionnaires

@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <p>
-    Hi {{details.name_of_parent}},
+    Hi,
 </p>
 <p>
-    Thank you for completing the Watch Me Grow app for {{details.first_name_of_child}}.
+    You're receiving this email because {{details.name_of_parent}} completed the Watch Me Grow app for CHILD’S NAME. The Watch
+    Me Grow app tracks developmental progress for children aged between approximately 12 to 24 months. It has been designed
+    to facilitate early identification of developmental problems.
 </p>
 
 <table border="0">
     <tr>
         <td>Child's Name</td>
-        <td>{{details.first_name_of_child}} {{details.last_name_of_child}}</td>
+        <td>{{details.first_name_of_child}} {{{{details.last_name_of_child}}</td>
         <td>Date of Test</td>
         <td>{{details.test_date}}</td>
     </tr>
