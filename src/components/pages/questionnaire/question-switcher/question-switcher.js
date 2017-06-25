@@ -29,8 +29,6 @@ const QuestionSwitcher = React.createClass({
   },
 
   rightHref() {
-    console.log(this.props.details.validated);
-
     if (
       !this.props.questionNumber &&
       this.props.details.validated &&

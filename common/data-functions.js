@@ -8,7 +8,6 @@ exports.mark = function(combinedResults) {
     .some(flag => flag === "RED_FLAG" || flag === "AMBER_FLAG");
 };
 
-
 exports.combineAll = function(results) {
   return questionnaires
     .filter(questionnaire => !!results[questionnaire.id])
@@ -44,6 +43,27 @@ exports.combineQuestionsAndAnswers = function(questions, answers) {
   });
 };
 
+const strategies = {
+  simple: (redFlagScore, amberFlagScore, questionnaire) => {
+    if (redFlagScore >= questionnaire.analysis.redFlagThreshold) {
+      return "RED_FLAG";
+    } else if (redFlagScore >= questionnaire.analysis.amberFlagThreshold) {
+      return "AMBER_FLAG";
+    } else {
+      return "NO_FLAG";
+    }
+  },
+  cdc: (redFlagScore, amberFlagScore, questionnaire) => {
+    if (redFlagScore >= 1 || amberFlagScore >= 2) {
+      return "RED_FLAG";
+    } else if (amberFlagScore >= 1) {
+      return "AMBER_FLAG";
+    } else {
+      return "NO_FLAG";
+    }
+  }
+};
+
 /**
  * Scores the result of a questionnaire based on its analysis strategy and an array of combined questions and answers
  * as returned from {@link #combineQuestionsAndAnswers}.
@@ -52,22 +72,22 @@ exports.getOverallResult = function(questionnaire, combinedQuestions) {
   var redFlagScore = 0;
   var amberFlagScore = 0;
 
-  if (questionnaire.analysis.strategy === "simple") {
-    combinedQuestions.forEach(function(question) {
-      if (question.answer.metadata.redFlagQuestion) {
-        redFlagScore++;
-      }
-      if (question.answer.metadata.amberFlagQuestion) {
-        amberFlagScore++;
-      }
-    });
-
-    if (redFlagScore >= questionnaire.analysis.redFlagThreshold) {
-      return "RED_FLAG";
-    } else if (redFlagScore >= questionnaire.analysis.amberFlagThreshold) {
-      return "AMBER_FLAG";
-    } else {
-      return "NO_FLAG";
+  combinedQuestions.forEach(function(question) {
+    if (question.answer.metadata.redFlagQuestion) {
+      redFlagScore++;
     }
-  }
+    if (question.answer.metadata.amberFlagQuestion) {
+      amberFlagScore++;
+    }
+  });
+
+  const result = strategies[questionnaire.analysis.strategy](
+    redFlagScore,
+    amberFlagScore,
+    questionnaire
+  );
+
+  console.log(result);
+
+  return result;
 };

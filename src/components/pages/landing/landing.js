@@ -21,7 +21,7 @@ export default class HomePage extends React.Component {
         <p className={Styles.paragraph}>
           This app is designed for children aged approximately 12 to 24 months
         </p>
-        <p className={Styled.paragraph}>
+        <p className={Styles.paragraph}>
           For general information on growth and development for children from
           birth to 5 years please see the
           following link:{" "}
