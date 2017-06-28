@@ -5,6 +5,7 @@ var aws = require("aws-sdk");
 var ses = new aws.SES();
 var markupJs = require("markup-js");
 var fs = require("fs");
+const fetch = require("isomorphic-fetch");
 var dataFunctions = require("wmg-common/data-functions");
 var mark = dataFunctions.mark;
 var combineAll = dataFunctions.combineAll;
@@ -38,12 +39,12 @@ exports.handler = function(event, context) {
     ? strings.result.concerns
     : strings.result.noConcerns;
 
-  const parentEmailPromise = sendParentEmail(event, concern, combinedResults);
-  const zapierPromise = sendToZapier(event, concern, details);
+  const parentEmailPromise = sendParentEmail(event, concern, combinedResults, resultStrings);
+  const zapierPromise = sendToZapier(event, concern);
   const basePromises = [parentEmailPromise, zapierPromise];
 
   const promises = event.details.doctor_email
-    ? basePromises.concat([sendDoctorEmail(event, concern, combinedResults)])
+    ? basePromises.concat([sendDoctorEmail(event, concern, combinedResults, resultStrings)])
     : basePromises;
 
   Promise.all(promises)
@@ -51,7 +52,7 @@ exports.handler = function(event, context) {
     .catch(e => context.fail("Internal Error: " + e.message));
 };
 
-function sendToZapier(event, concern, details) {
+function sendToZapier(event, concern) {
   return fetch("https://hooks.zapier.com/hooks/catch/2318292/9cdxwr/", {
     method: "POST",
     body: JSON.stringify({
@@ -65,8 +66,8 @@ function sendToZapier(event, concern, details) {
   });
 }
 
-function sendParentEmail(event, concern, combinedResults) {
-  const templateBody = readFileSync(__dirname + "/Results.html", "utf-8");
+function sendParentEmail(event, concern, combinedResults, resultStrings) {
+  const templateBody = fs.readFileSync(__dirname + "/Results.html", "utf-8");
 
   var message = markupJs.up(templateBody, {
     details: event.details,
@@ -107,8 +108,8 @@ function sendParentEmail(event, concern, combinedResults) {
   );
 }
 
-function sendDoctorEmail(event, concern, combinedResults) {
-  const doctorTemplateBody = readFileSync(__dirname + "/Doctor.html", "utf-8");
+function sendDoctorEmail(event, concern, combinedResults, resultStrings) {
+  const doctorTemplateBody = fs.readFileSync(__dirname + "/Doctor.html", "utf-8");
 
   var message = markupJs.up(doctorTemplateBody, {
     details: event.details,
