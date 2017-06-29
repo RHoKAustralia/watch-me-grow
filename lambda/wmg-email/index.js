@@ -2,6 +2,7 @@
 
 let https = require("https");
 var aws = require("aws-sdk");
+const moment = require("moment");
 var ses = new aws.SES();
 var markupJs = require("markup-js");
 var fs = require("fs");
@@ -58,7 +59,9 @@ function sendToZapier(event, concern) {
     body: JSON.stringify({
       results: event.results,
       concern: concern,
-      details: event.details
+      details: Object.assign(event.details, {
+        ageInDays: moment().diff(moment(event.details.dob_child), 'days')
+      })
     }),
     headers: {
       "Content-Type": "application/json"
