@@ -4,19 +4,17 @@ import strings from "../common/strings";
 import questionnaires from "wmg-common/questionnaires";
 import { combineQuestionsAndAnswers } from "wmg-common/data-functions";
 
-const FORMAT = "dddd, MMMM Do YYYY";
-
 export default function sendResults(details, results) {
   const ageInMonths = moment().diff(details.babyDob, "months");
 
   const metadata = {
     recipient_email: details.parentEmail,
-    test_date: moment().format(FORMAT),
+    test_date: moment().toISOString,
     name_of_parent: details.parentName,
     first_name_of_child: details.babyFirstName,
     last_name_of_child: details.babyLastName,
     gender_of_child: details.babyGender,
-    dob_child: details.babyDob.format(FORMAT),
+    dob_child: details.babyDob.toISOString(),
     doctor_email: details.doctorEmail,
     age_of_child: ageInMonths < 24
       ? ageInMonths + " months"

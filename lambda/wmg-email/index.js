@@ -3,7 +3,7 @@
 let https = require("https");
 var aws = require("aws-sdk");
 const moment = require("moment");
-var ses = new aws.SES();
+const mailgunJs = require("mailgun-js");
 var markupJs = require("markup-js");
 var fs = require("fs");
 const fetch = require("isomorphic-fetch");
@@ -11,6 +11,15 @@ var dataFunctions = require("wmg-common/data-functions");
 var mark = dataFunctions.mark;
 var combineAll = dataFunctions.combineAll;
 var strings = require("wmg-common/strings");
+var questionnaires = require("wmg-common/questionnaires");
+const _ = require("lodash");
+
+const FORMAT = "dddd, MMMM Do YYYY";
+
+const mailgun = mailgunJs({
+  apiKey: process.env.MAILGUN_API_KEY,
+  domain: "auto.watchmegrow.care"
+});
 
 process.env["PATH"] =
   process.env["PATH"] + ":" + process.env["LAMBDA_TASK_ROOT"];
@@ -26,7 +35,7 @@ console.log("Loading function");
  }
  */
 
-exports.handler = function(event, context) {
+exports.handler = function(event, context, callback) {
   console.log("Event: " + JSON.stringify(event));
 
   if (!event.details.recipient_email) {
@@ -40,17 +49,36 @@ exports.handler = function(event, context) {
     ? strings.result.concerns
     : strings.result.noConcerns;
 
-  const parentEmailPromise = sendParentEmail(event, concern, combinedResults, resultStrings);
-  const zapierPromise = sendToZapier(event, concern);
-  const basePromises = [parentEmailPromise, zapierPromise];
+  event.details = Object.assign(event.details, {
+    test_date_formatted: moment(event.details.test_date).format(FORMAT),
+    dob_child_formatted: moment(event.details.dob_child).format(FORMAT)
+  });
+
+  const parentEmailPromise = sendParentEmail(
+    //Promise.resolve();
+    event,
+    concern,
+    combinedResults,
+    resultStrings
+  );
+  const zapierPromise = sendToZapier(event, concern); //Promise.resolve();
+  const basePromises = [
+    parentEmailPromise,
+    zapierPromise,
+    addToReminderList(event)
+  ];
 
   const promises = event.details.doctor_email
-    ? basePromises.concat([sendDoctorEmail(event, concern, combinedResults, resultStrings)])
+    ? basePromises.concat([
+        sendDoctorEmail(event, concern, combinedResults, resultStrings)
+      ])
     : basePromises;
 
   Promise.all(promises)
-    .then(context.succeed("Successfully executed"))
-    .catch(e => context.fail("Internal Error: " + e.message));
+    .then(result => {
+      callback(null, result);
+    })
+    .catch(e => callback(e));
 };
 
 function sendToZapier(event, concern) {
@@ -60,7 +88,7 @@ function sendToZapier(event, concern) {
       results: event.results,
       concern: concern,
       details: Object.assign(event.details, {
-        ageInDays: moment().diff(moment(event.details.dob_child), 'days')
+        ageInDays: moment().diff(moment(event.details.dob_child), "days")
       })
     }),
     headers: {
@@ -69,9 +97,9 @@ function sendToZapier(event, concern) {
   });
 }
 
-function sendParentEmail(event, concern, combinedResults, resultStrings) {
-  const templateBody = fs.readFileSync(__dirname + "/Results.html", "utf-8");
+const templateBody = fs.readFileSync(__dirname + "/Results.html", "utf-8");
 
+function sendParentEmail(event, concern, combinedResults, resultStrings) {
   var message = markupJs.up(templateBody, {
     details: event.details,
     concern: concern,
@@ -80,40 +108,19 @@ function sendParentEmail(event, concern, combinedResults, resultStrings) {
   });
 
   var params = {
-    Destination: {
-      ToAddresses: [event.details.recipient_email],
-      CcAddresses: ["mail@watchmegrow.care"]
-    },
-    Message: {
-      Body: {
-        Html: {
-          Data: message,
-          Charset: "UTF-8"
-        }
-      },
-      Subject: {
-        Data: "Watch Me Grow Results for " + event.details.first_name_of_child,
-        Charset: "UTF-8"
-      }
-    },
-    Source: "mail@watchmegrow.care" //hardcoded verified email source for Amazon SES sandbox
+    from: "mail@watchmegrow.care",
+    to: event.details.recipient_email,
+    cc: "mail@watchmegrow.care",
+    subject: "Watch Me Grow Results for " + event.details.first_name_of_child,
+    html: message
   };
 
-  return new Promise((accept, reject) =>
-    ses.sendEmail(params, function(err, data) {
-      if (err) {
-        console.log(err, err.stack);
-        reject(err);
-      } else {
-        accept(data);
-      }
-    })
-  );
+  return mailgun.messages().send(params);
 }
 
-function sendDoctorEmail(event, concern, combinedResults, resultStrings) {
-  const doctorTemplateBody = fs.readFileSync(__dirname + "/Doctor.html", "utf-8");
+const doctorTemplateBody = fs.readFileSync(__dirname + "/Doctor.html", "utf-8");
 
+function sendDoctorEmail(event, concern, combinedResults, resultStrings) {
   var message = markupJs.up(doctorTemplateBody, {
     details: event.details,
     concern: concern,
@@ -122,37 +129,54 @@ function sendDoctorEmail(event, concern, combinedResults, resultStrings) {
   });
 
   var params = {
-    Destination: {
-      ToAddresses: [event.details.doctor_email],
-      CcAddresses: ["mail@watchmegrow.care"]
-    },
-    Message: {
-      Body: {
-        Html: {
-          Data: message,
-          Charset: "UTF-8"
-        }
-      },
-      Subject: {
-        Data:
-          "Watch Me Grow Results for " +
-            event.details.first_name_of_child +
-            " " +
-            event.details.last_name_of_child,
-        Charset: "UTF-8"
-      }
-    },
-    Source: "mail@watchmegrow.care" //hardcoded verified email source for Amazon SES sandbox
+    from: "mail@watchmegrow.care",
+    to: event.details.doctor_email,
+    subject:
+      "Watch Me Grow Results for " +
+      event.details.first_name_of_child +
+      " " +
+      event.details.last_name_of_child,
+    html: message
   };
 
-  return new Promise((accept, reject) =>
-    ses.sendEmail(params, function(err, data) {
-      if (err) {
-        console.log(err, err.stack);
-        reject(err);
-      } else {
-        accept(data);
-      }
+  return mailgun.messages().send(params);
+}
+
+const reminderTemplateBody = fs.readFileSync(
+  __dirname + "/Reminder.html",
+  "utf-8"
+);
+
+function addToReminderList(event) {
+  const completed = Object.keys(event.results).reduce((soFar, current) => {
+    soFar[current] = true;
+    return soFar;
+  }, {});
+
+  const data = {
+    completed,
+    dob: event.details.dob_child
+  };
+
+  const newVars = {};
+  newVars[event.details.first_name_of_child] = data;
+
+  const varsPromise = mailgun
+    .lists("reminders@auto.watchmegrow.care")
+    .members(event.details.recipient_email)
+    .info()
+    .then(memberObj => {
+      const member = memberObj.member;
+      return Promise.resolve(member && member.vars ? member.vars : {});
     })
-  );
+    .catch(e => Promise.resolve({}));
+
+  return varsPromise.then(vars => {
+    return mailgun.lists("reminders@auto.watchmegrow.care").members().create({
+      name: event.details.name_of_parent,
+      address: event.details.recipient_email,
+      upsert: "true",
+      vars: _.merge(vars, newVars)
+    });
+  });
 }

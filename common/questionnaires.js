@@ -517,6 +517,7 @@ module.exports = [
     introduction: "INTRODUCTION FOR CDC MATERIAL TO GO HERE",
     detail_link: "DETAIL LINK TO GO HERE",
     age_groups: { min: 16, max: 21 },
+    remind_at: 18,
     analysis: {
       strategy: "cdc",
       redFlagThreshold: 1,
@@ -711,6 +712,7 @@ module.exports = [
     introduction: "INTRODUCTION FOR CDC MATERIAL TO GO HERE",
     detail_link: "DETAIL LINK TO GO HERE",
     age_groups: { min: 21, max: 27 },
+    remind_at: 24,
     analysis: {
       strategy: "cdc",
       redFlagThreshold: 1,

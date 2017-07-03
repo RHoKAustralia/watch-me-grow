@@ -11,11 +11,11 @@
         <td>Child's Name</td>
         <td>{{details.first_name_of_child}} {{details.last_name_of_child}}</td>
         <td>Date of Test</td>
-        <td>{{details.test_date}}</td>
+        <td>{{details.test_date_formatted}}</td>
     </tr>
     <tr>
         <td>Date of Birth</td>
-        <td>{{details.dob_child}}</td>
+        <td>{{details.dob_child_formatted}}</td>
         <td>Age of Child</td>
         <td>{{details.age_of_child}}</td>
     </tr>
@@ -26,11 +26,11 @@
 
 {{allResults}}
 <h3>{{questionnaire.title}}</h3>
-<table border="1">
+<table border="1" style="max-width: 500px">
     <tr>
-        <th>Number</th>
-        <th>Question</th>
-        <th>Your Response</th>
+        <th style="width:10%">Number</th>
+        <th style="width:45%">Question</th>
+        <th style="width:45%">Response</th>
     </tr>
     {{results}}
     <tr>
@@ -45,7 +45,8 @@
     </tr>
     {{/if}} {{/results}}
 </table>
-<br/> {{/allResults}}
+<br/>
+{{/allResults}}
 
 <p>
     All children grow and develop at their own pace. Please follow this link for more information: <a href="http://www.cdc.gov/ncbddd/actearly/index.html">Learn the signs - act early</a>.

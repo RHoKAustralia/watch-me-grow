@@ -3,36 +3,56 @@
     Hi,
 </p>
 <p>
-    You're receiving this email because {{details.name_of_parent}} completed the Watch Me Grow app for CHILD’S NAME. The Watch
-    Me Grow app tracks developmental progress for children aged between approximately 12 to 24 months. It has been designed
-    to facilitate early identification of developmental problems.
+    You're receiving this email because {{details.name_of_parent}} completed the Watch Me Grow app for {{details.first_name_of_child}}.
+    {{details.last_name_of_child}}. The Watch Me Grow app tracks developmental progress for children aged between approximately
+    12 to 24 months. It has been designed to facilitate early identification of developmental problems.
 </p>
+
+{{if concern}}
+    <div style="text-align: center">
+        <img style="height: 50px; width: 50px" src="https://watchmegrow.care/email-pics/red_flag.png">
+    </div>
+    <p>
+    <strong>
+        It is highly likely that this child has developmental issues. It is strongly recommended that referral for further assessment 
+        and early intervention through a paediatrician or other child development health professional is done. Also continue to monitor 
+        the child over time.
+    </strong>
+    </p>
+{{else}}
+    <div style="text-align: center">
+        <img  style="height: 50px; width: 50px" src="https://watchmegrow.care/email-pics/green_flag.png">
+    </div>
+    <p>
+    <strong>
+        Developmental issues in this child are unlikely. No further follow-up necessary at this point. Continue ongoing monitoring 
+        as usual.
+    </strong>
+    </p>
+{{/if}}
 
 <table border="0">
     <tr>
         <td>Child's Name</td>
-        <td>{{details.first_name_of_child}} {{{{details.last_name_of_child}}</td>
+        <td>{{details.first_name_of_child}} {{details.last_name_of_child}}</td>
         <td>Date of Test</td>
-        <td>{{details.test_date}}</td>
+        <td>{{details.test_date_formatted}}</td>
     </tr>
     <tr>
         <td>Date of Birth</td>
-        <td>{{details.dob_child}}</td>
+        <td>{{details.dob_child_formatted}}</td>
         <td>Age of Child</td>
         <td>{{details.age_of_child}}</td>
     </tr>
 </table>
 
-<p>{{resultText}}</p>
-<p>Detailed Results Below</p>
-
 {{allResults}}
 <h3>{{questionnaire.title}}</h3>
-<table border="1">
+<table border="1" style="max-width: 500px">
     <tr>
-        <th>Number</th>
-        <th>Question</th>
-        <th>Your Response</th>
+        <th style="width:10%">Number</th>
+        <th style="width:45%">Question</th>
+        <th style="width:45%">Response</th>
     </tr>
     {{results}}
     <tr>
@@ -47,12 +67,13 @@
     </tr>
     {{/if}} {{/results}}
 </table>
-<br/> {{/allResults}}
+<br/>
+{{/allResults}}
 
 <p>
-    All children grow and develop at their own pace. Please follow this link for more information: <a href="http://www.cdc.gov/ncbddd/actearly/index.html">Learn the signs - act early</a>.
+    For further information on child development please go to <a href="http://www.cdc.gov/ncbddd/actearly/index.html">Learn the signs - act early</a>.
 </p>
 
 <p>
-    This was sent because you completed a questionnaire for the Watch Me Grow pilot.
+    This information has also been provided to the parent.
 </p>
