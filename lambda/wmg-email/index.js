@@ -15,6 +15,7 @@ var questionnaires = require("wmg-common/questionnaires");
 const _ = require("lodash");
 
 const FORMAT = "dddd, MMMM Do YYYY";
+const EMAIL_FROM = "Watch Me Grow <mail@watchmegrow.care>";
 
 const mailgun = mailgunJs({
   apiKey: process.env.MAILGUN_API_KEY,
@@ -25,6 +26,11 @@ process.env["PATH"] =
   process.env["PATH"] + ":" + process.env["LAMBDA_TASK_ROOT"];
 
 console.log("Loading function");
+
+const ZAPIER_ENDPOINTS = {
+  australia: "https://hooks.zapier.com/hooks/catch/2318292/9cdxwr/",
+  dubai: "https://hooks.zapier.com/hooks/catch/2318292/53nxsk/"
+};
 
 /*
  POST with these parameters:
@@ -82,7 +88,7 @@ exports.handler = function(event, context, callback) {
 };
 
 function sendToZapier(event, concern) {
-  return fetch("https://hooks.zapier.com/hooks/catch/2318292/9cdxwr/", {
+  return fetch(getZapierEndpoint(event), {
     method: "POST",
     body: JSON.stringify({
       results: event.results,
@@ -97,6 +103,10 @@ function sendToZapier(event, concern) {
   });
 }
 
+function getZapierEndpoint(event) {
+  return ZAPIER_ENDPOINTS[event.details.subsite];
+}
+
 const templateBody = fs.readFileSync(__dirname + "/Results.html", "utf-8");
 
 function sendParentEmail(event, concern, combinedResults, resultStrings) {
@@ -108,9 +118,9 @@ function sendParentEmail(event, concern, combinedResults, resultStrings) {
   });
 
   var params = {
-    from: "mail@watchmegrow.care",
+    from: EMAIL_FROM,
     to: event.details.recipient_email,
-    cc: "mail@watchmegrow.care",
+    cc: EMAIL_FROM,
     subject: "Watch Me Grow Results for " + event.details.first_name_of_child,
     html: message
   };
@@ -129,13 +139,13 @@ function sendDoctorEmail(event, concern, combinedResults, resultStrings) {
   });
 
   var params = {
-    from: "mail@watchmegrow.care",
+    from: EMAIL_FROM,
     to: event.details.doctor_email,
     subject:
       "Watch Me Grow Results for " +
-      event.details.first_name_of_child +
-      " " +
-      event.details.last_name_of_child,
+        event.details.first_name_of_child +
+        " " +
+        event.details.last_name_of_child,
     html: message
   };
 

@@ -20,15 +20,14 @@ export default function sendResults(details, results) {
       ? ageInMonths + " months"
       : Math.floor(ageInMonths / 12) + " years",
     age_in_months: ageInMonths,
-    results_text: getResultText(results)
+    results_text: getResultText(results),
+    subsite: process.env.SUBSITE || "australia"
   };
 
   const data = {
     details: metadata,
     results
   };
-
-  console.log(JSON.stringify(data));
 
   fetch(
     "https://x1q7y0yp5k.execute-api.ap-southeast-2.amazonaws.com/prod/subscribe",

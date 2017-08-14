@@ -31,7 +31,7 @@ const Result = React.createClass({
       eventAction: this.props.results.concern ? "concern" : "no-concern"
     });
 
-    // sendResults(this.props.details, this.props.results);
+    sendResults(this.props.details, this.props.results);
   },
 
   getInitialStage() {

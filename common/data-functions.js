@@ -96,7 +96,5 @@ exports.getOverallResult = function(questionnaire, combinedQuestions) {
     questionnaire
   );
 
-  console.log(result);
-
   return result;
 };

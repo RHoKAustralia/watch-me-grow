@@ -26,10 +26,11 @@ export default class HomePage extends React.Component {
           birth to 5 years please see the
           following link:{" "}
           <a
+            className={Styles.link}
             target="_blank"
             href="https://www.cdc.gov/ncbddd/actearly/index.html"
           >
-            Learn the signs - Act early
+            Learn the Signs - Act Early
           </a>.
         </p>
         <Link className={Styles.button} to="questionnaire">
