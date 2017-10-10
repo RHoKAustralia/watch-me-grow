@@ -711,7 +711,7 @@ module.exports = [
     description: "DESCRIPTION FOR CDC QUESTIONS TO GO HERE",
     introduction: "INTRODUCTION FOR CDC MATERIAL TO GO HERE",
     detail_link: "DETAIL LINK TO GO HERE",
-    age_groups: { min: 21, max: 27 },
+    age_groups: { min: 22, max: 27 },
     remind_at: 24,
     analysis: {
       strategy: "cdc",
