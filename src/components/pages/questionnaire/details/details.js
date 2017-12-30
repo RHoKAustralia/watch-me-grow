@@ -8,7 +8,7 @@ import Styles from './details.scss';
 import Input from 'react-toolbox/lib/input';
 import DatePicker from 'react-datepicker/dist/react-datepicker'
 
-const minDate = moment().subtract(4, 'years');
+const minDate = moment().subtract(66, 'months');
 const maxDate = moment().subtract(6, 'months');
 
 const Details = React.createClass({

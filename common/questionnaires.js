@@ -7,7 +7,7 @@ module.exports = [
     introduction:
       "Some questions about your child’s speech and socialising skills. Please answer all questions.",
     detail_link: "http://www.autismresearchcentre.com/arc_tests",
-    age_groups: { min: 0, max: 65536 }, // was: "age_groups": ['18_month', '2_years'],
+    age_groups: { min: 18, max: 36 }, // was: "age_groups": ['18_month', '2_years'],
     analysis: {
       strategy: "simple",
       redFlagThreshold: 3,
@@ -341,12 +341,459 @@ module.exports = [
     ]
   },
   {
+    id: "rqc",
+    title: "Reporting Questionnaire for Children (RQC)",
+    age_groups: { min: 37, max: 65 },
+    analysis: {
+      strategy: "cdc",
+      redFlagThreshold: 1,
+      amberFlagThreshold: 1
+    },
+    questions: [
+      {
+        id: "behaviour",
+        order: 0,
+        text:
+          "Does the child show any difficulties with behaviour such as being overactive (e.g. cannot sit still) or lack attention and concentration (e.g. easily distracted and does not finish activities)?",
+        comments: false,
+        answers: [
+          {
+            value: "yes",
+            text: "Yes",
+            redFlagQuestion: true
+          },
+          {
+            value: "no",
+            text: "No"
+          },
+          {
+            value: "notsure",
+            text: "Not Sure",
+            redFlagQuestion: true
+          }
+        ]
+      },
+      {
+        id: "calming",
+        order: 1,
+        text:
+          "Does the child show difficulty in calming down or is it difficult to comfort the child?",
+        comments: false,
+        answers: [
+          {
+            value: "yes",
+            text: "Yes",
+            redFlagQuestion: true
+          },
+          {
+            value: "no",
+            text: "No"
+          },
+          {
+            value: "notsure",
+            text: "Not Sure",
+            redFlagQuestion: true
+          }
+        ]
+      },
+      {
+        id: "sleep",
+        order: 2,
+        text: "Does the child have any sleep or related difficulty?",
+        comments: false,
+        answers: [
+          {
+            value: "yes",
+            text: "Yes",
+            redFlagQuestion: true
+          },
+          {
+            value: "no",
+            text: "No"
+          },
+          {
+            value: "notsure",
+            text: "Not Sure",
+            redFlagQuestion: true
+          }
+        ]
+      },
+      {
+        id: "worries",
+        order: 3,
+        text:
+          "Does the child suffer from frequent worries or fears or seem sad or unhappy for no good reason?",
+        comments: false,
+        answers: [
+          {
+            value: "yes",
+            text: "Yes",
+            redFlagQuestion: true
+          },
+          {
+            value: "no",
+            text: "No"
+          },
+          {
+            value: "notsure",
+            text: "Not Sure",
+            redFlagQuestion: true
+          }
+        ]
+      },
+      {
+        id: "disobedience",
+        order: 4,
+        text:
+          "Does the child frequently show lack of co-operation, disobedience, or is defiant and argumentative?",
+        comments: false,
+        answers: [
+          {
+            value: "yes",
+            text: "Yes",
+            redFlagQuestion: true
+          },
+          {
+            value: "no",
+            text: "No"
+          },
+          {
+            value: "notsure",
+            text: "Not Sure",
+            redFlagQuestion: true
+          }
+        ]
+      },
+      {
+        id: "fighting",
+        order: 5,
+        text:
+          "Does the child show frequent fighting or aggressive behaviour and show no regret?",
+        comments: false,
+        answers: [
+          {
+            value: "yes",
+            text: "Yes",
+            redFlagQuestion: true
+          },
+          {
+            value: "no",
+            text: "No"
+          },
+          {
+            value: "notsure",
+            text: "Not Sure",
+            redFlagQuestion: true
+          }
+        ]
+      },
+      {
+        id: "feeding",
+        order: 6,
+        text: "Does the child have any feeding or related difficulty?",
+        comments: false,
+        answers: [
+          {
+            value: "yes",
+            text: "Yes",
+            redFlagQuestion: true
+          },
+          {
+            value: "no",
+            text: "No"
+          },
+          {
+            value: "notsure",
+            text: "Not Sure",
+            redFlagQuestion: true
+          }
+        ]
+      },
+      {
+        id: "learning",
+        order: 7,
+        text:
+          "Does the child have any difficulties with learning or appear to be behind for overall abilities as compared with other children of about the same age?",
+        comments: false,
+        answers: [
+          {
+            value: "yes",
+            text: "Yes",
+            redFlagQuestion: true
+          },
+          {
+            value: "no",
+            text: "No"
+          },
+          {
+            value: "notsure",
+            text: "Not Sure",
+            redFlagQuestion: true
+          }
+        ]
+      },
+      {
+        id: "friendships",
+        order: 8,
+        text:
+          "Does the child show no interest in friendships or nearly never play with other children or does not show concern for others?",
+        comments: false,
+        answers: [
+          {
+            value: "yes",
+            text: "Yes",
+            redFlagQuestion: true
+          },
+          {
+            value: "no",
+            text: "No"
+          },
+          {
+            value: "notsure",
+            text: "Not Sure",
+            redFlagQuestion: true
+          }
+        ]
+      },
+      {
+        id: "rituals",
+        order: 9,
+        text:
+          "Does the child engage in any repetitive behaviours or rituals and insist on things being done in a          particular way?",
+        comments: false,
+        answers: [
+          {
+            value: "yes",
+            text: "Yes",
+            redFlagQuestion: true
+          },
+          {
+            value: "no",
+            text: "No"
+          },
+          {
+            value: "notsure",
+            text: "Not Sure",
+            redFlagQuestion: true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: "cdc6",
+    title: "CDC 6 Months",
+    age_groups: { min: 5, max: 8 },
+    analysis: {
+      strategy: "cdc",
+      redFlagThreshold: 1,
+      amberFlagThreshold: 1
+    },
+    questions: [
+      {
+        id: "reach6",
+        order: 0,
+        text: "Does your child try to get things that are in reach?",
+        comments: false,
+        answers: [
+          {
+            value: "yes",
+            text: "Yes"
+          },
+          {
+            value: "no",
+            text: "No",
+            redFlagQuestion: true
+          }
+        ]
+      },
+      {
+        id: "affection6",
+        order: 1,
+        text: "Does your child show affection to caregivers?",
+        comments: false,
+        answers: [
+          {
+            value: "yes",
+            text: "Yes"
+          },
+          {
+            value: "no",
+            text: "No",
+            redFlagQuestion: true
+          },
+          {
+            value: "notsure",
+            text: "Not Sure",
+            redFlagQuestion: true
+          }
+        ]
+      },
+      {
+        id: "respond_to_sounds6",
+        order: 2,
+        text: "Does your child respond to sounds around them?",
+        comments: false,
+        answers: [
+          {
+            value: "yes",
+            text: "Yes"
+          },
+          {
+            value: "no",
+            text: "No",
+            redFlagQuestion: true
+          },
+          {
+            value: "notsure",
+            text: "Not Sure",
+            redFlagQuestion: true
+          }
+        ]
+      },
+      {
+        id: "difficulty_mouth6",
+        order: 3,
+        text: "Does your child have difficulty getting things to their mouth?",
+        comments: false,
+        answers: [
+          {
+            value: "yes",
+            text: "Yes"
+          },
+          {
+            value: "no",
+            text: "No",
+            redFlagQuestion: true
+          },
+          {
+            value: "notsure",
+            text: "Not Sure",
+            redFlagQuestion: true
+          }
+        ]
+      },
+      {
+        id: "vowel_sounds6",
+        order: 4,
+        text: "Can your child make vowel sounds? (“ah”, “eh”, “oh”)",
+        comments: false,
+        answers: [
+          {
+            value: "yes",
+            text: "Yes"
+          },
+          {
+            value: "no",
+            text: "No",
+            redFlagQuestion: true
+          },
+          {
+            value: "notsure",
+            text: "Not Sure",
+            redFlagQuestion: true
+          }
+        ]
+      },
+      {
+        id: "roll6",
+        order: 5,
+        text: "Can your child roll over in either direction?",
+        comments: false,
+        answers: [
+          {
+            value: "yes",
+            text: "Yes"
+          },
+          {
+            value: "no",
+            text: "No",
+            redFlagQuestion: true
+          },
+          {
+            value: "notsure",
+            text: "Not Sure",
+            redFlagQuestion: true
+          }
+        ]
+      },
+      {
+        id: "squealing6",
+        order: 6,
+        text: "Does your child laugh or make squealing sounds?",
+        comments: false,
+        answers: [
+          {
+            value: "yes",
+            text: "Yes"
+          },
+          {
+            value: "no",
+            text: "No",
+            redFlagQuestion: true
+          },
+          {
+            value: "notsure",
+            text: "Not Sure",
+            redFlagQuestion: true
+          }
+        ]
+      },
+      {
+        id: "tight_muscles6",
+        order: 7,
+        text: "Is your child stiff or show signs of tight muscles?",
+        comments: false,
+        answers: [
+          {
+            value: "yes",
+            text: "Yes"
+          },
+          {
+            value: "no",
+            text: "No",
+            redFlagQuestion: true
+          },
+          {
+            value: "notsure",
+            text: "Not Sure",
+            redFlagQuestion: true
+          }
+        ]
+      },
+      {
+        id: "floppy6",
+        order: 8,
+        text:
+          "Does your child show symptoms of being very floppy or like a rag doll?",
+        comments: false,
+        answers: [
+          {
+            value: "yes",
+            text: "Yes",
+            redFlagQuestion: true
+          },
+          {
+            value: "no",
+            text: "No"
+          },
+          {
+            value: "notsure",
+            text: "Not Sure",
+            redFlagQuestion: true
+          }
+        ]
+      }
+    ]
+  },
+  {
     id: "cdc12", // "12 Month items from file "New qns.docx" - numbered 1-7 in that document but 0-6 here
     title: "CDC",
     description: "DESCRIPTION FOR CDC QUESTIONS TO GO HERE",
     introduction: "INTRODUCTION FOR CDC MATERIAL TO GO HERE",
     detail_link: "DETAIL LINK TO GO HERE",
     age_groups: { min: 9, max: 15 },
+    remind_at: 12,
     analysis: {
       strategy: "cdc",
       redFlagThreshold: 1,
@@ -367,12 +814,12 @@ module.exports = [
           {
             value: "no",
             text: "No",
-            amberFlagQuestion: true
+            redFlagQuestion: true
           },
           {
             value: "notsure",
             text: "Not Sure",
-            amberFlagQuestion: true
+            redFlagQuestion: true
           }
         ]
       },
@@ -389,12 +836,12 @@ module.exports = [
           {
             value: "no",
             text: "No",
-            amberFlagQuestion: true
+            redFlagQuestion: true
           },
           {
             value: "notsure",
             text: "Not Sure",
-            amberFlagQuestion: true
+            redFlagQuestion: true
           }
         ]
       },
@@ -411,12 +858,12 @@ module.exports = [
           {
             value: "no",
             text: "No",
-            amberFlagQuestion: true
+            redFlagQuestion: true
           },
           {
             value: "notsure",
             text: "Not Sure",
-            amberFlagQuestion: true
+            redFlagQuestion: true
           }
         ]
       },
@@ -433,12 +880,12 @@ module.exports = [
           {
             value: "no",
             text: "No",
-            amberFlagQuestion: true
+            redFlagQuestion: true
           },
           {
             value: "notsure",
             text: "Not Sure",
-            amberFlagQuestion: true
+            redFlagQuestion: true
           }
         ]
       },
@@ -455,12 +902,12 @@ module.exports = [
           {
             value: "no",
             text: "No",
-            amberFlagQuestion: true
+            redFlagQuestion: true
           },
           {
             value: "notsure",
             text: "Not Sure",
-            amberFlagQuestion: true
+            redFlagQuestion: true
           }
         ]
       },
@@ -477,12 +924,12 @@ module.exports = [
           {
             value: "no",
             text: "No",
-            amberFlagQuestion: true
+            redFlagQuestion: true
           },
           {
             value: "notsure",
             text: "Not Sure",
-            amberFlagQuestion: true
+            redFlagQuestion: true
           }
         ]
       },
@@ -499,7 +946,7 @@ module.exports = [
           },
           {
             value: "no",
-            text: "No",
+            text: "No"
           },
           {
             value: "notsure",
@@ -533,17 +980,17 @@ module.exports = [
         answers: [
           {
             value: "yes",
-            text: "Yes",
+            text: "Yes"
           },
           {
             value: "no",
             text: "No",
-            amberFlagQuestion: true
+            redFlagQuestion: true
           },
           {
             value: "notsure",
             text: "Not Sure",
-            amberFlagQuestion: true
+            redFlagQuestion: true
           }
         ]
       },
@@ -560,12 +1007,12 @@ module.exports = [
           {
             value: "no",
             text: "No",
-            amberFlagQuestion: true
+            redFlagQuestion: true
           },
           {
             value: "notsure",
             text: "Not Sure",
-            amberFlagQuestion: true
+            redFlagQuestion: true
           }
         ]
       },
@@ -583,12 +1030,12 @@ module.exports = [
           {
             value: "no",
             text: "No",
-            amberFlagQuestion: true
+            redFlagQuestion: true
           },
           {
             value: "notsure",
             text: "Not Sure",
-            amberFlagQuestion: true
+            redFlagQuestion: true
           }
         ]
       },
@@ -605,12 +1052,12 @@ module.exports = [
           {
             value: "no",
             text: "No",
-            amberFlagQuestion: true
+            redFlagQuestion: true
           },
           {
             value: "notsure",
             text: "Not Sure",
-            amberFlagQuestion: true
+            redFlagQuestion: true
           }
         ]
       },
@@ -627,12 +1074,12 @@ module.exports = [
           {
             value: "no",
             text: "No",
-            amberFlagQuestion: true
+            redFlagQuestion: true
           },
           {
             value: "notsure",
             text: "Not Sure",
-            amberFlagQuestion: true
+            redFlagQuestion: true
           }
         ]
       },
@@ -649,12 +1096,12 @@ module.exports = [
           {
             value: "no",
             text: "No",
-            amberFlagQuestion: true
+            redFlagQuestion: true
           },
           {
             value: "notsure",
             text: "Not Sure",
-            amberFlagQuestion: true
+            redFlagQuestion: true
           }
         ]
       },
@@ -672,12 +1119,12 @@ module.exports = [
           {
             value: "no",
             text: "No",
-            amberFlagQuestion: true
+            redFlagQuestion: true
           },
           {
             value: "notsure",
             text: "Not Sure",
-            amberFlagQuestion: true
+            redFlagQuestion: true
           }
         ]
       },
@@ -694,7 +1141,7 @@ module.exports = [
           },
           {
             value: "no",
-            text: "No",
+            text: "No"
           },
           {
             value: "notsure",
@@ -711,7 +1158,7 @@ module.exports = [
     description: "DESCRIPTION FOR CDC QUESTIONS TO GO HERE",
     introduction: "INTRODUCTION FOR CDC MATERIAL TO GO HERE",
     detail_link: "DETAIL LINK TO GO HERE",
-    age_groups: { min: 22, max: 27 },
+    age_groups: { min: 22, max: 30 },
     remind_at: 24,
     analysis: {
       strategy: "cdc",
@@ -733,12 +1180,12 @@ module.exports = [
           {
             value: "no",
             text: "No",
-            amberFlagQuestion: true
+            redFlagQuestion: true
           },
           {
             value: "notsure",
             text: "Not Sure",
-            amberFlagQuestion: true
+            redFlagQuestion: true
           }
         ]
       },
@@ -756,12 +1203,12 @@ module.exports = [
           {
             value: "no",
             text: "No",
-            amberFlagQuestion: true
+            redFlagQuestion: true
           },
           {
             value: "notsure",
             text: "Not Sure",
-            amberFlagQuestion: true
+            redFlagQuestion: true
           }
         ]
       },
@@ -778,12 +1225,12 @@ module.exports = [
           {
             value: "no",
             text: "No",
-            amberFlagQuestion: true
+            redFlagQuestion: true
           },
           {
             value: "notsure",
             text: "Not Sure",
-            amberFlagQuestion: true
+            redFlagQuestion: true
           }
         ]
       },
@@ -800,12 +1247,12 @@ module.exports = [
           {
             value: "no",
             text: "No",
-            amberFlagQuestion: true
+            redFlagQuestion: true
           },
           {
             value: "notsure",
             text: "Not Sure",
-            amberFlagQuestion: true
+            redFlagQuestion: true
           }
         ]
       },
@@ -822,18 +1269,792 @@ module.exports = [
           {
             value: "no",
             text: "No",
-            amberFlagQuestion: true
+            redFlagQuestion: true
           },
           {
             value: "notsure",
             text: "Not Sure",
-            amberFlagQuestion: true
+            redFlagQuestion: true
           }
         ]
       },
       {
         id: "lost_skills24",
         order: 5,
+        text: "Has your child lost skills they once had?",
+        comments: false,
+        answers: [
+          {
+            value: "yes",
+            text: "Yes",
+            redFlagQuestion: true
+          },
+          {
+            value: "no",
+            text: "No"
+          },
+          {
+            value: "notsure",
+            text: "Not Sure",
+            redFlagQuestion: true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: "cdc36", // "24 Month items from file "New qns.docx" - numbered 16-21 in that document but 0-5 here
+    title: "CDC",
+    age_groups: { min: 31, max: 42 },
+    remind_at: 36,
+    analysis: {
+      strategy: "cdc",
+      redFlagThreshold: 1,
+      amberFlagThreshold: 1
+    },
+    questions: [
+      {
+        id: "fall_down36",
+        order: 0,
+        text:
+          "Does your child fall down a lot or have a lot of trouble with stairs?",
+        comments: false,
+        answers: [
+          {
+            value: "yes",
+            text: "Yes",
+            redFlagQuestion: true
+          },
+          {
+            value: "no",
+            text: "No"
+          },
+          {
+            value: "notsure",
+            text: "Not Sure",
+            redFlagQuestion: true
+          }
+        ]
+      },
+      {
+        id: "drool36",
+        order: 1,
+        text: "Does your child drool or have very unclear speech?",
+        comments: false,
+        answers: [
+          {
+            value: "yes",
+            text: "Yes",
+            redFlagQuestion: true
+          },
+          {
+            value: "no",
+            text: "No"
+          },
+          {
+            value: "notsure",
+            text: "Not Sure",
+            redFlagQuestion: true
+          }
+        ]
+      },
+      {
+        id: "struggle36",
+        order: 2,
+        text:
+          "Does your child struggle to work out simple toys? (such as peg boards, simple puzzles, turning handles)?",
+        comments: false,
+        answers: [
+          {
+            value: "yes",
+            text: "Yes",
+            redFlagQuestion: true
+          },
+          {
+            value: "no",
+            text: "No"
+          },
+          {
+            value: "notsure",
+            text: "Not Sure",
+            redFlagQuestion: true
+          }
+        ]
+      },
+      {
+        id: "speak36",
+        order: 3,
+        text: "Does your child speak in sentences?",
+        comments: false,
+        answers: [
+          {
+            value: "yes",
+            text: "Yes"
+          },
+          {
+            value: "no",
+            text: "No",
+            redFlagQuestion: true
+          },
+          {
+            value: "notsure",
+            text: "Not Sure",
+            redFlagQuestion: true
+          }
+        ]
+      },
+      {
+        id: "instructions36",
+        order: 4,
+        text: "Does your child understand simple instructions?",
+        comments: false,
+        answers: [
+          {
+            value: "yes",
+            text: "Yes"
+          },
+          {
+            value: "no",
+            text: "No",
+            redFlagQuestion: true
+          },
+          {
+            value: "notsure",
+            text: "Not Sure",
+            redFlagQuestion: true
+          }
+        ]
+      },
+      {
+        id: "pretend36",
+        order: 5,
+        text: "Does your child play pretend or make believe?",
+        comments: false,
+        answers: [
+          {
+            value: "yes",
+            text: "Yes"
+          },
+          {
+            value: "no",
+            text: "No",
+            redFlagQuestion: true
+          },
+          {
+            value: "notsure",
+            text: "Not Sure",
+            redFlagQuestion: true
+          }
+        ]
+      },
+      {
+        id: "toys36",
+        order: 6,
+        text: "Does your child want to play with other children or with toys?",
+        comments: false,
+        answers: [
+          {
+            value: "yes",
+            text: "Yes"
+          },
+          {
+            value: "no",
+            text: "No",
+            redFlagQuestion: true
+          },
+          {
+            value: "notsure",
+            text: "Not Sure",
+            redFlagQuestion: true
+          }
+        ]
+      },
+      {
+        id: "eye_contact36",
+        order: 7,
+        text: "Does your child make eye contact?",
+        comments: false,
+        answers: [
+          {
+            value: "yes",
+            text: "Yes"
+          },
+          {
+            value: "no",
+            text: "No",
+            redFlagQuestion: true
+          },
+          {
+            value: "notsure",
+            text: "Not Sure",
+            redFlagQuestion: true
+          }
+        ]
+      },
+      {
+        id: "lost_skills36",
+        order: 8,
+        text: "Has your child lost skills they once had?",
+        comments: false,
+        answers: [
+          {
+            value: "yes",
+            text: "Yes",
+            redFlagQuestion: true
+          },
+          {
+            value: "no",
+            text: "No"
+          },
+          {
+            value: "notsure",
+            text: "Not Sure",
+            redFlagQuestion: true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: "cdc48",
+    title: "CDC",
+    age_groups: { min: 43, max: 54 },
+    remind_at: 48,
+    analysis: {
+      strategy: "cdc",
+      redFlagThreshold: 1,
+      amberFlagThreshold: 1
+    },
+    questions: [
+      {
+        id: "fall_down48",
+        order: 0,
+        text: "Can your child jump in one place?",
+        comments: false,
+        answers: [
+          {
+            value: "yes",
+            text: "Yes"
+          },
+          {
+            value: "no",
+            text: "No",
+            redFlagQuestion: true
+          },
+          {
+            value: "notsure",
+            text: "Not Sure",
+            redFlagQuestion: true
+          }
+        ]
+      },
+      {
+        id: "scribbling48",
+        order: 1,
+        text: "Does your child have trouble scribbling?",
+        comments: false,
+        answers: [
+          {
+            value: "yes",
+            text: "Yes"
+          },
+          {
+            value: "no",
+            text: "No",
+            redFlagQuestion: true
+          },
+          {
+            value: "notsure",
+            text: "Not Sure",
+            redFlagQuestion: true
+          }
+        ]
+      },
+      {
+        id: "games48",
+        order: 2,
+        text:
+          "Does your child show any interest in interactive games or make-believe games?",
+        comments: false,
+        answers: [
+          {
+            value: "yes",
+            text: "Yes"
+          },
+          {
+            value: "no",
+            text: "No",
+            redFlagQuestion: true
+          },
+          {
+            value: "notsure",
+            text: "Not Sure",
+            redFlagQuestion: true
+          }
+        ]
+      },
+      {
+        id: "respond48",
+        order: 3,
+        text:
+          "Does your child ignore other children or doesn’t respond to people outside the family?",
+        comments: false,
+        answers: [
+          {
+            value: "yes",
+            text: "Yes",
+            redFlagQuestion: true
+          },
+          {
+            value: "no",
+            text: "No"
+          },
+          {
+            value: "notsure",
+            text: "Not Sure",
+            redFlagQuestion: true
+          }
+        ]
+      },
+      {
+        id: "resist48",
+        order: 4,
+        text: "Does your child resist dressing, sleeping and using the toilet?",
+        comments: false,
+        answers: [
+          {
+            value: "yes",
+            text: "Yes",
+            redFlagQuestion: true
+          },
+          {
+            value: "no",
+            text: "No"
+          },
+          {
+            value: "notsure",
+            text: "Not Sure",
+            redFlagQuestion: true
+          }
+        ]
+      },
+      {
+        id: "retell48",
+        order: 5,
+        text: "Can your child retell a favourite story?",
+        comments: false,
+        answers: [
+          {
+            value: "yes",
+            text: "Yes"
+          },
+          {
+            value: "no",
+            text: "No",
+            redFlagQuestion: true
+          },
+          {
+            value: "notsure",
+            text: "Not Sure",
+            redFlagQuestion: true
+          }
+        ]
+      },
+      {
+        id: "follow48",
+        order: 6,
+        text: "Can your child follow a 3-part command?",
+        comments: false,
+        answers: [
+          {
+            value: "yes",
+            text: "Yes"
+          },
+          {
+            value: "no",
+            text: "No",
+            redFlagQuestion: true
+          },
+          {
+            value: "notsure",
+            text: "Not Sure",
+            redFlagQuestion: true
+          }
+        ]
+      },
+      {
+        id: "same_different48",
+        order: 7,
+        text: "Does your child understand “same” and “different”?",
+        comments: false,
+        answers: [
+          {
+            value: "yes",
+            text: "Yes"
+          },
+          {
+            value: "no",
+            text: "No",
+            redFlagQuestion: true
+          },
+          {
+            value: "notsure",
+            text: "Not Sure",
+            redFlagQuestion: true
+          }
+        ]
+      },
+      {
+        id: "me_you48",
+        order: 8,
+        text: "Can your child use “me” and “you” correctly?",
+        comments: false,
+        answers: [
+          {
+            value: "yes",
+            text: "Yes"
+          },
+          {
+            value: "no",
+            text: "No",
+            redFlagQuestion: true
+          },
+          {
+            value: "notsure",
+            text: "Not Sure",
+            redFlagQuestion: true
+          }
+        ]
+      },
+      {
+        id: "speak_unclearly48",
+        order: 9,
+        text: "Does your child speak unclearly?",
+        comments: false,
+        answers: [
+          {
+            value: "yes",
+            text: "Yes",
+            redFlagQuestion: true
+          },
+          {
+            value: "no",
+            text: "No"
+          },
+          {
+            value: "notsure",
+            text: "Not Sure",
+            redFlagQuestion: true
+          }
+        ]
+      },
+      {
+        id: "lost_skills48",
+        order: 10,
+        text: "Has your child lost skills they once had?",
+        comments: false,
+        answers: [
+          {
+            value: "yes",
+            text: "Yes",
+            redFlagQuestion: true
+          },
+          {
+            value: "no",
+            text: "No"
+          },
+          {
+            value: "notsure",
+            text: "Not Sure",
+            redFlagQuestion: true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: "cdc60",
+    title: "CDC",
+    age_groups: { min: 55, max: 66 },
+    remind_at: 60,
+    analysis: {
+      strategy: "cdc",
+      redFlagThreshold: 1,
+      amberFlagThreshold: 1
+    },
+    questions: [
+      {
+        id: "wide_emotions60",
+        order: 0,
+        text: "Does your child show a wide amount of emotions?",
+        comments: false,
+        answers: [
+          {
+            value: "yes",
+            text: "Yes"
+          },
+          {
+            value: "no",
+            text: "No",
+            redFlagQuestion: true
+          },
+          {
+            value: "notsure",
+            text: "Not Sure",
+            redFlagQuestion: true
+          }
+        ]
+      },
+      {
+        id: "extreme_behaviour60",
+        order: 1,
+        text:
+          "Does your child show extreme behaviour? (usually fearful, aggressive, shy or sad)",
+        comments: false,
+        answers: [
+          {
+            value: "yes",
+            text: "Yes",
+            redFlagQuestion: true
+          },
+          {
+            value: "no",
+            text: "No"
+          },
+          {
+            value: "notsure",
+            text: "Not Sure",
+            redFlagQuestion: true
+          }
+        ]
+      },
+      {
+        id: "withdrawn60",
+        order: 2,
+        text: "Is your child unusually withdrawn and not active?",
+        comments: false,
+        answers: [
+          {
+            value: "yes",
+            text: "Yes",
+            redFlagQuestion: true
+          },
+          {
+            value: "no",
+            text: "No"
+          },
+          {
+            value: "notsure",
+            text: "Not Sure",
+            redFlagQuestion: true
+          }
+        ]
+      },
+      {
+        id: "distracted60",
+        order: 3,
+        text:
+          "Is your child easily distracted, has trouble focusing on one activity for more than 5 minutes?",
+        comments: false,
+        answers: [
+          {
+            value: "yes",
+            text: "Yes",
+            redFlagQuestion: true
+          },
+          {
+            value: "no",
+            text: "No"
+          },
+          {
+            value: "notsure",
+            text: "Not Sure",
+            redFlagQuestion: true
+          }
+        ]
+      },
+      {
+        id: "respond60",
+        order: 4,
+        text:
+          "Does your child not respond to people, or respond only superficially?",
+        comments: false,
+        answers: [
+          {
+            value: "yes",
+            text: "Yes",
+            redFlagQuestion: true
+          },
+          {
+            value: "no",
+            text: "No"
+          },
+          {
+            value: "notsure",
+            text: "Not Sure",
+            redFlagQuestion: true
+          }
+        ]
+      },
+      {
+        id: "make_believe60",
+        order: 5,
+        text:
+          "Can your child tell the difference between what’s real and what’s make-believe?",
+        comments: false,
+        answers: [
+          {
+            value: "yes",
+            text: "Yes"
+          },
+          {
+            value: "no",
+            text: "No",
+            redFlagQuestion: true
+          },
+          {
+            value: "notsure",
+            text: "Not Sure",
+            redFlagQuestion: true
+          }
+        ]
+      },
+      {
+        id: "games60",
+        order: 6,
+        text: "Does your child play a variety of games and activities?",
+        comments: false,
+        answers: [
+          {
+            value: "yes",
+            text: "Yes"
+          },
+          {
+            value: "no",
+            text: "No",
+            redFlagQuestion: true
+          },
+          {
+            value: "notsure",
+            text: "Not Sure",
+            redFlagQuestion: true
+          }
+        ]
+      },
+      {
+        id: "names60",
+        order: 7,
+        text: "Can your child give their first and last name?",
+        comments: false,
+        answers: [
+          {
+            value: "yes",
+            text: "Yes"
+          },
+          {
+            value: "no",
+            text: "No",
+            redFlagQuestion: true
+          },
+          {
+            value: "notsure",
+            text: "Not Sure",
+            redFlagQuestion: true
+          }
+        ]
+      },
+      {
+        id: "plurals60",
+        order: 8,
+        text: "Is your child able to use plurals or past tense properly?",
+        comments: false,
+        answers: [
+          {
+            value: "yes",
+            text: "Yes"
+          },
+          {
+            value: "no",
+            text: "No",
+            redFlagQuestion: true
+          },
+          {
+            value: "notsure",
+            text: "Not Sure",
+            redFlagQuestion: true
+          }
+        ]
+      },
+      {
+        id: "daily_activities60",
+        order: 9,
+        text: "Does your child talk about daily activities or experiences?",
+        comments: false,
+        answers: [
+          {
+            value: "yes",
+            text: "Yes"
+          },
+          {
+            value: "no",
+            text: "No",
+            redFlagQuestion: true
+          },
+          {
+            value: "notsure",
+            text: "Not Sure",
+            redFlagQuestion: true
+          }
+        ]
+      },
+      {
+        id: "drawing60",
+        order: 10,
+        text: "Does your child draw pictures?",
+        comments: false,
+        answers: [
+          {
+            value: "yes",
+            text: "Yes"
+          },
+          {
+            value: "no",
+            text: "No",
+            redFlagQuestion: true
+          },
+          {
+            value: "notsure",
+            text: "Not Sure",
+            redFlagQuestion: true
+          }
+        ]
+      },
+      {
+        id: "brush_dry_wash60",
+        order: 11,
+        text:
+          "Is your child able to brush teeth, wash and dry hands, or get undressed without help?",
+        comments: false,
+        answers: [
+          {
+            value: "yes",
+            text: "Yes"
+          },
+          {
+            value: "no",
+            text: "No",
+            redFlagQuestion: true
+          },
+          {
+            value: "notsure",
+            text: "Not Sure",
+            redFlagQuestion: true
+          }
+        ]
+      },
+      {
+        id: "lost_skills60",
+        order: 12,
         text: "Has your child lost skills they once had?",
         comments: false,
         answers: [

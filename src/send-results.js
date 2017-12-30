@@ -16,9 +16,10 @@ export default function sendResults(details, results) {
     gender_of_child: details.babyGender,
     dob_child: details.babyDob.toISOString(),
     doctor_email: details.doctorEmail,
-    age_of_child: ageInMonths < 24
-      ? ageInMonths + " months"
-      : Math.floor(ageInMonths / 12) + " years",
+    age_of_child:
+      ageInMonths < 24
+        ? ageInMonths + " months"
+        : Math.floor(ageInMonths / 12) + " years",
     age_in_months: ageInMonths,
     results_text: getResultText(results),
     subsite: process.env.SUBSITE || "australia"
