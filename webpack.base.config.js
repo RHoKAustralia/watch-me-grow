@@ -36,7 +36,7 @@ module.exports = function(profileConfig) {
             // new webpack.NoErrorsPlugin(),
             // new ExtractTextPlugin('style.css', { allChunks: true }),
             new HtmlWebpackPlugin({
-                title: 'Watch Me Grow',
+                title: 'WatchMeGrow.care',
                 template: path.resolve(__dirname, 'index.ejs'), // Load a custom template (ejs by default but can be changed)
                 inject: true
             })

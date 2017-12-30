@@ -15,7 +15,7 @@ var questionnaires = require("wmg-common/questionnaires");
 const _ = require("lodash");
 
 const FORMAT = "dddd, MMMM Do YYYY";
-const EMAIL_FROM = "Watch Me Grow <mail@watchmegrow.care>";
+const EMAIL_FROM = "WatchMeGrow.care <mail@watchmegrow.care>";
 
 const mailgun = mailgunJs({
   apiKey: process.env.MAILGUN_API_KEY,
@@ -121,7 +121,7 @@ function sendParentEmail(event, concern, combinedResults, resultStrings) {
     from: EMAIL_FROM,
     to: event.details.recipient_email,
     cc: EMAIL_FROM,
-    subject: "Watch Me Grow Results for " + event.details.first_name_of_child,
+    subject: "WatchMeGrow.care Results for " + event.details.first_name_of_child,
     html: message
   };
 
@@ -142,7 +142,7 @@ function sendDoctorEmail(event, concern, combinedResults, resultStrings) {
     from: EMAIL_FROM,
     to: event.details.doctor_email,
     subject:
-      "Watch Me Grow Results for " +
+      "WatchMeGrow.care Results for " +
         event.details.first_name_of_child +
         " " +
         event.details.last_name_of_child,

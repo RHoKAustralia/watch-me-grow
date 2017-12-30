@@ -27,7 +27,7 @@ const questionnaireReminderAges = questionnaires
 
 exports.handler = function(event, context, callback) {
   console.log(questionnaireReminderAges);
-  
+
   return mailgun
     .lists("reminders@auto.watchmegrow.care")
     .members()
@@ -73,7 +73,7 @@ function sendReminder(child) {
   var params = {
     from: "mail@watchmegrow.care",
     to: child.email,
-    subject: "Watch Me Grow Reminder for  " + child.name,
+    subject: "WatchMeGrow.care Reminder for  " + child.name,
     html: reminderTemplateBody
   };
 

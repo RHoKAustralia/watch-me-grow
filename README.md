@@ -1,4 +1,4 @@
-# Watch Me Grow
+# WatchMeGrow.care
 
 A web app for early childhood testing for autism and developmental issues.
 

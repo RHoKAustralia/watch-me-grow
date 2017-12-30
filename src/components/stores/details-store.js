@@ -64,7 +64,7 @@ const DetailsStore = ComposedComponent =>
         errors.babyDob = "Required";
       } else if (this.state.babyDob.isAfter(moment().subtract(6, "months"))) {
         errors.babyDob =
-          "Watch Me Grow is intended for babies older than 6 months";
+          "WatchMeGrow.care is intended for babies older than 6 months";
       }
 
       const validated = !Object.keys(errors).length;

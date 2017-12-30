@@ -15,11 +15,11 @@ export default class HomePage extends React.Component {
           All children grow and develop at their own pace.
         </h1>
         <p className={Styles.paragraph}>
-          Watch Me Grow helps track your child's progress and provides
+          WatchMeGrow.care helps track your child's progress and provides
           information about healthy development.
         </p>
         <p className={Styles.paragraph}>
-          This app is designed for children aged approximately 12 to 24 months
+          This app is designed for children aged approximately 6 to 60 months
         </p>
         <p className={Styles.paragraph}>
           For general information on growth and development for children from
