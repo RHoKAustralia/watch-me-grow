@@ -26,8 +26,6 @@ const questionnaireReminderAges = questionnaires
   }));
 
 exports.handler = function(event, context, callback) {
-  console.log(questionnaireReminderAges);
-
   return mailgun
     .lists("reminders@auto.watchmegrow.care")
     .members()
@@ -43,8 +41,6 @@ exports.handler = function(event, context, callback) {
         );
       });
 
-      console.log(children);
-
       const toBeReminded = children.filter(child =>
         questionnaireReminderAges.some(
           questionnaire =>
@@ -53,12 +49,15 @@ exports.handler = function(event, context, callback) {
         )
       );
 
+      console.log("Reminding:");
+      console.log(toBeReminded);
+
       const promises = toBeReminded.map(child => sendReminder(child));
 
       return Promise.all(promises);
     })
     .then(result => {
-      console.log(result);
+      console.log("Done");
       callback(null, "Successfully executed");
     })
     .catch(e => callback(e));

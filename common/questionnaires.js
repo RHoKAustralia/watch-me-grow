@@ -7,7 +7,7 @@ module.exports = [
     introduction:
       "Some questions about your child’s speech and socialising skills. Please answer all questions.",
     detail_link: "http://www.autismresearchcentre.com/arc_tests",
-    age_groups: { min: 18, max: 36 }, // was: "age_groups": ['18_month', '2_years'],
+    age_groups: { min: 16, max: 30 }, // was: "age_groups": ['18_month', '2_years'],
     analysis: {
       strategy: "simple",
       redFlagThreshold: 3,
@@ -343,7 +343,7 @@ module.exports = [
   {
     id: "rqc",
     title: "Reporting Questionnaire for Children (RQC)",
-    age_groups: { min: 37, max: 65 },
+    age_groups: { min: 31, max: 66 },
     analysis: {
       strategy: "cdc",
       redFlagThreshold: 1,
@@ -583,7 +583,7 @@ module.exports = [
   {
     id: "cdc6",
     title: "CDC 6 Months",
-    age_groups: { min: 5, max: 8 },
+    age_groups: { min: 6, max: 11 },
     analysis: {
       strategy: "cdc",
       redFlagThreshold: 1,
@@ -603,6 +603,11 @@ module.exports = [
           {
             value: "no",
             text: "No",
+            redFlagQuestion: true
+          },
+          {
+            value: "notsure",
+            text: "Not Sure",
             redFlagQuestion: true
           }
         ]
@@ -659,12 +664,12 @@ module.exports = [
         answers: [
           {
             value: "yes",
-            text: "Yes"
+            text: "Yes",
+            redFlagQuestion: true
           },
           {
             value: "no",
-            text: "No",
-            redFlagQuestion: true
+            text: "No"
           },
           {
             value: "notsure",
@@ -742,30 +747,8 @@ module.exports = [
       {
         id: "tight_muscles6",
         order: 7,
-        text: "Is your child stiff or show signs of tight muscles?",
-        comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes"
-          },
-          {
-            value: "no",
-            text: "No",
-            redFlagQuestion: true
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
-      },
-      {
-        id: "floppy6",
-        order: 8,
         text:
-          "Does your child show symptoms of being very floppy or like a rag doll?",
+          "Is your child stiff or show signs of tight muscles, or show symptoms of being very floppy or like a rag doll?",
         comments: false,
         answers: [
           {
@@ -787,12 +770,9 @@ module.exports = [
     ]
   },
   {
-    id: "cdc12", // "12 Month items from file "New qns.docx" - numbered 1-7 in that document but 0-6 here
-    title: "CDC",
-    description: "DESCRIPTION FOR CDC QUESTIONS TO GO HERE",
-    introduction: "INTRODUCTION FOR CDC MATERIAL TO GO HERE",
-    detail_link: "DETAIL LINK TO GO HERE",
-    age_groups: { min: 9, max: 15 },
+    id: "cdc12",
+    title: "CDC 12 Months",
+    age_groups: { min: 12, max: 17 },
     remind_at: 12,
     analysis: {
       strategy: "cdc",
@@ -800,11 +780,10 @@ module.exports = [
       amberFlagThreshold: 1
     },
     questions: [
-      // Numbers
       {
         id: "crawl",
-        order: 0, // table 1 question 1
-        text: "Does your child crawl?", // fixme
+        order: 0,
+        text: "Does your child crawl?",
         comments: false,
         answers: [
           {
@@ -958,12 +937,9 @@ module.exports = [
     ]
   },
   {
-    id: "cdc18", // "18 Month items from file "New qns.docx" - numbered 8-15 in that document but 0-6 here
-    title: "CDC",
-    description: "DESCRIPTION FOR CDC QUESTIONS TO GO HERE",
-    introduction: "INTRODUCTION FOR CDC MATERIAL TO GO HERE",
-    detail_link: "DETAIL LINK TO GO HERE",
-    age_groups: { min: 16, max: 21 },
+    id: "cdc18",
+    title: "CDC 18 Months",
+    age_groups: { min: 18, max: 23 },
     remind_at: 18,
     analysis: {
       strategy: "cdc",
@@ -971,10 +947,9 @@ module.exports = [
       amberFlagThreshold: 1
     },
     questions: [
-      // Numbers
       {
         id: "point18",
-        order: 0, // table 1 question 1
+        order: 0,
         text: "Does your child point to show things to others?",
         comments: false,
         answers: [
@@ -1153,12 +1128,9 @@ module.exports = [
     ]
   },
   {
-    id: "cdc24", // "24 Month items from file "New qns.docx" - numbered 16-21 in that document but 0-5 here
-    title: "CDC",
-    description: "DESCRIPTION FOR CDC QUESTIONS TO GO HERE",
-    introduction: "INTRODUCTION FOR CDC MATERIAL TO GO HERE",
-    detail_link: "DETAIL LINK TO GO HERE",
-    age_groups: { min: 22, max: 30 },
+    id: "cdc24",
+    title: "CDC 24 Months",
+    age_groups: { min: 24, max: 35 },
     remind_at: 24,
     analysis: {
       strategy: "cdc",
@@ -1166,10 +1138,9 @@ module.exports = [
       amberFlagThreshold: 1
     },
     questions: [
-      // Numbers
       {
         id: "two_word_phrases24",
-        order: 0, // table 1 question 1
+        order: 0,
         text: "Does your child use two word phrases (e.g. “drink milk”)?",
         comments: false,
         answers: [
@@ -1303,9 +1274,9 @@ module.exports = [
     ]
   },
   {
-    id: "cdc36", // "24 Month items from file "New qns.docx" - numbered 16-21 in that document but 0-5 here
-    title: "CDC",
-    age_groups: { min: 31, max: 42 },
+    id: "cdc36",
+    title: "CDC 36 Months",
+    age_groups: { min: 36, max: 47 },
     remind_at: 36,
     analysis: {
       strategy: "cdc",
@@ -1518,7 +1489,7 @@ module.exports = [
   {
     id: "cdc48",
     title: "CDC",
-    age_groups: { min: 43, max: 54 },
+    age_groups: { min: 48, max: 59 },
     remind_at: 48,
     analysis: {
       strategy: "cdc",
@@ -1551,7 +1522,7 @@ module.exports = [
       {
         id: "scribbling48",
         order: 1,
-        text: "Does your child have trouble scribbling?",
+        text: "Can your child scribble?",
         comments: false,
         answers: [
           {
@@ -1729,17 +1700,17 @@ module.exports = [
       {
         id: "speak_unclearly48",
         order: 9,
-        text: "Does your child speak unclearly?",
+        text: "Does your child speak clearly?",
         comments: false,
         answers: [
           {
             value: "yes",
-            text: "Yes",
-            redFlagQuestion: true
+            text: "Yes"
           },
           {
             value: "no",
-            text: "No"
+            text: "No",
+            redFlagQuestion: true
           },
           {
             value: "notsure",
@@ -1775,7 +1746,7 @@ module.exports = [
   {
     id: "cdc60",
     title: "CDC",
-    age_groups: { min: 55, max: 66 },
+    age_groups: { min: 60, max: 66 },
     remind_at: 60,
     analysis: {
       strategy: "cdc",
