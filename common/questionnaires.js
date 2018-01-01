@@ -7,7 +7,7 @@ module.exports = [
     introduction:
       "Some questions about your child’s speech and socialising skills. Please answer all questions.",
     detail_link: "http://www.autismresearchcentre.com/arc_tests",
-    age_groups: { min: 16, max: 30 }, // was: "age_groups": ['18_month', '2_years'],
+    age_groups: { min: 16, max: 30 },
     analysis: {
       strategy: "simple",
       redFlagThreshold: 3,

@@ -1,7 +1,7 @@
-const questionnaires = require("./questionnaires");
+const questionnairesForSubsite = require("./questionnaires-for-subsite");
 
-module.exports = function(months) {
-  return questionnaires
+module.exports = function(months, subsite) {
+  return questionnairesForSubsite(subsite)
     .filter(questionnaire => {
       const ageGroups = questionnaire.age_groups;
 

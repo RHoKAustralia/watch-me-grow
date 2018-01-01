@@ -25,7 +25,7 @@ const Questionnaire = React.createClass({
       const months = moment().diff(this.props.details.babyDob, "months");
 
       this.setState({
-        questions: getQuestions(months)
+        questions: getQuestions(months, process.env.SUBSITE)
       });
     }
   },

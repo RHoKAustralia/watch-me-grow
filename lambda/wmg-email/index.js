@@ -11,7 +11,6 @@ var dataFunctions = require("wmg-common/data-functions");
 var mark = dataFunctions.mark;
 var combineAll = dataFunctions.combineAll;
 var strings = require("wmg-common/strings");
-var questionnaires = require("wmg-common/questionnaires");
 const _ = require("lodash");
 
 const FORMAT = "dddd, MMMM Do YYYY";
