@@ -1,13 +1,13 @@
 "use strict";
 
-let https = require("https");
-var aws = require("aws-sdk");
+const https = require("https");
+const aws = require("aws-sdk");
 const moment = require("moment");
 const mailgunJs = require("mailgun-js");
-var markupJs = require("markup-js");
-var fs = require("fs");
-var strings = require("wmg-common/strings");
-var questionnaires = require("wmg-common/questionnaires");
+const markupJs = require("markup-js");
+const fs = require("fs");
+const strings = require("wmg-common/strings");
+const getQuestionnairesForSubsite = require("wmg-common/questionnaires-for-subsite");
 const _ = require("lodash");
 
 const mailgun = mailgunJs({
@@ -18,12 +18,21 @@ const mailgun = mailgunJs({
 process.env["PATH"] =
   process.env["PATH"] + ":" + process.env["LAMBDA_TASK_ROOT"];
 
-const questionnaireReminderAges = questionnaires
-  .filter(questionnaire => questionnaire.remind_at)
-  .map(questionnaire => ({
-    id: questionnaire.id,
-    remindAgeInDays: moment.duration(questionnaire.remind_at, "months").asDays()
-  }));
+function questionnaireReminderAges(subsite) {
+  return getQuestionnairesForSubsite(subsite)
+    .filter(questionnaire => questionnaire.remind_at)
+    .map(questionnaire => ({
+      id: questionnaire.id,
+      remindAgeInDays: moment
+        .duration(questionnaire.remind_at, "months")
+        .asDays()
+    }));
+}
+
+const reminderTemplateBody = fs.readFileSync(
+  __dirname + "/Reminder.html",
+  "utf-8"
+);
 
 exports.handler = function(event, context, callback) {
   return mailgun
@@ -42,7 +51,7 @@ exports.handler = function(event, context, callback) {
       });
 
       const toBeReminded = children.filter(child =>
-        questionnaireReminderAges.some(
+        questionnaireReminderAges(child.subsite).some(
           questionnaire =>
             !child.completed[questionnaire.id] &&
             questionnaire.remindAgeInDays === child.ageInDays
@@ -52,7 +61,12 @@ exports.handler = function(event, context, callback) {
       console.log("Reminding:");
       console.log(toBeReminded);
 
-      const promises = toBeReminded.map(child => sendReminder(child));
+      const promises = toBeReminded.map(child =>
+        sendReminder(
+          child,
+          Math.round(moment.duration(child.ageInDays, "days").asMonths())
+        )
+      );
 
       return Promise.all(promises);
     })
@@ -63,17 +77,20 @@ exports.handler = function(event, context, callback) {
     .catch(e => callback(e));
 };
 
-const reminderTemplateBody = fs.readFileSync(
-  __dirname + "/Reminder.html",
-  "utf-8"
-);
+function sendReminder(child, ageInMonths) {
+  var message = markupJs.up(reminderTemplateBody, {
+    url:
+      "https://" +
+      (child.subsite ? child.subsite + "." : "") +
+      "watchmegrow.care",
+    childAge: ageInMonths
+  });
 
-function sendReminder(child) {
   var params = {
     from: "mail@watchmegrow.care",
     to: child.email,
     subject: "WatchMeGrow.care Reminder for  " + child.name,
-    html: reminderTemplateBody
+    html: message
   };
 
   return mailgun.messages().send(params);

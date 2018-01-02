@@ -12,6 +12,8 @@ var mark = dataFunctions.mark;
 var combineAll = dataFunctions.combineAll;
 var strings = require("wmg-common/strings");
 const _ = require("lodash");
+const questionnairesForSubsite = require("wmg-common/questionnaires-for-subsite");
+const minMax = require("wmg-common/min-max");
 
 const FORMAT = "dddd, MMMM Do YYYY";
 const EMAIL_FROM = "WatchMeGrow.care <mail@watchmegrow.care>";
@@ -28,7 +30,8 @@ console.log("Loading function");
 
 const ZAPIER_ENDPOINTS = {
   australia: "https://hooks.zapier.com/hooks/catch/2318292/9cdxwr/",
-  dubai: "https://hooks.zapier.com/hooks/catch/2318292/53nxsk/"
+  dubai: "https://hooks.zapier.com/hooks/catch/2318292/53nxsk/",
+  preschool: "https://hooks.zapier.com/hooks/catch/2318292/8m9vys/"
 };
 
 /*
@@ -41,8 +44,6 @@ const ZAPIER_ENDPOINTS = {
  */
 
 exports.handler = function(event, context, callback) {
-  console.log("Event: " + JSON.stringify(event));
-
   if (!event.details.recipient_email) {
     context.fail("Error: Missing parameter.");
   }
@@ -60,13 +61,12 @@ exports.handler = function(event, context, callback) {
   });
 
   const parentEmailPromise = sendParentEmail(
-    //Promise.resolve();
     event,
     concern,
     combinedResults,
     resultStrings
   );
-  const zapierPromise = sendToZapier(event, concern); //Promise.resolve();
+  const zapierPromise = sendToZapier(event, concern);
   const basePromises = [
     parentEmailPromise,
     zapierPromise,
@@ -120,7 +120,8 @@ function sendParentEmail(event, concern, combinedResults, resultStrings) {
     from: EMAIL_FROM,
     to: event.details.recipient_email,
     cc: EMAIL_FROM,
-    subject: "WatchMeGrow.care Results for " + event.details.first_name_of_child,
+    subject:
+      "WatchMeGrow.care Results for " + event.details.first_name_of_child,
     html: message
   };
 
@@ -130,11 +131,16 @@ function sendParentEmail(event, concern, combinedResults, resultStrings) {
 const doctorTemplateBody = fs.readFileSync(__dirname + "/Doctor.html", "utf-8");
 
 function sendDoctorEmail(event, concern, combinedResults, resultStrings) {
+  const questionnaires = questionnairesForSubsite(event.details.subsite);
+  const { minMonths, maxMonths } = minMax(questionnaires);
+
   var message = markupJs.up(doctorTemplateBody, {
     details: event.details,
     concern: concern,
     allResults: combinedResults,
-    resultText: resultStrings.title + " " + resultStrings.subtitle
+    resultText: resultStrings.title + " " + resultStrings.subtitle,
+    minMonths: minMonths,
+    maxMonths: maxMonths
   });
 
   var params = {
@@ -142,9 +148,9 @@ function sendDoctorEmail(event, concern, combinedResults, resultStrings) {
     to: event.details.doctor_email,
     subject:
       "WatchMeGrow.care Results for " +
-        event.details.first_name_of_child +
-        " " +
-        event.details.last_name_of_child,
+      event.details.first_name_of_child +
+      " " +
+      event.details.last_name_of_child,
     html: message
   };
 
@@ -164,7 +170,8 @@ function addToReminderList(event) {
 
   const data = {
     completed,
-    dob: event.details.dob_child
+    dob: event.details.dob_child,
+    subsite: event.details.subsite
   };
 
   const newVars = {};
@@ -181,11 +188,14 @@ function addToReminderList(event) {
     .catch(e => Promise.resolve({}));
 
   return varsPromise.then(vars => {
-    return mailgun.lists("reminders@auto.watchmegrow.care").members().create({
-      name: event.details.name_of_parent,
-      address: event.details.recipient_email,
-      upsert: "true",
-      vars: _.merge(vars, newVars)
-    });
+    return mailgun
+      .lists("reminders@auto.watchmegrow.care")
+      .members()
+      .create({
+        name: event.details.name_of_parent,
+        address: event.details.recipient_email,
+        upsert: "true",
+        vars: _.merge(vars, newVars)
+      });
   });
 }

@@ -9,18 +9,10 @@ import Styles from "./details.scss";
 import Input from "react-toolbox/lib/input";
 import DatePicker from "react-datepicker/dist/react-datepicker";
 import questionnairesForSubsite from "wmg-common/questionnaires-for-subsite";
+import minMax from "wmg-common/min-max";
 
 const questionnaires = _(questionnairesForSubsite(process.env.SUBSITE));
-
-console.log(process.env.SUBSITE);
-const minMonths = questionnaires
-  .map(questionnaire => questionnaire.age_groups.min)
-  .sortBy(x => x)
-  .head();
-const maxMonths = questionnaires
-  .map(questionnaire => questionnaire.age_groups.max)
-  .sortBy(x => x)
-  .last();
+const { minMonths, maxMonths } = minMax(questionnaires);
 const minDate = moment().subtract(maxMonths, "months");
 const maxDate = moment().subtract(minMonths, "months");
 

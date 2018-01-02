@@ -5,30 +5,31 @@
 <p>
     You're receiving this email because {{details.name_of_parent}} completed WatchMeGrow.care for {{details.first_name_of_child}}
     {{details.last_name_of_child}}. WatchMeGrow.care tracks developmental progress for children aged between approximately
-    6 to 60 months. It has been designed to facilitate early identification of developmental problems.
+    {{minMonths}} to {{maxMonths}} months. It has been designed to facilitate early identification of developmental
+    problems.
 </p>
 
 {{if concern}}
-    <div style="text-align: center">
-        <img style="height: 50px; width: 50px" src="https://watchmegrow.care/email-pics/red_flag.png">
-    </div>
-    <p>
+<div style="text-align: center">
+    <img style="height: 50px; width: 50px" src="https://watchmegrow.care/email-pics/red_flag.png">
+</div>
+<p>
     <strong>
         It is highly likely that this child has developmental issues. It is strongly recommended that referral for further assessment
         and early intervention through a paediatrician or other child development health professional is done. Also continue to monitor
         the child over time.
     </strong>
-    </p>
+</p>
 {{else}}
-    <div style="text-align: center">
-        <img  style="height: 50px; width: 50px" src="https://watchmegrow.care/email-pics/green_flag.png">
-    </div>
-    <p>
+<div style="text-align: center">
+    <img style="height: 50px; width: 50px" src="https://watchmegrow.care/email-pics/green_flag.png">
+</div>
+<p>
     <strong>
         Developmental issues in this child are unlikely. No further follow-up necessary at this point. Continue ongoing monitoring
         as usual.
     </strong>
-    </p>
+</p>
 {{/if}}
 
 <table border="0">
@@ -67,8 +68,7 @@
     </tr>
     {{/if}} {{/results}}
 </table>
-<br/>
-{{/allResults}}
+<br/> {{/allResults}}
 
 <p>
     For further information on child development please go to <a href="http://www.cdc.gov/ncbddd/actearly/index.html">Learn the signs - act early</a>.

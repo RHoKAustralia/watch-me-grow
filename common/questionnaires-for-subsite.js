@@ -5,7 +5,7 @@ const questionnaires = require("./questionnaires");
 module.exports = function getQuestionnairesForSubsite(configId) {
   const includeQuestionnaireIds = _.get(siteSpecificConfig, [
     configId,
-    questionnaires
+    "questionnaires"
   ]);
 
   if (!includeQuestionnaireIds) {
