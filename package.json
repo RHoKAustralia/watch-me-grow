@@ -8,6 +8,7 @@
     "dev-preschool": "SUBSITE=preschool webpack-dev-server --config webpack.local.config --hot --inline --host 0.0.0.0",
     "build": "SUBSITE=australia webpack -p --progress --config webpack.prod.config.js",
     "build-dubai": "SUBSITE=dubai webpack -p --progress --config webpack.prod.config.js",
+    "build-preschool": "SUBSITE=preschool webpack -p --progress --config webpack.prod.config.js",
     "clean": "rm -r public"
   },
   "repository": {
