@@ -1,586 +1,5 @@
 module.exports = [
   {
-    id: "qchat",
-    title: "QCHAT",
-    description:
-      "Q-CHAT-10 (Quantitative Checklist for Autism in Toddlers) is a quick referral guide for parents to complete about their toddler (18 – 24 months) with concerns about autism.",
-    introduction:
-      "Some questions about your child’s speech and socialising skills. Please answer all questions.",
-    detail_link: "http://www.autismresearchcentre.com/arc_tests",
-    age_groups: { min: 16, max: 30 },
-    analysis: {
-      strategy: "simple",
-      redFlagThreshold: 3,
-      amberFlagThreshold: 99
-    },
-    questions: [
-      {
-        id: "lookatyou",
-        order: 0,
-        text: "Does your child look at you when you call his/her name?",
-        answers: [
-          {
-            value: "always",
-            text: "always",
-            redFlagQuestion: false
-          },
-          {
-            value: "usually",
-            text: "usually",
-            redFlagQuestion: false
-          },
-          {
-            value: "sometimes",
-            text: "sometimes",
-            redFlagQuestion: true
-          },
-          {
-            value: "rarely",
-            text: "rarely",
-            redFlagQuestion: true
-          },
-          {
-            value: "never",
-            text: "never",
-            redFlagQuestion: true
-          }
-        ]
-      },
-      {
-        id: "eyecontacteasiness",
-        order: 1,
-        text: "How easy is it for you to get eye contact with your child?",
-        answers: [
-          {
-            value: "veryeasy",
-            text: "very easy",
-            redFlagQuestion: false
-          },
-          {
-            value: "quiteeasy",
-            text: "quite easy",
-            redFlagQuestion: false
-          },
-          {
-            value: "quitedifficult",
-            text: "quite difficult",
-            redFlagQuestion: true
-          },
-          {
-            value: "verydifficult",
-            text: "very difficult",
-            redFlagQuestion: true
-          },
-          {
-            value: "impossible",
-            text: "impossible",
-            redFlagQuestion: true
-          }
-        ]
-      },
-      {
-        id: "pointwant",
-        order: 2,
-        text:
-          "Does your child point to indicate that s/he wants something? (e.g. a toy that is out of reach)",
-        answers: [
-          {
-            value: "manyday",
-            text: "many times a day",
-            redFlagQuestion: false
-          },
-          {
-            value: "fewday",
-            text: "a few times a day",
-            redFlagQuestion: false
-          },
-          {
-            value: "fewweek",
-            text: "a few times a week",
-            redFlagQuestion: true
-          },
-          {
-            value: "lessonceweek",
-            text: "less than once a week",
-            redFlagQuestion: true
-          },
-          {
-            value: "never",
-            text: "never",
-            redFlagQuestion: true
-          }
-        ]
-      },
-      {
-        id: "pointshareinterest",
-        order: 3,
-        text:
-          "Does your child point to share interest with you (e.g. pointing at an interesting sight)?",
-        answers: [
-          {
-            value: "manyday",
-            text: "many times a day",
-            redFlagQuestion: false
-          },
-          {
-            value: "fewday",
-            text: "a few times a day",
-            redFlagQuestion: false
-          },
-          {
-            value: "fewweek",
-            text: "a few times a week",
-            redFlagQuestion: true
-          },
-          {
-            value: "lessonceweek",
-            text: "less than once a week",
-            redFlagQuestion: true
-          },
-          {
-            value: "never",
-            text: "never",
-            redFlagQuestion: true
-          }
-        ]
-      },
-      {
-        id: "pretending",
-        order: 4,
-        text:
-          "Does your child pretend (e.g. care for dolls, talk on a toy phone)?",
-        answers: [
-          {
-            value: "manyday",
-            text: "many times a day",
-            redFlagQuestion: false
-          },
-          {
-            value: "fewday",
-            text: "a few times a day",
-            redFlagQuestion: false
-          },
-          {
-            value: "fewweek",
-            text: "a few times a week",
-            redFlagQuestion: true
-          },
-          {
-            value: "lessonceweek",
-            text: "less than once a week",
-            redFlagQuestion: true
-          },
-          {
-            value: "never",
-            text: "never",
-            redFlagQuestion: true
-          }
-        ]
-      },
-      {
-        id: "followlooking",
-        order: 5,
-        text: "Does your child follow where you’re looking?",
-        answers: [
-          {
-            value: "manyday",
-            text: "many times a day",
-            redFlagQuestion: false
-          },
-          {
-            value: "fewday",
-            text: "a few times a day",
-            redFlagQuestion: false
-          },
-          {
-            value: "fewweek",
-            text: "a few times a week",
-            redFlagQuestion: true
-          },
-          {
-            value: "lessonceweek",
-            text: "less than once a week",
-            redFlagQuestion: true
-          },
-          {
-            value: "never",
-            text: "never",
-            redFlagQuestion: true
-          }
-        ]
-      },
-      {
-        id: "comfort",
-        order: 6,
-        text:
-          "If you or someone else in the family is visibly upset, does your child show signs of wanting to comfort them(e.g. stroking their hair, hugging them)?",
-        answers: [
-          {
-            value: "always",
-            text: "always",
-            redFlagQuestion: false
-          },
-          {
-            value: "usually",
-            text: "usually",
-            redFlagQuestion: false
-          },
-          {
-            value: "sometimes",
-            text: "sometimes",
-            redFlagQuestion: true
-          },
-          {
-            value: "rarely",
-            text: "rarely",
-            redFlagQuestion: true
-          },
-          {
-            value: "never",
-            text: "never",
-            redFlagQuestion: true
-          }
-        ]
-      },
-      {
-        id: "firstwords",
-        order: 7,
-        text: "Would you describe your child’s first words as:",
-        answers: [
-          {
-            value: "verytypical",
-            text: "very typical",
-            redFlagQuestion: false
-          },
-          {
-            value: "quitetypical",
-            text: "quite typical",
-            redFlagQuestion: false
-          },
-          {
-            value: "slightlyunusual",
-            text: "slightly unusual",
-            redFlagQuestion: true
-          },
-          {
-            value: "veryunusual",
-            text: "very unusual",
-            redFlagQuestion: true
-          },
-          {
-            value: "nonverbal",
-            text: "my child doesn’t speak",
-            redFlagQuestion: true
-          }
-        ]
-      },
-      {
-        id: "simplegestures",
-        order: 8,
-        text: "Does your child use simple gestures (e.g. wave goodbye)?",
-        answers: [
-          {
-            value: "manyday",
-            text: "many times a day",
-            redFlagQuestion: false
-          },
-          {
-            value: "fewday",
-            text: "a few times a day",
-            redFlagQuestion: false
-          },
-          {
-            value: "fewweek",
-            text: "a few times a week",
-            redFlagQuestion: true
-          },
-          {
-            value: "lessonceweek",
-            text: "less than once a week",
-            redFlagQuestion: true
-          },
-          {
-            value: "never",
-            text: "never",
-            redFlagQuestion: true
-          }
-        ]
-      },
-      {
-        id: "stareatnothing",
-        order: 9,
-        text: "Does your child stare at nothing with no apparent purpose?",
-        answers: [
-          {
-            value: "manyday",
-            text: "many times a day",
-            redFlagQuestion: true
-          },
-          {
-            value: "fewday",
-            text: "a few times a day",
-            redFlagQuestion: true
-          },
-          {
-            value: "fewweek",
-            text: "a few times a week",
-            redFlagQuestion: true
-          },
-          {
-            value: "lessonceweek",
-            text: "less than once a week",
-            redFlagQuestion: false
-          },
-          {
-            value: "never",
-            text: "never",
-            redFlagQuestion: false
-          }
-        ]
-      }
-    ]
-  },
-  {
-    id: "rqc",
-    title: "Reporting Questionnaire for Children (RQC)",
-    age_groups: { min: 31, max: 66 },
-    analysis: {
-      strategy: "cdc",
-      redFlagThreshold: 1,
-      amberFlagThreshold: 1
-    },
-    questions: [
-      {
-        id: "behaviour",
-        order: 0,
-        text:
-          "Does the child show any difficulties with behaviour such as being overactive (e.g. cannot sit still) or lack attention and concentration (e.g. easily distracted and does not finish activities)?",
-        comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes",
-            redFlagQuestion: true
-          },
-          {
-            value: "no",
-            text: "No"
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
-      },
-      {
-        id: "calming",
-        order: 1,
-        text:
-          "Does the child show difficulty in calming down or is it difficult to comfort the child?",
-        comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes",
-            redFlagQuestion: true
-          },
-          {
-            value: "no",
-            text: "No"
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
-      },
-      {
-        id: "sleep",
-        order: 2,
-        text: "Does the child have any sleep or related difficulty?",
-        comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes",
-            redFlagQuestion: true
-          },
-          {
-            value: "no",
-            text: "No"
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
-      },
-      {
-        id: "worries",
-        order: 3,
-        text:
-          "Does the child suffer from frequent worries or fears or seem sad or unhappy for no good reason?",
-        comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes",
-            redFlagQuestion: true
-          },
-          {
-            value: "no",
-            text: "No"
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
-      },
-      {
-        id: "disobedience",
-        order: 4,
-        text:
-          "Does the child frequently show lack of co-operation, disobedience, or is defiant and argumentative?",
-        comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes",
-            redFlagQuestion: true
-          },
-          {
-            value: "no",
-            text: "No"
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
-      },
-      {
-        id: "fighting",
-        order: 5,
-        text:
-          "Does the child show frequent fighting or aggressive behaviour and show no regret?",
-        comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes",
-            redFlagQuestion: true
-          },
-          {
-            value: "no",
-            text: "No"
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
-      },
-      {
-        id: "feeding",
-        order: 6,
-        text: "Does the child have any feeding or related difficulty?",
-        comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes",
-            redFlagQuestion: true
-          },
-          {
-            value: "no",
-            text: "No"
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
-      },
-      {
-        id: "learning",
-        order: 7,
-        text:
-          "Does the child have any difficulties with learning or appear to be behind for overall abilities as compared with other children of about the same age?",
-        comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes",
-            redFlagQuestion: true
-          },
-          {
-            value: "no",
-            text: "No"
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
-      },
-      {
-        id: "friendships",
-        order: 8,
-        text:
-          "Does the child show no interest in friendships or nearly never play with other children or does not show concern for others?",
-        comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes",
-            redFlagQuestion: true
-          },
-          {
-            value: "no",
-            text: "No"
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
-      },
-      {
-        id: "rituals",
-        order: 9,
-        text:
-          "Does the child engage in any repetitive behaviours or rituals and insist on things being done in a          particular way?",
-        comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes",
-            redFlagQuestion: true
-          },
-          {
-            value: "no",
-            text: "No"
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
-      }
-    ]
-  },
-  {
     id: "cdc6",
     title: "CDC 6 Months",
     age_groups: { min: 6, max: 11 },
@@ -2027,6 +1446,587 @@ module.exports = [
         id: "lost_skills60",
         order: 12,
         text: "Has your child lost skills they once had?",
+        comments: false,
+        answers: [
+          {
+            value: "yes",
+            text: "Yes",
+            redFlagQuestion: true
+          },
+          {
+            value: "no",
+            text: "No"
+          },
+          {
+            value: "notsure",
+            text: "Not Sure",
+            redFlagQuestion: true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: "qchat",
+    title: "QCHAT",
+    description:
+      "Q-CHAT-10 (Quantitative Checklist for Autism in Toddlers) is a quick referral guide for parents to complete about their toddler (18 – 24 months) with concerns about autism.",
+    introduction:
+      "Some questions about your child’s speech and socialising skills. Please answer all questions.",
+    detail_link: "http://www.autismresearchcentre.com/arc_tests",
+    age_groups: { min: 16, max: 30 },
+    analysis: {
+      strategy: "simple",
+      redFlagThreshold: 3,
+      amberFlagThreshold: 99
+    },
+    questions: [
+      {
+        id: "lookatyou",
+        order: 0,
+        text: "Does your child look at you when you call his/her name?",
+        answers: [
+          {
+            value: "always",
+            text: "always",
+            redFlagQuestion: false
+          },
+          {
+            value: "usually",
+            text: "usually",
+            redFlagQuestion: false
+          },
+          {
+            value: "sometimes",
+            text: "sometimes",
+            redFlagQuestion: true
+          },
+          {
+            value: "rarely",
+            text: "rarely",
+            redFlagQuestion: true
+          },
+          {
+            value: "never",
+            text: "never",
+            redFlagQuestion: true
+          }
+        ]
+      },
+      {
+        id: "eyecontacteasiness",
+        order: 1,
+        text: "How easy is it for you to get eye contact with your child?",
+        answers: [
+          {
+            value: "veryeasy",
+            text: "very easy",
+            redFlagQuestion: false
+          },
+          {
+            value: "quiteeasy",
+            text: "quite easy",
+            redFlagQuestion: false
+          },
+          {
+            value: "quitedifficult",
+            text: "quite difficult",
+            redFlagQuestion: true
+          },
+          {
+            value: "verydifficult",
+            text: "very difficult",
+            redFlagQuestion: true
+          },
+          {
+            value: "impossible",
+            text: "impossible",
+            redFlagQuestion: true
+          }
+        ]
+      },
+      {
+        id: "pointwant",
+        order: 2,
+        text:
+          "Does your child point to indicate that s/he wants something? (e.g. a toy that is out of reach)",
+        answers: [
+          {
+            value: "manyday",
+            text: "many times a day",
+            redFlagQuestion: false
+          },
+          {
+            value: "fewday",
+            text: "a few times a day",
+            redFlagQuestion: false
+          },
+          {
+            value: "fewweek",
+            text: "a few times a week",
+            redFlagQuestion: true
+          },
+          {
+            value: "lessonceweek",
+            text: "less than once a week",
+            redFlagQuestion: true
+          },
+          {
+            value: "never",
+            text: "never",
+            redFlagQuestion: true
+          }
+        ]
+      },
+      {
+        id: "pointshareinterest",
+        order: 3,
+        text:
+          "Does your child point to share interest with you (e.g. pointing at an interesting sight)?",
+        answers: [
+          {
+            value: "manyday",
+            text: "many times a day",
+            redFlagQuestion: false
+          },
+          {
+            value: "fewday",
+            text: "a few times a day",
+            redFlagQuestion: false
+          },
+          {
+            value: "fewweek",
+            text: "a few times a week",
+            redFlagQuestion: true
+          },
+          {
+            value: "lessonceweek",
+            text: "less than once a week",
+            redFlagQuestion: true
+          },
+          {
+            value: "never",
+            text: "never",
+            redFlagQuestion: true
+          }
+        ]
+      },
+      {
+        id: "pretending",
+        order: 4,
+        text:
+          "Does your child pretend (e.g. care for dolls, talk on a toy phone)?",
+        answers: [
+          {
+            value: "manyday",
+            text: "many times a day",
+            redFlagQuestion: false
+          },
+          {
+            value: "fewday",
+            text: "a few times a day",
+            redFlagQuestion: false
+          },
+          {
+            value: "fewweek",
+            text: "a few times a week",
+            redFlagQuestion: true
+          },
+          {
+            value: "lessonceweek",
+            text: "less than once a week",
+            redFlagQuestion: true
+          },
+          {
+            value: "never",
+            text: "never",
+            redFlagQuestion: true
+          }
+        ]
+      },
+      {
+        id: "followlooking",
+        order: 5,
+        text: "Does your child follow where you’re looking?",
+        answers: [
+          {
+            value: "manyday",
+            text: "many times a day",
+            redFlagQuestion: false
+          },
+          {
+            value: "fewday",
+            text: "a few times a day",
+            redFlagQuestion: false
+          },
+          {
+            value: "fewweek",
+            text: "a few times a week",
+            redFlagQuestion: true
+          },
+          {
+            value: "lessonceweek",
+            text: "less than once a week",
+            redFlagQuestion: true
+          },
+          {
+            value: "never",
+            text: "never",
+            redFlagQuestion: true
+          }
+        ]
+      },
+      {
+        id: "comfort",
+        order: 6,
+        text:
+          "If you or someone else in the family is visibly upset, does your child show signs of wanting to comfort them(e.g. stroking their hair, hugging them)?",
+        answers: [
+          {
+            value: "always",
+            text: "always",
+            redFlagQuestion: false
+          },
+          {
+            value: "usually",
+            text: "usually",
+            redFlagQuestion: false
+          },
+          {
+            value: "sometimes",
+            text: "sometimes",
+            redFlagQuestion: true
+          },
+          {
+            value: "rarely",
+            text: "rarely",
+            redFlagQuestion: true
+          },
+          {
+            value: "never",
+            text: "never",
+            redFlagQuestion: true
+          }
+        ]
+      },
+      {
+        id: "firstwords",
+        order: 7,
+        text: "Would you describe your child’s first words as:",
+        answers: [
+          {
+            value: "verytypical",
+            text: "very typical",
+            redFlagQuestion: false
+          },
+          {
+            value: "quitetypical",
+            text: "quite typical",
+            redFlagQuestion: false
+          },
+          {
+            value: "slightlyunusual",
+            text: "slightly unusual",
+            redFlagQuestion: true
+          },
+          {
+            value: "veryunusual",
+            text: "very unusual",
+            redFlagQuestion: true
+          },
+          {
+            value: "nonverbal",
+            text: "my child doesn’t speak",
+            redFlagQuestion: true
+          }
+        ]
+      },
+      {
+        id: "simplegestures",
+        order: 8,
+        text: "Does your child use simple gestures (e.g. wave goodbye)?",
+        answers: [
+          {
+            value: "manyday",
+            text: "many times a day",
+            redFlagQuestion: false
+          },
+          {
+            value: "fewday",
+            text: "a few times a day",
+            redFlagQuestion: false
+          },
+          {
+            value: "fewweek",
+            text: "a few times a week",
+            redFlagQuestion: true
+          },
+          {
+            value: "lessonceweek",
+            text: "less than once a week",
+            redFlagQuestion: true
+          },
+          {
+            value: "never",
+            text: "never",
+            redFlagQuestion: true
+          }
+        ]
+      },
+      {
+        id: "stareatnothing",
+        order: 9,
+        text: "Does your child stare at nothing with no apparent purpose?",
+        answers: [
+          {
+            value: "manyday",
+            text: "many times a day",
+            redFlagQuestion: true
+          },
+          {
+            value: "fewday",
+            text: "a few times a day",
+            redFlagQuestion: true
+          },
+          {
+            value: "fewweek",
+            text: "a few times a week",
+            redFlagQuestion: true
+          },
+          {
+            value: "lessonceweek",
+            text: "less than once a week",
+            redFlagQuestion: false
+          },
+          {
+            value: "never",
+            text: "never",
+            redFlagQuestion: false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: "rqc",
+    title: "Reporting Questionnaire for Children (RQC)",
+    age_groups: { min: 31, max: 66 },
+    analysis: {
+      strategy: "cdc",
+      redFlagThreshold: 1,
+      amberFlagThreshold: 1
+    },
+    questions: [
+      {
+        id: "behaviour",
+        order: 0,
+        text:
+          "Does the child show any difficulties with behaviour such as being overactive (e.g. cannot sit still) or lack attention and concentration (e.g. easily distracted and does not finish activities)?",
+        comments: false,
+        answers: [
+          {
+            value: "yes",
+            text: "Yes",
+            redFlagQuestion: true
+          },
+          {
+            value: "no",
+            text: "No"
+          },
+          {
+            value: "notsure",
+            text: "Not Sure",
+            redFlagQuestion: true
+          }
+        ]
+      },
+      {
+        id: "calming",
+        order: 1,
+        text:
+          "Does the child show difficulty in calming down or is it difficult to comfort the child?",
+        comments: false,
+        answers: [
+          {
+            value: "yes",
+            text: "Yes",
+            redFlagQuestion: true
+          },
+          {
+            value: "no",
+            text: "No"
+          },
+          {
+            value: "notsure",
+            text: "Not Sure",
+            redFlagQuestion: true
+          }
+        ]
+      },
+      {
+        id: "sleep",
+        order: 2,
+        text: "Does the child have any sleep or related difficulty?",
+        comments: false,
+        answers: [
+          {
+            value: "yes",
+            text: "Yes",
+            redFlagQuestion: true
+          },
+          {
+            value: "no",
+            text: "No"
+          },
+          {
+            value: "notsure",
+            text: "Not Sure",
+            redFlagQuestion: true
+          }
+        ]
+      },
+      {
+        id: "worries",
+        order: 3,
+        text:
+          "Does the child suffer from frequent worries or fears or seem sad or unhappy for no good reason?",
+        comments: false,
+        answers: [
+          {
+            value: "yes",
+            text: "Yes",
+            redFlagQuestion: true
+          },
+          {
+            value: "no",
+            text: "No"
+          },
+          {
+            value: "notsure",
+            text: "Not Sure",
+            redFlagQuestion: true
+          }
+        ]
+      },
+      {
+        id: "disobedience",
+        order: 4,
+        text:
+          "Does the child frequently show lack of co-operation, disobedience, or is defiant and argumentative?",
+        comments: false,
+        answers: [
+          {
+            value: "yes",
+            text: "Yes",
+            redFlagQuestion: true
+          },
+          {
+            value: "no",
+            text: "No"
+          },
+          {
+            value: "notsure",
+            text: "Not Sure",
+            redFlagQuestion: true
+          }
+        ]
+      },
+      {
+        id: "fighting",
+        order: 5,
+        text:
+          "Does the child show frequent fighting or aggressive behaviour and show no regret?",
+        comments: false,
+        answers: [
+          {
+            value: "yes",
+            text: "Yes",
+            redFlagQuestion: true
+          },
+          {
+            value: "no",
+            text: "No"
+          },
+          {
+            value: "notsure",
+            text: "Not Sure",
+            redFlagQuestion: true
+          }
+        ]
+      },
+      {
+        id: "feeding",
+        order: 6,
+        text: "Does the child have any feeding or related difficulty?",
+        comments: false,
+        answers: [
+          {
+            value: "yes",
+            text: "Yes",
+            redFlagQuestion: true
+          },
+          {
+            value: "no",
+            text: "No"
+          },
+          {
+            value: "notsure",
+            text: "Not Sure",
+            redFlagQuestion: true
+          }
+        ]
+      },
+      {
+        id: "learning",
+        order: 7,
+        text:
+          "Does the child have any difficulties with learning or appear to be behind for overall abilities as compared with other children of about the same age?",
+        comments: false,
+        answers: [
+          {
+            value: "yes",
+            text: "Yes",
+            redFlagQuestion: true
+          },
+          {
+            value: "no",
+            text: "No"
+          },
+          {
+            value: "notsure",
+            text: "Not Sure",
+            redFlagQuestion: true
+          }
+        ]
+      },
+      {
+        id: "friendships",
+        order: 8,
+        text:
+          "Does the child show no interest in friendships or nearly never play with other children or does not show concern for others?",
+        comments: false,
+        answers: [
+          {
+            value: "yes",
+            text: "Yes",
+            redFlagQuestion: true
+          },
+          {
+            value: "no",
+            text: "No"
+          },
+          {
+            value: "notsure",
+            text: "Not Sure",
+            redFlagQuestion: true
+          }
+        ]
+      },
+      {
+        id: "rituals",
+        order: 9,
+        text:
+          "Does the child engage in any repetitive behaviours or rituals and insist on things being done in a          particular way?",
         comments: false,
         answers: [
           {
