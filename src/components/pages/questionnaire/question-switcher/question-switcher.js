@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from "react";
 
 import Switcher from "../../../common/switcher";
@@ -5,18 +6,18 @@ import questions from "wmg-common/questions";
 
 import Styles from "./question-switcher.scss";
 
-const QuestionSwitcher = React.createClass({
-  propTypes: {
-    questionNumber: React.PropTypes.number,
-    hasAnswered: React.PropTypes.bool.isRequired,
-    details: React.PropTypes.object.isRequired
-  },
+class QuestionSwitcher extends React.Component {
+  static propTypes = {
+    questionNumber: PropTypes.number,
+    hasAnswered: PropTypes.bool.isRequired,
+    details: PropTypes.object.isRequired
+  };
 
-  totalQuestionCount() {
+  totalQuestionCount = () => {
     return Object.keys(this.props.questions).length;
-  },
+  };
 
-  leftHref() {
+  leftHref = () => {
     if (this.props.questionNumber > 1) {
       return "/questionnaire/questions/" + (this.props.questionNumber - 1);
     } else if (this.props.questionNumber === 1) {
@@ -26,9 +27,9 @@ const QuestionSwitcher = React.createClass({
     } else {
       return "";
     }
-  },
+  };
 
-  rightHref() {
+  rightHref = () => {
     if (
       !this.props.questionNumber &&
       this.props.details.validated &&
@@ -45,7 +46,7 @@ const QuestionSwitcher = React.createClass({
     } else {
       return "";
     }
-  },
+  };
 
   render() {
     return (
@@ -62,6 +63,6 @@ const QuestionSwitcher = React.createClass({
       />
     );
   }
-});
+}
 
 export default QuestionSwitcher;

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import classNames from 'classnames';
@@ -7,27 +8,25 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 import Styles from './question.scss'
 
-const Question = React.createClass({
-  propTypes: {
-    questionNumber: React.PropTypes.number.isRequired,
-    results: React.PropTypes.object.isRequired
-  },
+class Question extends React.Component {
+  static propTypes = {
+    questionNumber: PropTypes.number.isRequired,
+    results: PropTypes.object.isRequired
+  };
 
-  getInitialState() {
-    return {
-      reverse: false
-    };
-  },
+  state = {
+    reverse: false
+  };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.processProps(this.props);
-  },
+  }
 
-  componentWillReceiveProps(newProps) {
+  UNSAFE_componentWillReceiveProps(newProps) {
     this.processProps(newProps);
-  },
+  }
 
-  processProps(props) {
+  processProps = (props) => {
     const oldQuestionNumber = this.questionNumber || 0;
     const newQuestionNumber = props.questionNumber;
 
@@ -37,9 +36,9 @@ const Question = React.createClass({
 
     this.questionNumber = newQuestionNumber;
     this.question = props.questions[this.questionNumber];
-  },
+  };
 
-  onAnswerClicked(answer, storedAnswer, event) {
+  onAnswerClicked = (answer, storedAnswer, event) => {
     event.preventDefault();
     const question = this.question;
     const resultStore = this.props.results;
@@ -51,18 +50,18 @@ const Question = React.createClass({
     } else {
       setTimeout(() => ReactDOM.findDOMNode(this.commentsElement).querySelector('textarea').focus());
     }
-  },
+  };
 
-  onNextClicked(event) {
+  onNextClicked = (event) => {
     event.preventDefault();
     this.goToNext();
-  },
+  };
 
-  questionsLength() {
+  questionsLength = () => {
     return Object.keys(this.props.questions).length;
-  },
+  };
 
-  goToNext() {
+  goToNext = () => {
     this.props.results.save();
 
     const nextQuestionNumber = (this.questionNumber + 1);
@@ -71,14 +70,14 @@ const Question = React.createClass({
       '/result';
 
     this.props.router.push(nextRoute);
-  },
+  };
 
-  onCommentChanged(storedAnswer, newValue) {
+  onCommentChanged = (storedAnswer, newValue) => {
     const question = this.question;
     const resultStore = this.props.results;
 
     resultStore.setAnswer(question.questionnaire.id, question.id, storedAnswer.value, newValue);
-  },
+  };
 
   render() {
     const question = this.question;
@@ -138,6 +137,6 @@ const Question = React.createClass({
       </div>
     );
   }
-});
+}
 
 export default withRouter(Question);

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
 
@@ -7,11 +8,11 @@ import Styles from './app.scss';
 import withDetailsStore from './stores/details-store';
 import withResultsStore from './stores/results-store';
 
-const App = React.createClass({
-  propTypes: {
-    details: React.PropTypes.object,
-    results: React.PropTypes.object
-  },
+class App extends React.Component {
+  static propTypes = {
+    details: PropTypes.object,
+    results: PropTypes.object
+  };
 
   render() {
     return (
@@ -28,6 +29,6 @@ const App = React.createClass({
       </div>
     );
   }
-});
+}
 
 export default withResultsStore(withDetailsStore((App)));

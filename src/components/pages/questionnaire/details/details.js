@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from "react";
 import ReactDOM from "react-dom";
 import moment from "moment";
@@ -26,44 +27,42 @@ const locations = [
   "Other"
 ].map(value => ({ value, label: value }));
 
-const Details = React.createClass({
-  propTypes: {
-    details: React.PropTypes.object.isRequired
-  },
+class Details extends React.Component {
+  static propTypes = {
+    details: PropTypes.object.isRequired
+  };
 
-  getInitialState() {
-    return {};
-  },
+  state = {};
 
-  onSubmit(event) {
+  onSubmit = (event) => {
     event.preventDefault();
 
     if (this.props.details.validate()) {
       this.props.details.save();
       this.props.router.push("/questionnaire/doctor");
     }
-  },
+  };
 
-  onChange(propertyName, newValue) {
+  onChange = (propertyName, newValue) => {
     this.props.details.setState({ [propertyName]: newValue });
-  },
+  };
 
-  onDateClick() {
+  onDateClick = () => {
     this.setState({
       showDatePicker: true
     });
-  },
+  };
 
-  onDateChange(value) {
+  onDateChange = (value) => {
     this.closeDatePicker();
     this.onChange("babyDob", value);
-  },
+  };
 
-  closeDatePicker() {
+  closeDatePicker = () => {
     this.setState({
       showDatePicker: false
     });
-  },
+  };
 
   render() {
     const details = this.props.details;
@@ -169,7 +168,7 @@ const Details = React.createClass({
       </form>
     );
   }
-});
+}
 
 class DatePickerInput extends React.Component {
   render() {

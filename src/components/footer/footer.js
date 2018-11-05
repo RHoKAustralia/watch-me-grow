@@ -1,12 +1,13 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
 
 import Styles from './footer.scss';
 
-const Header = React.createClass({
-    propTypes: {
-        concern: React.PropTypes.bool
-    },
+class Header extends React.Component {
+    static propTypes = {
+        concern: PropTypes.bool
+    };
 
     render() {
         return (
@@ -19,6 +20,6 @@ const Header = React.createClass({
             </footer>
         );
     }
-});
+}
 
 export default Header;

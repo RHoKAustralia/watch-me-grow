@@ -4,7 +4,7 @@ import headerLogo from './wmg-header-logo.svg';
 
 import Styles from './header.scss';
 
-const Header = React.createClass({
+class Header extends React.Component {
     render() {
         return (
             <header className={Styles.header}>
@@ -14,6 +14,6 @@ const Header = React.createClass({
             </header>
         );
     }
-});
+}
 
 export default Header;

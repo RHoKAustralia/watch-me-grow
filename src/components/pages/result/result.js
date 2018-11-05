@@ -13,8 +13,8 @@ import sendResults from "send-results";
 
 import Styles from "./result.scss";
 
-const Result = React.createClass({
-  componentWillMount() {
+class Result extends React.Component {
+  UNSAFE_componentWillMount() {
     if (!this.props.results.isComplete() || !this.props.details.validate()) {
       console.log(
         "Went to result without finishing, redirecting to questionnaire"
@@ -32,9 +32,9 @@ const Result = React.createClass({
     });
 
     sendResults(this.props.details, this.props.results);
-  },
+  }
 
-  getInitialStage() {
+  getInitialStage = () => {
     const months = moment().diff(this.props.details.babyDob, "months");
 
     return Math.max(
@@ -43,7 +43,7 @@ const Result = React.createClass({
         stage => months >= stage.months.min && months <= stage.months.max
       )
     );
-  },
+  };
 
   render() {
     const concern = this.props.results.concern;
@@ -84,6 +84,6 @@ const Result = React.createClass({
       </article>
     );
   }
-});
+}
 
 export default withRouter(Result);

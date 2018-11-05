@@ -1,19 +1,20 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import {Link} from 'react-router';
 import classNames from 'classnames';
 
 import Styles from './switcher.scss';
 
-const Switcher = React.createClass({
-    propTypes: {
-        text: React.PropTypes.string,
-        leftHref: React.PropTypes.string,
-        rightHref: React.PropTypes.string,
-        onLeftClicked: React.PropTypes.func,
-        onRightClicked: React.PropTypes.func,
-        leftDisabled: React.PropTypes.bool,
-        rightDisabled: React.PropTypes.bool
-    },
+class Switcher extends React.Component {
+    static propTypes = {
+        text: PropTypes.string,
+        leftHref: PropTypes.string,
+        rightHref: PropTypes.string,
+        onLeftClicked: PropTypes.func,
+        onRightClicked: PropTypes.func,
+        leftDisabled: PropTypes.bool,
+        rightDisabled: PropTypes.bool
+    };
 
     render() {
         const LeftElement = this.props.leftHref ? <Link /> : <button />;
@@ -45,6 +46,6 @@ const Switcher = React.createClass({
             </div>
         );
     }
-});
+}
 
 export default Switcher;

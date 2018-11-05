@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import Switcher from '../../common/switcher';
@@ -5,35 +6,33 @@ import ReactMarkdown from 'react-markdown';
 
 import Styles from './stage-switcher.scss';
 
-const StageSwitcher = React.createClass({
-    propTypes: {
-        stages: React.PropTypes.arrayOf(React.PropTypes.shape({
-            name: React.PropTypes.string,
-            description: React.PropTypes.string
+class StageSwitcher extends React.Component {
+    static propTypes = {
+        stages: PropTypes.arrayOf(PropTypes.shape({
+            name: PropTypes.string,
+            description: PropTypes.string
         })).isRequired
-    },
+    };
 
-    getInitialState() {
-        return {
-            stageIndex: this.props.initialStage || 0
-        }
-    },
+    state = {
+        stageIndex: this.props.initialStage || 0
+    };
 
-    onLeftClick() {
+    onLeftClick = () => {
         this.setState({
             stageIndex: this.state.stageIndex - 1
         });
-    },
+    };
 
-    onRightClick() {
+    onRightClick = () => {
         this.setState({
             stageIndex: this.state.stageIndex + 1
         });
-    },
+    };
 
-    getCurrentStage() {
+    getCurrentStage = () => {
         return this.props.stages[this.state.stageIndex];
-    },
+    };
 
     render() {
         return (
@@ -49,6 +48,6 @@ const StageSwitcher = React.createClass({
             </div>
         );
     }
-});
+}
 
 export default StageSwitcher;

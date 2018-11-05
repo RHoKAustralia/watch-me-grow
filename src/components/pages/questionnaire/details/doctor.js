@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from "react";
 import ReactDOM from "react-dom";
 import moment from "moment";
@@ -8,27 +9,25 @@ import Styles from "./details.scss";
 import Input from "react-toolbox/lib/input";
 import DatePicker from "react-datepicker/dist/react-datepicker";
 
-const Details = React.createClass({
-  propTypes: {
-    details: React.PropTypes.object.isRequired
-  },
+class Details extends React.Component {
+  static propTypes = {
+    details: PropTypes.object.isRequired
+  };
 
-  getInitialState() {
-    return {};
-  },
+  state = {};
 
-  onSubmit(event) {
+  onSubmit = (event) => {
     event.preventDefault();
 
     if (this.props.details.validate()) {
       this.props.details.save();
       this.props.router.push("/questionnaire/questions/1");
     }
-  },
+  };
 
-  onChange(propertyName, newValue) {
+  onChange = (propertyName, newValue) => {
     this.props.details.setState({ [propertyName]: newValue });
-  },
+  };
 
   render() {
     const details = this.props.details;
@@ -72,6 +71,6 @@ const Details = React.createClass({
       </form>
     );
   }
-});
+}
 
 export default withRouter(Details);

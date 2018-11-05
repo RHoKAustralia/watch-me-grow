@@ -8,7 +8,7 @@ const questionnaires = _(questionnairesForSubsite(process.env.SUBSITE));
 const { minMonths, maxMonths } = minMax(questionnaires);
 
 export default class HomePage extends React.Component {
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.props.results.clear();
     this.props.details.clear();
   }
