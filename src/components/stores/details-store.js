@@ -3,6 +3,7 @@ import emailValidator from "email-validator";
 import moment from "moment";
 
 const REQUIRED_TEXT = [
+  "location",
   "babyFirstName",
   "babyLastName",
   "babyGender",
@@ -15,6 +16,7 @@ const DetailsStore = ComposedComponent =>
   React.createClass({
     getInitialState() {
       return {
+        location: "",
         babyFirstName: "",
         babyLastName: "",
         babyGender: "",
@@ -32,6 +34,7 @@ const DetailsStore = ComposedComponent =>
         const storedDetails = JSON.parse(fromStorageRaw);
 
         this.setState({
+          location: storedDetails.location,
           babyFirstName: storedDetails.babyFirstName,
           babyLastName: storedDetails.babyLastName,
           babyGender: storedDetails.babyGender,
@@ -81,6 +84,7 @@ const DetailsStore = ComposedComponent =>
       sessionStorage.setItem(
         LOCAL_STORAGE_KEY,
         JSON.stringify({
+          location: this.state.location,
           babyFirstName: this.state.babyFirstName,
           babyLastName: this.state.babyLastName,
           babyGender: this.state.babyGender,

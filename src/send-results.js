@@ -22,7 +22,8 @@ export default function sendResults(details, results) {
         : Math.floor(ageInMonths / 12) + " years",
     age_in_months: ageInMonths,
     results_text: getResultText(results),
-    subsite: process.env.SUBSITE || "australia"
+    subsite: process.env.SUBSITE || "australia",
+    location: details.location
   };
 
   const data = {

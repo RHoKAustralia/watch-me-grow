@@ -7,6 +7,7 @@ import _ from "lodash";
 import "./react-datepicker-with-em.scss";
 import Styles from "./details.scss";
 import Input from "react-toolbox/lib/input";
+import Dropdown from "react-toolbox/lib/dropdown";
 import DatePicker from "react-datepicker/dist/react-datepicker";
 import questionnairesForSubsite from "wmg-common/questionnaires-for-subsite";
 import minMax from "wmg-common/min-max";
@@ -15,6 +16,15 @@ const questionnaires = _(questionnairesForSubsite(process.env.SUBSITE));
 const { minMonths, maxMonths } = minMax(questionnaires);
 const minDate = moment().subtract(maxMonths, "months");
 const maxDate = moment().subtract(minMonths, "months");
+
+const locations = [
+  "WMG - E",
+  "WMG - REAL",
+  "Childcare - Rockdale",
+  "GP - Rockdale",
+  "Playgroup - Botany",
+  "Other"
+].map(value => ({ value, label: value }));
 
 const Details = React.createClass({
   propTypes: {
@@ -68,6 +78,16 @@ const Details = React.createClass({
         onSubmit={this.onSubmit}
         ref={form => (this.form = form)}
       >
+        <Dropdown
+          auto
+          source={locations}
+          label="Location"
+          theme={inputTheme}
+          value={details.location}
+          error={details.errors.location}
+          onFocus={this.closeDatePicker}
+          onChange={this.onChange.bind(this, "location")}
+        />
         <Input
           type="text"
           className={Styles.textBox}
