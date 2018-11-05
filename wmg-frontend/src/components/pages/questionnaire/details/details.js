@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import React from "react";
 import ReactDOM from "react-dom";
 import moment from "moment";
@@ -6,7 +6,7 @@ import { withRouter } from "react-router";
 import _ from "lodash";
 
 import "./react-datepicker-with-em.scss";
-import Styles from "./details.scss";
+import Styles from "./details.module.scss";
 import Input from "react-toolbox/lib/input";
 import Dropdown from "react-toolbox/lib/dropdown";
 import DatePicker from "react-datepicker/dist/react-datepicker";
@@ -34,7 +34,7 @@ class Details extends React.Component {
 
   state = {};
 
-  onSubmit = (event) => {
+  onSubmit = event => {
     event.preventDefault();
 
     if (this.props.details.validate()) {
@@ -53,7 +53,7 @@ class Details extends React.Component {
     });
   };
 
-  onDateChange = (value) => {
+  onDateChange = value => {
     this.closeDatePicker();
     this.onChange("babyDob", value);
   };
@@ -131,7 +131,7 @@ class Details extends React.Component {
           value={details.babyDob ? details.babyDob.format("DD/MM/YYYY") : ""}
           error={details.errors.babyDob}
         />
-        <If condition={this.state.showDatePicker}>
+        {this.state.showDatePicker && (
           <DatePicker
             inline
             showYearDropdown
@@ -141,7 +141,7 @@ class Details extends React.Component {
             selected={details.babyDob}
             onChange={this.onDateChange}
           />
-        </If>
+        )}
         <Input
           type="text"
           className={Styles.textBox}

@@ -1,10 +1,10 @@
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import React from "react";
 
 import Switcher from "../../../common/switcher";
 import questions from "wmg-common/questions";
 
-import Styles from "./question-switcher.scss";
+import Styles from "./question-switcher.module.scss";
 
 class QuestionSwitcher extends React.Component {
   static propTypes = {

@@ -1,4 +1,4 @@
-@import '~components/variables.scss';
+@import '../../variables.scss';
 
 .content {
   color: #FFFFFF;
@@ -29,7 +29,7 @@
 }
 
 .button {
-  composes: button--large from '../../buttons.scss';
+  composes: button--large from '../../buttons.module.scss';
 
   display: block;
   width: 100%;

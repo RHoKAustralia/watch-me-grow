@@ -1,0 +1,41 @@
+{
+  "name": "wmg-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "classnames": "^2.2.5",
+    "email-validator": "^2.0.4",
+    "history": "2.x.x",
+    "material-design-icons": "^3.0.1",
+    "moment": "^2.22.2",
+    "normalize.css": "^8.0.0",
+    "react": "^16.6.0",
+    "react-addons-css-transition-group": "^15.6.2",
+    "react-datepicker": "^1.8.0",
+    "react-dom": "^16.6.0",
+    "react-markdown": "^4.0.3",
+    "react-router": "3.2.1",
+    "react-scripts": "^2.1.1",
+    "react-toolbox": "^2.0.0-beta.13",
+    "whatwg-fetch": "^3.0.0",
+    "wmg-common": "file:../common"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "devDependencies": {
+    "node-sass": "^4.10.0"
+  }
+}

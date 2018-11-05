@@ -1,8 +1,3 @@
-/**
- * App entry point
- */
-
-import "babel-polyfill";
 import React from "react";
 import ReactDOM from "react-dom";
 import { Router, useRouterHistory, Route, IndexRoute } from "react-router";
@@ -12,22 +7,20 @@ import Routes from "./components/routes";
 import "./components/base.scss";
 
 // ID of the DOM element to mount app on
-const DOM_APP_EL_ID = "app";
+const DOM_APP_EL_ID = "root";
 
 const browserHistory = useRouterHistory(createHistory)({
   basename: process.env.ROOT_ROUTE
 });
 
 browserHistory.listen(location => {
-  ga("send", "screenview", {
+  window.ga("send", "screenview", {
     screenName: location.pathname
   });
 });
 
 // Render the router
 ReactDOM.render(
-  <Router history={browserHistory}>
-    {Routes}
-  </Router>,
+  <Router history={browserHistory}>{Routes}</Router>,
   document.getElementById(DOM_APP_EL_ID)
 );

@@ -9,9 +9,9 @@ import StageSwitcher from "./stage-switcher";
 import stages from "./stages/stages";
 import strings from "wmg-common/strings";
 
-import sendResults from "send-results";
+import sendResults from "../../../send-results";
 
-import Styles from "./result.scss";
+import Styles from "./result.module.scss";
 
 class Result extends React.Component {
   UNSAFE_componentWillMount() {
@@ -25,7 +25,7 @@ class Result extends React.Component {
 
     this.props.results.mark();
 
-    ga("send", {
+    window.ga("send", {
       hitType: "event",
       eventCategory: "Completions",
       eventAction: this.props.results.concern ? "concern" : "no-concern"
@@ -59,26 +59,30 @@ class Result extends React.Component {
           )}
         />
         <div className={Styles.outcome}>
-          <Choose>
-            <When condition={concern}>
-              <h5 className={Styles.outcomeTitle}>
-                {strings.result.concerns.title}
-              </h5>
-            </When>
-            <Otherwise>
-              <h5 className={Styles.outcomeTitle}>
-                {strings.result.noConcerns.title}
-              </h5>
-              <h6 className={Styles.outcomeSubtitle}>
-                {strings.result.noConcerns.subtitle}
-              </h6>
-            </Otherwise>
-          </Choose>
+          {(() => {
+            if (concern) {
+              return (
+                <h5 className={Styles.outcomeTitle}>
+                  {strings.result.concerns.title}
+                </h5>
+              );
+            } else {
+              return (
+                <React.Fragment>
+                  <h5 className={Styles.outcomeTitle}>
+                    {strings.result.noConcerns.title}
+                  </h5>
+                  <h6 className={Styles.outcomeSubtitle}>
+                    {strings.result.noConcerns.subtitle}
+                  </h6>
+                </React.Fragment>
+              );
+            }
+          })()}
         </div>
         <div className={Styles.disclaimer}>
           All children grow and develop at their own pace. Please see below for
-          information on what is
-          expected for your child's age.
+          information on what is expected for your child's age.
         </div>
         <StageSwitcher stages={stages} initialStage={this.getInitialStage()} />
       </article>

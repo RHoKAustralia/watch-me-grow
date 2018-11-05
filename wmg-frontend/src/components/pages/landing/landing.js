@@ -1,10 +1,10 @@
 import React from "react";
-import Styles from "./landing.scss";
+import Styles from "./landing.module.scss";
 import { Link } from "react-router";
 import questionnairesForSubsite from "wmg-common/questionnaires-for-subsite";
 import minMax from "wmg-common/min-max";
 
-const questionnaires = _(questionnairesForSubsite(process.env.SUBSITE));
+const questionnaires = questionnairesForSubsite(process.env.SUBSITE);
 const { minMonths, maxMonths } = minMax(questionnaires);
 
 export default class HomePage extends React.Component {
@@ -36,7 +36,8 @@ export default class HomePage extends React.Component {
             href="https://www.cdc.gov/ncbddd/actearly/index.html"
           >
             Learn the Signs - Act Early
-          </a>.
+          </a>
+          .
         </p>
         <Link className={Styles.button} to="questionnaire">
           Start Questionnaire

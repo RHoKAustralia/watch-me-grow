@@ -5,7 +5,7 @@ import moment from "moment";
 import { withRouter } from "react-router";
 
 import "./react-datepicker-with-em.scss";
-import Styles from "./details.scss";
+import Styles from "./details.module.scss";
 import Input from "react-toolbox/lib/input";
 import DatePicker from "react-datepicker/dist/react-datepicker";
 

@@ -1,6 +1,6 @@
 import moment from "moment";
 
-import strings from "../common/strings";
+import strings from "wmg-common/strings";
 import questionnaires from "wmg-common/questionnaires";
 import { combineQuestionsAndAnswers } from "wmg-common/data-functions";
 

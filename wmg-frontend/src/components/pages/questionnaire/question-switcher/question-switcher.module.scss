@@ -1,4 +1,4 @@
-@import '~components/variables.scss';
+@import "../../../variables.scss";
 
 .question-switcher {
   display: flex;
@@ -15,7 +15,7 @@
 }
 
 .button {
-  composes: button--small from '../../../buttons.scss';
+  composes: button--small from "../../../buttons.module.scss";
   composes: element;
   width: 60px;
   padding-top: 3px;
