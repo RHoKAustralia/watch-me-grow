@@ -7,8 +7,8 @@ import _ from "lodash";
 
 import "./react-datepicker-with-em.scss";
 import Styles from "./details.module.scss";
-import Input from "react-toolbox/lib/input";
-import Dropdown from "react-toolbox/lib/dropdown";
+import TextField from "@material-ui/core/TextField";
+// import Dropdown from "react-toolbox/lib/dropdown";
 import DatePicker from "react-datepicker/dist/react-datepicker";
 import questionnairesForSubsite from "wmg-common/questionnaires-for-subsite";
 import minMax from "wmg-common/min-max";
@@ -68,7 +68,7 @@ class Details extends React.Component {
     const details = this.props.details;
 
     const inputTheme = {
-      inputElement: Styles.inputElement
+      inputElement: Styles["input-element"]
     };
 
     return (
@@ -77,7 +77,7 @@ class Details extends React.Component {
         onSubmit={this.onSubmit}
         ref={form => (this.form = form)}
       >
-        <Dropdown
+        {/* <Dropdown
           auto
           source={locations}
           label="Location"
@@ -86,10 +86,10 @@ class Details extends React.Component {
           error={details.errors.location}
           onFocus={this.closeDatePicker}
           onChange={this.onChange.bind(this, "location")}
-        />
-        <Input
+        /> */}
+        <TextField
           type="text"
-          className={Styles.textBox}
+          className={Styles["text-box"]}
           theme={inputTheme}
           label="Child's First Name"
           value={details.babyFirstName}
@@ -98,9 +98,9 @@ class Details extends React.Component {
           onFocus={this.closeDatePicker}
           onChange={this.onChange.bind(this, "babyFirstName")}
         />
-        <Input
+        <TextField
           type="text"
-          className={Styles.textBox}
+          className={Styles["text-box"]}
           theme={inputTheme}
           label="Child's Last Name"
           value={details.babyLastName}
@@ -109,9 +109,9 @@ class Details extends React.Component {
           onFocus={this.closeDatePicker}
           onChange={this.onChange.bind(this, "babyLastName")}
         />
-        <Input
+        <TextField
           type="text"
-          className={Styles.textBox}
+          className={Styles["text-box"]}
           theme={inputTheme}
           label="Gender"
           value={details.babyGender}
@@ -120,13 +120,13 @@ class Details extends React.Component {
           onFocus={this.closeDatePicker}
           onChange={this.onChange.bind(this, "babyGender")}
         />
-        <Input
+        <TextField
           readOnly="true"
           onFocus={this.onDateClick}
           ref={input => (this.input = input)}
           label="Your child's date of birth"
           type="text"
-          className={Styles.textBox}
+          className={Styles["text-box"]}
           theme={inputTheme}
           value={details.babyDob ? details.babyDob.format("DD/MM/YYYY") : ""}
           error={details.errors.babyDob}
@@ -135,16 +135,16 @@ class Details extends React.Component {
           <DatePicker
             inline
             showYearDropdown
-            className={Styles.datePicker}
+            className={Styles["date-picker"]}
             minDate={minDate}
             maxDate={maxDate}
             selected={details.babyDob}
             onChange={this.onDateChange}
           />
         )}
-        <Input
+        <TextField
           type="text"
-          className={Styles.textBox}
+          className={Styles["text-box"]}
           theme={inputTheme}
           label="Your name"
           value={details.parentName}
@@ -153,9 +153,9 @@ class Details extends React.Component {
           onFocus={this.closeDatePicker}
           onChange={this.onChange.bind(this, "parentName")}
         />
-        <Input
+        <TextField
           type="email"
-          className={Styles.textBox}
+          className={Styles["text-box"]}
           theme={{ ...inputTheme, label: Styles.label }}
           label="Your email address (so we can send you the results)"
           value={details.parentEmail}
@@ -177,13 +177,13 @@ class DatePickerInput extends React.Component {
     };
 
     return (
-      <Input
+      <TextField
         {...this.props}
         readOnly="true"
         ref={input => (this.input = input)}
         label="Your child's date of birth"
         type="text"
-        className={Styles.textBox}
+        className={Styles["text-box"]}
         theme={inputTheme}
       />
     );

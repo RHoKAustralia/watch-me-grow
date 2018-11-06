@@ -4,7 +4,7 @@ import classNames from 'classnames';
 
 import Header from './header/header';
 import Footer from './footer/footer';
-import Styles from './app.scss';
+import Styles from './app.module.scss';
 import withDetailsStore from './stores/details-store';
 import withResultsStore from './stores/results-store';
 

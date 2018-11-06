@@ -3,7 +3,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import classNames from "classnames";
 import { withRouter } from "react-router";
-import Input from "react-toolbox/lib/input";
+import TextField from "@material-ui/core/TextField";
 import ReactCSSTransitionGroup from "react-addons-css-transition-group";
 
 import Styles from "./question.module.scss";
@@ -151,7 +151,7 @@ class Question extends React.Component {
                 display: question.comments && storedAnswer ? "block" : "none"
               }}
             >
-              <Input
+              <TextField
                 ref={ref => (this.commentsElement = ref)}
                 className={Styles.comments}
                 type="text"

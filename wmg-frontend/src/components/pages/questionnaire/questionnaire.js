@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import React from "react";
-import Styles from "./questionnaire.scss";
+import Styles from "./questionnaire.module.scss";
 import QuestionSwitcher from "./question-switcher/question-switcher";
 import getQuestions from "wmg-common/questions";
 import moment from "moment";

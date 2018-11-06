@@ -4,7 +4,7 @@ import React from 'react';
 import Switcher from '../../common/switcher';
 import ReactMarkdown from 'react-markdown';
 
-import Styles from './stage-switcher.scss';
+import Styles from './stage-switcher.module.scss';
 
 class StageSwitcher extends React.Component {
     static propTypes = {

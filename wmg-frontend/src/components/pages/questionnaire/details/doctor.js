@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import React from "react";
 import ReactDOM from "react-dom";
 import moment from "moment";
@@ -6,7 +6,7 @@ import { withRouter } from "react-router";
 
 import "./react-datepicker-with-em.scss";
 import Styles from "./details.module.scss";
-import Input from "react-toolbox/lib/input";
+import TextField from "@material-ui/core/TextField";
 import DatePicker from "react-datepicker/dist/react-datepicker";
 
 class Details extends React.Component {
@@ -16,7 +16,7 @@ class Details extends React.Component {
 
   state = {};
 
-  onSubmit = (event) => {
+  onSubmit = event => {
     event.preventDefault();
 
     if (this.props.details.validate()) {
@@ -45,18 +45,16 @@ class Details extends React.Component {
         <div className={Styles.intro}>
           <p className={Styles.paragraph}>
             Please include your health practitioner’s email address if you would
-            like them to receive
-            these results.
+            like them to receive these results.
           </p>
 
           <p className={Styles.paragraph}>
             Alternatively, the results will also be sent to you via email for
-            you to print and take to your
-            health professional.
+            you to print and take to your health professional.
           </p>
         </div>
 
-        <Input
+        <TextField
           type="email"
           className={Styles.textBox}
           theme={{ ...inputTheme, label: Styles.label }}
