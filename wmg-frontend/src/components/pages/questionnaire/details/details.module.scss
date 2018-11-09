@@ -1,53 +1,47 @@
-@import '../../../variables.scss';
+@import "../../../variables.scss";
 
 .details {
-    text-align: center;
-    padding-top: 10px;
-    padding-bottom: 30px;
-    max-width: $width-inner;
-    width: 100%;
-    margin: 0 auto;
-
-    :global {
-        .react-datepicker__input-container {
-            display: block;
-        }
-    }
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 30px;
+  max-width: $width-inner;
+  width: 100%;
+  margin: 0 auto;
 }
 
 :global {
-    .react-datepicker {
-        font-size: 1.2em;
-    }
+  .react-datepicker {
+    font-size: 1.2em;
+  }
 }
 
 .next-button {
-    composes: button--main from '../../../buttons.module.scss';
-    composes: button--large from '../../../buttons.module.scss';
+  composes: button--main from "../../../buttons.module.scss";
+  composes: button--large from "../../../buttons.module.scss";
 
-    margin-top: 20px;
-    width: 140px;
+  margin-top: 20px;
+  width: 140px;
 
-    @media screen and (min-width: $width-md-min) {
-        float: right;
-    }
-}
-
-.input-element {
-    height: 40px !important;
+  @media screen and (min-width: $width-md-min) {
+    float: right;
+  }
 }
 
 .label {
-    top: auto;
-    bottom: 2.8rem;
+  top: auto;
+  bottom: 2.8rem;
 }
 
 .intro {
-    padding: 2rem 0 0 0;
+  padding: 2rem 0 0 0;
 }
 
 .paragraph {
-    font-size: 2rem;
-    text-align: left;
-    padding: 1rem 0;
+  font-size: 1.3rem;
+  text-align: left;
+  padding: 1rem 0;
+}
+
+.field-wrapper {
+  margin: 0.8em 0;
 }

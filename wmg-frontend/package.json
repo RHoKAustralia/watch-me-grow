@@ -9,7 +9,7 @@
     "history": "2.x.x",
     "material-design-icons": "^3.0.1",
     "moment": "^2.22.2",
-    "normalize.css": "^8.0.0",
+    "normalize.css": "^v4.1.1",
     "react": "^16.6.0",
     "react-addons-css-transition-group": "^15.6.2",
     "react-datepicker": "^1.8.0",

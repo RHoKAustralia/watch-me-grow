@@ -4,7 +4,6 @@ import ReactDOM from "react-dom";
 import moment from "moment";
 import { withRouter } from "react-router";
 
-import "./react-datepicker-with-em.scss";
 import Styles from "./details.module.scss";
 import TextField from "@material-ui/core/TextField";
 import DatePicker from "react-datepicker/dist/react-datepicker";
