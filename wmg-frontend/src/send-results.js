@@ -31,17 +31,17 @@ export default function sendResults(details, results) {
     results
   };
 
-  fetch(
-    "https://x1q7y0yp5k.execute-api.ap-southeast-2.amazonaws.com/prod/subscribe",
-    {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(data)
-    }
-  );
+  // fetch(
+  //   "https://x1q7y0yp5k.execute-api.ap-southeast-2.amazonaws.com/prod/subscribe",
+  //   {
+  //     method: "POST",
+  //     headers: {
+  //       Accept: "application/json",
+  //       "Content-Type": "application/json"
+  //     },
+  //     body: JSON.stringify(data)
+  //   }
+  // );
 }
 
 function getResultText(results) {

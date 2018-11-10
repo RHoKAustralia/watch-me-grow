@@ -53,18 +53,23 @@ class Details extends React.Component {
           </p>
         </div>
 
-        <TextField
-          type="email"
-          className={Styles.textBox}
-          theme={{ ...inputTheme, label: Styles.label }}
-          label="Your health practitioner's email address (optional)"
-          value={details.doctorEmail}
-          maxLength={100}
-          error={details.errors.doctorEmail}
-          onFocus={this.closeDatePicker}
-          onChange={this.onChange.bind(this, "doctorEmail")}
-        />
-        <input type="submit" className={Styles.nextButton} value="Next" />
+        <div className={Styles["field-wrapper"]}>
+          <TextField
+            type="email"
+            fullWidth
+            className={Styles.textBox}
+            label="Your health practitioner's email address (optional)"
+            value={details.doctorEmail}
+            maxLength={100}
+            error={details.errors.doctorEmail}
+            onFocus={this.closeDatePicker}
+            onChange={this.onChange.bind(this, "doctorEmail")}
+          />
+        </div>
+
+        <div className={Styles["field-wrapper"]}>
+          <input type="submit" className={Styles["next-button"]} value="Next" />
+        </div>
       </form>
     );
   }

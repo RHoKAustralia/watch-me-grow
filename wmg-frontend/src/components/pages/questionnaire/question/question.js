@@ -120,18 +120,18 @@ class Question extends React.Component {
         >
           <div className={Styles.question} key={question.id}>
             <div className={Styles.text}>{question.text}</div>
-            <div className={Styles.answerWrapper}>
+            <div className={Styles["answer-wrapper"]}>
               <div
                 className={classNames(Styles.answers, {
-                  [Styles.answersVertical]: question.answers.length > 3
+                  [Styles["answers--vertical"]]: question.answers.length > 3
                 })}
               >
                 {question.answers.map(answer => (
                   <a
                     href="#"
                     key={answer.value}
-                    className={classNames(Styles.answerButton, {
-                      [Styles.answerButtonCurrent]:
+                    className={classNames(Styles["answer-button"], {
+                      [Styles["answer-button--current"]]:
                         storedAnswer && storedAnswer.value === answer.value
                     })}
                     onClick={this.onAnswerClicked.bind(
@@ -162,12 +162,12 @@ class Question extends React.Component {
                 maxLength={300}
                 multiline={true}
                 theme={{
-                  inputElement: Styles.commentsTextarea
+                  inputElement: Styles["comments-text-area"]
                 }}
               />
               <a
                 href="#"
-                className={Styles.nextButton}
+                className={Styles["next-button"]}
                 onClick={this.onNextClicked}
               >
                 {this.questionNumber < this.questionsLength()

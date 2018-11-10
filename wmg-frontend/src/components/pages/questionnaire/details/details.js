@@ -86,7 +86,7 @@ class Details extends React.Component {
             <Select
               native
               fullWidth
-              value={this.state.age}
+              value={details.location}
               onChange={this.onChange.bind(this, "location")}
               error={details.errors.location}
               onFocus={this.closeDatePicker}
@@ -97,7 +97,9 @@ class Details extends React.Component {
             >
               <option value="" />
               {locations.map(location => (
-                <option value={location.value}>{location.label}</option>
+                <option value={location.value} key={location.value}>
+                  {location.label}
+                </option>
               ))}
             </Select>
           </FormControl>

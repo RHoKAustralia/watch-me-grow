@@ -3,8 +3,8 @@ import classNames from "classnames";
 import { withRouter } from "react-router";
 import moment from "moment";
 
-import flag from "./flag.svg";
-import stethoscope from "./stethoscope.svg";
+import { ReactComponent as Flag } from "./flag.svg";
+import { ReactComponent as Stethoscope } from "./stethoscope.svg";
 import StageSwitcher from "./stage-switcher";
 import stages from "./stages/stages";
 import strings from "wmg-common/strings";
@@ -47,32 +47,34 @@ class Result extends React.Component {
 
   render() {
     const concern = this.props.results.concern;
+    const iconClasses = classNames(
+      Styles.icon,
+      { [Styles["icon--concern"]]: concern },
+      { [Styles["icon--no-concern"]]: !concern }
+    );
 
     return (
       <article className={Styles.root}>
-        <svg
-          dangerouslySetInnerHTML={{ __html: concern ? stethoscope : flag }}
-          className={classNames(
-            Styles.icon,
-            { [Styles.iconConcern]: concern },
-            { [Styles.iconNoConcern]: !concern }
-          )}
-        />
+        {concern ? (
+          <Stethoscope className={iconClasses} />
+        ) : (
+          <Flag className={iconClasses} />
+        )}
         <div className={Styles.outcome}>
           {(() => {
             if (concern) {
               return (
-                <h5 className={Styles.outcomeTitle}>
+                <h5 className={Styles["outcome--title"]}>
                   {strings.result.concerns.title}
                 </h5>
               );
             } else {
               return (
                 <React.Fragment>
-                  <h5 className={Styles.outcomeTitle}>
+                  <h5 className={Styles["outcome--title"]}>
                     {strings.result.noConcerns.title}
                   </h5>
-                  <h6 className={Styles.outcomeSubtitle}>
+                  <h6 className={Styles["outcome--subtitle"]}>
                     {strings.result.noConcerns.subtitle}
                   </h6>
                 </React.Fragment>
