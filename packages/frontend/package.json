@@ -1,7 +1,6 @@
 {
-  "name": "wmg-frontend",
-  "version": "0.1.0",
-  "private": true,
+  "name": "@wmg/frontend",
+  "version": "0.0.0",
   "dependencies": {
     "@material-ui/core": "^3.4.0",
     "classnames": "^2.2.5",
@@ -18,7 +17,7 @@
     "react-router": "3.2.1",
     "react-scripts": "^2.1.1",
     "whatwg-fetch": "^3.0.0",
-    "wmg-common": "file:../common"
+    "@wmg/common": "0.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -37,5 +36,6 @@
   ],
   "devDependencies": {
     "node-sass": "^4.10.0"
-  }
+  },
+  "private": true
 }

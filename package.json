@@ -1,72 +1,10 @@
 {
-  "name": "watch-me-grow",
-  "version": "1.0.0",
-  "description": "A web-app for early childhood developmental and autism testing",
-  "main": "src/main.js",
-  "scripts": {
-    "dev": "SUBSITE=australia webpack-dev-server --config webpack.local.config --hot --inline --host 0.0.0.0",
-    "dev-preschool": "SUBSITE=preschool webpack-dev-server --config webpack.local.config --hot --inline --host 0.0.0.0",
-    "build": "SUBSITE=australia webpack -p --progress --config webpack.prod.config.js",
-    "build-dubai": "SUBSITE=dubai webpack -p --progress --config webpack.prod.config.js",
-    "build-preschool": "SUBSITE=preschool webpack -p --progress --config webpack.prod.config.js",
-    "clean": "rm -r public"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/rhokaustralia/watch-me-grow"
-  },
-  "author": "Random Hacks of Kindness Sydney",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/rhokaustralia/watch-me-grow/issues"
-  },
-  "homepage": "https://watchmegrow.care",
+  "name": "wmg",
   "devDependencies": {
-    "autoprefixer": "^6.4.0",
-    "autoprefixer-loader": "^3.2.0",
-    "babel-core": "^6.5.2",
-    "babel-loader": "^6.2.4",
-    "babel-plugin-transform-decorators-legacy": "^1.3.4",
-    "babel-plugin-transform-runtime": "^6.5.2",
-    "babel-polyfill": "^6.5.0",
-    "babel-preset-es2015": "^6.5.0",
-    "babel-preset-react": "^6.5.0",
-    "babel-preset-stage-0": "^6.5.0",
-    "babel-register": "^6.5.2",
-    "babel-runtime": "^6.5.0",
-    "extract-text-webpack-plugin": "^0.8.2",
-    "file-loader": "^0.8.5",
-    "html-webpack-plugin": "^2.19.0",
-    "json-loader": "^0.5.4",
-    "jsx-control-statements": "^3.1.2",
-    "node-sass": "^4.7.2",
-    "raw-loader": "^0.5.1",
-    "react-hot-loader": "^1.3.0",
-    "resolve-url-loader": "^1.4.3",
-    "sass-loader": "^3.2.3",
-    "url-loader": "^0.5.7",
-    "webpack": "^1.12.14",
-    "webpack-dev-server": "^1.14.1",
-    "webpack-hot-server": "^0.4.3"
+    "lerna": "^3.4.3"
   },
-  "dependencies": {
-    "classnames": "^2.2.5",
-    "css-loader": "^0.23.1",
-    "email-validator": "^1.0.4",
-    "history": "2.x.x",
-    "material-design-icons": "^2.2.3",
-    "moment": "^2.13.0",
-    "normalize.css": "^4.1.1",
-    "react": "^15.2.0",
-    "react-addons-css-transition-group": "^15.2.0",
-    "react-datepicker": "^0.34.0",
-    "react-dom": "^15.2.0",
-    "react-markdown": "^2.4.2",
-    "react-router": "^2.0.0",
-    "react-tap-event-plugin": "^1.0.0",
-    "react-toolbox": "git+https://github.com/AlexGilleran/react-toolbox.git#watch-me-grow",
-    "style-loader": "^0.13.1",
-    "whatwg-fetch": "^1.0.0",
-    "wmg-common": "file:common"
-  }
+  "workspaces": [
+    "packages/*"
+  ],
+  "private": true
 }
