@@ -2,9 +2,5 @@
   "name": "wmg",
   "devDependencies": {
     "lerna": "^3.4.3"
-  },
-  "workspaces": [
-    "packages/*"
-  ],
-  "private": true
+  }
 }

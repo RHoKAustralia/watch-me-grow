@@ -7,7 +7,7 @@ import { ReactComponent as Flag } from "./flag.svg";
 import { ReactComponent as Stethoscope } from "./stethoscope.svg";
 import StageSwitcher from "./stage-switcher";
 import stages from "./stages/stages";
-import strings from "wmg-common/strings";
+import strings from "@wmg/common/src/strings";
 
 import sendResults from "../../../send-results";
 

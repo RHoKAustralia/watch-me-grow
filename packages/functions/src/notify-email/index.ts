@@ -1,22 +1,25 @@
 import * as moment from "moment";
 const mailgunJs = require("mailgun-js");
 import * as fs from "fs";
-import * as fetch from "isomorphic-fetch";
+// import * as fetch from "node-fetch";
 import * as _ from "lodash";
 import * as markupJs from "markup-js";
 import * as express from "express";
 import * as bodyParser from "body-parser";
+import * as functions from "firebase-functions";
+import * as cors from "cors";
 
-import { mark, combineAll } from "@wmg/common/data-functions";
-import questionnairesForSubsite from "@wmg/common/questionnaires-for-subsite";
-import strings from "@wmg/common/strings";
-import minMax from "@wmg/common/min-max";
+import { mark, combineAll } from "@wmg/common/src/data-functions";
+import questionnairesForSubsite from "@wmg/common/src/questionnaires-for-subsite";
+import * as strings from "@wmg/common/src/strings";
+import * as minMax from "@wmg/common/src/min-max";
 
 const FORMAT = "dddd, MMMM Do YYYY";
 const EMAIL_FROM = "WatchMeGrow.care <mail@watchmegrow.care>";
+const EMAIL_TO = "alex@alexgilleran.com";
 
 const mailgun = mailgunJs({
-  apiKey: process.env.MAILGUN_API_KEY,
+  apiKey: functions.config().mailgun.apikey,
   domain: "auto.watchmegrow.care"
 });
 
@@ -37,6 +40,7 @@ console.log("Loading function");
 const app = express();
 
 app.use(bodyParser.json());
+app.use(cors());
 
 app.post("/", async (req, res) => {
   try {
@@ -77,11 +81,16 @@ app.post("/", async (req, res) => {
 
     const results = await Promise.all(promises);
   } catch (e) {
+    console.log(e);
+    console.error(e);
     res.send(500);
   }
 });
 
-const templateBody = fs.readFileSync(__dirname + "/Results.html", "utf-8");
+const templateBody = fs.readFileSync(
+  require.resolve("../../src/notify-email/Results.html"),
+  "utf-8"
+);
 
 function sendParentEmail(event, concern, combinedResults, resultStrings) {
   var message = markupJs.up(templateBody, {
@@ -93,8 +102,8 @@ function sendParentEmail(event, concern, combinedResults, resultStrings) {
 
   var params = {
     from: EMAIL_FROM,
-    to: event.details.recipient_email,
-    cc: EMAIL_FROM,
+    to: EMAIL_TO, //event.details.recipient_email,
+    // cc: EMAIL_FROM,
     subject:
       "WatchMeGrow.care Results for " + event.details.first_name_of_child,
     html: message
@@ -103,7 +112,10 @@ function sendParentEmail(event, concern, combinedResults, resultStrings) {
   return mailgun.messages().send(params);
 }
 
-const doctorTemplateBody = fs.readFileSync(__dirname + "/Doctor.html", "utf-8");
+const doctorTemplateBody = fs.readFileSync(
+  require.resolve("../../src/notify-email/Doctor.html"),
+  "utf-8"
+);
 
 function sendDoctorEmail(event, concern, combinedResults, resultStrings) {
   const questionnaires = questionnairesForSubsite(event.details.subsite);
@@ -120,7 +132,7 @@ function sendDoctorEmail(event, concern, combinedResults, resultStrings) {
 
   var params = {
     from: EMAIL_FROM,
-    to: event.details.doctor_email,
+    to: EMAIL_TO, //event.details.doctor_email,
     subject:
       "WatchMeGrow.care Results for " +
       event.details.first_name_of_child +
@@ -130,6 +142,10 @@ function sendDoctorEmail(event, concern, combinedResults, resultStrings) {
   };
 
   return mailgun.messages().send(params);
+}
+
+function addToReminderList(event) {
+  return Promise.resolve();
 }
 
 // function addToReminderList(event) {
@@ -169,3 +185,5 @@ function sendDoctorEmail(event, concern, combinedResults, resultStrings) {
 //       });
 //   });
 // }
+
+export default app;

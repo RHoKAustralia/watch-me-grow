@@ -1,8 +1,8 @@
 import moment from "moment";
 
-import strings from "wmg-common/strings";
-import questionnaires from "wmg-common/questionnaires";
-import { combineQuestionsAndAnswers } from "wmg-common/data-functions";
+import strings from "@wmg/common/src/strings";
+import questionnaires from "@wmg/common/src/questionnaires";
+import { combineQuestionsAndAnswers } from "@wmg/common/src/data-functions";
 
 export default function sendResults(details, results) {
   const ageInMonths = moment().diff(details.babyDob, "months");
@@ -31,17 +31,18 @@ export default function sendResults(details, results) {
     results
   };
 
-  // fetch(
-  //   "https://x1q7y0yp5k.execute-api.ap-southeast-2.amazonaws.com/prod/subscribe",
-  //   {
-  //     method: "POST",
-  //     headers: {
-  //       Accept: "application/json",
-  //       "Content-Type": "application/json"
-  //     },
-  //     body: JSON.stringify(data)
-  //   }
-  // );
+  fetch(
+    // "https://x1q7y0yp5k.execute-api.ap-southeast-2.amazonaws.com/prod/subscribe",
+    "http://localhost:5000/watchmegrow-dev-afe2d/us-central1/notifyEmail",
+    {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    }
+  );
 }
 
 function getResultText(results) {

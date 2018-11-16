@@ -1,8 +1,8 @@
 import React from "react";
 import Styles from "./landing.module.scss";
 import { Link } from "react-router";
-import questionnairesForSubsite from "wmg-common/questionnaires-for-subsite";
-import minMax from "wmg-common/min-max";
+import questionnairesForSubsite from "@wmg/common/src/questionnaires-for-subsite";
+import minMax from "@wmg/common/src/min-max";
 
 const questionnaires = questionnairesForSubsite(process.env.SUBSITE);
 const { minMonths, maxMonths } = minMax(questionnaires);

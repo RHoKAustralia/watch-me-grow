@@ -13,8 +13,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
 import Styles from "./details.module.scss";
 import TextField from "@material-ui/core/TextField";
-import questionnairesForSubsite from "wmg-common/questionnaires-for-subsite";
-import minMax from "wmg-common/min-max";
+import questionnairesForSubsite from "@wmg/common/src/questionnaires-for-subsite";
+import minMax from "@wmg/common/src/min-max";
 
 const questionnaires = _(questionnairesForSubsite(process.env.SUBSITE));
 const { minMonths, maxMonths } = minMax(questionnaires);
