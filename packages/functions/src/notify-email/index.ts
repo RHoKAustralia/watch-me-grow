@@ -9,6 +9,7 @@ import * as functions from "firebase-functions";
 import * as firebase from "firebase-admin";
 import * as cors from "cors";
 
+import questionnairesForSubsite from "@wmg/common/src/questionnaires-for-subsite";
 import { mark, combineAll } from "@wmg/common/src/data-functions";
 import * as strings from "@wmg/common/src/strings";
 import * as minMax from "@wmg/common/src/min-max";
@@ -21,11 +22,6 @@ const mailgun = mailgunJs({
   apiKey: functions.config().mailgun.apikey,
   domain: "auto.watchmegrow.care"
 });
-
-process.env["PATH"] =
-  process.env["PATH"] + ":" + process.env["LAMBDA_TASK_ROOT"];
-
-console.log("Loading function");
 
 /*
  POST with these parameters:
