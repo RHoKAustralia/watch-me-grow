@@ -7,6 +7,7 @@ import * as markupJs from "markup-js";
 import * as express from "express";
 import * as bodyParser from "body-parser";
 import * as functions from "firebase-functions";
+import * as firebase from "firebase-admin";
 import * as cors from "cors";
 
 import { mark, combineAll } from "@wmg/common/src/data-functions";
@@ -46,7 +47,7 @@ app.post("/", async (req, res) => {
   try {
     const details = req.body.details;
 
-    if (!details.recipient_email) {
+    if (!details.recipientEmail) {
       res.status(500).send("Error: Missing parameter.");
       console.error("Missing parameter");
       throw new Error("Missing parameter");
@@ -61,8 +62,8 @@ app.post("/", async (req, res) => {
 
     const detailsWithDates = {
       ...details,
-      test_date_formatted: moment(details.test_date).format(FORMAT),
-      dob_child_formatted: moment(details.dob_child).format(FORMAT)
+      testDateFormatted: moment(details.testDate).format(FORMAT),
+      dobChildFormatted: moment(details.dobOfChild).format(FORMAT)
     };
 
     const parentEmailPromise = sendParentEmail(
@@ -73,7 +74,7 @@ app.post("/", async (req, res) => {
     );
     const basePromises = [parentEmailPromise, addToReminderList(req.body)];
 
-    const promises = details.doctor_email
+    const promises = details.doctorEmail
       ? basePromises.concat([
           sendDoctorEmail(req.body, concern, combinedResults, resultStrings)
         ])
@@ -105,7 +106,7 @@ function sendParentEmail(details, concern, combinedResults, resultStrings) {
     from: EMAIL_FROM,
     to: EMAIL_TO, //event.details.recipient_email,
     // cc: EMAIL_FROM,
-    subject: "WatchMeGrow.care Results for " + details.first_name_of_child,
+    subject: "WatchMeGrow.care Results for " + details.firstNameOfChild,
     html: message
   };
 
@@ -135,13 +136,24 @@ function sendDoctorEmail(event, concern, combinedResults, resultStrings) {
     to: EMAIL_TO, //event.details.doctor_email,
     subject:
       "WatchMeGrow.care Results for " +
-      event.details.first_name_of_child +
+      event.details.firstNameOfChild +
       " " +
-      event.details.last_name_of_child,
+      event.details.lastNameOfChild,
     html: message
   };
 
   return mailgun.messages().send(params);
+}
+
+function recordResultsInFirestore(results, concern, details) {
+  return firebase
+    .firestore()
+    .collection("/results")
+    .add({
+      results,
+      concern,
+      details
+    });
 }
 
 function addToReminderList(event) {

@@ -8,20 +8,20 @@ export default function sendResults(details, results) {
   const ageInMonths = moment().diff(details.babyDob, "months");
 
   const metadata = {
-    recipient_email: details.parentEmail,
-    test_date: moment().toISOString(),
-    name_of_parent: details.parentName,
-    first_name_of_child: details.babyFirstName,
-    last_name_of_child: details.babyLastName,
-    gender_of_child: details.babyGender,
-    dob_child: details.babyDob.toISOString(),
-    doctor_email: details.doctorEmail,
-    age_of_child:
+    recipientEmail: details.parentEmail,
+    testDate: moment().toISOString(),
+    nameOfParent: details.parentName,
+    firstNameOfChild: details.babyFirstName,
+    lastNameOfChild: details.babyLastName,
+    genderOfChild: details.babyGender,
+    dobOfChild: details.babyDob.toISOString(),
+    doctorEmail: details.doctorEmail,
+    ageOfChild:
       ageInMonths < 24
         ? ageInMonths + " months"
         : Math.floor(ageInMonths / 12) + " years",
-    age_in_months: ageInMonths,
-    results_text: getResultText(results),
+    ageInMonths: ageInMonths,
+    resultsText: getResultText(results),
     subsite: process.env.SUBSITE || "australia",
     location: details.location
   };
