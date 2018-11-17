@@ -1,7 +1,6 @@
 import * as moment from "moment";
 const mailgunJs = require("mailgun-js");
 import * as fs from "fs";
-// import * as fetch from "node-fetch";
 import * as _ from "lodash";
 import * as markupJs from "markup-js";
 import * as express from "express";
@@ -11,7 +10,6 @@ import * as firebase from "firebase-admin";
 import * as cors from "cors";
 
 import { mark, combineAll } from "@wmg/common/src/data-functions";
-import questionnairesForSubsite from "@wmg/common/src/questionnaires-for-subsite";
 import * as strings from "@wmg/common/src/strings";
 import * as minMax from "@wmg/common/src/min-max";
 
@@ -66,13 +64,17 @@ app.post("/", async (req, res) => {
       dobChildFormatted: moment(details.dobOfChild).format(FORMAT)
     };
 
-    const parentEmailPromise = sendParentEmail(
-      detailsWithDates,
-      concern,
-      combinedResults,
-      resultStrings
-    );
-    const basePromises = [parentEmailPromise, addToReminderList(req.body)];
+    // const parentEmailPromise = sendParentEmail(
+    //   detailsWithDates,
+    //   concern,
+    //   combinedResults,
+    //   resultStrings
+    // );
+    const basePromises = [
+      // parentEmailPromise,
+      // addToReminderList(req.body),
+      recordResultsInFirestore(combinedResults, concern, details)
+    ];
 
     const promises = details.doctorEmail
       ? basePromises.concat([
@@ -145,14 +147,25 @@ function sendDoctorEmail(event, concern, combinedResults, resultStrings) {
   return mailgun.messages().send(params);
 }
 
-function recordResultsInFirestore(results, concern, details) {
+function recordResultsInFirestore(results: any[], concern, details) {
+  const filteredResults = results.map(result => ({
+    questionnaire: result.questionnaire.id,
+    answers: _.fromPairs(
+      result.results.map(({ answer }, i) => [
+        result.questionnaire.questions[i].id,
+        answer.value
+      ])
+    )
+  }));
+
   return firebase
     .firestore()
     .collection("/results")
     .add({
-      results,
+      results: filteredResults,
       concern,
-      details
+      details,
+      date: moment(details.testDate).toDate()
     });
 }
 
