@@ -9,7 +9,7 @@ export default function sendResults(details, results) {
 
   const metadata = {
     recipient_email: details.parentEmail,
-    test_date: moment().toISOString,
+    test_date: moment().toISOString(),
     name_of_parent: details.parentName,
     first_name_of_child: details.babyFirstName,
     last_name_of_child: details.babyLastName,

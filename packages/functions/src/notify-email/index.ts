@@ -66,7 +66,7 @@ app.post("/", async (req, res) => {
     };
 
     const parentEmailPromise = sendParentEmail(
-      req.body,
+      detailsWithDates,
       concern,
       combinedResults,
       resultStrings
@@ -80,8 +80,9 @@ app.post("/", async (req, res) => {
       : basePromises;
 
     const results = await Promise.all(promises);
+
+    res.status(200).json({ status: "OK" });
   } catch (e) {
-    console.log(e);
     console.error(e);
     res.send(500);
   }
@@ -92,9 +93,9 @@ const templateBody = fs.readFileSync(
   "utf-8"
 );
 
-function sendParentEmail(event, concern, combinedResults, resultStrings) {
+function sendParentEmail(details, concern, combinedResults, resultStrings) {
   var message = markupJs.up(templateBody, {
-    details: event.details,
+    details: details,
     concern: concern,
     allResults: combinedResults,
     resultText: resultStrings.title + " " + resultStrings.subtitle
@@ -104,8 +105,7 @@ function sendParentEmail(event, concern, combinedResults, resultStrings) {
     from: EMAIL_FROM,
     to: EMAIL_TO, //event.details.recipient_email,
     // cc: EMAIL_FROM,
-    subject:
-      "WatchMeGrow.care Results for " + event.details.first_name_of_child,
+    subject: "WatchMeGrow.care Results for " + details.first_name_of_child,
     html: message
   };
 
