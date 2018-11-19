@@ -160,7 +160,7 @@ function recordResultsInFirestore(results: any[], concern, details) {
     .add({
       results: filteredResults,
       concern,
-      details,
+      details: { ...details, dobAsDate: moment(details.dobOfChild).toDate() },
       date: moment(details.testDate).toDate()
     });
 }

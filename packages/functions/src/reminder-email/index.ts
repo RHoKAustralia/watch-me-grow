@@ -70,23 +70,26 @@ export default async function reminderEmail(pubSubMsg) {
         maxDate: now.clone().subtract(questionnaire.remind_at, "months")
       }));
 
-    const queries = questionnaireReminderAges
+    const queries = _(questionnaireReminderAges)
       .filter(
         questionnaireAges => !!subsitesForQuestionnaire[questionnaireAges.id]
       )
-      .map(questionnaireAges =>
-        firebase
+      .flatMap(questionnaireAges =>
+        subsitesForQuestionnaire[questionnaireAges.id].map(subsite => ({
+          questionnaireAges,
+          subsite
+        }))
+      )
+      .map(({ questionnaireAges, subsite }) => {
+        return firebase
           .firestore()
           .collection("results")
-          .where("details.dobOfChild", ">", questionnaireAges.minDate.toDate())
-          .where("details.dobOfChild", "<=", questionnaireAges.maxDate.toDate())
-          .where(
-            "details.subsite",
-            "array-contains",
-            subsitesForQuestionnaire[questionnaireAges.id]
-          )
-          .get()
-      );
+          .where("details.dobAsDate", ">", questionnaireAges.minDate.toDate())
+          .where("details.dobAsDate", "<=", questionnaireAges.maxDate.toDate())
+          .where("details.subsite", "==", subsite)
+          .get();
+      })
+      .value();
 
     const querySnapshots = await Promise.all(queries);
 
@@ -94,9 +97,8 @@ export default async function reminderEmail(pubSubMsg) {
 
     const reminderPromises = results.map(result => {
       const details = result.get("details");
-      const ageInMonths = moment().diff(moment(details.dobOfChild), "months");
 
-      return sendReminder(details, ageInMonths);
+      return sendReminder(details);
     });
 
     await Promise.all(reminderPromises);
@@ -145,21 +147,26 @@ export default async function reminderEmail(pubSubMsg) {
   }
 }
 
-function sendReminder(child, ageInMonths) {
+function sendReminder(details) {
+  const ageInMonths = moment().diff(
+    moment(details.dobAsDate.toDate()),
+    "months"
+  );
+
   var message = markupJs.up(reminderTemplateBody, {
     url:
       "https://" +
-      (child.subsite ? child.subsite + "." : "") +
+      (details.subsite ? details.subsite + "." : "") +
       "watchmegrow.care",
     childAge: ageInMonths
   });
 
-  console.log(`Sending reminder to ${child.email}`);
+  console.log(`Sending reminder to ${details.recipientEmail}`);
 
   var params = {
     from: "mail@watchmegrow.care",
-    to: child.email,
-    subject: "WatchMeGrow.care Reminder for  " + child.name,
+    to: details.recipientEmail,
+    subject: "WatchMeGrow.care Reminder for  " + details.firstNameOfChild,
     html: message
   };
 
