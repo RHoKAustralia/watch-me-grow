@@ -1,9 +1,13 @@
 module.exports = {
-  australia: {
+  "watchmegrow.care": {
     questionnaires: ["qchat", "cdc12", "cdc18", "cdc24"]
   },
-  dubai: {
+  "dubai.watchmegrow.care": {
     questionnaires: ["qchat", "cdc12", "cdc18", "cdc24"]
   },
-  preschool: {}
+  "preschool.watchmegrow.care": {},
+  localhost: {
+    questionnaires: ["qchat", "cdc12", "cdc18", "cdc24"],
+    dev: true
+  }
 };
