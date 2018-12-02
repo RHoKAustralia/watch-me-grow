@@ -45,7 +45,7 @@ class Result extends React.Component<Props, any> {
   }
 
   getInitialStage = () => {
-    const months = moment().diff(this.props.details.babyDob, "months");
+    const months = this.props.details.ageInMonths();
 
     return Math.max(
       0,

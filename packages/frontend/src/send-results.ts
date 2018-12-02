@@ -7,6 +7,18 @@ import subsite from "./util/subsite";
 import { Details } from "./components/stores/details-store";
 import { Results } from "./components/stores/results-store";
 
+function getFunctionUrl(): string {
+  if (subsite.host === "localhost") {
+    return "http://localhost:5000/watchmegrow-dev-afe2d/us-central1/notifyEmail";
+  } else if (subsite.dev) {
+    // FIXME
+    return "";
+  } else {
+    // FIXME
+    return "";
+  }
+}
+
 export default function sendResults(details: Details, results: Results) {
   const ageInMonths = moment().diff(details.babyDob, "months");
 
@@ -35,8 +47,7 @@ export default function sendResults(details: Details, results: Results) {
   };
 
   fetch(
-    // "https://x1q7y0yp5k.execute-api.ap-southeast-2.amazonaws.com/prod/subscribe",
-    "http://localhost:5000/watchmegrow-dev-afe2d/us-central1/notifyEmail",
+    getFunctionUrl()
     {
       method: "POST",
       headers: {
