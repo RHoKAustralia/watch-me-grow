@@ -29,11 +29,45 @@ export type Questionnaire = {
   questions: Question[];
 };
 
+const cdcShouldBeYesAnswer = [
+  {
+    value: "yes",
+    text: "Yes"
+  },
+  {
+    value: "no",
+    text: "No",
+    redFlagQuestion: true
+  },
+  {
+    value: "notsure",
+    text: "Not Sure",
+    redFlagQuestion: true
+  }
+];
+
+const cdcShouldBeNoAnswer = [
+  {
+    value: "yes",
+    text: "Yes",
+    redFlagQuestion: true
+  },
+  {
+    value: "no",
+    text: "No"
+  },
+  {
+    value: "notsure",
+    text: "Not Sure",
+    redFlagQuestion: true
+  }
+];
+
 const questionnaires: Questionnaire[] = [
   {
     id: "cdc6",
     title: "CDC 6 Months",
-    age_groups: { min: 6, max: 11 },
+    age_groups: { min: 6, max: 8 },
     analysis: {
       strategy: "cdc",
       redFlagThreshold: 1,
@@ -45,154 +79,49 @@ const questionnaires: Questionnaire[] = [
         order: 0,
         text: "Does your child try to get things that are in reach?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes"
-          },
-          {
-            value: "no",
-            text: "No",
-            redFlagQuestion: true
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeYesAnswer
       },
       {
         id: "affection6",
         order: 1,
         text: "Does your child show affection to caregivers?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes"
-          },
-          {
-            value: "no",
-            text: "No",
-            redFlagQuestion: true
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeYesAnswer
       },
       {
         id: "respond_to_sounds6",
         order: 2,
         text: "Does your child respond to sounds around them?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes"
-          },
-          {
-            value: "no",
-            text: "No",
-            redFlagQuestion: true
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeYesAnswer
       },
       {
         id: "difficulty_mouth6",
         order: 3,
         text: "Does your child have difficulty getting things to their mouth?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes",
-            redFlagQuestion: true
-          },
-          {
-            value: "no",
-            text: "No"
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeNoAnswer
       },
       {
         id: "vowel_sounds6",
         order: 4,
         text: "Can your child make vowel sounds? (“ah”, “eh”, “oh”)",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes"
-          },
-          {
-            value: "no",
-            text: "No",
-            redFlagQuestion: true
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeYesAnswer
       },
       {
         id: "roll6",
         order: 5,
         text: "Can your child roll over in either direction?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes"
-          },
-          {
-            value: "no",
-            text: "No",
-            redFlagQuestion: true
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeYesAnswer
       },
       {
         id: "squealing6",
         order: 6,
         text: "Does your child laugh or make squealing sounds?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes"
-          },
-          {
-            value: "no",
-            text: "No",
-            redFlagQuestion: true
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeYesAnswer
       },
       {
         id: "tight_muscles6",
@@ -200,25 +129,78 @@ const questionnaires: Questionnaire[] = [
         text:
           "Is your child stiff or show signs of tight muscles, or show symptoms of being very floppy or like a rag doll?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes",
-            redFlagQuestion: true
-          },
-          {
-            value: "no",
-            text: "No"
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeNoAnswer
       }
     ]
   },
+  {
+    id: "cdc9",
+    title: "CDC 9 Months",
+    age_groups: { min: 9, max: 11 },
+    remind_at: 9,
+    analysis: {
+      strategy: "cdc",
+      redFlagThreshold: 1,
+      amberFlagThreshold: 1
+    },
+    questions: [
+      {
+        id: "bear_weight",
+        order: 0,
+        text: "Can your child bear weight on their legs with support?",
+        answers: cdcShouldBeYesAnswer
+      },
+      {
+        id: "sit_without_help",
+        order: 1,
+        text: "Can your child sit without help?",
+        answers: cdcShouldBeYesAnswer
+      },
+      {
+        id: "babbles",
+        order: 2,
+        text: 'Does your child babble (e.g. "mama", "baba", "dada")?',
+        answers: cdcShouldBeYesAnswer
+      },
+      {
+        id: "back_and_forth",
+        order: 3,
+        text: "Does your child play any games involving back-and-forth play?",
+        answers: cdcShouldBeYesAnswer
+      },
+      {
+        id: "responds_to_own_name",
+        order: 4,
+        text: "Does your child respond to their own name?",
+        answers: cdcShouldBeYesAnswer
+      },
+      {
+        id: "recognise_familiar_people",
+        order: 5,
+        text: "Does your child recognise familiar people?",
+        answers: cdcShouldBeYesAnswer
+      },
+      {
+        id: "looks_where_you_point",
+        order: 6,
+        text: "Does your child look where you point?",
+        answers: cdcShouldBeYesAnswer
+      },
+      {
+        id: "can_transfer_toys",
+        order: 7,
+        text: "Can your child transfer toys from one hand to another?",
+        answers: cdcShouldBeYesAnswer
+      },
+      {
+        id: "lost_skills",
+        order: 8,
+        text: "Has your child lost any skills they once had?",
+        answers: cdcShouldBeNoAnswer
+      }
+    ]
+  },
+
   {
     id: "cdc12",
     title: "CDC 12 Months",
@@ -235,154 +217,49 @@ const questionnaires: Questionnaire[] = [
         order: 0,
         text: "Does your child crawl?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes"
-          },
-          {
-            value: "no",
-            text: "No",
-            redFlagQuestion: true
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeYesAnswer
       },
       {
         id: "stand",
         order: 1,
         text: "Can your child stand when being supported?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes"
-          },
-          {
-            value: "no",
-            text: "No",
-            redFlagQuestion: true
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeYesAnswer
       },
       {
         id: "search_hidden",
         order: 2,
         text: "Does your child search for things that they see you hide?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes"
-          },
-          {
-            value: "no",
-            text: "No",
-            redFlagQuestion: true
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeYesAnswer
       },
       {
         id: "single_words",
         order: 3,
         text: 'Does your child say single words like "mama" or "dada"?',
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes"
-          },
-          {
-            value: "no",
-            text: "No",
-            redFlagQuestion: true
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeYesAnswer
       },
       {
         id: "gestures",
         order: 4,
         text: "Does your child use gestures like waving or shaking their head?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes"
-          },
-          {
-            value: "no",
-            text: "No",
-            redFlagQuestion: true
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeYesAnswer
       },
       {
         id: "point",
         order: 5,
         text: "Does your child point to things?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes"
-          },
-          {
-            value: "no",
-            text: "No",
-            redFlagQuestion: true
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeYesAnswer
       },
       {
         id: "lost_skills",
         order: 6,
         text: "Has your child lost any skills they once had?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes",
-            redFlagQuestion: true
-          },
-          {
-            value: "no",
-            text: "No"
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeNoAnswer
       }
     ]
   },
@@ -402,44 +279,14 @@ const questionnaires: Questionnaire[] = [
         order: 0,
         text: "Does your child point to show things to others?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes"
-          },
-          {
-            value: "no",
-            text: "No",
-            redFlagQuestion: true
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeYesAnswer
       },
       {
         id: "walk18",
         order: 1,
         text: "Can your child walk?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes"
-          },
-          {
-            value: "no",
-            text: "No",
-            redFlagQuestion: true
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeYesAnswer
       },
       {
         id: "know_familiar18",
@@ -447,88 +294,28 @@ const questionnaires: Questionnaire[] = [
         text:
           "Does your child know what familiar things are for (e.g. a spoon is for eating)?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes"
-          },
-          {
-            value: "no",
-            text: "No",
-            redFlagQuestion: true
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeYesAnswer
       },
       {
         id: "copy_others18",
         order: 3,
         text: "Does your child copy others?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes"
-          },
-          {
-            value: "no",
-            text: "No",
-            redFlagQuestion: true
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeYesAnswer
       },
       {
         id: "words18",
         order: 4,
         text: "Does your child have at least 6 words?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes"
-          },
-          {
-            value: "no",
-            text: "No",
-            redFlagQuestion: true
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeYesAnswer
       },
       {
         id: "learn_words18",
         order: 5,
         text: "Is your child learning new words?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes"
-          },
-          {
-            value: "no",
-            text: "No",
-            redFlagQuestion: true
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeYesAnswer
       },
       {
         id: "notice_carer18",
@@ -536,44 +323,14 @@ const questionnaires: Questionnaire[] = [
         text:
           "Does your child notice or mind when a caregiver leaves or returns?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes"
-          },
-          {
-            value: "no",
-            text: "No",
-            redFlagQuestion: true
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeYesAnswer
       },
       {
         id: "lost_skills18",
         order: 7,
         text: "Has your child lost skills they once had?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes",
-            redFlagQuestion: true
-          },
-          {
-            value: "no",
-            text: "No"
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeNoAnswer
       }
     ]
   },
@@ -593,22 +350,7 @@ const questionnaires: Questionnaire[] = [
         order: 0,
         text: "Does your child use two word phrases (e.g. “drink milk”)?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes"
-          },
-          {
-            value: "no",
-            text: "No",
-            redFlagQuestion: true
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeYesAnswer
       },
       {
         id: "common_things24",
@@ -616,110 +358,35 @@ const questionnaires: Questionnaire[] = [
         text:
           "Does your child know what to do with common things, like a brush, phone, fork, spoon?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes"
-          },
-          {
-            value: "no",
-            text: "No",
-            redFlagQuestion: true
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeYesAnswer
       },
       {
         id: "copy_actions24",
         order: 2,
         text: "Does your child copy actions and words?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes"
-          },
-          {
-            value: "no",
-            text: "No",
-            redFlagQuestion: true
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeYesAnswer
       },
       {
         id: "simple_instructions24",
         order: 3,
         text: "Can your child follow simple instructions?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes"
-          },
-          {
-            value: "no",
-            text: "No",
-            redFlagQuestion: true
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeYesAnswer
       },
       {
         id: "walk_steady24",
         order: 4,
         text: "Does your child walk steadily without assistance?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes"
-          },
-          {
-            value: "no",
-            text: "No",
-            redFlagQuestion: true
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeYesAnswer
       },
       {
         id: "lost_skills24",
         order: 5,
         text: "Has your child lost skills they once had?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes",
-            redFlagQuestion: true
-          },
-          {
-            value: "no",
-            text: "No"
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeNoAnswer
       }
     ]
   },
@@ -740,44 +407,14 @@ const questionnaires: Questionnaire[] = [
         text:
           "Does your child fall down a lot or have a lot of trouble with stairs?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes",
-            redFlagQuestion: true
-          },
-          {
-            value: "no",
-            text: "No"
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeNoAnswer
       },
       {
         id: "drool36",
         order: 1,
         text: "Does your child drool or have very unclear speech?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes",
-            redFlagQuestion: true
-          },
-          {
-            value: "no",
-            text: "No"
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeNoAnswer
       },
       {
         id: "struggle36",
@@ -785,154 +422,49 @@ const questionnaires: Questionnaire[] = [
         text:
           "Does your child struggle to work out simple toys? (such as peg boards, simple puzzles, turning handles)?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes",
-            redFlagQuestion: true
-          },
-          {
-            value: "no",
-            text: "No"
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeNoAnswer
       },
       {
         id: "speak36",
         order: 3,
         text: "Does your child speak in sentences?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes"
-          },
-          {
-            value: "no",
-            text: "No",
-            redFlagQuestion: true
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeYesAnswer
       },
       {
         id: "instructions36",
         order: 4,
         text: "Does your child understand simple instructions?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes"
-          },
-          {
-            value: "no",
-            text: "No",
-            redFlagQuestion: true
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeYesAnswer
       },
       {
         id: "pretend36",
         order: 5,
         text: "Does your child play pretend or make believe?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes"
-          },
-          {
-            value: "no",
-            text: "No",
-            redFlagQuestion: true
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeYesAnswer
       },
       {
         id: "toys36",
         order: 6,
         text: "Does your child want to play with other children or with toys?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes"
-          },
-          {
-            value: "no",
-            text: "No",
-            redFlagQuestion: true
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeYesAnswer
       },
       {
         id: "eye_contact36",
         order: 7,
         text: "Does your child make eye contact?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes"
-          },
-          {
-            value: "no",
-            text: "No",
-            redFlagQuestion: true
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeYesAnswer
       },
       {
         id: "lost_skills36",
         order: 8,
         text: "Has your child lost skills they once had?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes",
-            redFlagQuestion: true
-          },
-          {
-            value: "no",
-            text: "No"
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeNoAnswer
       }
     ]
   },
@@ -952,44 +484,14 @@ const questionnaires: Questionnaire[] = [
         order: 0,
         text: "Can your child jump in one place?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes"
-          },
-          {
-            value: "no",
-            text: "No",
-            redFlagQuestion: true
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeYesAnswer
       },
       {
         id: "scribbling48",
         order: 1,
         text: "Can your child scribble?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes"
-          },
-          {
-            value: "no",
-            text: "No",
-            redFlagQuestion: true
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeYesAnswer
       },
       {
         id: "games48",
@@ -997,22 +499,7 @@ const questionnaires: Questionnaire[] = [
         text:
           "Does your child show any interest in interactive games or make-believe games?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes"
-          },
-          {
-            value: "no",
-            text: "No",
-            redFlagQuestion: true
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeYesAnswer
       },
       {
         id: "respond48",
@@ -1020,176 +507,56 @@ const questionnaires: Questionnaire[] = [
         text:
           "Does your child ignore other children or doesn’t respond to people outside the family?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes",
-            redFlagQuestion: true
-          },
-          {
-            value: "no",
-            text: "No"
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeNoAnswer
       },
       {
         id: "resist48",
         order: 4,
         text: "Does your child resist dressing, sleeping and using the toilet?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes",
-            redFlagQuestion: true
-          },
-          {
-            value: "no",
-            text: "No"
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeNoAnswer
       },
       {
         id: "retell48",
         order: 5,
         text: "Can your child retell a favourite story?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes"
-          },
-          {
-            value: "no",
-            text: "No",
-            redFlagQuestion: true
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeYesAnswer
       },
       {
         id: "follow48",
         order: 6,
         text: "Can your child follow a 3-part command?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes"
-          },
-          {
-            value: "no",
-            text: "No",
-            redFlagQuestion: true
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeYesAnswer
       },
       {
         id: "same_different48",
         order: 7,
         text: "Does your child understand “same” and “different”?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes"
-          },
-          {
-            value: "no",
-            text: "No",
-            redFlagQuestion: true
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeYesAnswer
       },
       {
         id: "me_you48",
         order: 8,
         text: "Can your child use “me” and “you” correctly?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes"
-          },
-          {
-            value: "no",
-            text: "No",
-            redFlagQuestion: true
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeYesAnswer
       },
       {
         id: "speak_unclearly48",
         order: 9,
         text: "Does your child speak clearly?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes"
-          },
-          {
-            value: "no",
-            text: "No",
-            redFlagQuestion: true
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeYesAnswer
       },
       {
         id: "lost_skills48",
         order: 10,
         text: "Has your child lost skills they once had?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes",
-            redFlagQuestion: true
-          },
-          {
-            value: "no",
-            text: "No"
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeNoAnswer
       }
     ]
   },
@@ -1209,22 +576,7 @@ const questionnaires: Questionnaire[] = [
         order: 0,
         text: "Does your child show a wide amount of emotions?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes"
-          },
-          {
-            value: "no",
-            text: "No",
-            redFlagQuestion: true
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeYesAnswer
       },
       {
         id: "extreme_behaviour60",
@@ -1232,44 +584,14 @@ const questionnaires: Questionnaire[] = [
         text:
           "Does your child show extreme behaviour? (usually fearful, aggressive, shy or sad)",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes",
-            redFlagQuestion: true
-          },
-          {
-            value: "no",
-            text: "No"
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeNoAnswer
       },
       {
         id: "withdrawn60",
         order: 2,
         text: "Is your child unusually withdrawn and not active?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes",
-            redFlagQuestion: true
-          },
-          {
-            value: "no",
-            text: "No"
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeNoAnswer
       },
       {
         id: "distracted60",
@@ -1277,22 +599,7 @@ const questionnaires: Questionnaire[] = [
         text:
           "Is your child easily distracted, has trouble focusing on one activity for more than 5 minutes?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes",
-            redFlagQuestion: true
-          },
-          {
-            value: "no",
-            text: "No"
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeNoAnswer
       },
       {
         id: "respond60",
@@ -1300,22 +607,7 @@ const questionnaires: Questionnaire[] = [
         text:
           "Does your child not respond to people, or respond only superficially?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes",
-            redFlagQuestion: true
-          },
-          {
-            value: "no",
-            text: "No"
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeNoAnswer
       },
       {
         id: "make_believe60",
@@ -1323,132 +615,42 @@ const questionnaires: Questionnaire[] = [
         text:
           "Can your child tell the difference between what’s real and what’s make-believe?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes"
-          },
-          {
-            value: "no",
-            text: "No",
-            redFlagQuestion: true
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeYesAnswer
       },
       {
         id: "games60",
         order: 6,
         text: "Does your child play a variety of games and activities?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes"
-          },
-          {
-            value: "no",
-            text: "No",
-            redFlagQuestion: true
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeYesAnswer
       },
       {
         id: "names60",
         order: 7,
         text: "Can your child give their first and last name?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes"
-          },
-          {
-            value: "no",
-            text: "No",
-            redFlagQuestion: true
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeYesAnswer
       },
       {
         id: "plurals60",
         order: 8,
         text: "Is your child able to use plurals or past tense properly?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes"
-          },
-          {
-            value: "no",
-            text: "No",
-            redFlagQuestion: true
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeYesAnswer
       },
       {
         id: "daily_activities60",
         order: 9,
         text: "Does your child talk about daily activities or experiences?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes"
-          },
-          {
-            value: "no",
-            text: "No",
-            redFlagQuestion: true
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeYesAnswer
       },
       {
         id: "drawing60",
         order: 10,
         text: "Does your child draw pictures?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes"
-          },
-          {
-            value: "no",
-            text: "No",
-            redFlagQuestion: true
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeYesAnswer
       },
       {
         id: "brush_dry_wash60",
@@ -1456,44 +658,14 @@ const questionnaires: Questionnaire[] = [
         text:
           "Is your child able to brush teeth, wash and dry hands, or get undressed without help?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes"
-          },
-          {
-            value: "no",
-            text: "No",
-            redFlagQuestion: true
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeYesAnswer
       },
       {
         id: "lost_skills60",
         order: 12,
         text: "Has your child lost skills they once had?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes",
-            redFlagQuestion: true
-          },
-          {
-            value: "no",
-            text: "No"
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeNoAnswer
       }
     ]
   },
@@ -1849,22 +1021,7 @@ const questionnaires: Questionnaire[] = [
         text:
           "Does the child show any difficulties with behaviour such as being overactive (e.g. cannot sit still) or lack attention and concentration (e.g. easily distracted and does not finish activities)?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes",
-            redFlagQuestion: true
-          },
-          {
-            value: "no",
-            text: "No"
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeNoAnswer
       },
       {
         id: "calming",
@@ -1872,44 +1029,14 @@ const questionnaires: Questionnaire[] = [
         text:
           "Does the child show difficulty in calming down or is it difficult to comfort the child?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes",
-            redFlagQuestion: true
-          },
-          {
-            value: "no",
-            text: "No"
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeNoAnswer
       },
       {
         id: "sleep",
         order: 2,
         text: "Does the child have any sleep or related difficulty?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes",
-            redFlagQuestion: true
-          },
-          {
-            value: "no",
-            text: "No"
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeNoAnswer
       },
       {
         id: "worries",
@@ -1917,22 +1044,7 @@ const questionnaires: Questionnaire[] = [
         text:
           "Does the child suffer from frequent worries or fears or seem sad or unhappy for no good reason?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes",
-            redFlagQuestion: true
-          },
-          {
-            value: "no",
-            text: "No"
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeNoAnswer
       },
       {
         id: "disobedience",
@@ -1940,22 +1052,7 @@ const questionnaires: Questionnaire[] = [
         text:
           "Does the child frequently show lack of co-operation, disobedience, or is defiant and argumentative?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes",
-            redFlagQuestion: true
-          },
-          {
-            value: "no",
-            text: "No"
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeNoAnswer
       },
       {
         id: "fighting",
@@ -1963,44 +1060,14 @@ const questionnaires: Questionnaire[] = [
         text:
           "Does the child show frequent fighting or aggressive behaviour and show no regret?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes",
-            redFlagQuestion: true
-          },
-          {
-            value: "no",
-            text: "No"
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeNoAnswer
       },
       {
         id: "feeding",
         order: 6,
         text: "Does the child have any feeding or related difficulty?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes",
-            redFlagQuestion: true
-          },
-          {
-            value: "no",
-            text: "No"
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeNoAnswer
       },
       {
         id: "learning",
@@ -2008,22 +1075,7 @@ const questionnaires: Questionnaire[] = [
         text:
           "Does the child have any difficulties with learning or appear to be behind for overall abilities as compared with other children of about the same age?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes",
-            redFlagQuestion: true
-          },
-          {
-            value: "no",
-            text: "No"
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeNoAnswer
       },
       {
         id: "friendships",
@@ -2031,22 +1083,7 @@ const questionnaires: Questionnaire[] = [
         text:
           "Does the child show no interest in friendships or nearly never play with other children or does not show concern for others?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes",
-            redFlagQuestion: true
-          },
-          {
-            value: "no",
-            text: "No"
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeNoAnswer
       },
       {
         id: "rituals",
@@ -2054,22 +1091,7 @@ const questionnaires: Questionnaire[] = [
         text:
           "Does the child engage in any repetitive behaviours or rituals and insist on things being done in a          particular way?",
         comments: false,
-        answers: [
-          {
-            value: "yes",
-            text: "Yes",
-            redFlagQuestion: true
-          },
-          {
-            value: "no",
-            text: "No"
-          },
-          {
-            value: "notsure",
-            text: "Not Sure",
-            redFlagQuestion: true
-          }
-        ]
+        answers: cdcShouldBeNoAnswer
       }
     ]
   }
