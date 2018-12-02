@@ -1,5 +1,12 @@
 {
   "version": "0.0.0",
   "name": "@wmg/common",
-  "private": true
+  "private": true,
+  "devDependencies": {
+    "@types/lodash": "^4.14.118",
+    "typescript": "^3.1.6"
+  },
+  "scripts": {
+    "build": "tsc"
+  }
 }

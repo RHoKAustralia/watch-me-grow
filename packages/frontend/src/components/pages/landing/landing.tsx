@@ -1,13 +1,19 @@
 import React from "react";
-import Styles from "./landing.module.scss";
 import { Link } from "react-router";
-import questionnairesForSubsite from "@wmg/common/src/questionnaires-for-subsite";
-import minMax from "@wmg/common/src/min-max";
 
-const questionnaires = questionnairesForSubsite(process.env.SUBSITE);
+import questionnairesForSubsite from "@wmg/common/lib/questionnaires-for-subsite";
+import minMax from "@wmg/common/lib/min-max";
+import questionnaires from "../../../data/questionnaires";
+import { WrappedComponentProps as ResultsProps } from "../../stores/results-store";
+import { WrappedComponentProps as DetailsProps } from "../../stores/details-store";
+
+import Styles from "./landing.module.scss";
+
 const { minMonths, maxMonths } = minMax(questionnaires);
 
-export default class HomePage extends React.Component {
+type Props = ResultsProps & DetailsProps;
+
+export default class HomePage extends React.Component<Props, any> {
   UNSAFE_componentWillMount() {
     this.props.results.clear();
     this.props.details.clear();

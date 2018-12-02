@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import React from "react";
 
 import Switcher from "../../../common/switcher";
-import questions from "@wmg/common/src/questions";
+import questions from "@wmg/common/lib/questions";
 
 import Styles from "./question-switcher.module.scss";
 

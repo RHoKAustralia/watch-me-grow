@@ -1,4 +1,35 @@
-module.exports = [
+export type Answer = {
+  value: string;
+  text: string;
+  redFlagQuestion?: boolean;
+  amberFlagQuestion?: boolean;
+};
+
+export type Question = {
+  id: string;
+  order: number;
+  text: string;
+  comments?: boolean;
+  answers: Answer[];
+};
+
+export type Questionnaire = {
+  id: string;
+  title: string;
+  age_groups: {
+    min: number;
+    max: number;
+  };
+  analysis: {
+    strategy: string;
+    redFlagThreshold: number;
+    amberFlagThreshold: number;
+  };
+  remind_at?: number;
+  questions: Question[];
+};
+
+const questionnaires: Questionnaire[] = [
   {
     id: "cdc6",
     title: "CDC 6 Months",
@@ -1469,11 +1500,6 @@ module.exports = [
   {
     id: "qchat",
     title: "QCHAT",
-    description:
-      "Q-CHAT-10 (Quantitative Checklist for Autism in Toddlers) is a quick referral guide for parents to complete about their toddler (18 – 24 months) with concerns about autism.",
-    introduction:
-      "Some questions about your child’s speech and socialising skills. Please answer all questions.",
-    detail_link: "http://www.autismresearchcentre.com/arc_tests",
     age_groups: { min: 16, max: 30 },
     analysis: {
       strategy: "simple",
@@ -2048,3 +2074,5 @@ module.exports = [
     ]
   }
 ];
+
+export default questionnaires;

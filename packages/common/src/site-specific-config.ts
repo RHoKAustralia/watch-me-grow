@@ -1,4 +1,4 @@
-module.exports = {
+const siteSpecificConfig = {
   "watchmegrow.care": {
     questionnaires: ["qchat", "cdc12", "cdc18", "cdc24"]
   },
@@ -7,7 +7,8 @@ module.exports = {
   },
   "preschool.watchmegrow.care": {},
   localhost: {
-    questionnaires: ["qchat", "cdc12", "cdc18", "cdc24"],
-    dev: true
+    questionnaires: ["qchat", "cdc12", "cdc18", "cdc24"]
   }
 };
+
+export default siteSpecificConfig;

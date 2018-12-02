@@ -1,22 +1,23 @@
-import PropTypes from "prop-types";
-import React from "react";
+import React, { FormEvent } from "react";
 import ReactDOM from "react-dom";
 import moment from "moment";
-import { withRouter } from "react-router";
-import _ from "lodash";
+import { withRouter, WithRouterProps } from "react-router";
+import * as _ from "lodash";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
 
-// import "./react-datepicker-with-em.scss";
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
 import Styles from "./details.module.scss";
 import TextField from "@material-ui/core/TextField";
-import questionnairesForSubsite from "@wmg/common/src/questionnaires-for-subsite";
-import minMax from "@wmg/common/src/min-max";
+import minMax from "@wmg/common/lib/min-max";
+import questionnaires from "../../../../data/questionnaires";
+import {
+  Details as DetailsStoreState,
+  PossibleValue as PossibleDetailsValue
+} from "../../../stores/details-store";
 
-const questionnaires = _(questionnairesForSubsite(process.env.SUBSITE));
 const { minMonths, maxMonths } = minMax(questionnaires);
 const minDate = moment().subtract(maxMonths, "months");
 const maxDate = moment().subtract(minMonths, "months");
@@ -30,14 +31,12 @@ const locations = [
   "Other"
 ].map(value => ({ value, label: value }));
 
-class Details extends React.Component {
-  static propTypes = {
-    details: PropTypes.object.isRequired
-  };
+type Props = { details: DetailsStoreState } & WithRouterProps;
 
-  state = {};
+class Details extends React.Component<Props, {}> {
+  state = { showDatePicker: false };
 
-  onSubmit = event => {
+  onSubmit = (event: FormEvent) => {
     event.preventDefault();
 
     if (this.props.details.validate()) {
@@ -46,12 +45,15 @@ class Details extends React.Component {
     }
   };
 
-  onChangeValue = (propertyName, value) => {
+  onChangeValue = (propertyName: PossibleDetailsValue, value: any) => {
     this.props.details.setState({ [propertyName]: value });
   };
 
-  onChange = (propertyName, event) => {
-    this.onChangeValue(propertyName, event.target.value);
+  onChange = (
+    propertyName: PossibleDetailsValue,
+    event: React.ChangeEvent<any>
+  ) => {
+    this.onChangeValue(propertyName, event.currentTarget.value);
   };
 
   onDateClick = () => {
@@ -60,7 +62,7 @@ class Details extends React.Component {
     });
   };
 
-  onDateChange = value => {
+  onDateChange = (value: moment.Moment) => {
     this.closeDatePicker();
     this.onChangeValue("babyDob", value);
   };
@@ -75,11 +77,7 @@ class Details extends React.Component {
     const details = this.props.details;
 
     return (
-      <form
-        className={Styles.details}
-        onSubmit={this.onSubmit}
-        ref={form => (this.form = form)}
-      >
+      <form className={Styles.details} onSubmit={this.onSubmit}>
         <div className={Styles["field-wrapper"]}>
           <FormControl fullWidth>
             <InputLabel htmlFor="location">Location</InputLabel>
@@ -88,7 +86,7 @@ class Details extends React.Component {
               fullWidth
               value={details.location}
               onChange={this.onChange.bind(this, "location")}
-              error={details.errors.location}
+              error={!!details.errors.location}
               onFocus={this.closeDatePicker}
               inputProps={{
                 name: "location",
@@ -111,8 +109,8 @@ class Details extends React.Component {
             className={Styles["text-box"]}
             label="Child's First Name"
             value={details.babyFirstName}
-            error={details.errors.babyFirstName}
-            maxLength={100}
+            error={!!details.errors.babyFirstName}
+            inputProps={{ maxLength: 100 }}
             fullWidth
             onFocus={this.closeDatePicker}
             onChange={this.onChange.bind(this, "babyFirstName")}
@@ -124,8 +122,8 @@ class Details extends React.Component {
             className={Styles["text-box"]}
             label="Child's Last Name"
             value={details.babyLastName}
-            error={details.errors.babyLastName}
-            maxLength={100}
+            error={!!details.errors.babyLastName}
+            inputProps={{ maxLength: 100 }}
             fullWidth
             onFocus={this.closeDatePicker}
             onChange={this.onChange.bind(this, "babyLastName")}
@@ -137,8 +135,8 @@ class Details extends React.Component {
             className={Styles["text-box"]}
             label="Gender"
             value={details.babyGender}
-            error={details.errors.babyGender}
-            maxLength={100}
+            error={!!details.errors.babyGender}
+            inputProps={{ maxLength: 100 }}
             fullWidth
             onFocus={this.closeDatePicker}
             onChange={this.onChange.bind(this, "babyGender")}
@@ -146,15 +144,14 @@ class Details extends React.Component {
         </div>
         <div className={Styles["field-wrapper"]}>
           <TextField
-            readOnly="true"
+            inputProps={{ readOnly: true }}
             onFocus={this.onDateClick}
-            ref={input => (this.input = input)}
             label="Your child's date of birth"
             type="text"
             className={Styles["text-box"]}
             fullWidth
             value={details.babyDob ? details.babyDob.format("DD/MM/YYYY") : ""}
-            error={details.errors.babyDob}
+            error={!!details.errors.babyDob}
           />
         </div>
         <div className={Styles["field-wrapper"]}>
@@ -175,9 +172,9 @@ class Details extends React.Component {
             className={Styles["text-box"]}
             label="Your name"
             value={details.parentName}
-            maxLength={100}
+            inputProps={{ maxLength: 100 }}
             fullWidth
-            error={details.errors.parentName}
+            error={!!details.errors.parentName}
             onFocus={this.closeDatePicker}
             onChange={this.onChange.bind(this, "parentName")}
           />
@@ -188,9 +185,9 @@ class Details extends React.Component {
             className={Styles["text-box"]}
             label="Your email address (so we can send you the results)"
             value={details.parentEmail}
-            maxLength={100}
+            inputProps={{ maxLength: 100 }}
             fullWidth
-            error={details.errors.parentEmail}
+            error={!!details.errors.parentEmail}
             onFocus={this.closeDatePicker}
             onChange={this.onChange.bind(this, "parentEmail")}
           />
@@ -199,25 +196,6 @@ class Details extends React.Component {
           <input type="submit" className={Styles["next-button"]} value="Next" />
         </div>
       </form>
-    );
-  }
-}
-
-class DatePickerInput extends React.Component {
-  render() {
-    const inputTheme = {
-      inputElement: Styles.inputElement
-    };
-
-    return (
-      <TextField
-        {...this.props}
-        readOnly="true"
-        ref={input => (this.input = input)}
-        label="Your child's date of birth"
-        type="text"
-        className={Styles["text-box"]}
-      />
     );
   }
 }

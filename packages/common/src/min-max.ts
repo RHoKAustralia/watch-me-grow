@@ -1,6 +1,6 @@
-const _ = require("lodash");
+import * as _ from "lodash";
 
-module.exports = function getMinMax(questionnairesRaw) {
+export default function getMinMax(questionnairesRaw) {
   const questionnaires = _(questionnairesRaw);
 
   const minMonths = questionnaires
@@ -13,4 +13,4 @@ module.exports = function getMinMax(questionnairesRaw) {
     .last();
 
   return { minMonths: minMonths, maxMonths: maxMonths };
-};
+}

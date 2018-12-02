@@ -1,32 +1,36 @@
-import PropTypes from "prop-types";
-import React from "react";
+import React, { DOMElement } from "react";
 import ReactDOM from "react-dom";
 import classNames from "classnames";
-import { withRouter } from "react-router";
-import TextField from "@material-ui/core/TextField";
+import { withRouter, WithRouterProps } from "react-router";
 import ReactCSSTransitionGroup from "react-addons-css-transition-group";
+import TextField, { OutlinedTextFieldProps } from "@material-ui/core/TextField";
+
+import { Results, RecordedAnswer } from "../../../stores/results-store";
+import {
+  Question,
+  Answer,
+  Questionnaire
+} from "@wmg/common/lib/questionnaires";
 
 import Styles from "./question.module.scss";
 
-class Question extends React.Component {
-  static propTypes = {
-    questionNumber: PropTypes.number.isRequired,
-    results: PropTypes.object.isRequired
-  };
+type Props = WithRouterProps & {
+  questionNumber: number;
+  results: Results;
+  questions: { question: Question; questionnaire: Questionnaire }[];
+};
+type State = { reverse: boolean };
 
-  state = {
+class QuestionComponent extends React.Component<Props, State> {
+  questionNumber?: number;
+  question?: { question: Question; questionnaire: Questionnaire };
+  commentsElement = React.createRef<any>();
+
+  state: State = {
     reverse: false
   };
 
-  UNSAFE_componentWillMount() {
-    this.processProps(this.props);
-  }
-
-  UNSAFE_componentWillReceiveProps(newProps) {
-    this.processProps(newProps);
-  }
-
-  processProps = props => {
+  processProps(props: Props) {
     const oldQuestionNumber = this.questionNumber || 0;
     const newQuestionNumber = props.questionNumber;
 
@@ -36,37 +40,47 @@ class Question extends React.Component {
 
     this.questionNumber = newQuestionNumber;
     this.question = props.questions[this.questionNumber];
-  };
+  }
 
-  onAnswerClicked = (answer, storedAnswer, event) => {
+  UNSAFE_componentWillMount() {
+    this.processProps(this.props);
+  }
+
+  UNSAFE_componentWillReceiveProps(newProps: Props) {
+    this.processProps(newProps);
+  }
+
+  onAnswerClicked = (
+    answer: Answer,
+    storedAnswer: RecordedAnswer,
+    event: React.FormEvent
+  ) => {
     event.preventDefault();
     const question = this.question;
     const resultStore = this.props.results;
 
     resultStore.setAnswer(
-      question.questionnaire.id,
-      question.id,
+      question!.questionnaire.id,
+      question!.question.id,
       answer.value,
       storedAnswer && storedAnswer.comments
     );
 
     if (
       !(
-        this.question.comments &&
+        this.question!.question.comments &&
         (answer.redFlagQuestion || answer.amberFlagQuestion)
       )
     ) {
       this.goToNext();
     } else {
       setTimeout(() =>
-        ReactDOM.findDOMNode(this.commentsElement)
-          .querySelector("textarea")
-          .focus()
+        this.commentsElement.current!.querySelector("textarea")!.focus()
       );
     }
   };
 
-  onNextClicked = event => {
+  onNextClicked = (event: React.MouseEvent) => {
     event.preventDefault();
     this.goToNext();
   };
@@ -78,7 +92,7 @@ class Question extends React.Component {
   goToNext = () => {
     this.props.results.save();
 
-    const nextQuestionNumber = this.questionNumber + 1;
+    const nextQuestionNumber = this.questionNumber! + 1;
     const nextRoute =
       nextQuestionNumber <= this.questionsLength()
         ? `/questionnaire/questions/${nextQuestionNumber}`
@@ -87,13 +101,13 @@ class Question extends React.Component {
     this.props.router.push(nextRoute);
   };
 
-  onCommentChanged = (storedAnswer, newValue) => {
+  onCommentChanged = (storedAnswer: RecordedAnswer, newValue: any) => {
     const question = this.question;
     const resultStore = this.props.results;
 
     resultStore.setAnswer(
-      question.questionnaire.id,
-      question.id,
+      question!.questionnaire.id,
+      question!.question.id,
       storedAnswer.value,
       newValue
     );
@@ -103,8 +117,8 @@ class Question extends React.Component {
     const question = this.question;
     const resultsStore = this.props.results;
     const storedAnswer = resultsStore.getAnswer(
-      question.questionnaire.id,
-      question.id
+      question!.questionnaire.id,
+      question!.question.id
     );
 
     return (
@@ -118,15 +132,16 @@ class Question extends React.Component {
           transitionEnterTimeout={200}
           transitionLeaveTimeout={200}
         >
-          <div className={Styles.question} key={question.id}>
-            <div className={Styles.text}>{question.text}</div>
+          <div className={Styles.question} key={question!.question.id}>
+            <div className={Styles.text}>{question!.question.text}</div>
             <div className={Styles["answer-wrapper"]}>
               <div
                 className={classNames(Styles.answers, {
-                  [Styles["answers--vertical"]]: question.answers.length > 3
+                  [Styles["answers--vertical"]]:
+                    question!.question.answers.length > 3
                 })}
               >
-                {question.answers.map(answer => (
+                {question!.question.answers.map(answer => (
                   <a
                     href="#"
                     key={answer.value}
@@ -148,29 +163,27 @@ class Question extends React.Component {
 
             <div
               style={{
-                display: question.comments && storedAnswer ? "block" : "none"
+                display:
+                  question!.question.comments && storedAnswer ? "block" : "none"
               }}
             >
               <TextField
-                ref={ref => (this.commentsElement = ref)}
+                inputRef={this.commentsElement}
                 className={Styles.comments}
                 type="text"
                 label="Can you briefly describe your concern?"
                 name="Comments"
                 value={(storedAnswer && storedAnswer.comments) || ""}
                 onChange={this.onCommentChanged.bind(this, storedAnswer)}
-                maxLength={300}
+                inputProps={{ maxLength: 300 }}
                 multiline={true}
-                theme={{
-                  inputElement: Styles["comments-text-area"]
-                }}
               />
               <a
                 href="#"
                 className={Styles["next-button"]}
                 onClick={this.onNextClicked}
               >
-                {this.questionNumber < this.questionsLength()
+                {this.questionNumber! < this.questionsLength()
                   ? "Next"
                   : "Finish"}
               </a>
@@ -182,4 +195,4 @@ class Question extends React.Component {
   }
 }
 
-export default withRouter(Question);
+export default withRouter(QuestionComponent);

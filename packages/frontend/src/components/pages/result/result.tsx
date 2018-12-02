@@ -1,21 +1,31 @@
 import React from "react";
 import classNames from "classnames";
-import { withRouter } from "react-router";
+import { withRouter, WithRouterProps } from "react-router";
 import moment from "moment";
 
 import { ReactComponent as Flag } from "./flag.svg";
 import { ReactComponent as Stethoscope } from "./stethoscope.svg";
 import StageSwitcher from "./stage-switcher";
 import stages from "./stages/stages";
-import strings from "@wmg/common/src/strings";
+import strings from "@wmg/common/lib/strings";
+import { Results } from "../../stores/results-store";
+import { Details } from "../../stores/details-store";
 
 import sendResults from "../../../send-results";
 
 import Styles from "./result.module.scss";
 
-class Result extends React.Component {
+type Props = {
+  results: Results;
+  details: Details;
+} & WithRouterProps;
+
+class Result extends React.Component<Props, any> {
   UNSAFE_componentWillMount() {
-    if (!this.props.results.isComplete() || !this.props.details.validate()) {
+    if (
+      !this.props.details.validate() ||
+      !this.props.results.isComplete(this.props.details.ageInMonths())
+    ) {
       console.log(
         "Went to result without finishing, redirecting to questionnaire"
       );
@@ -25,7 +35,7 @@ class Result extends React.Component {
 
     this.props.results.mark();
 
-    window.ga("send", {
+    (window as any).ga("send", {
       hitType: "event",
       eventCategory: "Completions",
       eventAction: this.props.results.concern ? "concern" : "no-concern"

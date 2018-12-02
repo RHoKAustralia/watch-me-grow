@@ -1,10 +1,8 @@
-const questionnaires = require("./questionnaires");
+import questionnaires from "./questionnaires";
 
-exports.mark = function(combinedResults) {
+export function mark(combinedResults) {
   return combinedResults
-    .map(combined =>
-      exports.getOverallResult(combined.questionnaire, combined.results)
-    )
+    .map(combined => getOverallResult(combined.questionnaire, combined.results))
     .reduce((soFar, current) => {
       if (current === "RED_FLAG") {
         return "RED_FLAG";
@@ -14,22 +12,21 @@ exports.mark = function(combinedResults) {
         return soFar;
       }
     });
-};
+}
 
-
-exports.combineAll = function(results) {
+export function combineAll(results) {
   return questionnaires
     .filter(questionnaire => !!results[questionnaire.id])
     .map(questionnaire => {
       return {
         questionnaire,
-        results: exports.combineQuestionsAndAnswers(
+        results: combineQuestionsAndAnswers(
           questionnaire.questions,
           results[questionnaire.id]
         )
       };
     });
-};
+}
 
 /**
  * Combines an array of questions and a map of question ids to answers into an array of combined objects. The
@@ -37,7 +34,7 @@ exports.combineAll = function(results) {
  * answer (i.e. the actual question text) under "answer.metadata".
  *
  */
-exports.combineQuestionsAndAnswers = function(questions, answers) {
+export function combineQuestionsAndAnswers(questions, answers) {
   return questions.map(question => {
     const rawAnswer = answers[question.id];
 
@@ -50,7 +47,7 @@ exports.combineQuestionsAndAnswers = function(questions, answers) {
       })
     };
   });
-};
+}
 
 const strategies = {
   simple: (redFlagScore, amberFlagScore, questionnaire) => {
@@ -77,7 +74,7 @@ const strategies = {
  * Scores the result of a questionnaire based on its analysis strategy and an array of combined questions and answers
  * as returned from {@link #combineQuestionsAndAnswers}.
  */
-exports.getOverallResult = function(questionnaire, combinedQuestions) {
+export function getOverallResult(questionnaire, combinedQuestions) {
   var redFlagScore = 0;
   var amberFlagScore = 0;
 
@@ -97,4 +94,4 @@ exports.getOverallResult = function(questionnaire, combinedQuestions) {
   );
 
   return result;
-};
+}

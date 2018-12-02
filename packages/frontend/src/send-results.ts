@@ -1,10 +1,13 @@
 import moment from "moment";
 
-import strings from "@wmg/common/src/strings";
-import questionnaires from "@wmg/common/src/questionnaires";
-import { combineQuestionsAndAnswers } from "@wmg/common/src/data-functions";
+import strings from "@wmg/common/lib/strings";
+import questionnaires from "@wmg/common/lib/questionnaires";
+import { combineQuestionsAndAnswers } from "@wmg/common/lib/data-functions";
+import subsite from "./util/subsite";
+import { Details } from "./components/stores/details-store";
+import { Results } from "./components/stores/results-store";
 
-export default function sendResults(details, results) {
+export default function sendResults(details: Details, results: Results) {
   const ageInMonths = moment().diff(details.babyDob, "months");
 
   const metadata = {
@@ -14,7 +17,7 @@ export default function sendResults(details, results) {
     firstNameOfChild: details.babyFirstName,
     lastNameOfChild: details.babyLastName,
     genderOfChild: details.babyGender,
-    dobOfChild: details.babyDob.toISOString(),
+    dobOfChild: details.babyDob!.toISOString(),
     doctorEmail: details.doctorEmail,
     ageOfChild:
       ageInMonths < 24
@@ -45,22 +48,25 @@ export default function sendResults(details, results) {
   );
 }
 
-function getResultText(results) {
+function getResultText(results: Results) {
   const concernsStringObj = results.concern
     ? strings.result.concerns
     : strings.result.noConcerns;
   return concernsStringObj.title + " " + concernsStringObj.subtitle;
 }
 
-function generateQuestionnaireResults(results) {
-  return questionnaires.reduce((acc, { id, questions }) => {
-    acc[`${id}_answers`] = combineQuestionsAndAnswers(
-      questions,
-      results.getResultsForQuestionnaire(id)
-    ).reduce((acc, question) => {
-      acc[question.metadata.id] = { answer: question.answer.metadata.text };
+function generateQuestionnaireResults(results: Results) {
+  return questionnaires.reduce(
+    (acc, { id, questions }) => {
+      acc[`${id}_answers`] = combineQuestionsAndAnswers(
+        questions,
+        results.getResultsForQuestionnaire(id)
+      ).reduce((acc: any, question: any) => {
+        acc[question.metadata.id] = { answer: question.answer.metadata.text };
+        return acc;
+      }, {});
       return acc;
-    }, {});
-    return acc;
-  }, {});
+    },
+    {} as any
+  );
 }
