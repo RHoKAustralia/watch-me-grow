@@ -10,9 +10,48 @@ import * as firebase from "firebase-admin";
 import * as cors from "cors";
 
 import questionnairesForSubsite from "@wmg/common/src/questionnaires-for-subsite";
-import { mark, combineAll } from "@wmg/common/src/data-functions";
-import * as strings from "@wmg/common/src/strings";
-import * as minMax from "@wmg/common/src/min-max";
+import {
+  mark,
+  combineAll,
+  CombinedResult
+} from "@wmg/common/src/data-functions";
+import strings, { EmailString } from "@wmg/common/src/strings";
+import minMax from "@wmg/common/src/min-max";
+import {
+  NotifyFunctionInput,
+  NotifyFunctionInputDetails
+} from "@wmg/common/src/notify-function-input";
+
+type EmailResult = {
+  questionnaire: {
+    title: string;
+  };
+  results: {
+    metadata: {
+      text: string;
+    };
+    answer: {
+      metadata: {
+        text: string;
+      };
+      comments?: string;
+    };
+  }[];
+};
+
+type ParentEmailInput = {
+  details: {
+    nameOfParent: string;
+    firstNameOfChild: string;
+    lastNameOfChild: string;
+    testDateFormatted: string;
+    dobChildFormatted: string;
+    ageOfChild: string;
+  };
+  resultText: string;
+  developmentResults: EmailResult[];
+  communicationResults: EmailResult[];
+};
 
 const FORMAT = "dddd, MMMM Do YYYY";
 const EMAIL_FROM = "WatchMeGrow.care <mail@watchmegrow.care>";
@@ -37,9 +76,10 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-app.post("/", async (req, res) => {
+app.post("/", async (req: express.Request, res: express.Response) => {
   try {
-    const details = req.body.details;
+    const body = req.body as NotifyFunctionInput;
+    const details = body.details;
 
     if (!details.recipientEmail) {
       res.status(500).send("Error: Missing parameter.");
@@ -47,9 +87,8 @@ app.post("/", async (req, res) => {
       throw new Error("Missing parameter");
     }
 
-    const combinedResults = combineAll(req.body.results);
-    const flag = mark(combinedResults);
-    const concern = flag !== "NO_FLAG";
+    const combinedResults = combineAll(body.results);
+    const concern = mark(combinedResults);
     const resultStrings = concern
       ? strings.result.concerns
       : strings.result.noConcerns;
@@ -60,21 +99,21 @@ app.post("/", async (req, res) => {
       dobChildFormatted: moment(details.dobOfChild).format(FORMAT)
     };
 
-    // const parentEmailPromise = sendParentEmail(
-    //   detailsWithDates,
-    //   concern,
-    //   combinedResults,
-    //   resultStrings
-    // );
+    const parentEmailPromise = sendParentEmail(
+      detailsWithDates,
+      concern,
+      combinedResults,
+      resultStrings
+    );
+
     const basePromises = [
-      // parentEmailPromise,
-      // addToReminderList(req.body),
+      parentEmailPromise,
       recordResultsInFirestore(combinedResults, concern, details)
     ];
 
     const promises = details.doctorEmail
       ? basePromises.concat([
-          sendDoctorEmail(req.body, concern, combinedResults, resultStrings)
+          sendDoctorEmail(body, concern, combinedResults, resultStrings)
         ])
       : basePromises;
 
@@ -92,13 +131,34 @@ const templateBody = fs.readFileSync(
   "utf-8"
 );
 
-function sendParentEmail(details, concern, combinedResults, resultStrings) {
-  var message = markupJs.up(templateBody, {
-    details: details,
-    concern: concern,
-    allResults: combinedResults,
+function sendParentEmail(
+  details: NotifyFunctionInputDetails,
+  concern: boolean,
+  combinedResults: CombinedResult[],
+  resultStrings
+) {
+  const templateInput: ParentEmailInput = {
+    details: {
+      nameOfParent: details.nameOfParent,
+      firstNameOfChild: details.firstNameOfChild,
+      lastNameOfChild: details.lastNameOfChild,
+      testDateFormatted: moment(details.testDate).format(FORMAT),
+      dobChildFormatted: moment(details.dobOfChild).format(FORMAT),
+      ageOfChild:
+        details.ageInMonths < 24
+          ? details.ageInMonths + " months"
+          : Math.floor(details.ageInMonths / 12) + " years"
+    },
+    developmentResults: combinedResults.filter(
+      result => result.questionnaire.category === "development"
+    ),
+    communicationResults: combinedResults.filter(
+      result => result.questionnaire.category === "communication"
+    ),
     resultText: resultStrings.title + " " + resultStrings.subtitle
-  });
+  };
+
+  var message = markupJs.up(templateBody, templateInput);
 
   var params = {
     from: EMAIL_FROM,

@@ -1,4 +1,16 @@
-export default {
+export type EmailString = {
+  title: string;
+  subtitle: string;
+};
+
+export type Strings = {
+  result: {
+    concerns: EmailString;
+    noConcerns: EmailString;
+  };
+};
+
+const strings: Strings = {
   result: {
     concerns: {
       title:
@@ -12,3 +24,5 @@ export default {
     }
   }
 };
+
+export default strings;

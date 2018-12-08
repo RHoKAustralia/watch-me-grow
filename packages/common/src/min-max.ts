@@ -1,16 +1,21 @@
 import * as _ from "lodash";
+import { Questionnaire } from "./questionnaires";
 
-export default function getMinMax(questionnairesRaw) {
+export default function getMinMax(questionnairesRaw: Questionnaire[]) {
+  if (questionnairesRaw.length === 0) {
+    throw new Error("No questionnaires to get minmax for");
+  }
+
   const questionnaires = _(questionnairesRaw);
 
-  const minMonths = questionnaires
+  const minMonths: number = questionnaires
     .map(questionnaire => questionnaire.age_groups.min)
     .sortBy(x => x)
-    .head();
-  const maxMonths = questionnaires
+    .head() as number;
+  const maxMonths: number = questionnaires
     .map(questionnaire => questionnaire.age_groups.max)
     .sortBy(x => x)
-    .last();
+    .last() as number;
 
   return { minMonths: minMonths, maxMonths: maxMonths };
 }

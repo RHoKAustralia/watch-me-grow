@@ -8,11 +8,20 @@ import {
 } from "@wmg/common/lib/data-functions";
 import questionnaires from "@wmg/common/lib/questionnaires";
 import getQuestions from "@wmg/common/lib/questions";
+import { RecordedAnswer } from "@wmg/common/lib/notify-function-input";
 import subsite from "../../util/subsite";
 
 const LOCAL_STORAGE_KEY = "wmg-results";
 
-type State = { [id: string]: any };
+type State = {
+  [questionnaireId: string]:
+    | {
+        [questionId: string]: RecordedAnswer | undefined;
+      }
+    | undefined;
+} & {
+  concern?: boolean;
+};
 
 export type Results = State & {
   getResultsForQuestionnaire: (questionnaireId: string) => any;
@@ -29,11 +38,6 @@ export type Results = State & {
   isComplete: (ageInMonths: number) => boolean;
 };
 
-export type RecordedAnswer = {
-  value: string;
-  comments: string;
-};
-
 export type WrappedComponentProps = {
   results: Results;
 };
@@ -41,6 +45,8 @@ const ResultStore = (
   ComposedComponent: React.ComponentClass<WrappedComponentProps, any>
 ) =>
   class extends React.Component<{}, State> {
+    state: State = {};
+
     UNSAFE_componentWillMount() {
       const resultsString = sessionStorage.getItem(LOCAL_STORAGE_KEY);
 
@@ -64,8 +70,10 @@ const ResultStore = (
 
     getResultsForQuestionnaire = (
       questionnaireId: string
-    ): { [questionId: string]: RecordedAnswer } => {
-      return this.state[questionnaireId] ? this.state[questionnaireId] : {};
+    ): { [questionId: string]: RecordedAnswer | undefined } => {
+      const questionnaire = this.state[questionnaireId];
+
+      return questionnaire ? questionnaire : {};
     };
 
     save = () => {
@@ -75,21 +83,21 @@ const ResultStore = (
     getAnswer = (
       questionnaireId: string,
       questionId: string
-    ): RecordedAnswer => {
+    ): RecordedAnswer | undefined => {
       return this.getResultsForQuestionnaire(questionnaireId)[questionId];
     };
 
     mark = () => {
-      this.setState({ concern: mark(combineAll(this.state)) !== "NO_FLAG" });
+      this.setState({ concern: mark(combineAll(this.state)) });
     };
 
     clear = () => {
       sessionStorage.removeItem(LOCAL_STORAGE_KEY);
       this.setState(
         Object.keys(this.state).reduce(
-          (acc, id) => {
-            acc[id] = undefined;
-            return acc;
+          (acc: State, id: string) => {
+            const newState: State = { ...acc, [id]: undefined };
+            return newState;
           },
           {} as State
         )

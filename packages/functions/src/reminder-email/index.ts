@@ -10,6 +10,10 @@ import * as strings from "@wmg/common/src/strings";
 import * as questionnaires from "@wmg/common/src/questionnaires";
 import * as siteSpecificConfig from "@wmg/common/src/site-specific-config";
 
+type ResultsEmailInput = {
+
+}
+
 const mailgun = mailgunJs({
   apiKey: functions.config().mailgun.apikey,
   domain: "auto.watchmegrow.care"
@@ -19,28 +23,6 @@ const reminderTemplateBody = fs.readFileSync(
   require.resolve("../../src/reminder-email/Reminder.html"),
   "utf-8"
 );
-
-// function questionnaireReminderAges(subsite) {
-//   return getQuestionnairesForSubsite(subsite)
-//     .filter(questionnaire => questionnaire.remind_at)
-//     .map(questionnaire => ({
-//       id: questionnaire.id,
-//       remindAgeInDays: moment
-//         .duration(questionnaire.remind_at, "months")
-//         .asDays()
-//     }));
-// }
-
-type Questionnaire = {
-  id: string;
-  remind_at: number;
-};
-
-type SiteSpecificConfig = {
-  [id: string]: {
-    questionnaires: string[];
-  };
-};
 
 const subsitesForQuestionnaire = _(siteSpecificConfig as SiteSpecificConfig)
   .toPairs()

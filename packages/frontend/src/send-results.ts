@@ -1,5 +1,10 @@
 import moment from "moment";
 
+import {
+  NotifyFunctionInput,
+  NotifyFunctionInputDetails
+} from "@wmg/common/lib/notify-function-input";
+
 import strings from "@wmg/common/lib/strings";
 import questionnaires from "@wmg/common/lib/questionnaires";
 import { combineQuestionsAndAnswers } from "@wmg/common/lib/data-functions";
@@ -22,7 +27,7 @@ function getFunctionUrl(): string {
 export default function sendResults(details: Details, results: Results) {
   const ageInMonths = moment().diff(details.babyDob, "months");
 
-  const metadata = {
+  const metadata: NotifyFunctionInputDetails = {
     recipientEmail: details.parentEmail,
     testDate: moment().toISOString(),
     nameOfParent: details.parentName,
@@ -31,53 +36,22 @@ export default function sendResults(details: Details, results: Results) {
     genderOfChild: details.babyGender,
     dobOfChild: details.babyDob!.toISOString(),
     doctorEmail: details.doctorEmail,
-    ageOfChild:
-      ageInMonths < 24
-        ? ageInMonths + " months"
-        : Math.floor(ageInMonths / 12) + " years",
     ageInMonths: ageInMonths,
-    resultsText: getResultText(results),
     subsite: process.env.SUBSITE || "australia",
     location: details.location
   };
 
-  const data = {
+  const data: NotifyFunctionInput = {
     details: metadata,
     results
   };
 
-  fetch(
-    getFunctionUrl()
-    {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(data)
-    }
-  );
-}
-
-function getResultText(results: Results) {
-  const concernsStringObj = results.concern
-    ? strings.result.concerns
-    : strings.result.noConcerns;
-  return concernsStringObj.title + " " + concernsStringObj.subtitle;
-}
-
-function generateQuestionnaireResults(results: Results) {
-  return questionnaires.reduce(
-    (acc, { id, questions }) => {
-      acc[`${id}_answers`] = combineQuestionsAndAnswers(
-        questions,
-        results.getResultsForQuestionnaire(id)
-      ).reduce((acc: any, question: any) => {
-        acc[question.metadata.id] = { answer: question.answer.metadata.text };
-        return acc;
-      }, {});
-      return acc;
+  fetch(getFunctionUrl(), {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json"
     },
-    {} as any
-  );
+    body: JSON.stringify(data)
+  });
 }

@@ -93,10 +93,14 @@ class Result extends React.Component<Props, any> {
           })()}
         </div>
         <div className={Styles.disclaimer}>
-          All children grow and develop at their own pace. Please see below for
-          information on what is expected for your child's age.
+          All children grow and develop at their own pace. Please use the
+          following link to access information on what is expected for your
+          child's age.
         </div>
-        <StageSwitcher stages={stages} initialStage={this.getInitialStage()} />
+        <div>
+          Age based info development:{" "}
+          <a href="https://raisingchildren.net.au">raisingchildren.net.au</a>
+        </div>
       </article>
     );
   }

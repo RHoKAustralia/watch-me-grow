@@ -1,20 +1,35 @@
-import questionnaires from "./questionnaires";
+import questionnaires, {
+  Questionnaire,
+  Question,
+  Answer
+} from "./questionnaires";
+import strategies from "./strategies";
+import { RecordedAnswer } from "./notify-function-input";
 
-export function mark(combinedResults) {
+export type QuestionAndAnswer = {
+  metadata: Question;
+  answer: {
+    rawAnswer: RecordedAnswer;
+    metadata: Answer;
+  };
+};
+
+export type CombinedResult = {
+  questionnaire: Questionnaire;
+  results: QuestionAndAnswer[];
+};
+
+export function mark(combinedResults: CombinedResult[]): boolean {
   return combinedResults
     .map(combined => getOverallResult(combined.questionnaire, combined.results))
-    .reduce((soFar, current) => {
-      if (current === "RED_FLAG") {
-        return "RED_FLAG";
-      } else if (current === "YELLOW_FLAG") {
-        return "YELLOW_FLAG";
-      } else {
-        return soFar;
-      }
-    });
+    .reduce((soFar, current) => soFar || current);
 }
 
-export function combineAll(results) {
+export function combineAll(results: {
+  [questionnaireId: string]: {
+    [id: string]: RecordedAnswer;
+  };
+}): CombinedResult[] {
   return questionnaires
     .filter(questionnaire => !!results[questionnaire.id])
     .map(questionnaire => {
@@ -29,67 +44,52 @@ export function combineAll(results) {
 }
 
 /**
- * Combines an array of questions and a map of question ids to answers into an array of combined objects. The
- * combined objects puts the question under "metadata" and the answer under "answer", with the metadata of the
- * answer (i.e. the actual question text) under "answer.metadata".
- *
+ * Combines an array of questions and a map of question ids to answers into an array of combined objects.
  */
-export function combineQuestionsAndAnswers(questions, answers) {
+export function combineQuestionsAndAnswers(
+  questions: Question[],
+  answers: { [questionId: string]: RecordedAnswer }
+): QuestionAndAnswer[] {
   return questions.map(question => {
     const rawAnswer = answers[question.id];
+    const metadata = question.answers.find(
+      answerMetadata => answerMetadata.value === rawAnswer.value
+    );
+
+    if (!metadata) {
+      throw new Error(
+        `Could not find answer for question id ${question.id} and answer ${
+          rawAnswer.value
+        }`
+      );
+    }
 
     return {
       metadata: question,
-      answer: Object.assign({}, rawAnswer, {
-        metadata: question.answers.find(
-          answerMetadata => answerMetadata.value === rawAnswer.value
-        )
-      })
+      answer: {
+        rawAnswer,
+        metadata
+      }
     };
   });
 }
-
-const strategies = {
-  simple: (redFlagScore, amberFlagScore, questionnaire) => {
-    if (redFlagScore >= questionnaire.analysis.redFlagThreshold) {
-      return "RED_FLAG";
-    } else if (redFlagScore >= questionnaire.analysis.amberFlagThreshold) {
-      return "AMBER_FLAG";
-    } else {
-      return "NO_FLAG";
-    }
-  },
-  cdc: (redFlagScore, amberFlagScore, questionnaire) => {
-    if (redFlagScore >= 1 || amberFlagScore >= 2) {
-      return "RED_FLAG";
-    } else if (amberFlagScore >= 1) {
-      return "AMBER_FLAG";
-    } else {
-      return "NO_FLAG";
-    }
-  }
-};
 
 /**
  * Scores the result of a questionnaire based on its analysis strategy and an array of combined questions and answers
  * as returned from {@link #combineQuestionsAndAnswers}.
  */
-export function getOverallResult(questionnaire, combinedQuestions) {
-  var redFlagScore = 0;
-  var amberFlagScore = 0;
-
-  combinedQuestions.forEach(function(question) {
-    if (question.answer.metadata.redFlagQuestion) {
-      redFlagScore++;
-    }
-    if (question.answer.metadata.amberFlagQuestion) {
-      amberFlagScore++;
-    }
-  });
+export function getOverallResult(
+  questionnaire: Questionnaire,
+  combinedQuestions: QuestionAndAnswer[]
+): boolean {
+  const score = combinedQuestions.reduce(
+    (soFar, questionAndAnswer) =>
+      soFar + questionAndAnswer.answer.metadata.redFlagScore,
+    0
+  );
 
   const result = strategies[questionnaire.analysis.strategy](
-    redFlagScore,
-    amberFlagScore,
+    score,
     questionnaire
   );
 

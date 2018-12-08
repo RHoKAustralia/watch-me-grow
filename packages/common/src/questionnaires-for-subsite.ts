@@ -1,8 +1,11 @@
-import siteSpecificConfig from "./site-specific-config";
 import * as _ from "lodash";
-import questionnaires from "./questionnaires";
 
-export default function getQuestionnairesForSubsite(subsiteId: string) {
+import siteSpecificConfig from "./site-specific-config";
+import questionnaires, { Questionnaire } from "./questionnaires";
+
+export default function getQuestionnairesForSubsite(
+  subsiteId: string
+): Questionnaire[] {
   const includeQuestionnaireIds: string[] = _.get(siteSpecificConfig, [
     subsiteId,
     "questionnaires"

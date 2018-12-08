@@ -24,34 +24,65 @@
 <p>{{resultText}}</p>
 <p>Detailed Results Below</p>
 
-{{allResults}}
-<h3>{{questionnaire.title}}</h3>
-<table border="1" style="max-width: 500px">
-    <tr>
-        <th style="width:10%">Number</th>
-        <th style="width:45%">Question</th>
-        <th style="width:45%">Response</th>
-    </tr>
-    {{results}}
-    <tr>
-        <td>{{##}}</td>
-        <td>{{metadata.text}}</td>
-        <td>{{answer.metadata.text}}</td>
-    </tr>
-    {{if answer.comments}}
-    <tr>
-        <td>Comment</td>
-        <td colspan="2">{{answer.comments}}</td>
-    </tr>
-    {{/if}} {{/results}}
-</table>
-<br/>
-{{/allResults}}
+{{if developmentResults}}
+  <h2>Development</h2>
+  {{developmentResults}}
+  <h3>{{questionnaire.title}}</h3>
+  <table border="1" style="max-width: 500px">
+      <tr>
+          <th style="width:10%">Number</th>
+          <th style="width:45%">Question</th>
+          <th style="width:45%">Response</th>
+      </tr>
+      {{results}}
+      <tr>
+          <td>{{##}}</td>
+          <td>{{metadata.text}}</td>
+          <td>{{answer.metadata.text}}</td>
+      </tr>
+      {{if answer.comments}}
+      <tr>
+          <td>Comment</td>
+          <td colspan="2">{{answer.comments}}</td>
+      </tr>
+      {{/if}}
+      {{/results}}
+  </table>
+  <br/>
+  {{/developmentResults}}
+{{/if}}
+
+{{if communicationResults}}
+  <h2>Social Communication and Language</h2>
+  {{communicationResults}}
+  <h3>{{questionnaire.title}}</h3>
+  <table border="1" style="max-width: 500px">
+      <tr>
+          <th style="width:10%">Number</th>
+          <th style="width:45%">Question</th>
+          <th style="width:45%">Response</th>
+      </tr>
+      {{results}}
+      <tr>
+          <td>{{##}}</td>
+          <td>{{metadata.text}}</td>
+          <td>{{answer.metadata.text}}</td>
+      </tr>
+      {{if answer.comments}}
+      <tr>
+          <td>Comment</td>
+          <td colspan="2">{{answer.comments}}</td>
+      </tr>
+      {{/if}} {{/results}}
+  </table>
+  <br/>
+  {{/communicationResults}}
+{{/if}}
 
 <p>
-    All children grow and develop at their own pace. Please follow this link for more information: <a href="http://www.cdc.gov/ncbddd/actearly/index.html">Learn the signs - act early</a>.
+    All children grow and develop at their own pace. Please use the following link to access information on what is expected for your child's age.
 </p>
 
 <p>
-    This was sent because you completed a questionnaire for the Watch Me Grow pilot.
+    <a href="https://raisingchildren.net.au">raisingchildren.net.au</a>.
 </p>
