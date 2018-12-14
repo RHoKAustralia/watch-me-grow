@@ -5,7 +5,7 @@
 <p>
     You're receiving this email because {{details.nameOfParent}} completed WatchMeGrow.care for {{details.firstNameOfChild}}
     {{details.lastNameOfChild}}. WatchMeGrow.care tracks developmental progress for children aged between approximately
-    {{minMonths}} to {{maxMonths}} months. It has been designed to facilitate early identification of developmental
+    {{minAge}} to {{maxAge}}. It has been designed to facilitate early identification of developmental
     problems.
 </p>
 
@@ -15,9 +15,10 @@
 </div>
 <p>
     <strong>
-        It is highly likely that this child has developmental issues. It is strongly recommended that referral for further assessment
-        and early intervention through a paediatrician or other child development health professional is done. Also continue to monitor
-        the child over time.
+      It is highly likely that this child has developmental issues. It is recommended that a
+      referral for further assessment and early intervention through a paediatrician or other
+      child development health professional is completed. In addition, it is important to continue
+      to monitor the child over time.
     </strong>
 </p>
 {{else}}
@@ -26,11 +27,13 @@
 </div>
 <p>
     <strong>
-        Developmental issues in this child are unlikely. No further follow-up necessary at this point. Continue ongoing monitoring
-        as usual.
+      Developmental issues in this child are unlikely. No further follow-up necessary at
+      this point. Continue ongoing monitoring as usual
     </strong>
 </p>
 {{/if}}
+
+<p>Please see detailed results below</p>
 
 <table border="0">
     <tr>
@@ -47,28 +50,61 @@
     </tr>
 </table>
 
-{{allResults}}
-<h3>{{questionnaire.title}}</h3>
-<table border="1" style="max-width: 500px">
-    <tr>
-        <th style="width:10%">Number</th>
-        <th style="width:45%">Question</th>
-        <th style="width:45%">Response</th>
-    </tr>
-    {{results}}
-    <tr>
-        <td>{{##}}</td>
-        <td>{{metadata.text}}</td>
-        <td>{{answer.metadata.text}}</td>
-    </tr>
-    {{if answer.comments}}
-    <tr>
-        <td>Comment</td>
-        <td colspan="2">{{answer.comments}}</td>
-    </tr>
-    {{/if}} {{/results}}
-</table>
-<br/> {{/allResults}}
+
+{{if developmentResults}}
+  <h2>Development</h2>
+  {{developmentResults}}
+  <h3>{{questionnaire.title}}</h3>
+  <table border="1" style="max-width: 500px">
+      <tr>
+          <th style="width:10%">Number</th>
+          <th style="width:45%">Question</th>
+          <th style="width:45%">Response</th>
+      </tr>
+      {{results}}
+      <tr>
+          <td>{{##}}</td>
+          <td>{{metadata.text}}</td>
+          <td>{{answer.metadata.text}}</td>
+      </tr>
+      {{if answer.comments}}
+      <tr>
+          <td>Comment</td>
+          <td colspan="2">{{answer.comments}}</td>
+      </tr>
+      {{/if}}
+      {{/results}}
+  </table>
+  <br/>
+  {{/developmentResults}}
+{{/if}}
+
+{{if communicationResults}}
+  <h2>Social Communication and Language</h2>
+  {{communicationResults}}
+  <h3>{{questionnaire.title}}</h3>
+  <table border="1" style="max-width: 500px">
+      <tr>
+          <th style="width:10%">Number</th>
+          <th style="width:45%">Question</th>
+          <th style="width:45%">Response</th>
+      </tr>
+      {{results}}
+      <tr>
+          <td>{{##}}</td>
+          <td>{{metadata.text}}</td>
+          <td>{{answer.metadata.text}}</td>
+      </tr>
+      {{if answer.comments}}
+      <tr>
+          <td>Comment</td>
+          <td colspan="2">{{answer.comments}}</td>
+      </tr>
+      {{/if}} {{/results}}
+  </table>
+  <br/>
+  {{/communicationResults}}
+{{/if}}
 
 <p>
     For further information on child development please go to <a href="http://www.cdc.gov/ncbddd/actearly/index.html">Learn the signs - act early</a>.

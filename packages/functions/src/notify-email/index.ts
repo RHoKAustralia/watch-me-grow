@@ -21,6 +21,9 @@ import {
   NotifyFunctionInput,
   NotifyFunctionInputDetails
 } from "@wmg/common/src/notify-function-input";
+import getSiteSpecificConfig, {
+  HostConfig
+} from "@wmg/common/src/site-specific-config";
 
 type EmailResult = {
   questionnaire: {
@@ -51,6 +54,12 @@ type ParentEmailInput = {
   resultText: string;
   developmentResults: EmailResult[];
   communicationResults: EmailResult[];
+};
+
+type DoctorEmailInput = ParentEmailInput & {
+  minAge: string;
+  maxAge: string;
+  concern: boolean;
 };
 
 const FORMAT = "dddd, MMMM Do YYYY";
@@ -87,6 +96,7 @@ app.post("/", async (req: express.Request, res: express.Response) => {
       throw new Error("Missing parameter");
     }
 
+    const config = getSiteSpecificConfig(details.subsite);
     const combinedResults = combineAll(body.results);
     const concern = mark(combinedResults);
     const resultStrings = concern
@@ -101,7 +111,6 @@ app.post("/", async (req: express.Request, res: express.Response) => {
 
     const parentEmailPromise = sendParentEmail(
       detailsWithDates,
-      concern,
       combinedResults,
       resultStrings
     );
@@ -113,7 +122,7 @@ app.post("/", async (req: express.Request, res: express.Response) => {
 
     const promises = details.doctorEmail
       ? basePromises.concat([
-          sendDoctorEmail(body, concern, combinedResults, resultStrings)
+          sendDoctorEmail(detailsWithDates, combinedResults, resultStrings)
         ])
       : basePromises;
 
@@ -133,11 +142,35 @@ const templateBody = fs.readFileSync(
 
 function sendParentEmail(
   details: NotifyFunctionInputDetails,
-  concern: boolean,
   combinedResults: CombinedResult[],
-  resultStrings
+  resultStrings: EmailString,
+  config: HostConfig
 ) {
-  const templateInput: ParentEmailInput = {
+  const templateInput: ParentEmailInput = buildEmailInput(
+    details,
+    combinedResults,
+    resultStrings
+  );
+
+  var message = markupJs.up(templateBody, templateInput);
+
+  var params = {
+    from: EMAIL_FROM,
+    to: details.recipientEmail,
+    cc: !config.dev && EMAIL_FROM,
+    subject: "WatchMeGrow.care Results for " + details.firstNameOfChild,
+    html: message
+  };
+
+  return mailgun.messages().send(params);
+}
+
+function buildEmailInput(
+  details: NotifyFunctionInputDetails,
+  combinedResults: CombinedResult[],
+  resultStrings: EmailString
+): DoctorEmailInput {
+  return {
     details: {
       nameOfParent: details.nameOfParent,
       firstNameOfChild: details.firstNameOfChild,
@@ -155,20 +188,11 @@ function sendParentEmail(
     communicationResults: combinedResults.filter(
       result => result.questionnaire.category === "communication"
     ),
-    resultText: resultStrings.title + " " + resultStrings.subtitle
+    resultText: resultStrings.title + " " + resultStrings.subtitle,
+    concern: mark(combinedResults),
+    minAge: "",
+    maxAge: "'"
   };
-
-  var message = markupJs.up(templateBody, templateInput);
-
-  var params = {
-    from: EMAIL_FROM,
-    to: EMAIL_TO, //event.details.recipient_email,
-    // cc: EMAIL_FROM,
-    subject: "WatchMeGrow.care Results for " + details.firstNameOfChild,
-    html: message
-  };
-
-  return mailgun.messages().send(params);
 }
 
 const doctorTemplateBody = fs.readFileSync(
@@ -176,27 +200,32 @@ const doctorTemplateBody = fs.readFileSync(
   "utf-8"
 );
 
-function sendDoctorEmail(event, concern, combinedResults, resultStrings) {
-  const questionnaires = questionnairesForSubsite(event.details.subsite);
+function sendDoctorEmail(
+  details: NotifyFunctionInputDetails,
+  combinedResults: CombinedResult[],
+  resultStrings: EmailString,
+  config: HostConfig
+) {
+  const questionnaires = questionnairesForSubsite(details.subsite);
   const { minMonths, maxMonths } = minMax(questionnaires);
 
-  var message = markupJs.up(doctorTemplateBody, {
-    details: event.details,
-    concern: concern,
-    allResults: combinedResults,
-    resultText: resultStrings.title + " " + resultStrings.subtitle,
-    minMonths: minMonths,
-    maxMonths: maxMonths
-  });
+  const doctorEmailInput: DoctorEmailInput = buildEmailInput(
+    details,
+    combinedResults,
+    resultStrings
+  );
+
+  var message = markupJs.up(doctorTemplateBody, doctorEmailInput);
 
   var params = {
     from: EMAIL_FROM,
-    to: EMAIL_TO, //event.details.doctor_email,
+    to: details.doctorEmail,
+    cc: !config.dev && EMAIL_FROM,
     subject:
       "WatchMeGrow.care Results for " +
-      event.details.firstNameOfChild +
+      details.firstNameOfChild +
       " " +
-      event.details.lastNameOfChild,
+      details.lastNameOfChild,
     html: message
   };
 
@@ -224,47 +253,5 @@ function recordResultsInFirestore(results: any[], concern, details) {
       date: moment(details.testDate).toDate()
     });
 }
-
-function addToReminderList(event) {
-  return Promise.resolve();
-}
-
-// function addToReminderList(event) {
-//   const completed = Object.keys(event.results).reduce((soFar, current) => {
-//     soFar[current] = true;
-//     return soFar;
-//   }, {});
-
-//   const data = {
-//     completed,
-//     dob: event.details.dob_child,
-//     subsite: event.details.subsite
-//   };
-
-//   const newVars = {};
-//   newVars[event.details.first_name_of_child] = data;
-
-//   const varsPromise = mailgun
-//     .lists("reminders@auto.watchmegrow.care")
-//     .members(event.details.recipient_email)
-//     .info()
-//     .then(memberObj => {
-//       const member = memberObj.member;
-//       return Promise.resolve(member && member.vars ? member.vars : {});
-//     })
-//     .catch(e => Promise.resolve({}));
-
-//   return varsPromise.then(vars => {
-//     return mailgun
-//       .lists("reminders@auto.watchmegrow.care")
-//       .members()
-//       .create({
-//         name: event.details.name_of_parent,
-//         address: event.details.recipient_email,
-//         upsert: "true",
-//         vars: _.merge(vars, newVars)
-//       });
-//   });
-// }
 
 export default app;
