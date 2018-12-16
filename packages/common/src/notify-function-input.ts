@@ -8,7 +8,6 @@ export type NotifyFunctionInputDetails = {
   dobOfChild: string;
   doctorEmail: string;
   ageInMonths: number;
-  location: string;
   host: string;
 };
 

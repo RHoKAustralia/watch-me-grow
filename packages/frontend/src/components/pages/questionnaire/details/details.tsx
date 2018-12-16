@@ -22,15 +22,6 @@ const { minMonths, maxMonths } = minMax(questionnaires);
 const minDate = moment().subtract(maxMonths, "months");
 const maxDate = moment().subtract(minMonths, "months");
 
-const locations = [
-  "WMG - E",
-  "WMG - REAL",
-  "Childcare - Rockdale",
-  "GP - Rockdale",
-  "Playgroup - Botany",
-  "Other"
-].map(value => ({ value, label: value }));
-
 type Props = { details: DetailsStoreState } & WithRouterProps;
 
 class Details extends React.Component<Props, {}> {
@@ -78,31 +69,6 @@ class Details extends React.Component<Props, {}> {
 
     return (
       <form className={Styles.details} onSubmit={this.onSubmit}>
-        <div className={Styles["field-wrapper"]}>
-          <FormControl fullWidth>
-            <InputLabel htmlFor="location">Location</InputLabel>
-            <Select
-              native
-              fullWidth
-              value={details.location}
-              onChange={this.onChange.bind(this, "location")}
-              error={!!details.errors.location}
-              onFocus={this.closeDatePicker}
-              inputProps={{
-                name: "location",
-                id: "location"
-              }}
-            >
-              <option value="" />
-              {locations.map(location => (
-                <option value={location.value} key={location.value}>
-                  {location.label}
-                </option>
-              ))}
-            </Select>
-          </FormControl>
-        </div>
-
         <div className={Styles["field-wrapper"]}>
           <TextField
             type="text"

@@ -4,24 +4,22 @@ export type HostConfig = {
   questionnaires: string[];
 };
 
+const defaultConfig = {
+  questionnaires: ["qchat", "cdc12", "cdc18", "cdc24"]
+};
+
 export const siteSpecificConfig: {
   [id: string]: { questionnaires: string[] };
 } = {
-  "watchmegrow.care": {
-    questionnaires: ["qchat", "cdc12", "cdc18", "cdc24"]
-  },
-  "dubai.watchmegrow.care": {
-    questionnaires: ["qchat", "cdc12", "cdc18", "cdc24"]
-  },
-  localhost: {
-    questionnaires: ["qchat", "cdc12", "cdc18", "cdc24"]
-  }
+  "watchmegrow.care": defaultConfig,
+  "dubai.watchmegrow.care": defaultConfig,
+  localhost: defaultConfig
 };
 
 function getSiteSpecificConfig(host: string): HostConfig {
   const indexOfDev = host.indexOf(".dev.");
 
-  const config =
+  const baseConfig =
     indexOfDev >= 0
       ? {
           host: host.substring(0, indexOfDev) + host.substring(indexOfDev + 4),
@@ -29,9 +27,11 @@ function getSiteSpecificConfig(host: string): HostConfig {
         }
       : { host: host, dev: host === "localhost" };
 
+  const extraConfig = siteSpecificConfig[baseConfig.host] || defaultConfig;
+
   return {
-    ...config,
-    questionnaires: siteSpecificConfig[config.host].questionnaires
+    ...baseConfig,
+    ...extraConfig
   };
 }
 

@@ -3,7 +3,6 @@ import emailValidator from "email-validator";
 import moment from "moment";
 
 type State = {
-  location: string;
   babyFirstName: string;
   babyLastName: string;
   babyGender: string;
@@ -16,7 +15,6 @@ type State = {
 };
 
 type RequiredValue =
-  | "location"
   | "babyFirstName"
   | "babyLastName"
   | "babyGender"
@@ -42,7 +40,6 @@ export type WrappedComponentProps = {
 };
 
 const REQUIRED_TEXT: Array<RequiredValue> = [
-  "location",
   "babyFirstName",
   "babyLastName",
   "babyGender",
@@ -61,7 +58,6 @@ const DetailsStore = (
 
     buildInitialState(): State {
       return {
-        location: "",
         babyFirstName: "",
         babyLastName: "",
         babyGender: "",
@@ -78,7 +74,6 @@ const DetailsStore = (
         const storedDetails = JSON.parse(fromStorageRaw);
 
         this.setState({
-          location: storedDetails.location,
           babyFirstName: storedDetails.babyFirstName,
           babyLastName: storedDetails.babyLastName,
           babyGender: storedDetails.babyGender,
@@ -128,7 +123,6 @@ const DetailsStore = (
       sessionStorage.setItem(
         LOCAL_STORAGE_KEY,
         JSON.stringify({
-          location: this.state.location,
           babyFirstName: this.state.babyFirstName,
           babyLastName: this.state.babyLastName,
           babyGender: this.state.babyGender,
