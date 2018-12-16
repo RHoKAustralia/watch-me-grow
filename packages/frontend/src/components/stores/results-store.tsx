@@ -14,11 +14,9 @@ import subsite from "../../util/subsite";
 const LOCAL_STORAGE_KEY = "wmg-results";
 
 type State = {
-  [questionnaireId: string]:
-    | {
-        [questionId: string]: RecordedAnswer | undefined;
-      }
-    | undefined;
+  [questionnaireId: string]: {
+    [questionId: string]: RecordedAnswer;
+  };
 } & {
   concern?: boolean;
 };
@@ -70,7 +68,7 @@ const ResultStore = (
 
     getResultsForQuestionnaire = (
       questionnaireId: string
-    ): { [questionId: string]: RecordedAnswer | undefined } => {
+    ): { [questionId: string]: RecordedAnswer } => {
       const questionnaire = this.state[questionnaireId];
 
       return questionnaire ? questionnaire : {};
@@ -83,7 +81,7 @@ const ResultStore = (
     getAnswer = (
       questionnaireId: string,
       questionId: string
-    ): RecordedAnswer | undefined => {
+    ): RecordedAnswer => {
       return this.getResultsForQuestionnaire(questionnaireId)[questionId];
     };
 
@@ -96,7 +94,10 @@ const ResultStore = (
       this.setState(
         Object.keys(this.state).reduce(
           (acc: State, id: string) => {
-            const newState: State = { ...acc, [id]: undefined };
+            const newState: State = {
+              ...acc,
+              [id]: (undefined as any) as { [id: string]: RecordedAnswer }
+            };
             return newState;
           },
           {} as State

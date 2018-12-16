@@ -5,7 +5,8 @@ import { withRouter, WithRouterProps } from "react-router";
 import ReactCSSTransitionGroup from "react-addons-css-transition-group";
 import TextField, { OutlinedTextFieldProps } from "@material-ui/core/TextField";
 
-import { Results, RecordedAnswer } from "../../../stores/results-store";
+import { Results } from "../../../stores/results-store";
+import { RecordedAnswer } from "@wmg/common/lib/notify-function-input";
 import {
   Question,
   Answer,
@@ -66,12 +67,7 @@ class QuestionComponent extends React.Component<Props, State> {
       storedAnswer && storedAnswer.comments
     );
 
-    if (
-      !(
-        this.question!.question.comments &&
-        (answer.redFlagQuestion || answer.amberFlagQuestion)
-      )
-    ) {
+    if (!(this.question!.question.comments && answer.redFlagScore > 0)) {
       this.goToNext();
     } else {
       setTimeout(() =>

@@ -1,29 +1,29 @@
-import * as moment from "moment";
+import moment from "moment";
 const mailgunJs = require("mailgun-js");
 import * as fs from "fs";
 import * as _ from "lodash";
 import * as markupJs from "markup-js";
-import * as express from "express";
+import express from "express";
 import * as bodyParser from "body-parser";
 import * as functions from "firebase-functions";
 import * as firebase from "firebase-admin";
-import * as cors from "cors";
+import cors from "cors";
 
-import questionnairesForSubsite from "@wmg/common/src/questionnaires-for-subsite";
+import questionnairesForSubsite from "@wmg/common/lib/questionnaires-for-subsite";
 import {
   mark,
   combineAll,
   CombinedResult
-} from "@wmg/common/src/data-functions";
-import strings, { EmailString } from "@wmg/common/src/strings";
-import minMax from "@wmg/common/src/min-max";
+} from "@wmg/common/lib/data-functions";
+import strings, { EmailString } from "@wmg/common/lib/strings";
+import minMax from "@wmg/common/lib/min-max";
 import {
   NotifyFunctionInput,
   NotifyFunctionInputDetails
-} from "@wmg/common/src/notify-function-input";
+} from "@wmg/common/lib/notify-function-input";
 import getSiteSpecificConfig, {
   HostConfig
-} from "@wmg/common/src/site-specific-config";
+} from "@wmg/common/lib/site-specific-config";
 
 type EmailResult = {
   questionnaire: {
@@ -96,7 +96,7 @@ app.post("/", async (req: express.Request, res: express.Response) => {
       throw new Error("Missing parameter");
     }
 
-    const config = getSiteSpecificConfig(details.subsite);
+    const config = getSiteSpecificConfig(details.host);
     const combinedResults = combineAll(body.results);
     const concern = mark(combinedResults);
     const resultStrings = concern
@@ -112,17 +112,23 @@ app.post("/", async (req: express.Request, res: express.Response) => {
     const parentEmailPromise = sendParentEmail(
       detailsWithDates,
       combinedResults,
-      resultStrings
+      resultStrings,
+      config
     );
 
-    const basePromises = [
+    const basePromises: Promise<any>[] = [
       parentEmailPromise,
       recordResultsInFirestore(combinedResults, concern, details)
     ];
 
     const promises = details.doctorEmail
       ? basePromises.concat([
-          sendDoctorEmail(detailsWithDates, combinedResults, resultStrings)
+          sendDoctorEmail(
+            detailsWithDates,
+            combinedResults,
+            resultStrings,
+            config
+          )
         ])
       : basePromises;
 
@@ -154,15 +160,21 @@ function sendParentEmail(
 
   var message = markupJs.up(templateBody, templateInput);
 
-  var params = {
-    from: EMAIL_FROM,
-    to: details.recipientEmail,
-    cc: !config.dev && EMAIL_FROM,
-    subject: "WatchMeGrow.care Results for " + details.firstNameOfChild,
-    html: message
-  };
+  var params = addCCToParams(
+    {
+      from: EMAIL_FROM,
+      to: details.recipientEmail,
+      subject: "WatchMeGrow.care Results for " + details.firstNameOfChild,
+      html: message
+    },
+    config
+  );
 
   return mailgun.messages().send(params);
+}
+
+function addCCToParams(params: object, config: HostConfig) {
+  return config.dev ? params : { ...params, cc: EMAIL_FROM };
 }
 
 function buildEmailInput(
@@ -206,7 +218,7 @@ function sendDoctorEmail(
   resultStrings: EmailString,
   config: HostConfig
 ) {
-  const questionnaires = questionnairesForSubsite(details.subsite);
+  const questionnaires = questionnairesForSubsite(details.host);
   const { minMonths, maxMonths } = minMax(questionnaires);
 
   const doctorEmailInput: DoctorEmailInput = buildEmailInput(
@@ -217,28 +229,30 @@ function sendDoctorEmail(
 
   var message = markupJs.up(doctorTemplateBody, doctorEmailInput);
 
-  var params = {
-    from: EMAIL_FROM,
-    to: details.doctorEmail,
-    cc: !config.dev && EMAIL_FROM,
-    subject:
-      "WatchMeGrow.care Results for " +
-      details.firstNameOfChild +
-      " " +
-      details.lastNameOfChild,
-    html: message
-  };
+  var params = addCCToParams(
+    {
+      from: EMAIL_FROM,
+      to: details.doctorEmail,
+      subject:
+        "WatchMeGrow.care Results for " +
+        details.firstNameOfChild +
+        " " +
+        details.lastNameOfChild,
+      html: message
+    },
+    config
+  );
 
   return mailgun.messages().send(params);
 }
 
-function recordResultsInFirestore(results: any[], concern, details) {
+function recordResultsInFirestore(results: CombinedResult[], concern, details) {
   const filteredResults = results.map(result => ({
     questionnaire: result.questionnaire.id,
     answers: _.fromPairs(
-      result.results.map(({ answer }, i) => [
-        result.questionnaire.questions[i].id,
-        answer.value
+      result.results.map(({ answer, metadata }) => [
+        metadata.id,
+        answer.rawAnswer.value
       ])
     )
   }));

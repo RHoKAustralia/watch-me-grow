@@ -1,14 +1,20 @@
 {
   "compilerOptions": {
-    "lib": ["es6"],
+    "target": "es5",
+    "allowJs": true,
+    "skipLibCheck": false,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
     "module": "commonjs",
-    "noImplicitReturns": true,
+    "resolveJsonModule": true,
+    "moduleResolution": "node",
+    "noImplicitAny": false,
+    "lib": ["es2015"],
     "outDir": "lib",
-    "sourceMap": true,
-    "target": "es6"
+    "sourceMap": true
   },
   "compileOnSave": true,
-  "include": [
-    "src"
-  ]
+  "include": ["src"]
 }

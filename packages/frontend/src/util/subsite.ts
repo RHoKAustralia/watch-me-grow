@@ -1,15 +1,8 @@
-import { HostConfig } from "@wmg/common/lib/subsite-config";
+import getSiteSpecificConfig, {
+  HostConfig
+} from "@wmg/common/lib/site-specific-config";
 
-const host = window.location.host;
-
-const indexOfDev = host.indexOf(".dev.");
-
-const config: HostConfig =
-  indexOfDev >= 0
-    ? {
-        host: host.substring(0, indexOfDev) + host.substring(indexOfDev + 4),
-        dev: true
-      }
-    : { host: host, dev: host === "localhost" };
+const host = window.location.hostname;
+const config: HostConfig = getSiteSpecificConfig(host);
 
 export default config;

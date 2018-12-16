@@ -1,18 +1,19 @@
-import * as moment from "moment";
+import moment from "moment";
 const mailgunJs = require("mailgun-js");
 import * as markupJs from "markup-js";
 import * as fs from "fs";
-import * as _ from "lodash";
+import _ from "lodash";
 import * as functions from "firebase-functions";
 import * as firebase from "firebase-admin";
 
-import * as strings from "@wmg/common/src/strings";
-import * as questionnaires from "@wmg/common/src/questionnaires";
-import * as siteSpecificConfig from "@wmg/common/src/site-specific-config";
+import strings from "@wmg/common/lib/strings";
+import questionnaires from "@wmg/common/lib/questionnaires";
+import {
+  siteSpecificConfig,
+  HostConfig
+} from "@wmg/common/lib/site-specific-config";
 
-type ResultsEmailInput = {
-
-}
+type ResultsEmailInput = {};
 
 const mailgun = mailgunJs({
   apiKey: functions.config().mailgun.apikey,
@@ -24,7 +25,7 @@ const reminderTemplateBody = fs.readFileSync(
   "utf-8"
 );
 
-const subsitesForQuestionnaire = _(siteSpecificConfig as SiteSpecificConfig)
+const subsitesForQuestionnaire = _(siteSpecificConfig)
   .toPairs()
   .filter(([siteId, siteConfig]) => !!siteConfig.questionnaires)
   .flatMap(([siteId, siteConfig]) =>
@@ -41,7 +42,7 @@ export default async function reminderEmail(pubSubMsg) {
   try {
     const now = moment();
 
-    const questionnaireReminderAges = (questionnaires as Questionnaire[])
+    const questionnaireReminderAges = questionnaires
       .filter(questionnaire => questionnaire.remind_at)
       .map(questionnaire => ({
         id: questionnaire.id,
@@ -86,41 +87,6 @@ export default async function reminderEmail(pubSubMsg) {
     await Promise.all(reminderPromises);
 
     console.log(`Successfully reminded ${reminderPromises.length} parents`);
-    // mailgun
-    //   .lists("reminders@auto.watchmegrow.care")
-    //   .members()
-    //   .list()
-    //   .then(members => {
-    //     const children = _.flatMap(members.items, member => {
-    //       return Object.keys(member.vars).map(varKey =>
-    //         Object.assign(member.vars[varKey], {
-    //           name: varKey,
-    //           email: member.address,
-    //           ageInDays: moment().diff(moment(member.vars[varKey].dob), "days")
-    //         })
-    //       );
-    //     });
-
-    //     const toBeReminded = children.filter(child =>
-    //       questionnaireReminderAges(child.subsite).some(
-    //         questionnaire =>
-    //           !child.completed[questionnaire.id] &&
-    //           questionnaire.remindAgeInDays === child.ageInDays
-    //       )
-    //     );
-
-    //     console.log("Reminding:");
-    //     console.log(toBeReminded);
-
-    //     const promises = toBeReminded.map(child =>
-    //       sendReminder(
-    //         child,
-    //         Math.round(moment.duration(child.ageInDays, "days").asMonths())
-    //       )
-    //     );
-
-    //     return Promise.all(promises);
-    //   });
 
     return true;
   } catch (e) {

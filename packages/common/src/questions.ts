@@ -1,6 +1,6 @@
 import questionnairesForSubsite from "./questionnaires-for-subsite";
 import { Question, Questionnaire } from "./questionnaires";
-import { HostConfig } from "@wmg/common/src/subsite-config";
+import { HostConfig } from "@wmg/common/src/site-specific-config";
 
 export type QuestionLookup = {
   [index: number]: { question: Question; questionnaire: Questionnaire };

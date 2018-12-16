@@ -8,8 +8,8 @@ export type NotifyFunctionInputDetails = {
   dobOfChild: string;
   doctorEmail: string;
   ageInMonths: number;
-  subsite: string;
   location: string;
+  host: string;
 };
 
 export type RecordedAnswer = {
@@ -18,11 +18,9 @@ export type RecordedAnswer = {
 };
 
 export type NotifyFunctionResults = {
-  [questionnaireId: string]:
-    | {
-        [answerId: string]: RecordedAnswer | undefined;
-      }
-    | undefined;
+  [questionnaireId: string]: {
+    [answerId: string]: RecordedAnswer;
+  };
 };
 
 export type NotifyFunctionInput = {

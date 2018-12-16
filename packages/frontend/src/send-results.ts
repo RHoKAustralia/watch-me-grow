@@ -12,6 +12,7 @@ import subsite from "./util/subsite";
 import { Details } from "./components/stores/details-store";
 import { Results } from "./components/stores/results-store";
 
+console.log(subsite);
 function getFunctionUrl(): string {
   if (subsite.host === "localhost") {
     return "http://localhost:5000/watchmegrow-dev-afe2d/us-central1/notifyEmail";
@@ -37,8 +38,8 @@ export default function sendResults(details: Details, results: Results) {
     dobOfChild: details.babyDob!.toISOString(),
     doctorEmail: details.doctorEmail,
     ageInMonths: ageInMonths,
-    subsite: process.env.SUBSITE || "australia",
-    location: details.location
+    location: details.location,
+    host: subsite.host
   };
 
   const data: NotifyFunctionInput = {
