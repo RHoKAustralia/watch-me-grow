@@ -8,6 +8,7 @@ import QuestionComponent from "./pages/questionnaire/question/question";
 import Details from "./pages/questionnaire/details/details";
 import Doctor from "./pages/questionnaire/details/doctor";
 import Result from "./pages/result/result";
+import Admin from "./pages/admin/admin";
 
 export default (
   <Route path="/" component={App}>
@@ -20,5 +21,6 @@ export default (
       <Route path="questions/:questionNumber" component={QuestionComponent} />
     </Route>
     <Route path="result" component={Result} />
+    <Route path="admin" component={Admin} />
   </Route>
 );
