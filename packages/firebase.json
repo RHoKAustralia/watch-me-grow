@@ -4,5 +4,19 @@
       "npm --prefix \"$RESOURCE_DIR\" run lint",
       "npm --prefix \"$RESOURCE_DIR\" run build"
     ]
+  },
+  "hosting": {
+    "public": "frontend/build",
+
+    "rewrites": [
+      {
+        "source": "/api/downloadCsv",
+        "function": "downloadCsv"
+      },
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
   }
 }

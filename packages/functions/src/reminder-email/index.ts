@@ -8,10 +8,7 @@ import * as firebase from "firebase-admin";
 
 import strings from "@wmg/common/lib/strings";
 import questionnaires from "@wmg/common/lib/questionnaires";
-import {
-  siteSpecificConfig,
-  HostConfig
-} from "@wmg/common/lib/site-specific-config";
+import { siteSpecificConfig } from "@wmg/common/lib/site-specific-config";
 
 type ResultsEmailInput = {};
 
@@ -101,7 +98,7 @@ function sendReminder(details) {
     "months"
   );
 
-  var message = markupJs.up(reminderTemplateBody, {
+  const message = markupJs.up(reminderTemplateBody, {
     url:
       "https://" +
       (details.subsite ? details.subsite + "." : "") +
@@ -111,7 +108,7 @@ function sendReminder(details) {
 
   console.log(`Sending reminder to ${details.recipientEmail}`);
 
-  var params = {
+  const params = {
     from: "mail@watchmegrow.care",
     to: details.recipientEmail,
     subject: "WatchMeGrow.care Reminder for  " + details.firstNameOfChild,

@@ -3,7 +3,6 @@
   "version": "0.0.0",
   "dependencies": {
     "@material-ui/core": "^3.4.0",
-    "@wmg/common": "0.0.0",
     "classnames": "^2.2.5",
     "email-validator": "^2.0.4",
     "firebase": "^5.7.0",
@@ -20,7 +19,8 @@
     "react-router": "^3.2.1",
     "react-scripts": "^2.1.1",
     "typescript": "^3.1.6",
-    "whatwg-fetch": "^3.0.0"
+    "whatwg-fetch": "^3.0.0",
+    "xlsx": "^0.14.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -47,7 +47,10 @@
     "@types/react-datepicker": "^1.8.0",
     "@types/react-dom": "^16.0.10",
     "@types/react-router": "^3.0.8",
+    "@types/xlsx": "0.0.36",
+    "@wmg/common": "0.0.0",
     "node-sass": "^4.10.0"
   },
-  "private": true
+  "private": true,
+  "proxy": "http://localhost:5000/watchmegrow-dev-afe2d/us-central1"
 }

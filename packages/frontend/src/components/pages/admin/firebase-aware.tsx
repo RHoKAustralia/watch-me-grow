@@ -17,7 +17,10 @@ export default class FirebaseAware extends React.Component<Props, State> {
   unsubscribe?: () => void;
 
   componentDidMount() {
-    this.unsubscribe = firebase.auth().onAuthStateChanged(user => {
+    this.unsubscribe = firebase.auth().onAuthStateChanged(async user => {
+      const idToken = await (user && user.getIdToken());
+      document.cookie =
+        "__session=" + idToken + ";max-age=" + 60 * 60; /* Persistent 1 hour */
       this.setState({
         user
       });

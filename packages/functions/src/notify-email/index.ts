@@ -64,7 +64,7 @@ type DoctorEmailInput = ParentEmailInput & {
 
 const FORMAT = "dddd, MMMM Do YYYY";
 const EMAIL_FROM = "WatchMeGrow.care <mail@watchmegrow.care>";
-const EMAIL_TO = "alex@alexgilleran.com";
+// const EMAIL_TO = "alex@alexgilleran.com";
 
 const mailgun = mailgunJs({
   apiKey: functions.config().mailgun.apikey,
@@ -132,7 +132,7 @@ app.post("/", async (req: express.Request, res: express.Response) => {
         ])
       : basePromises;
 
-    const results = await Promise.all(promises);
+    await Promise.all(promises);
 
     res.status(200).json({ status: "OK" });
   } catch (e) {
@@ -158,9 +158,9 @@ function sendParentEmail(
     resultStrings
   );
 
-  var message = markupJs.up(templateBody, templateInput);
+  const message = markupJs.up(templateBody, templateInput);
 
-  var params = addCCToParams(
+  const params = addCCToParams(
     {
       from: EMAIL_FROM,
       to: details.recipientEmail,
@@ -227,9 +227,9 @@ function sendDoctorEmail(
     resultStrings
   );
 
-  var message = markupJs.up(doctorTemplateBody, doctorEmailInput);
+  const message = markupJs.up(doctorTemplateBody, doctorEmailInput);
 
-  var params = addCCToParams(
+  const params = addCCToParams(
     {
       from: EMAIL_FROM,
       to: details.doctorEmail,

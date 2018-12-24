@@ -3,6 +3,7 @@ import firebase from "firebase";
 
 import Auth from "./auth";
 import FirebaseAware from "./firebase-aware";
+import Downloads from "./downloads";
 
 const config = {
   apiKey: "AIzaSyDeG915nBTYC7BY2MCy2gJkcyhhfzKU4VA",
@@ -22,7 +23,12 @@ export default class AdminInner extends React.Component {
         <FirebaseAware>
           {user => {
             if (user) {
-              return "You Are logged in as " + user.displayName;
+              return (
+                <React.Fragment>
+                  You Are logged in as {user.displayName};
+                  <Downloads />
+                </React.Fragment>
+              );
             } else {
               return <Auth />;
             }
