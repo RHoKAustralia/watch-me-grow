@@ -1,7 +1,12 @@
 import * as functions from "firebase-functions";
 import * as firebaseAdmin from "firebase-admin";
 
-firebaseAdmin.initializeApp(functions.config().firebase);
+const key = require("../key-dev.json");
+
+firebaseAdmin.initializeApp({
+  ...functions.config().firebase,
+  credential: firebaseAdmin.credential.cert(key)
+});
 
 firebaseAdmin.firestore().settings({
   timestampsInSnapshots: true

@@ -21,37 +21,79 @@ app.get("*", async (req: express.Request, res: express.Response) => {
   const isAdmin =
     user.customClaims && (user.customClaims as any).admin === true;
 
-  if (!isAdmin) {
-    res.status(403).send("User is not an admin");
-    console.error("User is not an admin");
-    return;
-  }
+  // if (!isAdmin) {
+  //   res.status(403).send("User is not an admin");
+  //   console.error("User is not an admin");
+  //   return;
+  // }
 
-  if (!req.params.sideId) {
+  if (!req.query.siteId) {
     res.status(400).send("No 'siteId' param present");
     return;
   }
 
-  const siteId: string = req.params["siteId"];
+  const siteId: string = req.query.siteId;
 
   let current = await buildQuery(siteId).get();
 
-  res.write("[");
-  current.docs.forEach(doc => res.write(JSON.stringify(doc)));
+  if (req.query.format === "json") {
+    res.type("application/json");
+    res.write("[");
+    res.write(
+      current.docs
+        .map(doc => JSON.stringify(sanitiseResultDoc(doc.data())))
+        .join(",")
+    );
 
-  while (current.docs.length === PAGE_SIZE) {
-    const lastVisible = current.docs[current.docs.length - 1];
-    current = await buildQuery(siteId, lastVisible).get();
-    if (current.docs.length > 0) {
-      res.write(",");
-      current.docs.forEach(doc => res.write(JSON.stringify(doc)));
+    while (current.docs.length === PAGE_SIZE) {
+      const lastVisible = current.docs[current.docs.length - 1];
+      current = await buildQuery(siteId, lastVisible).get();
+      if (current.docs.length > 0) {
+        current.docs.forEach(doc => {
+          res.write(",");
+          res.write(JSON.stringify(sanitiseResultDoc(doc.data())));
+        });
+      }
     }
-  }
 
-  res.write("]");
+    res.write("]");
+  } else {
+    res.type("text/csv");
+
+
+    res.write(
+      current.docs
+        .map(doc => JSON.stringify(sanitiseResultDoc(doc.data())))
+        .join(",")
+    );
+
+    while (current.docs.length === PAGE_SIZE) {
+      const lastVisible = current.docs[current.docs.length - 1];
+      current = await buildQuery(siteId, lastVisible).get();
+      if (current.docs.length > 0) {
+        current.docs.forEach(doc => {
+          res.write(",");
+          res.write(JSON.stringify(sanitiseResultDoc(doc.data())));
+        });
+      }
+    }
+
+    res.write("]");
+  }
 
   res.status(200).send();
 });
+
+function sanitiseResultDoc(doc: FirebaseFirestore.DocumentData) {
+  return {
+    ...doc,
+    date: undefined,
+    details: {
+      ...doc.details,
+      dobAsDate: undefined
+    }
+  };
+}
 
 function buildQuery(
   siteId: string,
