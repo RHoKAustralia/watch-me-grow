@@ -246,7 +246,21 @@ function sendDoctorEmail(
   return mailgun.messages().send(params);
 }
 
-function recordResultsInFirestore(results: CombinedResult[], concern, details) {
+export type FirestoreRecord = {
+  results: {
+    questionnaire: string;
+    answers: { [id: string]: string };
+  }[];
+  concern: boolean;
+  details: NotifyFunctionInputDetails & { dobAsDate: Date };
+  date: Date;
+};
+
+function recordResultsInFirestore(
+  results: CombinedResult[],
+  concern: boolean,
+  details: NotifyFunctionInputDetails
+) {
   const filteredResults = results.map(result => ({
     questionnaire: result.questionnaire.id,
     answers: _.fromPairs(
@@ -257,15 +271,17 @@ function recordResultsInFirestore(results: CombinedResult[], concern, details) {
     )
   }));
 
+  const record: FirestoreRecord = {
+    results: filteredResults,
+    concern,
+    details: { ...details, dobAsDate: moment(details.dobOfChild).toDate() },
+    date: moment(details.testDate).toDate()
+  };
+
   return firebase
     .firestore()
     .collection("/results")
-    .add({
-      results: filteredResults,
-      concern,
-      details: { ...details, dobAsDate: moment(details.dobOfChild).toDate() },
-      date: moment(details.testDate).toDate()
-    });
+    .add(record);
 }
 
 export default app;
