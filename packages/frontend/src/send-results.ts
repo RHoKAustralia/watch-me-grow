@@ -13,11 +13,8 @@ import { Details } from "./components/stores/details-store";
 import { Results } from "./components/stores/results-store";
 
 function getFunctionUrl(): string {
-  if (subsite.host === "localhost") {
+  if (window.location.hostname === "localhost") {
     return "http://localhost:5000/watchmegrow-dev-afe2d/us-central1/notifyEmail";
-  } else if (subsite.dev) {
-    // FIXME
-    return "";
   } else {
     // FIXME
     return "";
@@ -37,7 +34,7 @@ export default function sendResults(details: Details, results: Results) {
     dobOfChild: details.babyDob!.toISOString(),
     doctorEmail: details.doctorEmail,
     ageInMonths: ageInMonths,
-    host: subsite.host
+    siteId: subsite.id
   };
 
   const data: NotifyFunctionInput = {

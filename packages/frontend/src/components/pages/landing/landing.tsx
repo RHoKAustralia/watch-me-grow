@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router";
 
 import questionnairesForSubsite from "@wmg/common/lib/questionnaires-for-subsite";
+import ageInMonthsToString from "@wmg/common/lib/age-to-string";
 import minMax from "@wmg/common/lib/min-max";
 import questionnaires from "../../../data/questionnaires";
 import { WrappedComponentProps as ResultsProps } from "../../stores/results-store";
@@ -30,8 +31,8 @@ export default class HomePage extends React.Component<Props, any> {
           information about healthy development.
         </p>
         <p className={Styles.paragraph}>
-          This app is designed for children aged approximately {minMonths} to{" "}
-          {maxMonths} months
+          This app is designed for children aged approximately{" "}
+          {ageInMonthsToString(minMonths)} to {ageInMonthsToString(maxMonths)}
         </p>
         <p className={Styles.paragraph}>
           For general information on growth and development for children from

@@ -10,7 +10,7 @@ export default function getQuestions(
   months: number,
   subsite: HostConfig
 ): QuestionLookup {
-  return questionnairesForSubsite(subsite.host)
+  return questionnairesForSubsite(subsite.id)
     .filter(questionnaire => {
       const ageGroups = questionnaire.age_groups;
 

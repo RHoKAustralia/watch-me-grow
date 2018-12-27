@@ -21,9 +21,11 @@ import {
   NotifyFunctionInput,
   NotifyFunctionInputDetails
 } from "@wmg/common/lib/notify-function-input";
-import getSiteSpecificConfig, {
+import {
+  getConfigById,
   HostConfig
 } from "@wmg/common/lib/site-specific-config";
+import ageInMonthsToString from "@wmg/common/lib/age-to-string";
 
 type EmailResult = {
   questionnaire: {
@@ -96,7 +98,7 @@ app.post("/", async (req: express.Request, res: express.Response) => {
       throw new Error("Missing parameter");
     }
 
-    const config = getSiteSpecificConfig(details.host);
+    const config = getConfigById(details.siteId);
     const combinedResults = combineAll(body.results);
     const concern = mark(combinedResults);
     const resultStrings = concern
@@ -160,21 +162,22 @@ function sendParentEmail(
 
   const message = markupJs.up(templateBody, templateInput);
 
-  const params = addCCToParams(
-    {
-      from: EMAIL_FROM,
-      to: details.recipientEmail,
-      subject: "WatchMeGrow.care Results for " + details.firstNameOfChild,
-      html: message
-    },
-    config
-  );
+  const params = addCCToParams({
+    from: EMAIL_FROM,
+    to: details.recipientEmail,
+    subject: "WatchMeGrow.care Results for " + details.firstNameOfChild,
+    html: message
+  });
 
   return mailgun.messages().send(params);
 }
 
-function addCCToParams(params: object, config: HostConfig) {
-  return config.dev ? params : { ...params, cc: EMAIL_FROM };
+function addCCToParams(params: any) {
+  const newParams = { ...params };
+  if (functions.config().cc) {
+    newParams.cc = functions.config().cc;
+  }
+  return newParams;
 }
 
 function buildEmailInput(
@@ -182,6 +185,10 @@ function buildEmailInput(
   combinedResults: CombinedResult[],
   resultStrings: EmailString
 ): DoctorEmailInput {
+  const { minMonths, maxMonths } = minMax(
+    questionnairesForSubsite(details.siteId)
+  );
+
   return {
     details: {
       nameOfParent: details.nameOfParent,
@@ -189,10 +196,7 @@ function buildEmailInput(
       lastNameOfChild: details.lastNameOfChild,
       testDateFormatted: moment(details.testDate).format(FORMAT),
       dobChildFormatted: moment(details.dobOfChild).format(FORMAT),
-      ageOfChild:
-        details.ageInMonths < 24
-          ? details.ageInMonths + " months"
-          : Math.floor(details.ageInMonths / 12) + " years"
+      ageOfChild: ageInMonthsToString(details.ageInMonths)
     },
     developmentResults: combinedResults.filter(
       result => result.questionnaire.category === "development"
@@ -202,8 +206,8 @@ function buildEmailInput(
     ),
     resultText: resultStrings.title + " " + resultStrings.subtitle,
     concern: mark(combinedResults),
-    minAge: "",
-    maxAge: "'"
+    minAge: ageInMonthsToString(minMonths),
+    maxAge: ageInMonthsToString(maxMonths)
   };
 }
 
@@ -218,8 +222,7 @@ function sendDoctorEmail(
   resultStrings: EmailString,
   config: HostConfig
 ) {
-  const questionnaires = questionnairesForSubsite(details.host);
-  const { minMonths, maxMonths } = minMax(questionnaires);
+  const questionnaires = questionnairesForSubsite(details.siteId);
 
   const doctorEmailInput: DoctorEmailInput = buildEmailInput(
     details,
@@ -229,19 +232,16 @@ function sendDoctorEmail(
 
   const message = markupJs.up(doctorTemplateBody, doctorEmailInput);
 
-  const params = addCCToParams(
-    {
-      from: EMAIL_FROM,
-      to: details.doctorEmail,
-      subject:
-        "WatchMeGrow.care Results for " +
-        details.firstNameOfChild +
-        " " +
-        details.lastNameOfChild,
-      html: message
-    },
-    config
-  );
+  const params = addCCToParams({
+    from: EMAIL_FROM,
+    to: details.doctorEmail,
+    subject:
+      "WatchMeGrow.care Results for " +
+      details.firstNameOfChild +
+      " " +
+      details.lastNameOfChild,
+    html: message
+  });
 
   return mailgun.messages().send(params);
 }

@@ -8,7 +8,7 @@ import * as firebase from "firebase-admin";
 
 import strings from "@wmg/common/lib/strings";
 import questionnaires from "@wmg/common/lib/questionnaires";
-import { siteSpecificConfig } from "@wmg/common/lib/site-specific-config";
+import { sites } from "@wmg/common/lib/site-specific-config";
 
 type ResultsEmailInput = {};
 
@@ -22,17 +22,15 @@ const reminderTemplateBody = fs.readFileSync(
   "utf-8"
 );
 
-const subsitesForQuestionnaire = _(siteSpecificConfig)
-  .toPairs()
-  .filter(([siteId, siteConfig]) => !!siteConfig.questionnaires)
-  .flatMap(([siteId, siteConfig]) =>
+const subsitesForQuestionnaire = _(sites)
+  .flatMap(siteConfig =>
     siteConfig.questionnaires.map(questionnaireId => ({
       questionnaireId,
-      siteId
+      siteConfig
     }))
   )
   .groupBy(x => x.questionnaireId)
-  .mapValues(value => value.map(x => x.siteId))
+  .mapValues(value => value.map(x => x.siteConfig.id))
   .value();
 
 export default async function reminderEmail(pubSubMsg) {

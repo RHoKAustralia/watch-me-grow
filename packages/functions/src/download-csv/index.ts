@@ -36,7 +36,7 @@ const dummyDetails: NotifyFunctionInputDetails = {
   dobOfChild: "",
   doctorEmail: "",
   ageInMonths: 0,
-  host: ""
+  siteId: ""
 };
 
 app.get("*", async (req: express.Request, res: express.Response) => {
@@ -46,11 +46,11 @@ app.get("*", async (req: express.Request, res: express.Response) => {
     const isAdmin =
       user.customClaims && (user.customClaims as any).admin === true;
 
-    // if (!isAdmin) {
-    //   res.status(403).send("User is not an admin");
-    //   console.error("User is not an admin");
-    //   return;
-    // }
+    if (!isAdmin) {
+      res.status(403).send("User is not an admin");
+      console.error("User is not an admin");
+      return;
+    }
 
     if (!req.query.siteId) {
       res.status(400).send("No 'siteId' param present");

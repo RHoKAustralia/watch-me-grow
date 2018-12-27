@@ -8,7 +8,7 @@ export type NotifyFunctionInputDetails = {
   dobOfChild: string;
   doctorEmail: string;
   ageInMonths: number;
-  host: string;
+  siteId: string;
 };
 
 export type RecordedAnswer = {

@@ -14,8 +14,8 @@ export default function getMinMax(questionnairesRaw: Questionnaire[]) {
     .head() as number;
   const maxMonths: number = questionnaires
     .map(questionnaire => questionnaire.age_groups.max)
-    .sortBy(x => x)
-    .last() as number;
+    .sortBy(x => -x)
+    .head() as number;
 
   return { minMonths: minMonths, maxMonths: maxMonths };
 }

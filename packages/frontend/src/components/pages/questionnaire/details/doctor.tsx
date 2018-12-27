@@ -1,21 +1,21 @@
-import PropTypes from "prop-types";
-import React from "react";
+import React, { FormEvent } from "react";
 import ReactDOM from "react-dom";
 import moment from "moment";
-import { withRouter } from "react-router";
+import { withRouter, WithRouterProps } from "react-router";
 
+import {
+  Details as DetailsStoreState,
+  PossibleValue as PossibleDetailsValue
+} from "../../../stores/details-store";
 import Styles from "./details.module.scss";
 import TextField from "@material-ui/core/TextField";
-import DatePicker from "react-datepicker/dist/react-datepicker";
 
-class Details extends React.Component {
-  static propTypes = {
-    details: PropTypes.object.isRequired
-  };
+type Props = { details: DetailsStoreState } & WithRouterProps;
 
+class Doctor extends React.Component<Props, {}> {
   state = {};
 
-  onSubmit = event => {
+  onSubmit = (event: FormEvent) => {
     event.preventDefault();
 
     if (this.props.details.validate()) {
@@ -24,8 +24,15 @@ class Details extends React.Component {
     }
   };
 
-  onChange = (propertyName, newValue) => {
-    this.props.details.setState({ [propertyName]: newValue });
+  onChangeValue = (propertyName: PossibleDetailsValue, value: any) => {
+    this.props.details.setState({ [propertyName]: value });
+  };
+
+  onChange = (
+    propertyName: PossibleDetailsValue,
+    event: React.ChangeEvent<any>
+  ) => {
+    this.onChangeValue(propertyName, event.currentTarget.value);
   };
 
   render() {
@@ -36,11 +43,7 @@ class Details extends React.Component {
     };
 
     return (
-      <form
-        className={Styles.details}
-        onSubmit={this.onSubmit}
-        ref={form => (this.form = form)}
-      >
+      <form className={Styles.details} onSubmit={this.onSubmit}>
         <div className={Styles.intro}>
           <p className={Styles.paragraph}>
             Please include your health practitioner’s email address if you would
@@ -60,9 +63,8 @@ class Details extends React.Component {
             className={Styles.textBox}
             label="Your health practitioner's email address (optional)"
             value={details.doctorEmail}
-            maxLength={100}
-            error={details.errors.doctorEmail}
-            onFocus={this.closeDatePicker}
+            inputProps={{ maxLength: 100 }}
+            error={!!details.errors.doctorEmail}
             onChange={this.onChange.bind(this, "doctorEmail")}
           />
         </div>
@@ -75,4 +77,4 @@ class Details extends React.Component {
   }
 }
 
-export default withRouter(Details);
+export default withRouter(Doctor);
