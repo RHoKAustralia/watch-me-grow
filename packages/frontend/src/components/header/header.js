@@ -8,7 +8,9 @@ class Header extends React.Component {
   render() {
     return (
       <header className={Styles.header}>
-        <img className={Styles.logo} src={headerLogo} />
+        <Link to="landing">
+          <img className={Styles.logo} src={headerLogo} />
+        </Link>
         <h1 className={Styles.title}>WatchMeGrow.care</h1>
         <Link
           className={Styles["new-child"]}

@@ -12,15 +12,6 @@ import subsite from "./util/subsite";
 import { Details } from "./components/stores/details-store";
 import { Results } from "./components/stores/results-store";
 
-function getFunctionUrl(): string {
-  if (window.location.hostname === "localhost") {
-    return "http://localhost:5000/watchmegrow-dev-afe2d/us-central1/notifyEmail";
-  } else {
-    // FIXME
-    return "";
-  }
-}
-
 export default function sendResults(details: Details, results: Results) {
   const ageInMonths = moment().diff(details.babyDob, "months");
 
@@ -34,7 +25,7 @@ export default function sendResults(details: Details, results: Results) {
     dobOfChild: details.babyDob!.toISOString(),
     doctorEmail: details.doctorEmail,
     ageInMonths: ageInMonths,
-    siteId: subsite.id
+    siteId: subsite!.id
   };
 
   const data: NotifyFunctionInput = {
@@ -42,7 +33,7 @@ export default function sendResults(details: Details, results: Results) {
     results
   };
 
-  fetch(getFunctionUrl(), {
+  fetch("/api/notifyEmail", {
     method: "POST",
     headers: {
       Accept: "application/json",

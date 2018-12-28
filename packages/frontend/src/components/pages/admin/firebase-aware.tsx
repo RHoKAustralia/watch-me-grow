@@ -2,16 +2,18 @@ import React, { ReactNode } from "react";
 import firebase from "firebase";
 
 type Props = {
-  children: (user: firebase.User | null) => ReactNode;
+  children: (user: firebase.User | null, loaded: boolean) => ReactNode;
 };
 
 type State = {
   user: firebase.User | null;
+  loaded: boolean;
 };
 
 export default class FirebaseAware extends React.Component<Props, State> {
   state: State = {
-    user: null
+    user: null,
+    loaded: false
   };
 
   unsubscribe?: () => void;
@@ -22,7 +24,8 @@ export default class FirebaseAware extends React.Component<Props, State> {
       document.cookie =
         "__session=" + idToken + ";max-age=" + 60 * 60; /* Persistent 1 hour */
       this.setState({
-        user
+        user,
+        loaded: true
       });
     });
   }
@@ -32,6 +35,6 @@ export default class FirebaseAware extends React.Component<Props, State> {
   }
 
   render() {
-    return this.props.children(this.state.user);
+    return this.props.children(this.state.user, this.state.loaded);
   }
 }

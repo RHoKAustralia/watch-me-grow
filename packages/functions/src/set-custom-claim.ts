@@ -8,16 +8,18 @@ firebaseAdmin.initializeApp({
   credential: firebaseAdmin.credential.cert(key)
 });
 
-(async () => {
-  try {
-    const user = await firebaseAdmin
-      .auth()
-      .getUserByEmail("alex@alexgilleran.com");
-    await firebaseAdmin.auth().setCustomUserClaims(user.uid, {
+firebaseAdmin
+  .auth()
+  .getUserByEmail("mail@watchmegrow.care")
+  .then(user =>
+    firebaseAdmin.auth().setCustomUserClaims(user.uid, {
       admin: true
-    });
+    })
+  )
+  .then(() => {
     console.log("success!");
-  } catch (e) {
+    process.exit(0);
+  })
+  .catch(e => {
     console.error(e);
-  }
-})();
+  });

@@ -87,7 +87,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-app.post("/", async (req: express.Request, res: express.Response) => {
+app.post("*", async (req: express.Request, res: express.Response) => {
   try {
     const body = req.body as NotifyFunctionInput;
     const details = body.details;
@@ -222,8 +222,6 @@ function sendDoctorEmail(
   resultStrings: EmailString,
   config: HostConfig
 ) {
-  const questionnaires = questionnairesForSubsite(details.siteId);
-
   const doctorEmailInput: DoctorEmailInput = buildEmailInput(
     details,
     combinedResults,

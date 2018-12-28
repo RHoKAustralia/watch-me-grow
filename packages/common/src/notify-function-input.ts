@@ -6,7 +6,7 @@ export type NotifyFunctionInputDetails = {
   lastNameOfChild: string;
   genderOfChild: string;
   dobOfChild: string;
-  doctorEmail: string;
+  doctorEmail?: string;
   ageInMonths: number;
   siteId: string;
 };

@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "lint": "tslint --project tsconfig.json",
-    "build": "cp -r ../common lib/wmg-common && tsc",
+    "build": "rm -rf lib/wmg-common && cp -r ../common lib/wmg-common && tsc",
     "serve": "npm run build && firebase serve --only functions",
     "shell": "npm run build && firebase functions:shell",
     "start": "npm run shell",
@@ -28,7 +28,6 @@
     "node-fetch": "^2.3.0"
   },
   "devDependencies": {
-    "@wmg/common": "^0.0.0",
     "@types/body-parser": "^1.17.0",
     "@types/cookie-parser": "^1.4.1",
     "@types/cors": "^2.8.4",

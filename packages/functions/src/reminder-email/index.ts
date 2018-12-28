@@ -6,7 +6,6 @@ import _ from "lodash";
 import * as functions from "firebase-functions";
 import * as firebase from "firebase-admin";
 
-import strings from "@wmg/common/lib/strings";
 import questionnaires from "@wmg/common/lib/questionnaires";
 import { sites } from "@wmg/common/lib/site-specific-config";
 

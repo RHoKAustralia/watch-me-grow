@@ -57,13 +57,13 @@ export const sites: HostConfig[] = [
   }
 ];
 
-export function getConfigByHost(host: string): HostConfig {
-  const indexOfDev = host.indexOf(".dev.");
+export function getConfigByHost(host: string): HostConfig | undefined {
+  const indexOfDev = host.indexOf("dev.");
 
   const fixedHost = (() => {
-    if (indexOfDev >= 0)
+    if (indexOfDev >= 0) {
       return host.substring(0, indexOfDev) + host.substring(indexOfDev + 4);
-    else if (host === "localhost") {
+    } else if (host === "localhost") {
       return REPLACE_LOCALHOST_WITH;
     } else {
       return host;
@@ -72,14 +72,12 @@ export function getConfigByHost(host: string): HostConfig {
 
   const extraConfig = sites.find(site => site.host === fixedHost);
 
-  if (!extraConfig) {
-    throw new Error("Could not find config for host " + host);
+  if (extraConfig) {
+    return {
+      host: fixedHost,
+      ...extraConfig
+    };
   }
-
-  return {
-    host: fixedHost,
-    ...extraConfig
-  };
 }
 
 export function getConfigById(id: string) {

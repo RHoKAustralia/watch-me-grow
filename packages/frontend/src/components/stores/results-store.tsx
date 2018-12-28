@@ -106,7 +106,7 @@ const ResultStore = (
     };
 
     isComplete = (ageInMonths: number) => {
-      const questions = getQuestions(ageInMonths, subsite);
+      const questions = getQuestions(ageInMonths, subsite!);
 
       return Object.keys(questions).every(index => {
         const question = questions[parseInt(index)];

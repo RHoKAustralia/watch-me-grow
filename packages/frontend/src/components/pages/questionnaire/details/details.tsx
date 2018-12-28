@@ -18,7 +18,9 @@ import {
   PossibleValue as PossibleDetailsValue
 } from "../../../stores/details-store";
 
-const { minMonths, maxMonths } = minMax(questionnaires);
+const { minMonths, maxMonths } = questionnaires
+  ? minMax(questionnaires)
+  : { minMonths: 0, maxMonths: 0 };
 const minDate = moment().subtract(maxMonths, "months");
 const maxDate = moment().subtract(minMonths, "months");
 

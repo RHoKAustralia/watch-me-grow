@@ -5,6 +5,8 @@ import Auth from "./auth";
 import FirebaseAware from "./firebase-aware";
 import Downloads from "./downloads";
 
+import Styles from "./inner.module.scss";
+
 const config = {
   apiKey: "AIzaSyDeG915nBTYC7BY2MCy2gJkcyhhfzKU4VA",
   authDomain: "watchmegrow-dev-afe2d.firebaseapp.com",
@@ -16,21 +18,30 @@ const config = {
 firebase.initializeApp(config);
 
 export default class AdminInner extends React.Component {
+  logout = () => {
+    firebase.auth().signOut();
+  };
+
   render() {
     return (
-      <div>
+      <div className={Styles.root}>
         <h1>Admin</h1>
         <FirebaseAware>
-          {user => {
-            if (user) {
-              return (
-                <React.Fragment>
-                  You Are logged in as {user.displayName};
-                  <Downloads />
-                </React.Fragment>
-              );
+          {(user, loaded) => {
+            if (loaded) {
+              if (user) {
+                return (
+                  <React.Fragment>
+                    You Are logged in as {user.displayName}.{" "}
+                    <button onClick={this.logout}>Log Out</button>
+                    <Downloads />
+                  </React.Fragment>
+                );
+              } else {
+                return <Auth />;
+              }
             } else {
-              return <Auth />;
+              return "Loading...";
             }
           }}
         </FirebaseAware>

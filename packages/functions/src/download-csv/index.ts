@@ -168,7 +168,7 @@ function buildQuery(
   const base = firebase
     .firestore()
     .collection("results")
-    .where("details.host", "==", siteId)
+    .where("details.siteId", "==", siteId)
     .limit(PAGE_SIZE);
 
   return lastVisible ? base.startAfter(lastVisible) : base;

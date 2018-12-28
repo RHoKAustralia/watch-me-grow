@@ -10,7 +10,9 @@ import { WrappedComponentProps as DetailsProps } from "../../stores/details-stor
 
 import Styles from "./landing.module.scss";
 
-const { minMonths, maxMonths } = minMax(questionnaires);
+const { minMonths, maxMonths } = questionnaires
+  ? minMax(questionnaires)
+  : { minMonths: 0, maxMonths: 0 };
 
 type Props = ResultsProps & DetailsProps;
 

@@ -8,6 +8,7 @@ import Footer from "./footer/footer";
 import Styles from "./app.module.scss";
 import withDetailsStore from "./stores/details-store";
 import withResultsStore from "./stores/results-store";
+import config from "../util/subsite";
 
 const theme = createMuiTheme({
   typography: {
@@ -41,13 +42,17 @@ class App extends React.Component {
           })}
         >
           <Header />
-          <div className={Styles.container}>
-            {this.props.children &&
-              React.cloneElement(this.props.children, {
-                results: this.props.results,
-                details: this.props.details
-              })}
-          </div>
+          {config ? (
+            <div className={Styles.container}>
+              {this.props.children &&
+                React.cloneElement(this.props.children, {
+                  results: this.props.results,
+                  details: this.props.details
+                })}
+            </div>
+          ) : (
+            <div>Could not find config for {window.location.hostname}</div>
+          )}
           <div className={Styles.spacer} />
           <Footer concern={this.props.results.concern} />
         </div>
