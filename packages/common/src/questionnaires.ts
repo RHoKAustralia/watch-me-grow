@@ -587,7 +587,7 @@ const questionnaires: Questionnaire[] = [
     id: "cdc60",
     title: "CDC",
     category: "development",
-    age_groups: { min: 60, max: 66 },
+    age_groups: { min: 60, max: 72 },
     remind_at: 60,
     analysis: {
       strategy: "cdc",
@@ -1083,7 +1083,7 @@ const questionnaires: Questionnaire[] = [
     id: "asq10",
     title: "Autism Spectrum Quotient",
     category: "communication",
-    age_groups: { min: 48, max: 66 },
+    age_groups: { min: 48, max: 72 },
     analysis: {
       strategy: "simple",
       redFlagThreshold: 7
@@ -1222,7 +1222,7 @@ const questionnaires: Questionnaire[] = [
       {
         id: "rituals",
         text:
-          "Does the child engage in any repetitive behaviours or rituals and insist on things being done in a          particular way?",
+          "Does the child engage in any repetitive behaviours or rituals and insist on things being done in a particular way?",
         comments: false,
         answers: cdcShouldBeNoAnswer
       }

@@ -1,0 +1,247 @@
+import * as functions from "firebase-functions";
+import * as firebaseAdmin from "firebase-admin";
+// import parse from "csv-parse";
+import fs from "fs";
+import { Transform, Readable } from "stream";
+// import readline from "readline";
+import through2 from "through2";
+import csv from "csv-parser";
+import moment from "moment";
+import _ from "lodash";
+
+import { FirestoreRecord } from "./notify-email";
+import getQuestionnairesForSubsite from "@wmg/common/lib/questionnaires-for-subsite";
+import questionnaires, { Questionnaire } from "@wmg/common/lib/questionnaires";
+import { QuerySnapshot } from "@google-cloud/firestore";
+
+const key = require("../key-dev.json");
+
+firebaseAdmin.initializeApp({
+  ...functions.config().firebase,
+  credential: firebaseAdmin.credential.cert(key)
+});
+
+const output = [];
+const fsReadStream = fs.createReadStream(
+  "/home/alex/projects/watch-me-grow/Watch Me Grow - Sheet1.csv"
+);
+
+const CSV_DATE_FORMAT = "dddd, MMMM Do YYYY";
+
+function trimSuffixFromId(id: string, questionnaire: Questionnaire): string {
+  if (id.endsWith(questionnaire.age_groups.min.toString())) {
+    return id.substring(
+      0,
+      id.length - questionnaire.age_groups.min.toString().length
+    );
+  } else {
+    return id;
+  }
+}
+
+function sanitiseColumnHeader(header: string) {
+  return header.replace(/(\s|_)/g, "").toLowerCase();
+}
+
+function ifNotBlank(string: string) {
+  return string.trim() !== "" ? string : false;
+}
+
+fsReadStream
+  .pipe(csv())
+  .pipe(
+    through2(
+      { objectMode: true },
+      (rawResult: { [column: string]: string }, whoKnows, done) => {
+        // .on("data", (rawResult: { [column: string]: string }) => {
+        // fsReadStream.pause();
+
+        try {
+          const result = _.mapKeys(rawResult, (value, resultKey) =>
+            sanitiseColumnHeader(resultKey)
+          );
+
+          const results = questionnaires
+            .map(questionnaire => {
+              const answers = questionnaire.questions
+                .map(question => {
+                  const headerWithHyphen = sanitiseColumnHeader(
+                    `${questionnaire.title} - ${trimSuffixFromId(
+                      question.id,
+                      questionnaire
+                    )}`
+                  );
+                  const headerNoHyphen = sanitiseColumnHeader(
+                    `${questionnaire.title} ${trimSuffixFromId(
+                      question.id,
+                      questionnaire
+                    )}`
+                  );
+
+                  return {
+                    id: question.id,
+                    answerId: result[headerWithHyphen] || result[headerNoHyphen]
+                  };
+                })
+                .map(answer => ({
+                  ...answer,
+                  answerId: answer.answerId && answer.answerId.trim()
+                }))
+                .filter(answer => answer.answerId && answer.answerId !== "")
+                .map(({ id, answerId }) => [id, answerId]);
+
+              return {
+                questionnaire: questionnaire.id,
+                answers: _.fromPairs(answers)
+              };
+            })
+            .filter(({ answers }) => Object.keys(answers).length > 0);
+
+          const record: FirestoreRecord = {
+            results,
+            concern: result.concern === "TRUE",
+            details: {
+              recipientEmail: result[sanitiseColumnHeader("parent email")],
+              nameOfParent: result[sanitiseColumnHeader("parent names")],
+              firstNameOfChild:
+                result[sanitiseColumnHeader("child first name")],
+              lastNameOfChild: result[sanitiseColumnHeader("child surname")],
+              genderOfChild: result[sanitiseColumnHeader("gender")],
+              doctorEmail: result[sanitiseColumnHeader("parent email")],
+              dobAsDate: moment(
+                result[sanitiseColumnHeader("date of birth")],
+                CSV_DATE_FORMAT
+              ).toDate(),
+              siteId: result.location
+            },
+            date: moment(
+              ifNotBlank(result.date) ||
+                result[sanitiseColumnHeader("date of testing")],
+              CSV_DATE_FORMAT
+            ).toDate()
+          };
+
+          if (record.results.length === 0) {
+            console.log(result);
+            console.log(record);
+            throw new Error("Failed to record any results");
+          }
+
+          record.results.forEach(recordResult => {
+            const relevantQuestionnaire = questionnaires.find(
+              questionnaire => questionnaire.id === recordResult.questionnaire
+            );
+
+            if (relevantQuestionnaire) {
+              if (
+                Object.keys(recordResult.answers).length !==
+                relevantQuestionnaire.questions.length
+              ) {
+                console.log(result);
+                console.log(JSON.stringify(record, null, 2));
+                throw new Error(
+                  `Mapped result had the wrong number of answers for ${
+                    relevantQuestionnaire.id
+                  }`
+                );
+              }
+            } else {
+              console.log(record);
+              throw new Error(
+                `Could not find questionnaire for id ${result.questionnaire}`
+              );
+            }
+          });
+
+          done(null, record);
+        } catch (e) {
+          done(e);
+        }
+
+        // fsReadStream.resume();
+      }
+    )
+  )
+  .pipe(
+    through2(
+      { objectMode: true },
+      (record: FirestoreRecord, whoKnows, done) => {
+        // console.log(record);
+        const firestoreCollection = firebaseAdmin
+          .firestore()
+          .collection("results");
+
+        if (!record.date || record.date.toString() === "Invalid Date") {
+          console.warn(
+            "Skipping " + record.details.recipientEmail + " as it has no date"
+          );
+          done();
+        } else {
+          const query = firestoreCollection
+            .where("details.siteId", "==", record.details.siteId)
+            // .where("details.date", "==", record.date)
+            .where(
+              "details.recipientEmail",
+              "==",
+              record.details.recipientEmail
+            )
+            .limit(1);
+
+          (async () => {
+            const result = await query.get();
+
+            if (result.docs.length > 0) {
+              console.log("Overwriting " + result.docs[0].id);
+              await firestoreCollection.doc(result.docs[0].id).update(record);
+            } else {
+              console.log("Inserting new row");
+              await firestoreCollection.add(record);
+            }
+          })()
+            .then(result => done(null, result))
+            .catch(err => {
+              console.error(record);
+
+              done(err);
+            });
+        }
+        // setTimeout(done, 10);
+        // done();
+
+        // return firebase
+        //   .firestore()
+        //   .collection("/results")
+        //   .add(record);
+      }
+    )
+  )
+  .on("error", function(err) {
+    console.error(err);
+  })
+  .on("finish", () => {
+    console.log("End");
+  });
+
+// // Create the parser
+// const parser = parse({
+//   columns: true
+// });
+// parser.on("data", async function(...args) {
+//   console.log(args);
+//   parser.pause();
+//   let record;
+//   // do {
+//   record = parser.read();
+
+//   console.log("waiting");
+//   await new Promise(resolve => {
+//     setTimeout(resolve, 1000);
+//   });
+//   console.log("finished waiting");
+
+//   // if (record) {
+//   //   console.log("record");
+//   // }
+//   // } while (record);
+//   parser.resume();
+// });

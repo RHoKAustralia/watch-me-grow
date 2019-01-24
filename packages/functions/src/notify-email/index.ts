@@ -250,7 +250,16 @@ export type FirestoreRecord = {
     answers: { [id: string]: string };
   }[];
   concern: boolean;
-  details: NotifyFunctionInputDetails & { dobAsDate: Date };
+  details: {
+    recipientEmail: string;
+    nameOfParent: string;
+    firstNameOfChild: string;
+    lastNameOfChild: string;
+    genderOfChild: string;
+    doctorEmail?: string;
+    siteId: string;
+    dobAsDate: Date;
+  };
   date: Date;
 };
 
@@ -272,7 +281,16 @@ function recordResultsInFirestore(
   const record: FirestoreRecord = {
     results: filteredResults,
     concern,
-    details: { ...details, dobAsDate: moment(details.dobOfChild).toDate() },
+    details: {
+      recipientEmail: details.recipientEmail,
+      nameOfParent: details.nameOfParent,
+      firstNameOfChild: details.firstNameOfChild,
+      lastNameOfChild: details.lastNameOfChild,
+      genderOfChild: details.genderOfChild,
+      doctorEmail: details.doctorEmail,
+      siteId: details.siteId,
+      dobAsDate: moment(details.dobOfChild).toDate()
+    },
     date: moment(details.testDate).toDate()
   };
 

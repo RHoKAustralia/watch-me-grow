@@ -17,6 +17,7 @@ import {
   Details as DetailsStoreState,
   PossibleValue as PossibleDetailsValue
 } from "../../../stores/details-store";
+import { Results as ResultsStoreState } from "../../../stores/results-store";
 
 const { minMonths, maxMonths } = questionnaires
   ? minMax(questionnaires)
@@ -24,7 +25,10 @@ const { minMonths, maxMonths } = questionnaires
 const minDate = moment().subtract(maxMonths, "months");
 const maxDate = moment().subtract(minMonths, "months");
 
-type Props = { details: DetailsStoreState } & WithRouterProps;
+type Props = {
+  details: DetailsStoreState;
+  results: ResultsStoreState;
+} & WithRouterProps;
 
 class Details extends React.Component<Props, {}> {
   state = { showDatePicker: false };
@@ -57,6 +61,7 @@ class Details extends React.Component<Props, {}> {
 
   onDateChange = (value: moment.Moment) => {
     this.closeDatePicker();
+    this.props.results.clear();
     this.onChangeValue("babyDob", value);
   };
 
