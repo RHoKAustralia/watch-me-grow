@@ -13,6 +13,7 @@ import { FirestoreRecord } from "./notify-email";
 import getQuestionnairesForSubsite from "@wmg/common/lib/questionnaires-for-subsite";
 import questionnaires, { Questionnaire } from "@wmg/common/lib/questionnaires";
 import { QuerySnapshot } from "@google-cloud/firestore";
+import { sites } from "@wmg/common/lib/site-specific-config";
 
 const key = require("../key-dev.json");
 
@@ -47,15 +48,24 @@ function ifNotBlank(string: string) {
   return string.trim() !== "" ? string : false;
 }
 
+function findLocation(locationName: string) {
+  const config = sites.find(
+    site => site.title.toLowerCase() === locationName.toLowerCase()
+  );
+
+  if (config) {
+    return config.id;
+  } else {
+    return sites[0].id;
+  }
+}
+
 fsReadStream
   .pipe(csv())
   .pipe(
     through2(
       { objectMode: true },
       (rawResult: { [column: string]: string }, whoKnows, done) => {
-        // .on("data", (rawResult: { [column: string]: string }) => {
-        // fsReadStream.pause();
-
         try {
           const result = _.mapKeys(rawResult, (value, resultKey) =>
             sanitiseColumnHeader(resultKey)
@@ -112,13 +122,14 @@ fsReadStream
                 result[sanitiseColumnHeader("date of birth")],
                 CSV_DATE_FORMAT
               ).toDate(),
-              siteId: result.location
+              siteId: findLocation(result.location)
             },
-            date: moment(
-              ifNotBlank(result.date) ||
-                result[sanitiseColumnHeader("date of testing")],
-              CSV_DATE_FORMAT
-            ).toDate()
+            date: ifNotBlank(result.date)
+              ? moment(result.date).toDate()
+              : moment(
+                  result[sanitiseColumnHeader("date of testing")],
+                  CSV_DATE_FORMAT
+                ).toDate()
           };
 
           if (record.results.length === 0) {
@@ -157,8 +168,6 @@ fsReadStream
         } catch (e) {
           done(e);
         }
-
-        // fsReadStream.resume();
       }
     )
   )
@@ -179,11 +188,21 @@ fsReadStream
         } else {
           const query = firestoreCollection
             .where("details.siteId", "==", record.details.siteId)
-            // .where("details.date", "==", record.date)
+            .where("date", "==", record.date)
             .where(
               "details.recipientEmail",
               "==",
               record.details.recipientEmail
+            )
+            .where(
+              "details.firstNameOfChild",
+              "==",
+              record.details.firstNameOfChild
+            )
+            .where(
+              "details.lastNameOfChild",
+              "==",
+              record.details.lastNameOfChild
             )
             .limit(1);
 
