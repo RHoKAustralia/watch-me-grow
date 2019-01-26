@@ -58,12 +58,18 @@ export default async function reminderEmail(pubSubMsg) {
         }))
       )
       .map(({ questionnaireAges, subsite }) => {
+        // console.log(
+        //   `${
+        //     questionnaireAges.id
+        //   } = from ${questionnaireAges.minDate.toDate()} to ${questionnaireAges.maxDate.toDate()} and ${subsite}`
+        // );
+
         return firebase
           .firestore()
           .collection("results")
           .where("details.dobAsDate", ">", questionnaireAges.minDate.toDate())
           .where("details.dobAsDate", "<=", questionnaireAges.maxDate.toDate())
-          .where("details.subsite", "==", subsite)
+          .where("details.siteId", "==", subsite)
           .get();
       })
       .value();
@@ -106,7 +112,7 @@ function sendReminder(details) {
   console.log(`Sending reminder to ${details.recipientEmail}`);
 
   const params = {
-    from: "mail@watchmegrow.care",
+    from: "Watch Me Grow <mail@watchmegrow.care>",
     to: details.recipientEmail,
     subject: "WatchMeGrow.care Reminder for  " + details.firstNameOfChild,
     html: message
