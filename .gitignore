@@ -66,5 +66,6 @@ node_modules/
 
 .runtimeconfig.json
 key-dev.json
+key-prod.json
 
 lib

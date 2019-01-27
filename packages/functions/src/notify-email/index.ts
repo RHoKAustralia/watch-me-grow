@@ -174,8 +174,8 @@ function sendParentEmail(
 
 function addCCToParams(params: any) {
   const newParams = { ...params };
-  if (functions.config().cc) {
-    newParams.cc = functions.config().cc;
+  if (functions.config().notifyemail.cc) {
+    newParams.cc = functions.config().notifyemail.cc;
   }
   return newParams;
 }

@@ -504,7 +504,7 @@ const questionnaires: Questionnaire[] = [
   },
   {
     id: "cdc48",
-    title: "CDC",
+    title: "CDC 48 Months",
     category: "development",
     age_groups: { min: 48, max: 59 },
     remind_at: 48,
@@ -585,7 +585,7 @@ const questionnaires: Questionnaire[] = [
   },
   {
     id: "cdc60",
-    title: "CDC",
+    title: "CDC 60 Months",
     category: "development",
     age_groups: { min: 60, max: 72 },
     remind_at: 60,

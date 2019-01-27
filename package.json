@@ -2,5 +2,9 @@
   "name": "wmg",
   "devDependencies": {
     "lerna": "^3.4.3"
+  },
+  "scripts": {
+    "deploy-prod": "REACT_APP_IS_PROD=true lerna run build && cd packages && firebase deploy --project watchmegrow-prod && cd .."
   }
+
 }

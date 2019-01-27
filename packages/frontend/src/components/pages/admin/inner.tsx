@@ -7,7 +7,7 @@ import Downloads from "./downloads";
 
 import Styles from "./inner.module.scss";
 
-const config = {
+const devConfig = {
   apiKey: "AIzaSyDeG915nBTYC7BY2MCy2gJkcyhhfzKU4VA",
   authDomain: "watchmegrow-dev-afe2d.firebaseapp.com",
   databaseURL: "https://watchmegrow-dev-afe2d.firebaseio.com",
@@ -15,7 +15,16 @@ const config = {
   storageBucket: "watchmegrow-dev-afe2d.appspot.com",
   messagingSenderId: "243000499593"
 };
-firebase.initializeApp(config);
+const prodConfig = {
+  apiKey: "AIzaSyC0mkzdVXQGr7G6Ms51jPIVakCqgn7xJJU",
+  authDomain: "watchmegrow-prod.firebaseapp.com",
+  databaseURL: "https://watchmegrow-prod.firebaseio.com",
+  projectId: "watchmegrow-prod",
+  storageBucket: "watchmegrow-prod.appspot.com",
+  messagingSenderId: "850399193100"
+};
+
+firebase.initializeApp(process.env.REACT_APP_IS_PROD ? prodConfig : devConfig);
 
 export default class AdminInner extends React.Component {
   logout = () => {

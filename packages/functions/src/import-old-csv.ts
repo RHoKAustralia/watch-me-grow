@@ -1,30 +1,31 @@
 import * as functions from "firebase-functions";
 import * as firebaseAdmin from "firebase-admin";
-// import parse from "csv-parse";
 import fs from "fs";
 import { Transform, Readable } from "stream";
-// import readline from "readline";
 import through2 from "through2";
 import csv from "csv-parser";
 import moment from "moment";
 import _ from "lodash";
 
 import { FirestoreRecord } from "./notify-email";
-import getQuestionnairesForSubsite from "@wmg/common/lib/questionnaires-for-subsite";
 import questionnaires, { Questionnaire } from "@wmg/common/lib/questionnaires";
-import { QuerySnapshot } from "@google-cloud/firestore";
 import { sites } from "@wmg/common/lib/site-specific-config";
 
-const key = require("../key-dev.json");
+const key = require("../key-prod.json");
+
+const DEFAULT_SITE_ID = "main";
 
 firebaseAdmin.initializeApp({
   ...functions.config().firebase,
   credential: firebaseAdmin.credential.cert(key)
 });
 
-const output = [];
+// const firestore = firebaseAdmin.firestore();
+// const settings = { /* your settings... */ timestampsInSnapshots: true };
+// firestore.settings(settings);
+
 const fsReadStream = fs.createReadStream(
-  "/home/alex/projects/watch-me-grow/Watch Me Grow - Sheet1.csv"
+  "/home/alex/Downloads/Watch Me Grow - Sheet1.csv"
 );
 
 const CSV_DATE_FORMAT = "dddd, MMMM Do YYYY";
@@ -45,10 +46,14 @@ function sanitiseColumnHeader(header: string) {
 }
 
 function ifNotBlank(string: string) {
-  return string.trim() !== "" ? string : false;
+  return string && string.trim() !== "" ? string : false;
 }
 
 function findLocation(locationName: string) {
+  if (!locationName) {
+    return DEFAULT_SITE_ID;
+  }
+
   const config = sites.find(
     site => site.title.toLowerCase() === locationName.toLowerCase()
   );
@@ -56,7 +61,7 @@ function findLocation(locationName: string) {
   if (config) {
     return config.id;
   } else {
-    return sites[0].id;
+    return DEFAULT_SITE_ID;
   }
 }
 
@@ -87,10 +92,26 @@ fsReadStream
                       questionnaire
                     )}`
                   );
+                  const headerIdWithHyphen = sanitiseColumnHeader(
+                    `${questionnaire.id} - ${trimSuffixFromId(
+                      question.id,
+                      questionnaire
+                    )}`
+                  );
+                  const headerIdNoHyphen = sanitiseColumnHeader(
+                    `${questionnaire.id} ${trimSuffixFromId(
+                      question.id,
+                      questionnaire
+                    )}`
+                  );
 
                   return {
                     id: question.id,
-                    answerId: result[headerWithHyphen] || result[headerNoHyphen]
+                    answerId:
+                      result[headerWithHyphen] ||
+                      result[headerNoHyphen] ||
+                      result[headerIdWithHyphen] ||
+                      result[headerIdNoHyphen]
                   };
                 })
                 .map(answer => ({
