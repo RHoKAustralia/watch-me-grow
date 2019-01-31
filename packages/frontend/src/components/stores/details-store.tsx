@@ -48,10 +48,10 @@ const REQUIRED_TEXT: Array<RequiredValue> = [
 ];
 const LOCAL_STORAGE_KEY = "wmg-details";
 
-const DetailsStore = (
-  ComposedComponent: React.ComponentClass<WrappedComponentProps, any>
-) =>
-  class extends Component<{}, State> {
+function DetailsStore<T extends WrappedComponentProps>(
+  ComposedComponent: React.ComponentClass<T, any>
+) {
+  return class DetailsStore extends Component<T, State> {
     static displayName = "DetailsStore";
 
     state = this.buildInitialState();
@@ -158,5 +158,6 @@ const DetailsStore = (
       return <ComposedComponent {...this.props} details={details} />;
     }
   };
+}
 
 export default DetailsStore;

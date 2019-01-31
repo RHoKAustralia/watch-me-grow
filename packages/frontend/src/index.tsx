@@ -3,6 +3,9 @@ import ReactDOM from "react-dom";
 import { Router, useRouterHistory, Route, IndexRoute } from "react-router";
 import { createHistory } from "history";
 import Routes from "./components/routes";
+
+import "./i18n";
+
 // Base styling
 import "./components/base.scss";
 
@@ -13,8 +16,8 @@ const browserHistory = useRouterHistory(createHistory)({
   basename: process.env.ROOT_ROUTE
 });
 
-browserHistory.listen(location => {
-  window.ga("send", "screenview", {
+browserHistory.listen((location: any) => {
+  (window as any).ga("send", "screenview", {
     screenName: location.pathname
   });
 });

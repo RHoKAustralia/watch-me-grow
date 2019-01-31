@@ -39,10 +39,10 @@ export type Results = State & {
 export type WrappedComponentProps = {
   results: Results;
 };
-const ResultStore = (
-  ComposedComponent: React.ComponentClass<WrappedComponentProps, any>
+const ResultStore = <T extends WrappedComponentProps>(
+  ComposedComponent: React.ComponentClass<T, any>
 ) =>
-  class extends React.Component<{}, State> {
+  class ResultStore extends React.Component<T, State> {
     state: State = {};
 
     UNSAFE_componentWillMount() {

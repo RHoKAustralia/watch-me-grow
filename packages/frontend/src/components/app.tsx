@@ -2,13 +2,25 @@ import PropTypes from "prop-types";
 import React from "react";
 import classNames from "classnames";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+import { NamespacesConsumer } from "react-i18next";
 
 import Header from "./header/header";
 import Footer from "./footer/footer";
 import Styles from "./app.module.scss";
-import withDetailsStore from "./stores/details-store";
-import withResultsStore from "./stores/results-store";
+import withDetailsStore, {
+  Details as DetailsStoreState
+} from "./stores/details-store";
+import withResultsStore, {
+  Results as ResultsStoreState
+} from "./stores/results-store";
 import config from "../util/subsite";
+import { PossibleValue as PossibleDetailsValue } from "./stores/details-store";
+
+type Props = {
+  details: DetailsStoreState;
+  results: ResultsStoreState;
+  children: React.ReactElement<any>;
+};
 
 const theme = createMuiTheme({
   typography: {
@@ -27,12 +39,7 @@ const theme = createMuiTheme({
   }
 });
 
-class App extends React.Component {
-  static propTypes = {
-    details: PropTypes.object,
-    results: PropTypes.object
-  };
-
+class App extends React.Component<Props> {
   render() {
     return (
       <MuiThemeProvider theme={theme}>
@@ -51,7 +58,15 @@ class App extends React.Component {
                 })}
             </div>
           ) : (
-            <div>Could not find config for {window.location.hostname}</div>
+            <NamespacesConsumer ns={["default"]}>
+              {(t, { i18n, ready }) => (
+                <div>
+                  {t("app.noConfigMessage", {
+                    hostname: window.location.hostname
+                  })}
+                </div>
+              )}
+            </NamespacesConsumer>
           )}
           <div className={Styles.spacer} />
           <Footer concern={this.props.results.concern} />

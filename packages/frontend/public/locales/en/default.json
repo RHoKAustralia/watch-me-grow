@@ -1,0 +1,5 @@
+{
+  "app": {
+    "noConfigMessage": "Could not find config for {{hostname}}"
+  }
+}
