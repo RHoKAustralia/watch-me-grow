@@ -4,7 +4,9 @@
     "month": "{{count}} month",
     "month_plural": "{{count}} months",
     "year": "{{count}} year",
-    "year_plural": "{{count}} years"
+    "year_plural": "{{count}} years",
+    "footer": "WatchMeGrow.care is supported by the University of New South Wales. It focuses on general developmental milestones, as well as language and social skills.",
+    "next": "Next"
   },
   "landing": {
     "heading": "All children grow and develop at their own pace.",
@@ -15,5 +17,13 @@
       "link": "Learn the Signs - Act Early"
     },
     "startButton": "Start Questionnaire"
+  },
+  "details": {
+    "childFirstName": "Child's First Name",
+    "childLastName": "Child's Last Name",
+    "gender": "Gender",
+    "childDob": "Your child's date of birth",
+    "yourName": "Your name",
+    "yourEmailAddress": "Your email address (so we can send you the results)"
   }
 }

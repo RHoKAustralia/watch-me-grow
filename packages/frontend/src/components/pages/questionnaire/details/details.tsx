@@ -6,6 +6,7 @@ import * as _ from "lodash";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
+import { NamespacesConsumer } from "react-i18next";
 
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
@@ -75,100 +76,110 @@ class Details extends React.Component<Props, {}> {
     const details = this.props.details;
 
     return (
-      <form className={Styles.details} onSubmit={this.onSubmit}>
-        <div className={Styles["field-wrapper"]}>
-          <TextField
-            type="text"
-            className={Styles["text-box"]}
-            label="Child's First Name"
-            value={details.babyFirstName}
-            error={!!details.errors.babyFirstName}
-            inputProps={{ maxLength: 100 }}
-            fullWidth
-            onFocus={this.closeDatePicker}
-            onChange={this.onChange.bind(this, "babyFirstName")}
-          />
-        </div>
-        <div className={Styles["field-wrapper"]}>
-          <TextField
-            type="text"
-            className={Styles["text-box"]}
-            label="Child's Last Name"
-            value={details.babyLastName}
-            error={!!details.errors.babyLastName}
-            inputProps={{ maxLength: 100 }}
-            fullWidth
-            onFocus={this.closeDatePicker}
-            onChange={this.onChange.bind(this, "babyLastName")}
-          />
-        </div>
-        <div className={Styles["field-wrapper"]}>
-          <TextField
-            type="text"
-            className={Styles["text-box"]}
-            label="Gender"
-            value={details.babyGender}
-            error={!!details.errors.babyGender}
-            inputProps={{ maxLength: 100 }}
-            fullWidth
-            onFocus={this.closeDatePicker}
-            onChange={this.onChange.bind(this, "babyGender")}
-          />
-        </div>
-        <div className={Styles["field-wrapper"]}>
-          <TextField
-            inputProps={{ readOnly: true }}
-            onFocus={this.onDateClick}
-            label="Your child's date of birth"
-            type="text"
-            className={Styles["text-box"]}
-            fullWidth
-            value={details.babyDob ? details.babyDob.format("DD/MM/YYYY") : ""}
-            error={!!details.errors.babyDob}
-          />
-        </div>
-        <div className={Styles["field-wrapper"]}>
-          {this.state.showDatePicker && (
-            <DatePicker
-              inline
-              showYearDropdown
-              minDate={minDate}
-              maxDate={maxDate}
-              selected={details.babyDob}
-              onChange={this.onDateChange}
-            />
-          )}
-        </div>
-        <div className={Styles["field-wrapper"]}>
-          <TextField
-            type="text"
-            className={Styles["text-box"]}
-            label="Your name"
-            value={details.parentName}
-            inputProps={{ maxLength: 100 }}
-            fullWidth
-            error={!!details.errors.parentName}
-            onFocus={this.closeDatePicker}
-            onChange={this.onChange.bind(this, "parentName")}
-          />
-        </div>
-        <div className={Styles["field-wrapper"]}>
-          <TextField
-            type="email"
-            className={Styles["text-box"]}
-            label="Your email address (so we can send you the results)"
-            value={details.parentEmail}
-            inputProps={{ maxLength: 100 }}
-            fullWidth
-            error={!!details.errors.parentEmail}
-            onFocus={this.closeDatePicker}
-            onChange={this.onChange.bind(this, "parentEmail")}
-          />
-        </div>
-        <div>
-          <input type="submit" className={Styles["next-button"]} value="Next" />
-        </div>
-      </form>
+      <NamespacesConsumer ns={["default"]}>
+        {(t, { i18n, ready }) => (
+          <form className={Styles.details} onSubmit={this.onSubmit}>
+            <div className={Styles["field-wrapper"]}>
+              <TextField
+                type="text"
+                className={Styles["text-box"]}
+                label={t("details.childFirstName")}
+                value={details.babyFirstName}
+                error={!!details.errors.babyFirstName}
+                inputProps={{ maxLength: 100 }}
+                fullWidth
+                onFocus={this.closeDatePicker}
+                onChange={this.onChange.bind(this, "babyFirstName")}
+              />
+            </div>
+            <div className={Styles["field-wrapper"]}>
+              <TextField
+                type="text"
+                className={Styles["text-box"]}
+                label={t("details.childLastName")}
+                value={details.babyLastName}
+                error={!!details.errors.babyLastName}
+                inputProps={{ maxLength: 100 }}
+                fullWidth
+                onFocus={this.closeDatePicker}
+                onChange={this.onChange.bind(this, "babyLastName")}
+              />
+            </div>
+            <div className={Styles["field-wrapper"]}>
+              <TextField
+                type="text"
+                className={Styles["text-box"]}
+                label={t("details.gender")}
+                value={details.babyGender}
+                error={!!details.errors.babyGender}
+                inputProps={{ maxLength: 100 }}
+                fullWidth
+                onFocus={this.closeDatePicker}
+                onChange={this.onChange.bind(this, "babyGender")}
+              />
+            </div>
+            <div className={Styles["field-wrapper"]}>
+              <TextField
+                inputProps={{ readOnly: true }}
+                onFocus={this.onDateClick}
+                label={t("details.childDob")}
+                type="text"
+                className={Styles["text-box"]}
+                fullWidth
+                value={
+                  details.babyDob ? details.babyDob.format("DD/MM/YYYY") : ""
+                }
+                error={!!details.errors.babyDob}
+              />
+            </div>
+            <div className={Styles["field-wrapper"]}>
+              {this.state.showDatePicker && (
+                <DatePicker
+                  inline
+                  showYearDropdown
+                  minDate={minDate}
+                  maxDate={maxDate}
+                  selected={details.babyDob}
+                  onChange={this.onDateChange}
+                />
+              )}
+            </div>
+            <div className={Styles["field-wrapper"]}>
+              <TextField
+                type="text"
+                className={Styles["text-box"]}
+                label={t("details.yourName")}
+                value={details.parentName}
+                inputProps={{ maxLength: 100 }}
+                fullWidth
+                error={!!details.errors.parentName}
+                onFocus={this.closeDatePicker}
+                onChange={this.onChange.bind(this, "parentName")}
+              />
+            </div>
+            <div className={Styles["field-wrapper"]}>
+              <TextField
+                type="email"
+                className={Styles["text-box"]}
+                label={t("details.yourEmailAddress")}
+                value={details.parentEmail}
+                inputProps={{ maxLength: 100 }}
+                fullWidth
+                error={!!details.errors.parentEmail}
+                onFocus={this.closeDatePicker}
+                onChange={this.onChange.bind(this, "parentEmail")}
+              />
+            </div>
+            <div>
+              <input
+                type="submit"
+                className={Styles["next-button"]}
+                value={t("app.next").toString()}
+              />
+            </div>
+          </form>
+        )}
+      </NamespacesConsumer>
     );
   }
 }
