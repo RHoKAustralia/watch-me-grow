@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router";
+import { NamespacesConsumer } from "react-i18next";
 
 import questionnairesForSubsite from "@wmg/common/lib/questionnaires-for-subsite";
 import ageInMonthsToString from "@wmg/common/lib/age-to-string";
@@ -24,34 +25,34 @@ export default class HomePage extends React.Component<Props, any> {
 
   render() {
     return (
-      <div className={Styles.content}>
-        <h1 className={Styles.heading}>
-          All children grow and develop at their own pace.
-        </h1>
-        <p className={Styles.paragraph}>
-          WatchMeGrow.care helps track your child's progress and provides
-          information about healthy development.
-        </p>
-        <p className={Styles.paragraph}>
-          This app is designed for children aged approximately{" "}
-          {ageInMonthsToString(minMonths)} to {ageInMonthsToString(maxMonths)}
-        </p>
-        <p className={Styles.paragraph}>
-          For general information on growth and development for children from
-          birth to 5 years please see the following link:{" "}
-          <a
-            className={Styles.link}
-            target="_blank"
-            href="https://www.cdc.gov/ncbddd/actearly/index.html"
-          >
-            Learn the Signs - Act Early
-          </a>
-          .
-        </p>
-        <Link className={Styles.button} to="questionnaire">
-          Start Questionnaire
-        </Link>
-      </div>
+      <NamespacesConsumer ns={["default"]}>
+        {(t, { i18n, ready }) => (
+          <div className={Styles.content}>
+            <h1 className={Styles.heading}>{t("landing.heading")}</h1>
+            <p className={Styles.paragraph}>{t("landing.explanation")}</p>
+            <p className={Styles.paragraph}>
+              {t("landing.ages", {
+                minAge: ageInMonthsToString(minMonths, t),
+                maxAge: ageInMonthsToString(maxMonths, t)
+              })}
+            </p>
+            <p className={Styles.paragraph}>
+              {t("landing.generalInformation.intro")}{" "}
+              <a
+                className={Styles.link}
+                target="_blank"
+                href="https://www.cdc.gov/ncbddd/actearly/index.html"
+              >
+                {t("landing.generalInformation.link")}
+              </a>
+              .
+            </p>
+            <Link className={Styles.button} to="questionnaire">
+              {t("landing.startButton")}
+            </Link>
+          </div>
+        )}
+      </NamespacesConsumer>
     );
   }
 }

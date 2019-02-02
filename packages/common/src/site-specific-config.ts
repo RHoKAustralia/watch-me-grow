@@ -93,7 +93,7 @@ export function getConfigByHost(host: string): HostConfig | undefined {
   const fixedHost = (() => {
     if (indexOfDev >= 0) {
       return host.substring(0, indexOfDev) + host.substring(indexOfDev + 4);
-    } else if (host === "localhost2") {
+    } else if (host === "localhost") {
       return REPLACE_LOCALHOST_WITH;
     } else {
       return host;

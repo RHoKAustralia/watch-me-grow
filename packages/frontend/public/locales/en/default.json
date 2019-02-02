@@ -1,5 +1,19 @@
 {
   "app": {
-    "noConfigMessage": "Could not find config for {{hostname}}"
+    "noConfigMessage": "Could not find config for {{hostname}}",
+    "month": "{{count}} month",
+    "month_plural": "{{count}} months",
+    "year": "{{count}} year",
+    "year_plural": "{{count}} years"
+  },
+  "landing": {
+    "heading": "All children grow and develop at their own pace.",
+    "explanation": "WatchMeGrow.care helps track your child's progress and provides information about healthy development.",
+    "ages": "This app is designed for children aged approximately {{minAge}} to {{maxAge}}",
+    "generalInformation": {
+      "intro": "For general information on growth and development for children from birth to 5 years please see the following link:",
+      "link": "Learn the Signs - Act Early"
+    },
+    "startButton": "Start Questionnaire"
   }
 }
