@@ -5,12 +5,15 @@ import questionnaires, {
 } from "./questionnaires";
 import strategies from "./strategies";
 import { RecordedAnswer } from "./notify-function-input";
+import i18next from "i18next";
 
 export type QuestionAndAnswer = {
   metadata: Question;
+  questionText: string;
   answer: {
     rawAnswer: RecordedAnswer;
     metadata: Answer;
+    answerText: string;
   };
 };
 
@@ -25,11 +28,14 @@ export function mark(combinedResults: CombinedResult[]): boolean {
     .reduce((soFar, current) => soFar || current);
 }
 
-export function combineAll(results: {
-  [questionnaireId: string]: {
-    [id: string]: RecordedAnswer;
-  };
-}): CombinedResult[] {
+export function combineAll(
+  results: {
+    [questionnaireId: string]: {
+      [id: string]: RecordedAnswer;
+    };
+  },
+  t: i18next.TFunction
+): CombinedResult[] {
   return questionnaires
     .filter(questionnaire => !!results[questionnaire.id])
     .map(questionnaire => {
@@ -37,7 +43,8 @@ export function combineAll(results: {
         questionnaire,
         results: combineQuestionsAndAnswers(
           questionnaire.questions,
-          results[questionnaire.id]
+          results[questionnaire.id],
+          t
         )
       };
     });
@@ -48,7 +55,8 @@ export function combineAll(results: {
  */
 export function combineQuestionsAndAnswers(
   questions: Question[],
-  answers: { [questionId: string]: RecordedAnswer }
+  answers: { [questionId: string]: RecordedAnswer },
+  t: i18next.TFunction
 ): QuestionAndAnswer[] {
   return questions.map(question => {
     const rawAnswer = answers[question.id];
@@ -66,9 +74,11 @@ export function combineQuestionsAndAnswers(
 
     return {
       metadata: question,
+      questionText: t(question.textId),
       answer: {
         rawAnswer,
-        metadata
+        metadata,
+        answerText: t(metadata.textId)
       }
     };
   });

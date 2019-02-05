@@ -9,6 +9,7 @@ export type NotifyFunctionInputDetails = {
   doctorEmail?: string;
   ageInMonths: number;
   siteId: string;
+  language: string;
 };
 
 export type RecordedAnswer = {

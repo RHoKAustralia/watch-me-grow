@@ -36,7 +36,8 @@ const dummyDetails: NotifyFunctionInputDetails = {
   dobOfChild: "",
   doctorEmail: "",
   ageInMonths: 0,
-  siteId: ""
+  siteId: "",
+  language: ""
 };
 
 app.get("*", async (req: express.Request, res: express.Response) => {

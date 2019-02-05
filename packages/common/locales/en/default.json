@@ -1,0 +1,65 @@
+{
+  "app": {
+    "noConfigMessage": "Could not find config for {{hostname}}",
+    "month": "{{count}} month",
+    "month_plural": "{{count}} months",
+    "year": "{{count}} year",
+    "year_plural": "{{count}} years",
+    "footer": "WatchMeGrow.care is supported by the University of New South Wales. It focuses on general developmental milestones, as well as language and social skills.",
+    "next": "Next"
+  },
+  "landing": {
+    "heading": "All children grow and develop at their own pace.",
+    "explanation": "WatchMeGrow.care helps track your child's progress and provides information about healthy development.",
+    "ages": "This app is designed for children aged approximately {{minAge}} to {{maxAge}}",
+    "generalInformation": {
+      "intro": "For general information on growth and development for children from birth to 5 years please see the following link:",
+      "link": "Learn the Signs - Act Early"
+    },
+    "startButton": "Start Questionnaire"
+  },
+  "details": {
+    "childFirstName": "Child's First Name",
+    "childLastName": "Child's Last Name",
+    "gender": "Gender",
+    "childDob": "Your child's date of birth",
+    "yourName": "Your name",
+    "yourEmailAddress": "Your email address (so we can send you the results)"
+  },
+  "doctorDetails": {
+    "explanationPara1": "Please include your health practitioner’s email address if you would like them to receive these results.",
+    "explanationPara2": "Alternatively, the results will also be sent to you via email for you to print and take to your health professional.",
+    "yourDoctorsEmailAddress": "Your health practitioner's email address (optional)"
+  },
+  "answers": {
+    "cdc": {
+      "yes": "Yes",
+      "no": "No",
+      "notSure": "Not Sure"
+    },
+    "pdq": {
+      "rarely": "Rarely",
+      "sometimes": "Sometimes",
+      "often": "Often"
+    },
+    "asq": {
+      "definitelyAgree": "Definitely Agree",
+      "slightlyAgree": "Slightly Agree",
+      "slightlyDisagree": "Slightly Disagree",
+      "definitelyDisagree": "Definitely Disagree"
+    }
+  },
+  "questions": {
+    "cdc6": {
+      "reach": "Does your child try to get things that are in reach?",
+      "affection": "Does your child show affection to caregivers?",
+      "respondToSounds": "Does your child respond to sounds around them?",
+      "difficultyMouth": "Does your child have difficulty getting things to their mouth?",
+      "vowelSounds": "Can your child make vowel sounds? (“ah”, “eh”, “oh”)",
+      "roll": "Can your child roll over in either direction?",
+      "squealing": "Does your child laugh or make squealing sounds?",
+      "tightMuscles": "Is your child stiff or show signs of tight muscles, or show symptoms of being very floppy or like a rag doll?",
+      "lostSkills": "Has your child lost skills they once had?"
+    }
+  }
+}

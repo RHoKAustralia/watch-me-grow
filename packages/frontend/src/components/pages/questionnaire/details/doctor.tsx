@@ -2,6 +2,7 @@ import React, { FormEvent } from "react";
 import ReactDOM from "react-dom";
 import moment from "moment";
 import { withRouter, WithRouterProps } from "react-router";
+import { NamespacesConsumer } from "react-i18next";
 
 import {
   Details as DetailsStoreState,
@@ -43,36 +44,42 @@ class Doctor extends React.Component<Props, {}> {
     };
 
     return (
-      <form className={Styles.details} onSubmit={this.onSubmit}>
-        <div className={Styles.intro}>
-          <p className={Styles.paragraph}>
-            Please include your health practitioner’s email address if you would
-            like them to receive these results.
-          </p>
+      <NamespacesConsumer ns={["default"]}>
+        {(t, { i18n, ready }) => (
+          <form className={Styles.details} onSubmit={this.onSubmit}>
+            <div className={Styles.intro}>
+              <p className={Styles.paragraph}>
+                {t("doctorDetails.explanationPara1")}
+              </p>
 
-          <p className={Styles.paragraph}>
-            Alternatively, the results will also be sent to you via email for
-            you to print and take to your health professional.
-          </p>
-        </div>
+              <p className={Styles.paragraph}>
+                {t("doctorDetails.explanationPara2")}
+              </p>
+            </div>
 
-        <div className={Styles["field-wrapper"]}>
-          <TextField
-            type="email"
-            fullWidth
-            className={Styles.textBox}
-            label="Your health practitioner's email address (optional)"
-            value={details.doctorEmail}
-            inputProps={{ maxLength: 100 }}
-            error={!!details.errors.doctorEmail}
-            onChange={this.onChange.bind(this, "doctorEmail")}
-          />
-        </div>
+            <div className={Styles["field-wrapper"]}>
+              <TextField
+                type="email"
+                fullWidth
+                className={Styles.textBox}
+                label={t("doctorDetails.yourDoctorsEmailAddress")}
+                value={details.doctorEmail}
+                inputProps={{ maxLength: 100 }}
+                error={!!details.errors.doctorEmail}
+                onChange={this.onChange.bind(this, "doctorEmail")}
+              />
+            </div>
 
-        <div className={Styles["field-wrapper"]}>
-          <input type="submit" className={Styles["next-button"]} value="Next" />
-        </div>
-      </form>
+            <div className={Styles["field-wrapper"]}>
+              <input
+                type="submit"
+                className={Styles["next-button"]}
+                value={t("app.next").toString()}
+              />
+            </div>
+          </form>
+        )}
+      </NamespacesConsumer>
     );
   }
 }

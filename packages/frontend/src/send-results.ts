@@ -1,4 +1,5 @@
 import moment from "moment";
+import i18next from "i18next";
 
 import {
   NotifyFunctionInput,
@@ -25,7 +26,8 @@ export default function sendResults(details: Details, results: Results) {
     dobOfChild: details.babyDob!.toISOString(),
     doctorEmail: details.doctorEmail,
     ageInMonths: ageInMonths,
-    siteId: subsite!.id
+    siteId: subsite!.id,
+    language: i18next.language
   };
 
   const data: NotifyFunctionInput = {

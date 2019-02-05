@@ -4,6 +4,7 @@ import classNames from "classnames";
 import { withRouter, WithRouterProps } from "react-router";
 import ReactCSSTransitionGroup from "react-addons-css-transition-group";
 import TextField, { OutlinedTextFieldProps } from "@material-ui/core/TextField";
+import { NamespacesConsumer } from "react-i18next";
 
 import { Results } from "../../../stores/results-store";
 import { RecordedAnswer } from "@wmg/common/lib/notify-function-input";
@@ -118,75 +119,83 @@ class QuestionComponent extends React.Component<Props, State> {
     );
 
     return (
-      <div
-        className={classNames(Styles.root, {
-          [Styles.reverse]: this.state.reverse
-        })}
-      >
-        <ReactCSSTransitionGroup
-          transitionName="fly"
-          transitionEnterTimeout={200}
-          transitionLeaveTimeout={200}
-        >
-          <div className={Styles.question} key={question!.question.id}>
-            <div className={Styles.text}>{question!.question.text}</div>
-            <div className={Styles["answer-wrapper"]}>
-              <div
-                className={classNames(Styles.answers, {
-                  [Styles["answers--vertical"]]:
-                    question!.question.answers.length > 3
-                })}
-              >
-                {question!.question.answers.map(answer => (
+      <NamespacesConsumer ns={["default"]}>
+        {(t, { i18n, ready }) => (
+          <div
+            className={classNames(Styles.root, {
+              [Styles.reverse]: this.state.reverse
+            })}
+          >
+            <ReactCSSTransitionGroup
+              transitionName="fly"
+              transitionEnterTimeout={200}
+              transitionLeaveTimeout={200}
+            >
+              <div className={Styles.question} key={question!.question.id}>
+                <div className={Styles.text}>
+                  {t(question!.question.textId)}
+                </div>
+                <div className={Styles["answer-wrapper"]}>
+                  <div
+                    className={classNames(Styles.answers, {
+                      [Styles["answers--vertical"]]:
+                        question!.question.answers.length > 3
+                    })}
+                  >
+                    {question!.question.answers.map(answer => (
+                      <a
+                        href="#"
+                        key={answer.value}
+                        className={classNames(Styles["answer-button"], {
+                          [Styles["answer-button--current"]]:
+                            storedAnswer && storedAnswer.value === answer.value
+                        })}
+                        onClick={this.onAnswerClicked.bind(
+                          this,
+                          answer,
+                          storedAnswer
+                        )}
+                      >
+                        {t(answer.textId)}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+
+                <div
+                  style={{
+                    display:
+                      question!.question.comments && storedAnswer
+                        ? "block"
+                        : "none"
+                  }}
+                >
+                  <TextField
+                    inputRef={this.commentsElement}
+                    className={Styles.comments}
+                    type="text"
+                    label="Can you briefly describe your concern?"
+                    name="Comments"
+                    value={(storedAnswer && storedAnswer.comments) || ""}
+                    onChange={this.onCommentChanged.bind(this, storedAnswer)}
+                    inputProps={{ maxLength: 300 }}
+                    multiline={true}
+                  />
                   <a
                     href="#"
-                    key={answer.value}
-                    className={classNames(Styles["answer-button"], {
-                      [Styles["answer-button--current"]]:
-                        storedAnswer && storedAnswer.value === answer.value
-                    })}
-                    onClick={this.onAnswerClicked.bind(
-                      this,
-                      answer,
-                      storedAnswer
-                    )}
+                    className={Styles["next-button"]}
+                    onClick={this.onNextClicked}
                   >
-                    {answer.text}
+                    {this.questionNumber! < this.questionsLength()
+                      ? "Next"
+                      : "Finish"}
                   </a>
-                ))}
+                </div>
               </div>
-            </div>
-
-            <div
-              style={{
-                display:
-                  question!.question.comments && storedAnswer ? "block" : "none"
-              }}
-            >
-              <TextField
-                inputRef={this.commentsElement}
-                className={Styles.comments}
-                type="text"
-                label="Can you briefly describe your concern?"
-                name="Comments"
-                value={(storedAnswer && storedAnswer.comments) || ""}
-                onChange={this.onCommentChanged.bind(this, storedAnswer)}
-                inputProps={{ maxLength: 300 }}
-                multiline={true}
-              />
-              <a
-                href="#"
-                className={Styles["next-button"]}
-                onClick={this.onNextClicked}
-              >
-                {this.questionNumber! < this.questionsLength()
-                  ? "Next"
-                  : "Finish"}
-              </a>
-            </div>
+            </ReactCSSTransitionGroup>
           </div>
-        </ReactCSSTransitionGroup>
-      </div>
+        )}
+      </NamespacesConsumer>
     );
   }
 }

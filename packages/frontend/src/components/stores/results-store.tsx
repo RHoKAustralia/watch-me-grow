@@ -1,4 +1,6 @@
 import React from "react";
+import i18next from "i18next";
+import { NamespacesConsumer } from "react-i18next";
 
 import {
   mark,
@@ -85,8 +87,8 @@ const ResultStore = <T extends WrappedComponentProps>(
       return this.getResultsForQuestionnaire(questionnaireId)[questionId];
     };
 
-    mark = () => {
-      this.setState({ concern: mark(combineAll(this.state)) });
+    mark = (t: i18next.TFunction) => () => {
+      this.setState({ concern: mark(combineAll(this.state, t)) });
     };
 
     clear = () => {
@@ -118,17 +120,23 @@ const ResultStore = <T extends WrappedComponentProps>(
     };
 
     render() {
-      const results: Results = Object.assign({}, this.state, {
-        getResultsForQuestionnaire: this.getResultsForQuestionnaire,
-        getAnswer: this.getAnswer,
-        setAnswer: this.setAnswer,
-        save: this.save,
-        mark: this.mark,
-        clear: this.clear,
-        isComplete: this.isComplete
-      });
+      return (
+        <NamespacesConsumer ns={["default"]}>
+          {(t, { i18n, ready }) => {
+            const results: Results = Object.assign({}, this.state, {
+              getResultsForQuestionnaire: this.getResultsForQuestionnaire,
+              getAnswer: this.getAnswer,
+              setAnswer: this.setAnswer,
+              save: this.save,
+              mark: this.mark(t),
+              clear: this.clear,
+              isComplete: this.isComplete
+            });
 
-      return <ComposedComponent {...this.props} results={results} />;
+            return <ComposedComponent {...this.props} results={results} />;
+          }}
+        </NamespacesConsumer>
+      );
     }
   };
 

@@ -8,6 +8,7 @@ import * as bodyParser from "body-parser";
 import * as functions from "firebase-functions";
 import * as firebase from "firebase-admin";
 import cors from "cors";
+import i18next from "i18next";
 
 import questionnairesForSubsite from "@wmg/common/lib/questionnaires-for-subsite";
 import {
@@ -26,19 +27,16 @@ import {
   HostConfig
 } from "@wmg/common/lib/site-specific-config";
 import ageInMonthsToString from "@wmg/common/lib/age-to-string";
+import buildi18n from "../i18n";
 
 type EmailResult = {
   questionnaire: {
     title: string;
   };
   results: {
-    metadata: {
-      text: string;
-    };
+    questionText: string;
     answer: {
-      metadata: {
-        text: string;
-      };
+      answerText: string;
       comments?: string;
     };
   }[];
@@ -98,8 +96,10 @@ app.post("*", async (req: express.Request, res: express.Response) => {
       throw new Error("Missing parameter");
     }
 
+    const t = await buildi18n(body.details.language);
+
     const config = getConfigById(details.siteId);
-    const combinedResults = combineAll(body.results);
+    const combinedResults = combineAll(body.results, t);
     const concern = mark(combinedResults);
     const resultStrings = concern
       ? strings.result.concerns
@@ -115,7 +115,8 @@ app.post("*", async (req: express.Request, res: express.Response) => {
       detailsWithDates,
       combinedResults,
       resultStrings,
-      config
+      config,
+      t
     );
 
     const basePromises: Promise<any>[] = [
@@ -129,7 +130,8 @@ app.post("*", async (req: express.Request, res: express.Response) => {
             detailsWithDates,
             combinedResults,
             resultStrings,
-            config
+            config,
+            t
           )
         ])
       : basePromises;
@@ -152,12 +154,14 @@ function sendParentEmail(
   details: NotifyFunctionInputDetails,
   combinedResults: CombinedResult[],
   resultStrings: EmailString,
-  config: HostConfig
+  config: HostConfig,
+  t: i18next.TFunction
 ) {
   const templateInput: ParentEmailInput = buildEmailInput(
     details,
     combinedResults,
-    resultStrings
+    resultStrings,
+    t
   );
 
   const message = markupJs.up(templateBody, templateInput);
@@ -174,7 +178,7 @@ function sendParentEmail(
 
 function addCCToParams(params: any) {
   const newParams = { ...params };
-  if (functions.config().notifyemail.cc) {
+  if (functions.config().notifyemail && functions.config().notifyemail.cc) {
     newParams.cc = functions.config().notifyemail.cc;
   }
   return newParams;
@@ -183,7 +187,8 @@ function addCCToParams(params: any) {
 function buildEmailInput(
   details: NotifyFunctionInputDetails,
   combinedResults: CombinedResult[],
-  resultStrings: EmailString
+  resultStrings: EmailString,
+  t: i18next.TFunction
 ): DoctorEmailInput {
   const { minMonths, maxMonths } = minMax(
     questionnairesForSubsite(details.siteId)
@@ -196,7 +201,7 @@ function buildEmailInput(
       lastNameOfChild: details.lastNameOfChild,
       testDateFormatted: moment(details.testDate).format(FORMAT),
       dobChildFormatted: moment(details.dobOfChild).format(FORMAT),
-      ageOfChild: ageInMonthsToString(details.ageInMonths)
+      ageOfChild: ageInMonthsToString(details.ageInMonths, t)
     },
     developmentResults: combinedResults.filter(
       result => result.questionnaire.category === "development"
@@ -206,8 +211,8 @@ function buildEmailInput(
     ),
     resultText: resultStrings.title + " " + resultStrings.subtitle,
     concern: mark(combinedResults),
-    minAge: ageInMonthsToString(minMonths),
-    maxAge: ageInMonthsToString(maxMonths)
+    minAge: ageInMonthsToString(minMonths, t),
+    maxAge: ageInMonthsToString(maxMonths, t)
   };
 }
 
@@ -220,12 +225,14 @@ function sendDoctorEmail(
   details: NotifyFunctionInputDetails,
   combinedResults: CombinedResult[],
   resultStrings: EmailString,
-  config: HostConfig
+  config: HostConfig,
+  t: i18next.TFunction
 ) {
   const doctorEmailInput: DoctorEmailInput = buildEmailInput(
     details,
     combinedResults,
-    resultStrings
+    resultStrings,
+    t
   );
 
   const message = markupJs.up(doctorTemplateBody, doctorEmailInput);

@@ -1,0 +1,65 @@
+{
+  "app": {
+    "noConfigMessage": "Could not find config for {{hostname}}",
+    "month": "{{count}} bulan",
+    "month_plural": "{{count}} bulan",
+    "year": "{{count}} tahun",
+    "year_plural": "{{count}} tahun",
+    "footer": "WatchMeGrow.care didukung oleh University of New South Wales. Kuisioner ini berfokus pada tahapan perkembangan umum, serta keterampilan bahasa dan sosial.",
+    "next": "Berikutnya"
+  },
+  "landing": {
+    "heading": "Semua anak tumbuh dan berkembang dengan kecepatan masing-masing.",
+    "explanation": "WatchMeGrow.care membantu Anda memantau perkembangan anak Anda dan menyajikan info tentang perkembangan yang sehat.",
+    "ages": "Aplikasi ini dirancang bagi anak-anak usia sekitar {{minAge}} sampai {{maxAge}}",
+    "generalInformation": {
+      "intro": "Informasi umum tentang pertumbuhan dan perkembangan anak-anak sejak dilahirkan sampai usia 5 tahun bisa dilihat pada tautan berikut:",
+      "link": "Learn the Signs - Act Early"
+    },
+    "startButton": "Awal Kuesioner"
+  },
+  "details": {
+    "childFirstName": "Nama Depan Anak",
+    "childLastName": "Nama Keluarga atau Marga Anak",
+    "gender": "Jenis Kelamin",
+    "childDob": "Tanggal Lahir",
+    "yourName": "Nama Orangtua",
+    "yourEmailAddress": "Alamat Imel (agar hasil kuisioner bisa kami kirim melalui imel)"
+  },
+  "doctorDetails": {
+    "explanationPara1": "Silahkan cantumkan alamat imel praktisi kesehatan anda (dokter, psikolog, terapis, dll) jika Anda menghendaki mereka menerima laporan hasil pengisian kuisioner ini.",
+    "explanationPara2": "Atau, laporan hasil ini dapat juga dikirimkan melalui imel untuk Anda cetak dan perlihatkan kepada praktisi kesehatan Anda.",
+    "yourDoctorsEmailAddress": "Alamat imel praktisi kesehatan anda (pilihan)"
+  },
+  "answers": {
+    "cdc": {
+      "yes": "Ya",
+      "no": "Tidak",
+      "notSure": "Tidak Yakin"
+    },
+    "pdq": {
+      "rarely": "Rarely",
+      "sometimes": "Sometimes",
+      "often": "Often"
+    },
+    "asq": {
+      "definitelyAgree": "Definitely Agree",
+      "slightlyAgree": "Slightly Agree",
+      "slightlyDisagree": "Slightly Disagree",
+      "definitelyDisagree": "Definitely Disagree"
+    }
+  },
+  "questions": {
+    "cdc6": {
+      "reach": "Apakah anak Anda mencoba meraih barang-barang yang ada dalam jangkauannya?",
+      "affection": "Apakah anak Anda memperlihatkan ekspresi sayang kepada orang-orang yang merawatnya?",
+      "respondToSounds": "Apakah anak Anda menanggapi suara-suara di sekitarnya?",
+      "difficultyMouth": "Apakah anak Anda mengalami kesulitan memasukkan sesuatu ke mulutnya?",
+      "vowelSounds": "Dapatkah anak Anda menyuarakan huruf hidup? (“ah”, “eh”, “oh”)",
+      "roll": "Dapatkah anak Anda berguling baik ke kiri maupun ke kanan?",
+      "squealing": "Apakah anak Anda biasa tertawa atau melengking?",
+      "tightMuscles": "Apakah anak Anda kaku atau menunjukkan tanda-tanda kekakuan otot? Atau apakah anak Anda terlihat sangat lemas atau lunglai seperti boneka kain?",
+      "lostSkills": "Pernahkah anak Anda kehilangan keterampilan yang telah dikuasainya?"
+    }
+  }
+}
