@@ -7,7 +7,9 @@ import * as functions from "firebase-functions";
 import * as firebase from "firebase-admin";
 
 import questionnaires from "@wmg/common/lib/questionnaires";
-import { sites } from "@wmg/common/lib/site-specific-config";
+import { sites, getConfigById } from "@wmg/common/lib/site-specific-config";
+import buildi18n from "../i18n";
+import { FirestoreRecordDetails } from "../notify-email";
 
 type ResultsEmailInput = {};
 
@@ -95,19 +97,24 @@ export default async function reminderEmail(pubSubMsg) {
   }
 }
 
-function sendReminder(details) {
-  const ageInMonths = moment().diff(
-    moment(details.dobAsDate.toDate()),
-    "months"
-  );
+async function sendReminder(details: FirestoreRecordDetails) {
+  const ageInMonths = moment().diff(moment(details.dobAsDate), "months");
 
-  const message = markupJs.up(reminderTemplateBody, {
-    url:
-      "https://" +
-      (details.subsite ? details.subsite + "." : "") +
-      "watchmegrow.care",
-    childAge: ageInMonths
-  });
+  const t = await buildi18n(details.language);
+  const siteConfig = getConfigById(details.siteId);
+
+  const message = markupJs.up(
+    reminderTemplateBody,
+    {
+      url: "https://" + siteConfig.host,
+      childAge: ageInMonths
+    },
+    {
+      pipes: {
+        t
+      }
+    }
+  );
 
   console.log(`Sending reminder to ${details.recipientEmail}`);
 

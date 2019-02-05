@@ -61,5 +61,28 @@
       "tightMuscles": "Is your child stiff or show signs of tight muscles, or show symptoms of being very floppy or like a rag doll?",
       "lostSkills": "Has your child lost skills they once had?"
     }
+  },
+  "results": {
+    "greenFlag": "Your child is developing as expected for their age. Based on your answers you have no concerns about how your child is developing.",
+    "redFlag": "Your answers indicate that your child could benefit from a more detailed assessment. Please discuss these results with your health professional.",
+    "raisingChildrenIntro": "All children grow and develop at their own pace. Please use the following link to access information on what is expected for your child's age."
+  },
+  "emails": {
+    "results": {
+      "salutation": "Hi",
+      "intro": "Thank you for completing WatchMeGrow.care for",
+      "childsName": "Child's Name",
+      "dateOfTest": "Date of Test",
+      "dateOfBirth": "Date of Birth",
+      "ageOfChild": "Age of Child",
+      "resultsIntro": "Detailed Results Below",
+      "developmentHeading": "Development",
+      "socialHeading": "Social, Communication and Language"
+    }
+  },
+  "tableHeaders": {
+    "number": "Number",
+    "question": "Question",
+    "response": "Response"
   }
 }

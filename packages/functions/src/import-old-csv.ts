@@ -143,7 +143,8 @@ fsReadStream
                 result[sanitiseColumnHeader("date of birth")],
                 CSV_DATE_FORMAT
               ).toDate(),
-              siteId: findLocation(result.location)
+              siteId: findLocation(result.location),
+              language: "en"
             },
             date: ifNotBlank(result.date)
               ? moment(result.date).toDate()

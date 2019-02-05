@@ -61,5 +61,28 @@
       "tightMuscles": "Apakah anak Anda kaku atau menunjukkan tanda-tanda kekakuan otot? Atau apakah anak Anda terlihat sangat lemas atau lunglai seperti boneka kain?",
       "lostSkills": "Pernahkah anak Anda kehilangan keterampilan yang telah dikuasainya?"
     }
+  },
+  "results": {
+    "greenFlag": "Anak Anda berkembang sesuai dengan yang diharapkan pada usianya. Berdasarkan jawaban-jawaban Anda, Anda tidak perlu kuatir mengenai perkembangan anak anda.",
+    "redFlag": "Jawaban-jawaban Anda menunjukkan bahwa anak Anda mungkin memerlukan pemeriksaan lanjutan. Silakan diskusikan hasil ini dengan dokter atau praktisi kesehatan Anda.",
+    "raisingChildrenIntro": "All children grow and develop at their own pace. Please use the following link to access information on what is expected for your child's age."
+  },
+  "emails": {
+    "results": {
+      "salutation": "Bapak/Ibu",
+      "intro": "Terimakasih telah mengisi secara lengkap WatchMeGrow.care untuk",
+      "childsName": "Nama Anak",
+      "dateOfTest": "Tanggal Pengisian",
+      "dateOfBirth": "Tanggal lahir",
+      "ageOfChild": "Usia Anak",
+      "resultsIntro": "Hasil secara lengkap sebagai berikut",
+      "developmentHeading": "Perkembangan",
+      "socialHeading": "Sosial Komunikasi dan Bahasa"
+    }
+  },
+  "tableHeaders": {
+    "number": "Nomor",
+    "question": "Pertanyaan",
+    "response": "Tanggapan"
   }
 }

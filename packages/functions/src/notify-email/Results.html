@@ -1,38 +1,39 @@
 <!DOCTYPE html>
+
 <p>
-    Hi {{details.nameOfParent}},
+    {{t|call>t>emails.results.salutation}} {{details.nameOfParent}},
 </p>
 <p>
-    Thank you for completing the Watch Me Grow app for {{details.firstNameOfChild}}.
+    {{t|call>t>emails.results.intro}} {{details.firstNameOfChild}}.
 </p>
 
 <table border="0">
     <tr>
-        <td>Child's Name</td>
+        <td>{{t|call>t>emails.results.childsName}}</td>
         <td>{{details.firstNameOfChild}} {{details.lastNameOfChild}}</td>
-        <td>Date of Test</td>
+        <td>{{t|call>t>emails.results.dateOfTest}}</td>
         <td>{{details.testDateFormatted}}</td>
     </tr>
     <tr>
-        <td>Date of Birth</td>
+        <td>{{t|call>t>emails.results.dateOfBirth}}</td>
         <td>{{details.dobChildFormatted}}</td>
-        <td>Age of Child</td>
+        <td>{{t|call>t>emails.results.ageOfChild}}</td>
         <td>{{details.ageOfChild}}</td>
     </tr>
 </table>
 
 <p>{{resultText}}</p>
-<p>Detailed Results Below</p>
+<p>{{t|call>t>emails.results.resultsIntro}}</p>
 
 {{if developmentResults}}
-  <h2>Development</h2>
+  <h2>{{t|call>t>emails.results.developmentHeading}}</h2>
   {{developmentResults}}
   <h3>{{questionnaire.title}}</h3>
   <table border="1" style="max-width: 500px">
       <tr>
-          <th style="width:10%">Number</th>
-          <th style="width:45%">Question</th>
-          <th style="width:45%">Response</th>
+          <th style="width:10%">{{t|call>t>emails.tableHeaders.number}}</th>
+          <th style="width:45%">{{t|call>t>emails.tableHeaders.question}}</th>
+          <th style="width:45%">{{t|call>t>emails.tableHeaders.response}}</th>
       </tr>
       {{results}}
       <tr>
@@ -53,14 +54,14 @@
 {{/if}}
 
 {{if communicationResults}}
-  <h2>Social Communication and Language</h2>
+<h2>{{t|call>t>emails.results.socialHeading}}</h2>
   {{communicationResults}}
   <h3>{{questionnaire.title}}</h3>
   <table border="1" style="max-width: 500px">
       <tr>
-          <th style="width:10%">Number</th>
-          <th style="width:45%">Question</th>
-          <th style="width:45%">Response</th>
+        <th style="width:10%">{{t|call>t>emails.tableHeaders.number}}</th>
+        <th style="width:45%">{{t|call>t>emails.tableHeaders.question}}</th>
+        <th style="width:45%">{{t|call>t>emails.tableHeaders.response}}</th>
       </tr>
       {{results}}
       <tr>
@@ -80,7 +81,7 @@
 {{/if}}
 
 <p>
-    All children grow and develop at their own pace. Please use the following link to access information on what is expected for your child's age.
+    {{t|call>t>results.raisingChildrenInfo}}
 </p>
 
 <p>

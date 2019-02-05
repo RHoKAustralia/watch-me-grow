@@ -16,7 +16,6 @@ import {
   combineAll,
   CombinedResult
 } from "@wmg/common/lib/data-functions";
-import strings, { EmailString } from "@wmg/common/lib/strings";
 import minMax from "@wmg/common/lib/min-max";
 import {
   NotifyFunctionInput,
@@ -101,9 +100,9 @@ app.post("*", async (req: express.Request, res: express.Response) => {
     const config = getConfigById(details.siteId);
     const combinedResults = combineAll(body.results, t);
     const concern = mark(combinedResults);
-    const resultStrings = concern
-      ? strings.result.concerns
-      : strings.result.noConcerns;
+    const resultString = concern
+      ? t("results.redFlag")
+      : t("results.greenFlag");
 
     const detailsWithDates = {
       ...details,
@@ -114,7 +113,7 @@ app.post("*", async (req: express.Request, res: express.Response) => {
     const parentEmailPromise = sendParentEmail(
       detailsWithDates,
       combinedResults,
-      resultStrings,
+      resultString,
       config,
       t
     );
@@ -129,7 +128,7 @@ app.post("*", async (req: express.Request, res: express.Response) => {
           sendDoctorEmail(
             detailsWithDates,
             combinedResults,
-            resultStrings,
+            resultString,
             config,
             t
           )
@@ -153,27 +152,31 @@ const templateBody = fs.readFileSync(
 function sendParentEmail(
   details: NotifyFunctionInputDetails,
   combinedResults: CombinedResult[],
-  resultStrings: EmailString,
+  resultString: string,
   config: HostConfig,
   t: i18next.TFunction
 ) {
   const templateInput: ParentEmailInput = buildEmailInput(
     details,
     combinedResults,
-    resultStrings,
+    resultString,
     t
   );
 
-  const message = markupJs.up(templateBody, templateInput);
+  const message = markupJs.up(templateBody, { ...templateInput, t: { t } });
 
-  const params = addCCToParams({
-    from: EMAIL_FROM,
-    to: details.recipientEmail,
-    subject: "WatchMeGrow.care Results for " + details.firstNameOfChild,
-    html: message
-  });
+  console.log(message);
 
-  return mailgun.messages().send(params);
+  return Promise.resolve();
+
+  // const params = addCCToParams({
+  //   from: EMAIL_FROM,
+  //   to: details.recipientEmail,
+  //   subject: "WatchMeGrow.care Results for " + details.firstNameOfChild,
+  //   html: message
+  // });
+
+  // return mailgun.messages().send(params);
 }
 
 function addCCToParams(params: any) {
@@ -187,7 +190,7 @@ function addCCToParams(params: any) {
 function buildEmailInput(
   details: NotifyFunctionInputDetails,
   combinedResults: CombinedResult[],
-  resultStrings: EmailString,
+  resultString: string,
   t: i18next.TFunction
 ): DoctorEmailInput {
   const { minMonths, maxMonths } = minMax(
@@ -209,7 +212,7 @@ function buildEmailInput(
     communicationResults: combinedResults.filter(
       result => result.questionnaire.category === "communication"
     ),
-    resultText: resultStrings.title + " " + resultStrings.subtitle,
+    resultText: resultString,
     concern: mark(combinedResults),
     minAge: ageInMonthsToString(minMonths, t),
     maxAge: ageInMonthsToString(maxMonths, t)
@@ -224,18 +227,22 @@ const doctorTemplateBody = fs.readFileSync(
 function sendDoctorEmail(
   details: NotifyFunctionInputDetails,
   combinedResults: CombinedResult[],
-  resultStrings: EmailString,
+  resultString: string,
   config: HostConfig,
   t: i18next.TFunction
 ) {
   const doctorEmailInput: DoctorEmailInput = buildEmailInput(
     details,
     combinedResults,
-    resultStrings,
+    resultString,
     t
   );
 
-  const message = markupJs.up(doctorTemplateBody, doctorEmailInput);
+  const message = markupJs.up(doctorTemplateBody, doctorEmailInput, {
+    pipes: {
+      t
+    }
+  });
 
   const params = addCCToParams({
     from: EMAIL_FROM,
@@ -251,22 +258,25 @@ function sendDoctorEmail(
   return mailgun.messages().send(params);
 }
 
+export type FirestoreRecordDetails = {
+  recipientEmail: string;
+  nameOfParent: string;
+  firstNameOfChild: string;
+  lastNameOfChild: string;
+  genderOfChild: string;
+  doctorEmail?: string;
+  siteId: string;
+  dobAsDate: Date;
+  language: string;
+};
+
 export type FirestoreRecord = {
   results: {
     questionnaire: string;
     answers: { [id: string]: string };
   }[];
   concern: boolean;
-  details: {
-    recipientEmail: string;
-    nameOfParent: string;
-    firstNameOfChild: string;
-    lastNameOfChild: string;
-    genderOfChild: string;
-    doctorEmail?: string;
-    siteId: string;
-    dobAsDate: Date;
-  };
+  details: FirestoreRecordDetails;
   date: Date;
 };
 
@@ -296,7 +306,8 @@ function recordResultsInFirestore(
       genderOfChild: details.genderOfChild,
       doctorEmail: details.doctorEmail,
       siteId: details.siteId,
-      dobAsDate: moment(details.dobOfChild).toDate()
+      dobAsDate: moment(details.dobOfChild).toDate(),
+      language: details.language
     },
     date: moment(details.testDate).toDate()
   };
