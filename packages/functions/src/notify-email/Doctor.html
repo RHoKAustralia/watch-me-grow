@@ -1,12 +1,18 @@
 <!DOCTYPE html>
 <p>
-    Hi,
+  {{t|call>t>emails.doctor.salutation}},
 </p>
 <p>
-    You're receiving this email because {{details.nameOfParent}} completed WatchMeGrow.care for {{details.firstNameOfChild}}
-    {{details.lastNameOfChild}}. WatchMeGrow.care tracks developmental progress for children aged between approximately
-    {{minAge}} to {{maxAge}}. It has been designed to facilitate early identification of developmental
-    problems.
+  {{t|call>t>emails.doctor.intro1}}
+  {{details.nameOfParent}}
+  {{t|call>t>emails.doctor.intro1}}
+  {{details.firstNameOfChild}}
+  {{details.lastNameOfChild}}
+  {{t|call>t>emails.doctor.intro3}}
+  {{minAge}}
+  {{t|call>t>emails.doctor.intro4}}
+  {{maxAge}}
+  {{t|call>t>emails.doctor.intro5}}
 </p>
 
 {{if concern}}
@@ -15,10 +21,7 @@
 </div>
 <p>
     <strong>
-      It is highly likely that this child has developmental issues. It is recommended that a
-      referral for further assessment and early intervention through a paediatrician or other
-      child development health professional is completed. In addition, it is important to continue
-      to monitor the child over time.
+      {{t|call>t>emails.doctor.redFlag}}
     </strong>
 </p>
 {{else}}
@@ -27,39 +30,38 @@
 </div>
 <p>
     <strong>
-      Developmental issues in this child are unlikely. No further follow-up necessary at
-      this point. Continue ongoing monitoring as usual
+      {{t|call>t>emails.doctor.greenFlag}}
     </strong>
 </p>
 {{/if}}
 
-<p>Please see detailed results below</p>
+<p>{{t|call>t>emails.doctor.resultsIntro}}</p>
 
 <table border="0">
     <tr>
-        <td>Child's Name</td>
+        <td>{{t|call>t>emails.doctor.childsName}}</td>
         <td>{{details.firstNameOfChild}} {{details.lastNameOfChild}}</td>
-        <td>Date of Test</td>
+        <td>{{t|call>t>emails.doctor.dateOfTest}}</td>
         <td>{{details.testDateFormatted}}</td>
     </tr>
     <tr>
-        <td>Date of Birth</td>
+        <td>{{t|call>t>emails.doctor.dateOfBirth}}</td>
         <td>{{details.dobChildFormatted}}</td>
-        <td>Age of Child</td>
+        <td>{{t|call>t>emails.doctor.ageOfChild}}</td>
         <td>{{details.ageOfChild}}</td>
     </tr>
 </table>
 
 
 {{if developmentResults}}
-  <h2>Development</h2>
+  <h2>{{t|call>t>emails.results.developmentHeading}}</h2>
   {{developmentResults}}
   <h3>{{questionnaire.title}}</h3>
   <table border="1" style="max-width: 500px">
       <tr>
-          <th style="width:10%">Number</th>
-          <th style="width:45%">Question</th>
-          <th style="width:45%">Response</th>
+          <th style="width:10%">{{t|call>t>emails.tableHeaders.number}}</th>
+          <th style="width:45%">{{t|call>t>emails.tableHeaders.question}}</th>
+          <th style="width:45%">{{t|call>t>emails.tableHeaders.response}}</th>
       </tr>
       {{results}}
       <tr>
@@ -80,14 +82,14 @@
 {{/if}}
 
 {{if communicationResults}}
-  <h2>Social Communication and Language</h2>
+<h2>{{t|call>t>emails.results.socialHeading}}</h2>
   {{communicationResults}}
   <h3>{{questionnaire.title}}</h3>
   <table border="1" style="max-width: 500px">
       <tr>
-          <th style="width:10%">Number</th>
-          <th style="width:45%">Question</th>
-          <th style="width:45%">Response</th>
+        <th style="width:10%">{{t|call>t>emails.tableHeaders.number}}</th>
+        <th style="width:45%">{{t|call>t>emails.tableHeaders.question}}</th>
+        <th style="width:45%">{{t|call>t>emails.tableHeaders.response}}</th>
       </tr>
       {{results}}
       <tr>
@@ -107,9 +109,9 @@
 {{/if}}
 
 <p>
-    For further information on child development please go to <a href="http://www.cdc.gov/ncbddd/actearly/index.html">Learn the signs - act early</a>.
+    {{t|call>t>results.moreInfo}} <a href="http://www.cdc.gov/ncbddd/actearly/index.html">Learn the signs - act early</a>.
 </p>
 
 <p>
-    This information has also been provided to the parent.
+    {{t|call>t>results.parentInfo}}
 </p>

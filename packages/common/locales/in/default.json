@@ -37,16 +37,37 @@
       "no": "Tidak",
       "notSure": "Tidak Yakin"
     },
-    "pdq": {
-      "rarely": "Rarely",
-      "sometimes": "Sometimes",
-      "often": "Often"
+    "pdq1": {
+      "rarely": "Sangat Jarang",
+      "sometimes": "Kadang-kadang",
+      "often": "Sering"
     },
     "asq": {
-      "definitelyAgree": "Definitely Agree",
-      "slightlyAgree": "Slightly Agree",
-      "slightlyDisagree": "Slightly Disagree",
-      "definitelyDisagree": "Definitely Disagree"
+      "definitelyAgree": "Sangat Setuju",
+      "slightlyAgree": "Agak Setuju",
+      "slightlyDisagree": "Agak Tidak Setuju",
+      "definitelyDisagree": "Sangat Tidak Setuju"
+    },
+    "qchat": {
+      "always": "selalu",
+      "usually": "seringkali",
+      "sometimes": "kadang-kadang",
+      "rarely": "jarang",
+      "never": "tidak pernah",
+      "veryEasy": "sangat mudah",
+      "quiteEasy": "cukup mudah",
+      "quiteDifficult": "agak sulit",
+      "veryDifficult": "sangat sulit",
+      "impossible": "mustahil",
+      "manyDay": "seringkali dalam sehari",
+      "fewDay": "beberapa kali dalam sehari",
+      "fewWeek": "beberapa kali dalam seminggu",
+      "lessOnceWeek": "kurang dari satu kali dalam seminggu",
+      "veryTypical": "sangat wajar seperti anak lain",
+      "quiteTypical": "cukup wajar",
+      "slightlyUnusual": "sedikit tidak wajar",
+      "veryUnusual": "sangat tidak wajar",
+      "nonVerbal": "anak saya belum bicara"
     }
   },
   "questions": {
@@ -60,6 +81,120 @@
       "squealing": "Apakah anak Anda biasa tertawa atau melengking?",
       "tightMuscles": "Apakah anak Anda kaku atau menunjukkan tanda-tanda kekakuan otot? Atau apakah anak Anda terlihat sangat lemas atau lunglai seperti boneka kain?",
       "lostSkills": "Pernahkah anak Anda kehilangan keterampilan yang telah dikuasainya?"
+    },
+    "cdc9": {
+      "bearWeight": "Dapatkah anak Anda menopang beban tubuhnya dengan kedua kakinya tanpa bantuan apa-apa?",
+      "sitWithoutHelp": "Dapatkah anak Anda duduk sendiri tanpa bantuan?",
+      "babbles": "Apakah anak Anda biasa bergumam (misalnya: “mama”, “baba”, “dada”)?",
+      "backAndForth": "Apakah anak Anda memainkan permainan yang melibatkan gerakan maju-mundur?",
+      "respondsToOwnName": "Apakah anak Anda merespon namanya saat dipanggil?",
+      "recogniseFamiliarPeople": "Apakah anak Anda mengenali orang-orang yang biasa bersamanya?",
+      "looksWhereYouPoint": "Apakah anak Anda melihat ke arah yang Anda tunjuk?",
+      "canTransferToys": "Dapatkah anak Anda memindahkan mainan dari tangan yang satu ke tangan lain?",
+      "lostSkills": "Pernahkah bayi Anda kehilangan keterampilan yang pernah dikuasainya?"
+    },
+    "cdc12": {
+      "crawl": "Apakah anak Anda merangkak?",
+      "stand": "Dapatkah anak Anda berdiri dengan dibantu?",
+      "searchHidden": "Apakah anak Anda mencari barang-barang yang dilihatnya Anda sembunyikan?",
+      "singleWords": "Apakah anak Anda mengucapkan kata-kata tunggal seperti “mama”atau “dada”?",
+      "gestures": "Dapatkah anak Anda menggunakan bahasa-bahasa isyarat seperti melambaikan tangan atau menggelengkan kepala?",
+      "point": "Apakah anak Anda menunjuk ke benda-benda tertentu?",
+      "lostSkills": "Pernahkah anak Anda kehilangan keterampilan yang pernah dikuasainya?"
+    },
+    "cdc18": {
+      "point": "Apakah anak Anda menunjuk untuk memperlihatkan sesuatu kepada orang lain?",
+      "walk": "Dapatkah anak Anda berjalan?",
+      "knowFamiliar": "Apakah anak Anda tahu fungsi benda-benda yang biasa digunakannya (misalnya sendok untuk makan)?",
+      "copyOthers": "Apakah anak Anda meniru orang lain?",
+      "words": "Apakah anak Anda bisa mengucapkan setidaknya enam kata?",
+      "learnWords": "Apakah anak Anda mempelajari kata-kata baru?",
+      "noticeCarer": "Apakah anak Anda menyadari atau keberatan ketika pengasuhnya pergi atau kembali?",
+      "lostSkills": "Pernahkah anak Anda kehilangan keterampilan yang pernah dikuasainya?"
+    },
+    "cdc24": {
+      "twoWordPhrases": "Apakah anak Anda menggunakan kalimat yang terdiri atas dua kata(misalnya “minum susu”)?",
+      "commonThings": "Apakah anak Anda tahu bagaimana menggunakan benda sehari-hari, misalnya sikat gigi, telepon, garpu, sendok?",
+      "copyActions": "Apakah anak Anda menirukan tindakan-tindakan dan kata-kata?",
+      "simpleInstructions": "Dapatkah anak Anda melaksanakan perintah-perintah sederhana?",
+      "walkSteady": "Apakah anak Anda berjalan dengan seimbang tanpa dibantu?",
+      "lostSkills": "Pernahkah anak Anda kehilangan keterampilan yang pernah dikuasainya?"
+    },
+    "cdc36": {
+      "fallDown": "Apakah anak Anda sering terjatuh atau kesulitan meniti anak tangga?",
+      "drool": "Apakah anak Anda mengeces (mengeluarkan air liur) atau tidak bisa bicara secara jelas?",
+      "struggle": "Apakah anak Anda kesulitan memainkan mainan-mainan sederhana? (misalnya memasang pasak pada lubang, teka-teki atau menyusun gambar sederhana, atau memutar handel)?",
+      "speak": "Apakah anak Anda bercakap menggunakan kalimat?",
+      "instructions": "Apakah anak Anda memahami perintah-perintah sederhana?",
+      "pretend": "Apakah anak Anda bisa bermain pura-pura atau imajinasi?",
+      "toys": "Apakah anak Anda ingin bermain dengan anak-anak lain atau dengan mainan?",
+      "eyeContact": "Apakah anak Anda melakukan kontak mata?",
+      "lostSkills": "Pernahkah anak Anda kehilangan keterampilan yang pernah dikuasainya?"
+    },
+    "cdc48": {
+      "jump": "Dapatkah anak Anda meloncat di tempat?",
+      "scribbling": "Dapatkah anak Anda mencoret-coret?",
+      "games": "Apakah anak Anda terlihat berminat terhadap permainan interaktif atau permainan imajinasi?",
+      "respond": "Apakah anak Anda mengabaikan anak-anak lain atau tidak merespon orang-orang selain keluarganya?",
+      "resist": "Apakah anak Anda menolak berpakaian, tidur dan menggunakan toilet?",
+      "retell": "Dapatkah anak Anda menceritakan kembali cerita yang disukainya?",
+      "follow": "Dapatkah anak Anda melakukan perintah 3 bagian (dalam 1 perintah terdapat tiga hal yang harus dilakukan)?",
+      "sameDifferent": "Apakah anak Anda memahami arti “sama” dan “berbeda”?",
+      "meYou": "Dapatkah anak Anda menggunakan kata “saya” dan “kamu” secara benar?",
+      "speakUnclearly": "Apakah anak Anda bicara dengan jelas?",
+      "lostSkills": "Pernahkah anak Anda kehilangan keterampilan yang pernah dikuasainya?"
+    },
+    "cdc60": {
+      "wideEmotions": "Apakah anak Anda bisa serangkaian emosi yang berbeda?",
+      "extremeBehaviour": "Apakah anak Anda menunjukkan perilaku yang ekstrim? (misalnya sering ketakutan, agresif, malu atau sedih)",
+      "withdrawn": "Apakah anak Anda secara tidak wajar sering menyendiri dan tidak aktif?",
+      "distracted": "Apakah anak Anda mudah terdistraksi, sulit fokus pada suatu kegiatan yaang berlangsung lebih dari 5 menit?",
+      "respond": "Apakah anak Anda tidak merespon orang lain, atau hanya berlagak merespon?",
+      "makeBelieve": "Dapatkah anak Anda membedakan antara hal nyata dan khayalan?",
+      "games": "Apakah anak Anda memainkan berbagai macam permainan atau kegiatan?",
+      "names": "Dapatkah anak Anda menyebutkan nama depan dan nama keluarganya?",
+      "plurals": "Dapatkah anak Anda menggunakan kata-kata jamak atau kalimat yang menjelaskan kejadian di masa lampau secara tepat?",
+      "dailyActivities": "Apakah anak Anda bercerita tentang kegiatan atau pengalamannya sehari-hari?",
+      "drawing": "Apakah anak Anda biasa menggambar?",
+      "brushDryWash": "Dapatkah anak Anda menggosok gigi, mencuci dan mengeringkan tangan, atau mencopot pakaian tanpa dibantu?",
+      "lostSkills": "Pernahkah anak Anda kehilangan keterampilan yang pernah dikuasainya?"
+    },
+    "qchat": {
+      "lookAtYou": "Apakah anak Anda menengok kepada Anda saat Anda memanggil namanya?",
+      "eyeContactEasiness": "Seberapa mudah Anda melakukan kontak mata dengan anak Anda?",
+      "pointWant": "Apakah anak Anda menunjuk untuk mengindikasikan bahwa ia menginginkan sesuatu? (misalnya ketika ia menginginkan sebuah mainan yang di luar jangkauannya)",
+      "pointShareInterest": "Apakah anak Anda menunjuk jika ia ingin menunjukkan sesuatu yang menarik kepada Anda (misalnya menuding pada pemandangan yang menarik)?",
+      "pretending": "Apakah anak Anda mampu berpura-pura (misalnya pura-pura merawat boneka, bicara dengan telepon mainan)?",
+      "followLooking": "Apakah anak Anda mengikuti arah pandangan Anda?",
+      "comfort": "Jika anda atau orang lain dalam keluarga terlihat kecewa, apakah anak anda memperlihatkan tanda-tanda ingin menghibur mereka (misalnya mengelus rambut atau memeluk mereka)?",
+      "firstWords": "Tolong ceriterakan kata-kata pertama anak Anda, yaitu:",
+      "simpleGestures": "Apakah anak Anda menggunakan isyarat sederhana (misalnya melambaikan tangan tanda perpisahan)?",
+      "stareAtNothing": "Apakah anak Anda menunjukkan pandangan kosong tanpa alasan yang jelas?"
+    },
+    "pdq1": {
+      "pointsOrGestures": "Anak saya menunjuk atau menggunakan gerakan isyarat untuk menunjukkan ketertarikannya atau untuk mendapatkan perhatian.",
+      "unusualResponses": "Anak saya menunjukkan respon yang tidak lumrah atau beragam terhadap suara (seakan tidak mendengar, atau sangat sensitif atau bereaksi secara berlebihan)",
+      "smiles": "Anak saya tersenyum atau biasa membuat kontak mata dengan orang lain.",
+      "respondsToName": "Anak saya menanggapi ketika namanya dipanggil.",
+      "showsInterest": "Anak saya menunjukkan minat pada anak-anak pada saat bermain",
+      "enjoysHandshakePeekaboo": "Anak saya senang “bersalaman” atau bermain “cilukba”",
+      "relatesToOthers": "Anak saya berinteraksi dengan orang lain dengan mengoceh, menggunakan gerakan isyarat, bercakap atau mengubah-ubah ekspresi.",
+      "usesThreeOrMoreWordsRegularly": "Anak saya menggunakan tiga kata atau lebih secara teratur dan benar",
+      "speaksInPhrases": "Anak saya berbicara menggunakan kalimat sederhana atau frasa (contohnya: mau jus, bye-bye, permen lagi, minta dong, dll.)",
+      "laughsWhenOthersLaugh": "Anak saya ikut tertawa jika orang lain tertawa.",
+      "stoppedUsingWords": "Anak saya berhenti menggunakan kata-kata atau berinteraksi dengan orang lain (pada usia berapapun)"
+    },
+    "asq10": {
+      "noticesSmallSounds": "Ia seringkali memperhatikan suara-suara kecil yang tidak terdengar oleh orang lain",
+      "concentratesOnWholePicture": "Ia biasa berkonsentrasi pada gambar secara utuh, dibandingkan pada bagian-bagian detail dari gambar",
+      "tracksMultipleConversations": "Dalam suatu kelompok sosial (misalnya dalam keluarga, pertemanan di sekolah, dll.), ia dapat dengan mudah mengikuti pembicaraan beberapa orang yang berbeda",
+      "goesBackAndForth": "Mudah baginya untuk berpindah-pindah antar kegiatan yang berbeda",
+      "doesntKnowHowToKeepConvoGoing": "Ia tidak tahu cara melanjutkan pembicaraan dengan teman-temannya",
+      "goodAtChitChat": "Ia pandai mengobrol",
+      "difficultToWorkOutFeelings": "Ketika ia membaca suatu cerita, ia sulit memahami niat atau perasaan karakter dalam kisah tersebut",
+      "enjoyedPretending": "Sewaktu di Taman Kanak-Kanak, dia menikmati bermain ‘berpura-pura’ dengan teman-temannya (misalnya berpura-pura menjadi dokter atau menjadi guru, dll)",
+      "easyToWorkOutFeelings": "Ia mudah memahami apa yang sedang dipikirkan atau dirasakan seseorang hanya dengan memandang wajah orang tersebut",
+      "hardToMakeFriends": "Ia sulit mendapatkan teman baru"
     }
   },
   "results": {
@@ -78,6 +213,34 @@
       "resultsIntro": "Hasil secara lengkap sebagai berikut",
       "developmentHeading": "Perkembangan",
       "socialHeading": "Sosial Komunikasi dan Bahasa"
+    },
+    "reminder": {
+      "thankYouPara": "Terima kasih Anda telah mengisi kuesioner WatchMeGrow.care. Anda disarankan menjawab secara lengkap informasi mengenai anak anda ini setiap",
+      "thankYouPara2": "bulan.",
+      "reminderPara": " Imel ini merupakan pengingat agar Anda mengisi kembali kuesioner WatchMeGrow.care untuk anak Anda. Seperti yang sebelumnya, hasil dari kuisioner akan dikirimkan melalui imel. Hasil-hasil ini juga dapat dikirimkan kepada dokter atau pihak praktisi kesehatan yang Anda tentukan. Silakan kunjungi tautan "
+    },
+    "doctor": {
+      "salutation": "Bapak/Ibu",
+      "intro1": "Anda menerima imel ini karena",
+      "intro2": "mengisi kuisioner pada tautan WatchMeGrow.care untuk",
+      "intro3": ". WatchMeGrow.care menelusuri laju perkembangan anak-anak berusia sekitar",
+      "intro4": "bulan dan",
+      "intro5": ". Kuisioner ini dirancang guna memfasilitasi identifikasi secara dini masalah-masalah tumbuh kembang anak.",
+      "redFlag": "Besar kemungkinan anak ini memiliki masalah tumbuh kembang. Direkomendasikan agar anak ini menjalani pemeriksaan lanjutan dan intervensi awal dengan bantuan seorang dokter spesialis anak atau penyedia layanan kesehatan lainnya (misalnya psikolog, terapis, dll). Selain itu, penting untuk terus memantau anak dari waktu ke waktu.",
+      "greenFlag": "Tidak ditemukan masalah perkembangan pada anak ini. Pada tahap ini, tidak diperlukan tindak lanjut apa-apa. Lakukan pemantauan seperti biasa",
+      "resultsIntro": "Hasil secara lengkap sebagai berikut",
+
+      "childsName": "Nama Anak",
+      "dateOfTest": "Tanggal Pengisian",
+      "dateOfBirth": "Tanggal lahir",
+      "ageOfChild": "Usia Anak",
+
+      "developmentHeading": "Perkembangan",
+      "socialHeading": "Sosial Komunikasi dan Bahasa",
+
+      "learnTheSigns": "Learn the signs - act early",
+      "moreInfo": "Informasi lebih lanjut tentang perkembangan anak dapat dilihat melalui tautan:",
+      "parentInfo": "Informasi ini juga dikirimkan kepada orangtua."
     }
   },
   "tableHeaders": {
