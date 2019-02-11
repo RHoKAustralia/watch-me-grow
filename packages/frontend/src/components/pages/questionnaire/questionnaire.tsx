@@ -46,6 +46,8 @@ class Questionnaire extends React.Component<Props, State> {
     const questionNumber = parseInt(this.props.params.questionNumber);
     if (!Number.isNaN(questionNumber)) {
       return questionNumber;
+    } else {
+      return 0;
     }
   };
 

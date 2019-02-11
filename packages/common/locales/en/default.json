@@ -19,6 +19,8 @@
     "startButton": "Start Questionnaire"
   },
   "details": {
+    "personalDetails": "Personal Details",
+    "of": "of",
     "childFirstName": "Child's First Name",
     "childLastName": "Child's Last Name",
     "gender": "Gender",

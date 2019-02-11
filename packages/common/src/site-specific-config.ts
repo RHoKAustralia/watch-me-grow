@@ -27,7 +27,7 @@ export const sites: HostConfig[] = [
     title: "Main",
     host: "watchmegrow.care",
     questionnaires: DEFAULT_QUESTIONNAIRES,
-    language: "in"
+    language: "id"
   },
   {
     id: "dubai",

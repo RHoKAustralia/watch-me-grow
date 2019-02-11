@@ -6,7 +6,7 @@ type State = {
   babyFirstName: string;
   babyLastName: string;
   babyGender: string;
-  babyDob?: moment.Moment;
+  babyDob?: Date;
   parentName: string;
   parentEmail: string;
   doctorEmail: string;
@@ -77,7 +77,7 @@ function DetailsStore<T extends WrappedComponentProps>(
           babyFirstName: storedDetails.babyFirstName,
           babyLastName: storedDetails.babyLastName,
           babyGender: storedDetails.babyGender,
-          babyDob: moment(storedDetails.babyDob),
+          babyDob: moment(storedDetails.babyDob).toDate(),
           parentName: storedDetails.parentName,
           parentEmail: storedDetails.parentEmail,
           doctorEmail: storedDetails.doctorEmail
@@ -104,7 +104,9 @@ function DetailsStore<T extends WrappedComponentProps>(
 
       if (!this.state.babyDob) {
         errors.babyDob = "Required";
-      } else if (this.state.babyDob.isAfter(moment().subtract(6, "months"))) {
+      } else if (
+        moment(this.state.babyDob).isAfter(moment().subtract(6, "months"))
+      ) {
         errors.babyDob =
           "WatchMeGrow.care is intended for babies older than 6 months";
       }

@@ -19,6 +19,8 @@
     "startButton": "Awal Kuesioner"
   },
   "details": {
+    "personalDetails": "Data Pribaldi",
+    "of": "dari",
     "childFirstName": "Nama Depan Anak",
     "childLastName": "Nama Keluarga atau Marga Anak",
     "gender": "Jenis Kelamin",

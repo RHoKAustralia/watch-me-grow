@@ -45,3 +45,11 @@
 .field-wrapper {
   margin: 0.8em 0;
 }
+
+:global {
+  .react-datepicker__day-name,
+  .react-datepicker__day,
+  .react-datepicker__time-name {
+    width: 2.3rem;
+  }
+}

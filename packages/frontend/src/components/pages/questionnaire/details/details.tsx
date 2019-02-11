@@ -7,9 +7,10 @@ import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
 import { NamespacesConsumer } from "react-i18next";
+import i18next from "i18next";
 
 import "react-datepicker/dist/react-datepicker.css";
-import DatePicker from "react-datepicker";
+import DatePicker, { registerLocale } from "react-datepicker";
 import Styles from "./details.module.scss";
 import TextField from "@material-ui/core/TextField";
 import minMax from "@wmg/common/lib/min-max";
@@ -31,8 +32,50 @@ type Props = {
   results: ResultsStoreState;
 } & WithRouterProps;
 
-class Details extends React.Component<Props, {}> {
-  state = { showDatePicker: false };
+type State = {
+  showDatePicker: boolean;
+  locale: string;
+};
+
+class Details extends React.Component<Props, State> {
+  state: State = { showDatePicker: false, locale: "en" };
+
+  constructor(props: Props) {
+    super(props);
+    const language = i18next.language;
+
+    if (language) {
+      this.setLocale(language);
+    }
+
+    i18next.on("languageChanged", this.setLocale);
+  }
+
+  componentWillUnmount() {
+    i18next.off("languageChanged", this.setLocale);
+  }
+
+  setLocale = (locale: string) => {
+    const localePackagePromise = (() => {
+      if (locale === "id") {
+        return import(`date-fns/locale/id/index.js`);
+      } else {
+        return import(`date-fns/locale/en-GB/index.js`);
+      }
+    })();
+
+    localePackagePromise
+      .then(localeObj => {
+        console.log(localeObj);
+        registerLocale(locale, localeObj);
+        this.setState({
+          locale
+        });
+      })
+      .catch(err => {
+        console.error("Error while trying to load locale " + locale, err);
+      });
+  };
 
   onSubmit = (event: FormEvent) => {
     event.preventDefault();
@@ -60,7 +103,7 @@ class Details extends React.Component<Props, {}> {
     });
   };
 
-  onDateChange = (value: moment.Moment) => {
+  onDateChange = (value: Date) => {
     this.closeDatePicker();
     this.props.results.clear();
     this.onChangeValue("babyDob", value);
@@ -74,6 +117,7 @@ class Details extends React.Component<Props, {}> {
 
   render() {
     const details = this.props.details;
+    console.log(this.state.locale);
 
     return (
       <NamespacesConsumer ns={["default"]}>
@@ -127,7 +171,9 @@ class Details extends React.Component<Props, {}> {
                 className={Styles["text-box"]}
                 fullWidth
                 value={
-                  details.babyDob ? details.babyDob.format("DD/MM/YYYY") : ""
+                  details.babyDob
+                    ? moment(details.babyDob).format("DD/MM/YYYY")
+                    : ""
                 }
                 error={!!details.errors.babyDob}
               />
@@ -137,10 +183,11 @@ class Details extends React.Component<Props, {}> {
                 <DatePicker
                   inline
                   showYearDropdown
-                  minDate={minDate}
-                  maxDate={maxDate}
-                  selected={details.babyDob}
+                  minDate={minDate.toDate()}
+                  maxDate={maxDate.toDate()}
+                  selected={details!.babyDob}
                   onChange={this.onDateChange}
+                  locale={this.state.locale}
                 />
               )}
             </div>

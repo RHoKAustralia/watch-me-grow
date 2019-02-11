@@ -1,20 +1,25 @@
 import PropTypes from "prop-types";
 import React from "react";
+import { NamespacesConsumer } from "react-i18next";
 
 import Switcher from "../../../common/switcher";
 import questions from "@wmg/common/lib/questions";
+import { Details as DetailsStoreState } from "../../../stores/details-store";
+import { QuestionLookup } from "@wmg/common/lib/questions";
 
 import Styles from "./question-switcher.module.scss";
 
-class QuestionSwitcher extends React.Component {
-  static propTypes = {
-    questionNumber: PropTypes.number,
-    hasAnswered: PropTypes.bool.isRequired,
-    details: PropTypes.object.isRequired
-  };
+type Props = {
+  questionNumber: number;
+  hasAnswered: boolean;
+  details: DetailsStoreState;
+  questions?: QuestionLookup;
+  route?: string;
+};
 
+class QuestionSwitcher extends React.Component<Props> {
   totalQuestionCount = () => {
-    return Object.keys(this.props.questions).length;
+    return this.props.questions ? Object.keys(this.props.questions).length : 0;
   };
 
   leftHref = () => {
@@ -50,17 +55,23 @@ class QuestionSwitcher extends React.Component {
 
   render() {
     return (
-      <Switcher
-        leftHref={this.leftHref()}
-        leftDisabled={!this.leftHref().length}
-        rightHref={this.rightHref()}
-        rightDisabled={!this.rightHref().length}
-        text={
-          this.props.questionNumber
-            ? `${this.props.questionNumber} of ${this.totalQuestionCount()}`
-            : `Personal Details`
-        }
-      />
+      <NamespacesConsumer ns={["default"]}>
+        {(t, { i18n, ready }) => (
+          <Switcher
+            leftHref={this.leftHref()}
+            leftDisabled={!this.leftHref().length}
+            rightHref={this.rightHref()}
+            rightDisabled={!this.rightHref().length}
+            text={
+              this.props.questionNumber
+                ? `${this.props.questionNumber} ${t(
+                    "details.of"
+                  )} ${this.totalQuestionCount()}`
+                : t("details.personalDetails")
+            }
+          />
+        )}
+      </NamespacesConsumer>
     );
   }
 }
