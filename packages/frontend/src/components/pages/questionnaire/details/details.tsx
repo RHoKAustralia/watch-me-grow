@@ -117,7 +117,6 @@ class Details extends React.Component<Props, State> {
 
   render() {
     const details = this.props.details;
-    console.log(this.state.locale);
 
     return (
       <NamespacesConsumer ns={["default"]}>
@@ -211,6 +210,7 @@ class Details extends React.Component<Props, State> {
                 label={t("details.yourEmailAddress")}
                 value={details.parentEmail}
                 inputProps={{ maxLength: 100 }}
+                InputLabelProps={{ className: Styles["email-box-label"] }}
                 fullWidth
                 error={!!details.errors.parentEmail}
                 onFocus={this.closeDatePicker}

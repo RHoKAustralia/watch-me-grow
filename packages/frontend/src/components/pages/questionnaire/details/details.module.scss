@@ -46,6 +46,11 @@
   margin: 0.8em 0;
 }
 
+.email-box-label.email-box-label {
+  top: auto;
+  bottom: 1.5em;
+}
+
 :global {
   .react-datepicker__day-name,
   .react-datepicker__day,
@@ -53,3 +58,4 @@
     width: 2.3rem;
   }
 }
+
