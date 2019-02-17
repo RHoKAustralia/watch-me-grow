@@ -45,7 +45,11 @@ class Header extends React.Component {
           <img className={Styles.logo} src={headerLogo} />
         </Link>
         <h1 className={Styles.title}>WatchMeGrow.care</h1>
-        <Select value={this.state.language} onChange={this.handleChange}>
+        <Select
+          value={this.state.language}
+          onChange={this.handleChange}
+          className={Styles["language-dropdown"]}
+        >
           {languages.map(language => (
             <MenuItem value={language.value}>{language.label}</MenuItem>
           ))}

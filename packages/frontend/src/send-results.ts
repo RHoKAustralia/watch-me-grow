@@ -6,7 +6,6 @@ import {
   NotifyFunctionInputDetails
 } from "@wmg/common/lib/notify-function-input";
 
-import strings from "@wmg/common/lib/strings";
 import questionnaires from "@wmg/common/lib/questionnaires";
 import { combineQuestionsAndAnswers } from "@wmg/common/lib/data-functions";
 import subsite from "./util/subsite";

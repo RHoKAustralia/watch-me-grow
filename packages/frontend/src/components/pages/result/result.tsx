@@ -2,12 +2,12 @@ import React from "react";
 import classNames from "classnames";
 import { withRouter, WithRouterProps } from "react-router";
 import moment from "moment";
+import { NamespacesConsumer } from "react-i18next";
 
 import { ReactComponent as Flag } from "./flag.svg";
 import { ReactComponent as Stethoscope } from "./stethoscope.svg";
 import StageSwitcher from "./stage-switcher";
 import stages from "./stages/stages";
-import strings from "@wmg/common/lib/strings";
 import { Results } from "../../stores/results-store";
 import { Details } from "../../stores/details-store";
 
@@ -64,44 +64,46 @@ class Result extends React.Component<Props, any> {
     );
 
     return (
-      <article className={Styles.root}>
-        {concern ? (
-          <Stethoscope className={iconClasses} />
-        ) : (
-          <Flag className={iconClasses} />
+      <NamespacesConsumer ns={["default"]}>
+        {(t, { i18n, ready }) => (
+          <article className={Styles.root}>
+            {concern ? (
+              <Stethoscope className={iconClasses} />
+            ) : (
+              <Flag className={iconClasses} />
+            )}
+            <div className={Styles.outcome}>
+              {(() => {
+                if (concern) {
+                  return (
+                    <h5 className={Styles["outcome--title"]}>
+                      {t("results.redFlag")}
+                    </h5>
+                  );
+                } else {
+                  return (
+                    <h5 className={Styles["outcome--title"]}>
+                      {t("results.greenFlag")}
+                    </h5>
+                  );
+                }
+              })()}
+            </div>
+            <p className={Styles.disclaimer}>
+              {t("results.raisingChildrenIntro")}
+            </p>
+            <p className={Styles.raisingChildrenPara}>
+              <a
+                href="https://raisingchildren.net.au"
+                target="_blank"
+                rel="noopenner noreferrer"
+              >
+                raisingchildren.net.au
+              </a>
+            </p>
+          </article>
         )}
-        <div className={Styles.outcome}>
-          {(() => {
-            if (concern) {
-              return (
-                <h5 className={Styles["outcome--title"]}>
-                  {strings.result.concerns.title}
-                </h5>
-              );
-            } else {
-              return (
-                <React.Fragment>
-                  <h5 className={Styles["outcome--title"]}>
-                    {strings.result.noConcerns.title}
-                  </h5>
-                  <h6 className={Styles["outcome--subtitle"]}>
-                    {strings.result.noConcerns.subtitle}
-                  </h6>
-                </React.Fragment>
-              );
-            }
-          })()}
-        </div>
-        <div className={Styles.disclaimer}>
-          All children grow and develop at their own pace. Please use the
-          following link to access information on what is expected for your
-          child's age.
-        </div>
-        <div>
-          Age based info development:{" "}
-          <a href="https://raisingchildren.net.au">raisingchildren.net.au</a>
-        </div>
-      </article>
+      </NamespacesConsumer>
     );
   }
 }
