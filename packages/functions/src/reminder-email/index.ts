@@ -98,7 +98,10 @@ export default async function reminderEmail(pubSubMsg) {
 }
 
 async function sendReminder(details: FirestoreRecordDetails) {
-  const ageInMonths = moment().diff(moment(details.dobAsDate), "months");
+  const ageInMonths = moment().diff(
+    moment(details.dobAsDate.toDate()),
+    "months"
+  );
 
   const t = await buildi18n(details.language);
   const siteConfig = getConfigById(details.siteId);
@@ -110,9 +113,7 @@ async function sendReminder(details: FirestoreRecordDetails) {
       childAge: ageInMonths
     },
     {
-      pipes: {
-        t
-      }
+      globals: { t: { t } }
     }
   );
 
@@ -121,9 +122,10 @@ async function sendReminder(details: FirestoreRecordDetails) {
   const params = {
     from: "Watch Me Grow <mail@watchmegrow.care>",
     to: details.recipientEmail,
-    subject: "WatchMeGrow.care Reminder for  " + details.firstNameOfChild,
+    subject: `${t("emails.reminder.subject")} ${details.firstNameOfChild}`,
     html: message
   };
 
   return mailgun.messages().send(params);
+  // return Promise.resolve();
 }

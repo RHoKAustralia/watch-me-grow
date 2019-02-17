@@ -218,6 +218,7 @@
   },
   "emails": {
     "results": {
+      "subject": "Watchmegrow.care reminder for",
       "salutation": "Hi",
       "intro": "Thank you for completing WatchMeGrow.care for",
       "childsName": "Child's Name",
@@ -229,11 +230,13 @@
       "socialHeading": "Social, Communication and Language"
     },
     "reminder": {
+      "subject": "Watchmegrow.care reminder for",
       "thankYouPara": "Thank you for previously completing the WatchMeGrow.care app. It is recommended that you complete this when your child is aged approximately",
       "thankYouPara2": "months old.",
       "reminderPara": "This is a reminder to complete the WatchMeGrow.care app for your child again. As before, these results will be sent via email. These can also be sent to your nominated health professional. Please go to the"
     },
     "doctor": {
+      "subject": "WatchMeGrow.care results for",
       "salutation": "Hi",
       "intro1": "You're receiving this email because",
       "intro2": "completed WatchMeGrow.care for",

@@ -22,7 +22,7 @@ export default function buildi18n(language: string) {
           ".."
         ) + "/{{lng}}/{{ns}}.json"
     },
-    debug: true, //process.env.NODE_ENV === "development",
+    // debug: true, //process.env.NODE_ENV === "development",
     ns: ["default"],
     defaultNS: "default",
     interpolation: {

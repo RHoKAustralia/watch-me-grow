@@ -9,6 +9,7 @@ import * as functions from "firebase-functions";
 import * as firebase from "firebase-admin";
 import cors from "cors";
 import i18next from "i18next";
+import { Timestamp } from "@google-cloud/firestore";
 
 import questionnairesForSubsite from "@wmg/common/lib/questionnaires-for-subsite";
 import {
@@ -176,7 +177,7 @@ function sendParentEmail(
   const params = addCCToParams({
     from: EMAIL_FROM,
     to: details.recipientEmail,
-    subject: "WatchMeGrow.care Results for " + details.firstNameOfChild,
+    subject: `${t("emails.results.subject")} ${details.firstNameOfChild}`,
     html: message
   });
 
@@ -255,11 +256,9 @@ function sendDoctorEmail(
   const params = addCCToParams({
     from: EMAIL_FROM,
     to: details.doctorEmail,
-    subject:
-      "WatchMeGrow.care Results for " +
-      details.firstNameOfChild +
-      " " +
-      details.lastNameOfChild,
+    subject: `${t("emails.doctor.subject")} ${details.firstNameOfChild} ${
+      details.lastNameOfChild
+    }`,
     html: message
   });
 
@@ -274,7 +273,7 @@ export type FirestoreRecordDetails = {
   genderOfChild: string;
   doctorEmail?: string;
   siteId: string;
-  dobAsDate: Date;
+  dobAsDate: Timestamp;
   language: string;
 };
 
@@ -314,7 +313,7 @@ function recordResultsInFirestore(
       genderOfChild: details.genderOfChild,
       doctorEmail: details.doctorEmail,
       siteId: details.siteId,
-      dobAsDate: moment(details.dobOfChild).toDate(),
+      dobAsDate: Timestamp.fromDate(moment(details.dobOfChild).toDate()),
       language: details.language
     },
     date: moment(details.testDate).toDate()

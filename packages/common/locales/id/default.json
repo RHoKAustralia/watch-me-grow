@@ -206,6 +206,7 @@
   },
   "emails": {
     "results": {
+      "subject": "WatchMeGrow.care pengingat untuk",
       "salutation": "Bapak/Ibu",
       "intro": "Terimakasih telah mengisi secara lengkap WatchMeGrow.care untuk",
       "childsName": "Nama Anak",
@@ -217,11 +218,13 @@
       "socialHeading": "Sosial Komunikasi dan Bahasa"
     },
     "reminder": {
+      "subject": "WatchMeGrow.care pengingat untuk",
       "thankYouPara": "Terima kasih Anda telah mengisi kuesioner WatchMeGrow.care. Anda disarankan menjawab secara lengkap informasi mengenai anak anda ini setiap",
       "thankYouPara2": "bulan.",
       "reminderPara": " Imel ini merupakan pengingat agar Anda mengisi kembali kuesioner WatchMeGrow.care untuk anak Anda. Seperti yang sebelumnya, hasil dari kuisioner akan dikirimkan melalui imel. Hasil-hasil ini juga dapat dikirimkan kepada dokter atau pihak praktisi kesehatan yang Anda tentukan. Silakan kunjungi tautan "
     },
     "doctor": {
+      "subject": "WatchMeGrow.care hasil untuk",
       "salutation": "Bapak/Ibu",
       "intro1": "Anda menerima imel ini karena",
       "intro2": "mengisi kuisioner pada tautan WatchMeGrow.care untuk",

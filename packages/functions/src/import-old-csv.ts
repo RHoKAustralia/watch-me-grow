@@ -139,10 +139,12 @@ fsReadStream
               lastNameOfChild: result[sanitiseColumnHeader("child surname")],
               genderOfChild: result[sanitiseColumnHeader("gender")],
               doctorEmail: result[sanitiseColumnHeader("parent email")],
-              dobAsDate: moment(
-                result[sanitiseColumnHeader("date of birth")],
-                CSV_DATE_FORMAT
-              ).toDate(),
+              dobAsDate: FirebaseFirestore.Timestamp.fromDate(
+                moment(
+                  result[sanitiseColumnHeader("date of birth")],
+                  CSV_DATE_FORMAT
+                ).toDate()
+              ),
               siteId: findLocation(result.location),
               language: "en"
             },
