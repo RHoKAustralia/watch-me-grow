@@ -1,89 +1,86 @@
 <!DOCTYPE html>
 
-<p>
-    {{t|call>t>emails.results.salutation}} {{details.nameOfParent}},
-</p>
-<p>
-    {{t|call>t>emails.results.intro}} {{details.firstNameOfChild}}.
-</p>
+<p>{{t|call>t>emails.results.salutation}} {{ details.nameOfParent }},</p>
+<p>{{t|call>t>emails.results.intro}} {{ details.firstNameOfChild }}.</p>
 
 <table border="0">
-    <tr>
-        <td>{{t|call>t>emails.results.childsName}}</td>
-        <td>{{details.firstNameOfChild}} {{details.lastNameOfChild}}</td>
-        <td>{{t|call>t>emails.results.dateOfTest}}</td>
-        <td>{{details.testDateFormatted}}</td>
-    </tr>
-    <tr>
-        <td>{{t|call>t>emails.results.dateOfBirth}}</td>
-        <td>{{details.dobChildFormatted}}</td>
-        <td>{{t|call>t>emails.results.ageOfChild}}</td>
-        <td>{{details.ageOfChild}}</td>
-    </tr>
+  <tr>
+    <td>{{t|call>t>emails.results.childsName}}</td>
+    <td>{{ details.firstNameOfChild }} {{ details.lastNameOfChild }}</td>
+    <td>{{t|call>t>emails.results.dateOfTest}}</td>
+    <td>{{ details.testDateFormatted }}</td>
+  </tr>
+  <tr>
+    <td>{{t|call>t>emails.results.dateOfBirth}}</td>
+    <td>{{ details.dobChildFormatted }}</td>
+    <td>{{t|call>t>emails.results.ageOfChild}}</td>
+    <td>{{ details.ageOfChild }}</td>
+  </tr>
 </table>
 
-<p>{{resultText}}</p>
+<p>{{ resultText }}</p>
 <p>{{t|call>t>emails.results.resultsIntro}}</p>
 
 {{if developmentResults}}
-  <h2>{{t|call>t>emails.results.developmentHeading}}</h2>
-  {{developmentResults}}
-  <h3>{{questionnaire.title}}</h3>
-  <table border="1" style="max-width: 500px">
-      <tr>
-          <th style="width:10%">{{t|call>t>emails.tableHeaders.number}}</th>
-          <th style="width:45%">{{t|call>t>emails.tableHeaders.question}}</th>
-          <th style="width:45%">{{t|call>t>emails.tableHeaders.response}}</th>
-      </tr>
-      {{results}}
-      <tr>
-          <td>{{##}}</td>
-          <td>{{questionText}}</td>
-          <td>{{answer.answerText}}</td>
-      </tr>
-      {{if answer.comments}}
-      <tr>
-          <td>Comment</td>
-          <td colspan="2">{{answer.comments}}</td>
-      </tr>
-      {{/if}}
-      {{/results}}
-  </table>
-  <br/>
-  {{/developmentResults}}
+<h2>{{t|call>t>emails.results.developmentHeading}}</h2>
+{{ developmentResults }}
+<h3>{{ questionnaire.title }}</h3>
+<table border="1" style="max-width: 500px">
+  <tr>
+    <th style="width:10%">{{t|call>t>emails.results.developmentHeading}}</th>
+    <th style="width:45%">{{t|call>t>emails.tableHeaders.question}}</th>
+    <th style="width:45%">{{t|call>t>emails.tableHeaders.response}}</th>
+  </tr>
+  {{results}}
+  <tr>
+    <td>{{##}}</td>
+    <td>{{ questionText }}</td>
+    <td>{{ answer.answerText }}</td>
+  </tr>
+  {{if answer.comments}}
+  <tr>
+    <td>Comment</td>
+    <td colspan="2">{{ answer.comments }}</td>
+  </tr>
+  {{/if}}
+  {{/results}}
+</table>
+
+<br />
+{{/developmentResults}}
 {{/if}}
 
 {{if communicationResults}}
 <h2>{{t|call>t>emails.results.socialHeading}}</h2>
-  {{communicationResults}}
-  <h3>{{questionnaire.title}}</h3>
-  <table border="1" style="max-width: 500px">
-      <tr>
-        <th style="width:10%">{{t|call>t>emails.tableHeaders.number}}</th>
-        <th style="width:45%">{{t|call>t>emails.tableHeaders.question}}</th>
-        <th style="width:45%">{{t|call>t>emails.tableHeaders.response}}</th>
-      </tr>
-      {{results}}
-      <tr>
-          <td>{{##}}</td>
-          <td>{{questionText}}</td>
-          <td>{{answer.answerText}}</td>
-      </tr>
-      {{if answer.comments}}
-      <tr>
-          <td>Comment</td>
-          <td colspan="2">{{answer.comments}}</td>
-      </tr>
-      {{/if}} {{/results}}
-  </table>
-  <br/>
-  {{/communicationResults}}
+{{ communicationResults }}
+<h3>{{ questionnaire.title }}</h3>
+<table border="1" style="max-width: 500px">
+  <tr>
+    <th style="width:10%">{{t|call>t>emails.tableHeaders.number}}</th>
+    <th style="width:45%">{{t|call>t>emails.tableHeaders.question}}</th>
+    <th style="width:45%">{{t|call>t>emails.tableHeaders.response}}</th>
+  </tr>
+  {{results}}
+  <tr>
+    <td>{{##}}</td>
+    <td>{{ questionText }}</td>
+    <td>{{ answer.answerText }}</td>
+  </tr>
+  {{if answer.comments}}
+  <tr>
+    <td>Comment</td>
+    <td colspan="2">{{ answer.comments }}</td>
+  </tr>
+  {{/if}}
+  {{/results}}
+</table>
+
+<br />
+{{/communicationResults}}
 {{/if}}
 
 <p>
-    {{t|call>t>results.raisingChildrenInfo}}
+  {{t|call>t>results.raisingChildrenIntro}}
 </p>
 
-<p>
-    <a href="https://raisingchildren.net.au">raisingchildren.net.au</a>.
-</p>
+<p><a href="https://raisingchildren.net.au">raisingchildren.net.au</a>.</p>

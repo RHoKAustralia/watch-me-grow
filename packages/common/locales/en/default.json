@@ -255,11 +255,11 @@
       "learnTheSigns": "Learn the signs - act early",
       "moreInfo": "For further information on child development please go to",
       "parentInfo": "This information has also been provided to the parent."
+    },
+    "tableHeaders": {
+      "number": "Number",
+      "question": "Question",
+      "response": "Response"
     }
-  },
-  "tableHeaders": {
-    "number": "Number",
-    "question": "Question",
-    "response": "Response"
   }
 }

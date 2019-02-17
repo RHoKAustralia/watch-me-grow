@@ -163,20 +163,24 @@ function sendParentEmail(
     t
   );
 
-  const message = markupJs.up(templateBody, { ...templateInput, t: { t } });
+  const message = markupJs.up(
+    templateBody,
+    {
+      ...templateInput
+    },
+    {
+      globals: { t: { t } }
+    }
+  );
 
-  console.log(message);
+  const params = addCCToParams({
+    from: EMAIL_FROM,
+    to: details.recipientEmail,
+    subject: "WatchMeGrow.care Results for " + details.firstNameOfChild,
+    html: message
+  });
 
-  return Promise.resolve();
-
-  // const params = addCCToParams({
-  //   from: EMAIL_FROM,
-  //   to: details.recipientEmail,
-  //   subject: "WatchMeGrow.care Results for " + details.firstNameOfChild,
-  //   html: message
-  // });
-
-  // return mailgun.messages().send(params);
+  return mailgun.messages().send(params);
 }
 
 function addCCToParams(params: any) {
@@ -238,11 +242,15 @@ function sendDoctorEmail(
     t
   );
 
-  const message = markupJs.up(doctorTemplateBody, doctorEmailInput, {
-    pipes: {
-      t
+  const message = markupJs.up(
+    doctorTemplateBody,
+    {
+      ...doctorEmailInput
+    },
+    {
+      globals: { t: { t } }
     }
-  });
+  );
 
   const params = addCCToParams({
     from: EMAIL_FROM,
@@ -311,6 +319,10 @@ function recordResultsInFirestore(
     },
     date: moment(details.testDate).toDate()
   };
+
+  if (!record.details.doctorEmail) {
+    delete record.details.doctorEmail;
+  }
 
   return firebase
     .firestore()

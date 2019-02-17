@@ -6,6 +6,14 @@ export default function buildi18n(language: string) {
   return i18n.use(i18nextNodeFsBackend).init({
     lng: language || "en",
     fallbackLng: "en",
+    missingKeyHandler: (
+      lngs: string[],
+      ns: string,
+      key: string,
+      fallbackValue: string
+    ) => {
+      console.log(`Missing key ${key} in ns ${ns} with lngs ${lngs}`);
+    },
     backend: {
       loadPath:
         path.join(
