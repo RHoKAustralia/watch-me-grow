@@ -71,18 +71,13 @@
       "veryUnusual": "very unusual",
       "nonVerbal": "my child doesn't speak"
     },
-    "rqc": {
-      "behaviour": "Does the child show any difficulties with behaviour such as being overactive (e.g. cannot sit still) or lack attention and concentration (e.g. easily distracted and does not finish activities)?",
-      "calming": "Does the child show difficulty in calming down or is it difficult to comfort the child?",
-      "sleep": "Does the child have any sleep or related difficulty?",
-      "worries": "Does the child suffer from frequent worries or fears or seem sad or unhappy for no good reason?",
-      "disobedience": "Does the child frequently show lack of co-operation, disobedience, or is defiant and argumentative?",
-      "fighting": "Does the child show frequent fighting or aggressive behaviour and show no regret?",
-      "feeding": "Does the child have any feeding or related difficulty?",
-      "learning": "Does the child have any difficulties with learning or appear to be behind for overall abilities as compared with other children of about the same age?",
-      "friendships": "Does the child show no interest in friendships or nearly never play with other children or does not show concern for others?",
-      "rituals": "Does the child engage in any repetitive behaviours or rituals and insist on things being done in a particular way?"
-    }
+    "bpsc": {
+      "notAtAll": "Not at all",
+      "somewhat": "Somewhat",
+      "veryMuch": "Very much"
+    },
+    "yes": "Yes",
+    "no": "No"
   },
   "questions": {
     "cdc6": {
@@ -209,6 +204,58 @@
       "enjoyedPretending": "When s/he was in preschool, s/he used to enjoy playing games involving pretending with other children",
       "easyToWorkOutFeelings": "S/he finds it easy to work out what someone is thinking or feeling just by looking at their face",
       "hardToMakeFriends": "S/he finds it hard to make new friends"
+    },
+    "rqc": {
+      "behaviour": "Does the child show any difficulties with behaviour such as being overactive (e.g. cannot sit still) or lack attention and concentration (e.g. easily distracted and does not finish activities)?",
+      "calming": "Does the child show difficulty in calming down or is it difficult to comfort the child?",
+      "sleep": "Does the child have any sleep or related difficulty?",
+      "worries": "Does the child suffer from frequent worries or fears or seem sad or unhappy for no good reason?",
+      "disobedience": "Does the child frequently show lack of co-operation, disobedience, or is defiant and argumentative?",
+      "fighting": "Does the child show frequent fighting or aggressive behaviour and show no regret?",
+      "feeding": "Does the child have any feeding or related difficulty?",
+      "learning": "Does the child have any difficulties with learning or appear to be behind for overall abilities as compared with other children of about the same age?",
+      "friendships": "Does the child show no interest in friendships or nearly never play with other children or does not show concern for others?",
+      "rituals": "Does the child engage in any repetitive behaviours or rituals and insist on things being done in a particular way?"
+    },
+    "bpsc": {
+      "newPeople": "Does your child have a hard time being with new people?",
+      "newPlaces": "Does your child have a hard time in new places?",
+      "change": "Does your child have a hard time with change?",
+      "heldOtherPeople": "Does your child mind being held by other people?",
+      "cryALot": "Does your child cry a lot?",
+      "calmingDown": "Does your child have a hard time calming down?",
+      "fussy": "Is your child fussy or irritable?",
+      "hardToComfort": "Is it hard to comfort your child?",
+      "schedule": "Is it hard to keep your child on a schedule or routine?",
+      "hardToPutToSleep": "Is it hard to put your child to sleep?",
+      "hardToGetToSleep": "Is it hard to get enough sleep because of your child?",
+      "troubleStayingAsleep": "Does your child have trouble staying asleep?"
+    },
+    "ppsc": {
+      "nervousOrAfraid": "Does your child seem nervous or afraid?",
+      "sadOrUnhappy": "Does your child seem sad or unhappy?",
+      "upset": "Does your child get upset if things are not done in a certain way?",
+      "change": "Does your child have a hard time with change?",
+      "troublePlaying": "Does your child have trouble playing with other children?",
+      "breakThings": "Does your child break things on purpose?",
+      "fights": "Does your child fight with other children?",
+      "troublePayingAttention": "Does your child have trouble paying attention?",
+      "hardCalmingDown": "Does your child have a hard time calming down?",
+      "troubleStaying": "Does your child have trouble staying with one activity?",
+      "aggressive": "Is your child aggressive?",
+      "fidgety": "Is your child fidgety or unable to sit still?",
+      "angry": "Is your child angry?",
+      "hardToTakeInPublic": "Is it hard to take your child out in public?",
+      "hardToComfort": "Is it hard to comfort your child?",
+      "hardToKnowNeeds": "Is it hard to know what your child needs?",
+      "hardToSchedule": "Is it hard to keep your child on a schedule or routine?",
+      "hardToObey": "Is it hard to get your child to obey you?"
+    },
+    "psq4d": {
+      "nervousOrAfraid": "questions.psq4d.nervousOrAfraid",
+      "lossOfInterest": "questions.psq4d.lossOfInterest",
+      "excessivelyTired": "questions.psq4d.excessivelyTired",
+      "sleeplessness": "questions.psq4d.sleeplessness"
     }
   },
   "results": {

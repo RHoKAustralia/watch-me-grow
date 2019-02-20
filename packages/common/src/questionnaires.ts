@@ -11,12 +11,13 @@ export type Question = {
   textId: string;
   comments?: boolean;
   answers: Answer[];
+  scoreGroup?: string;
 };
 
 export type Questionnaire = {
   id: string;
   title: string;
-  category: "development" | "communication";
+  category: "development" | "communication" | "behaviour" | "emotions";
   age_groups: {
     min: number;
     max: number;
@@ -281,6 +282,37 @@ const qchatShouldBeManyTimesPerDay: Answer[] = [
   {
     value: "never",
     textId: "answers.qchat.never",
+    redFlagScore: 0
+  }
+];
+
+const bpscAnswers: Answer[] = [
+  {
+    value: "notAtAll",
+    textId: "answers.bpsc.notAtAll",
+    redFlagScore: 0
+  },
+  {
+    value: "somewhat",
+    textId: "answers.bpsc.somewhat",
+    redFlagScore: 1
+  },
+  {
+    value: "veryMuch",
+    textId: "answers.bpsc.veryMuch",
+    redFlagScore: 2
+  }
+];
+
+const yesNoAnswers: Answer[] = [
+  {
+    value: "yes",
+    textId: "answers.yes",
+    redFlagScore: 1
+  },
+  {
+    value: "no",
+    textId: "answers.no",
     redFlagScore: 0
   }
 ];
@@ -1025,63 +1057,315 @@ const questionnaires: Questionnaire[] = [
     questions: [
       {
         id: "behaviour",
-        textId: "questions.sqc.behaviour",
+        textId: "questions.rqc.behaviour",
         comments: false,
         answers: cdcShouldBeNoAnswer
       },
       {
         id: "calming",
-        textId: "questions.sqc.calming",
+        textId: "questions.rqc.calming",
         comments: false,
         answers: cdcShouldBeNoAnswer
       },
       {
         id: "sleep",
-        textId: "questions.sqc.sleep",
+        textId: "questions.rqc.sleep",
         comments: false,
         answers: cdcShouldBeNoAnswer
       },
       {
         id: "worries",
-        textId: "questions.sqc.worries",
+        textId: "questions.rqc.worries",
         comments: false,
         answers: cdcShouldBeNoAnswer
       },
       {
         id: "disobedience",
-        textId: "questions.sqc.disobedience",
+        textId: "questions.rqc.disobedience",
         comments: false,
         answers: cdcShouldBeNoAnswer
       },
       {
         id: "fighting",
-        textId: "questions.sqc.fighting",
+        textId: "questions.rqc.fighting",
         comments: false,
         answers: cdcShouldBeNoAnswer
       },
       {
         id: "feeding",
-        textId: "questions.sqc.feeding",
+        textId: "questions.rqc.feeding",
         comments: false,
         answers: cdcShouldBeNoAnswer
       },
       {
         id: "learning",
-        textId: "questions.sqc.learning",
+        textId: "questions.rqc.learning",
         comments: false,
         answers: cdcShouldBeNoAnswer
       },
       {
         id: "friendships",
-        textId: "questions.sqc.friendships",
+        textId: "questions.rqc.friendships",
         comments: false,
         answers: cdcShouldBeNoAnswer
       },
       {
         id: "rituals",
-        textId: "questions.sqc.rituals",
+        textId: "questions.rqc.rituals",
         comments: false,
         answers: cdcShouldBeNoAnswer
+      }
+    ]
+  },
+  {
+    id: "bpsc",
+    title: "Baby Pediatric Symptom Checklist (BPSC)",
+    category: "behaviour",
+    age_groups: { min: 6, max: 17 },
+    analysis: {
+      strategy: "bpsc",
+      redFlagThreshold: 3
+    },
+    questions: [
+      {
+        id: "newPeople",
+        textId: "questions.bpsc.newPeople",
+        comments: false,
+        answers: bpscAnswers,
+        scoreGroup: "1"
+      },
+      {
+        id: "newPlaces",
+        textId: "questions.bpsc.newPlaces",
+        comments: false,
+        answers: bpscAnswers,
+        scoreGroup: "1"
+      },
+      {
+        id: "change",
+        textId: "questions.bpsc.change",
+        comments: false,
+        answers: bpscAnswers,
+        scoreGroup: "1"
+      },
+      {
+        id: "heldOtherPeople",
+        textId: "questions.bpsc.heldOtherPeople",
+        comments: false,
+        answers: bpscAnswers,
+        scoreGroup: "1"
+      },
+      {
+        id: "cryALot",
+        textId: "questions.bpsc.cryALot",
+        comments: false,
+        answers: bpscAnswers,
+        scoreGroup: "2"
+      },
+      {
+        id: "calmingDown",
+        textId: "questions.bpsc.calmingDown",
+        comments: false,
+        answers: bpscAnswers,
+        scoreGroup: "2"
+      },
+      {
+        id: "fussy",
+        textId: "questions.bpsc.fussy",
+        comments: false,
+        answers: bpscAnswers,
+        scoreGroup: "2"
+      },
+      {
+        id: "hardToComfort",
+        textId: "questions.bpsc.hardToComfort",
+        comments: false,
+        answers: bpscAnswers,
+        scoreGroup: "2"
+      },
+      {
+        id: "schedule",
+        textId: "questions.bpsc.schedule",
+        comments: false,
+        answers: bpscAnswers,
+        scoreGroup: "3"
+      },
+      {
+        id: "hardToPutToSleep",
+        textId: "questions.bpsc.hardToPutToSleep",
+        comments: false,
+        answers: bpscAnswers,
+        scoreGroup: "3"
+      },
+      {
+        id: "hardToGetToSleep",
+        textId: "questions.bpsc.hardToGetToSleep",
+        comments: false,
+        answers: bpscAnswers,
+        scoreGroup: "3"
+      },
+      {
+        id: "troubleStayingAsleep",
+        textId: "questions.bpsc.troubleStayingAsleep",
+        comments: false,
+        answers: bpscAnswers,
+        scoreGroup: "3"
+      }
+    ]
+  },
+  {
+    id: "ppsc",
+    title: "Preschool Pediatric Symptom Checklist (PPSC)",
+    category: "behaviour",
+    age_groups: { min: 18, max: 30 },
+    analysis: {
+      strategy: "simple",
+      redFlagThreshold: 9
+    },
+    questions: [
+      {
+        id: "nervousOrAfraid",
+        textId: "questions.ppsc.nervousOrAfraid",
+        comments: false,
+        answers: bpscAnswers
+      },
+      {
+        id: "sadOrUnhappy",
+        textId: "questions.ppsc.sadOrUnhappy",
+        comments: false,
+        answers: bpscAnswers
+      },
+      {
+        id: "upset",
+        textId: "questions.ppsc.upset",
+        comments: false,
+        answers: bpscAnswers
+      },
+      {
+        id: "change",
+        textId: "questions.ppsc.change",
+        comments: false,
+        answers: bpscAnswers
+      },
+      {
+        id: "troublePlaying",
+        textId: "questions.ppsc.troublePlaying",
+        comments: false,
+        answers: bpscAnswers
+      },
+      {
+        id: "breakThings",
+        textId: "questions.ppsc.breakThings",
+        comments: false,
+        answers: bpscAnswers
+      },
+      {
+        id: "fights",
+        textId: "questions.ppsc.fights",
+        comments: false,
+        answers: bpscAnswers
+      },
+      {
+        id: "troublePayingAttention",
+        textId: "questions.ppsc.troublePayingAttention",
+        comments: false,
+        answers: bpscAnswers
+      },
+      {
+        id: "hardCalmingDown",
+        textId: "questions.ppsc.hardCalmingDown",
+        comments: false,
+        answers: bpscAnswers
+      },
+      {
+        id: "troubleStaying",
+        textId: "questions.ppsc.troubleStaying",
+        comments: false,
+        answers: bpscAnswers
+      },
+      {
+        id: "aggressive",
+        textId: "questions.ppsc.aggressive",
+        comments: false,
+        answers: bpscAnswers
+      },
+      {
+        id: "fidgety",
+        textId: "questions.ppsc.fidgety",
+        comments: false,
+        answers: bpscAnswers
+      },
+      {
+        id: "angry",
+        textId: "questions.ppsc.angry",
+        comments: false,
+        answers: bpscAnswers
+      },
+      {
+        id: "hardToTakeInPublic",
+        textId: "questions.ppsc.hardToTakeInPublic",
+        comments: false,
+        answers: bpscAnswers
+      },
+      {
+        id: "hardToComfort",
+        textId: "questions.ppsc.hardToComfort",
+        comments: false,
+        answers: bpscAnswers
+      },
+      {
+        id: "hardToKnowNeeds",
+        textId: "questions.ppsc.hardToKnowNeeds",
+        comments: false,
+        answers: bpscAnswers
+      },
+      {
+        id: "hardToSchedule",
+        textId: "questions.ppsc.hardToSchedule",
+        comments: false,
+        answers: bpscAnswers
+      },
+      {
+        id: "hardToObey",
+        textId: "questions.ppsc.hardToObey",
+        comments: false,
+        answers: bpscAnswers
+      }
+    ]
+  },
+  {
+    id: "psq4d",
+    title: "Primary Care Screening Questionnaire for Depression (PSQ4D)",
+    category: "emotions",
+    age_groups: { min: 0, max: 66 },
+    analysis: {
+      strategy: "simple",
+      redFlagThreshold: 2
+    },
+    questions: [
+      {
+        id: "nervousOrAfraid",
+        textId: "questions.psq4d.nervousOrAfraid",
+        comments: false,
+        answers: yesNoAnswers
+      },
+      {
+        id: "lossOfInterest",
+        textId: "questions.psq4d.lossOfInterest",
+        comments: false,
+        answers: yesNoAnswers
+      },
+      {
+        id: "excessivelyTired",
+        textId: "questions.psq4d.excessivelyTired",
+        comments: false,
+        answers: yesNoAnswers
+      },
+      {
+        id: "sleeplessness",
+        textId: "questions.psq4d.sleeplessness",
+        comments: false,
+        answers: yesNoAnswers
       }
     ]
   }

@@ -1,1 +1,1 @@
-export type StrategyId = "cdc" | "simple";
+export type StrategyId = "cdc" | "simple" | "bpsc";

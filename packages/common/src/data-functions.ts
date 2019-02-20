@@ -92,15 +92,10 @@ export function getOverallResult(
   questionnaire: Questionnaire,
   combinedQuestions: QuestionAndAnswer[]
 ): boolean {
-  const score = combinedQuestions.reduce(
-    (soFar, questionAndAnswer) =>
-      soFar + questionAndAnswer.answer.metadata.redFlagScore,
-    0
-  );
 
   const result = strategies[questionnaire.analysis.strategy](
-    score,
-    questionnaire
+    questionnaire,
+    combinedQuestions
   );
 
   return result;

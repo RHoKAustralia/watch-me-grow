@@ -6,7 +6,7 @@ export type HostConfig = {
   language: string;
 };
 
-const REPLACE_LOCALHOST_WITH = "watchmegrow.care";
+const REPLACE_LOCALHOST_WITH = "preschool.watchmegrow.care";
 const DEFAULT_QUESTIONNAIRES = [
   "cdc6",
   "cdc9",
@@ -20,6 +20,11 @@ const DEFAULT_QUESTIONNAIRES = [
   "pdq1",
   "asq10"
 ];
+const BEHAVIOURAL_QUESTIONNAIRES = ["bpsc", "ppsc"];
+const MATERNAL_QUESTIONNAIRES = ["psq4d"];
+const ALL_QUESTIONNAIRES = DEFAULT_QUESTIONNAIRES.concat(
+  BEHAVIOURAL_QUESTIONNAIRES
+).concat(MATERNAL_QUESTIONNAIRES);
 
 export const sites: HostConfig[] = [
   {
@@ -27,19 +32,40 @@ export const sites: HostConfig[] = [
     title: "Main",
     host: "watchmegrow.care",
     questionnaires: DEFAULT_QUESTIONNAIRES,
-    language: "id"
+    language: "en"
   },
   {
-    id: "dubai",
-    title: "Dubai",
-    host: "dubai.watchmegrow.care",
+    id: "developmental",
+    title: "Developmental",
+    host: "developmental.watchmegrow.care",
     questionnaires: DEFAULT_QUESTIONNAIRES,
+    language: "en"
+  },
+  {
+    id: "behavioural",
+    title: "Behavioural",
+    host: "behavioural.watchmegrow.care",
+    questionnaires: BEHAVIOURAL_QUESTIONNAIRES,
+    language: "en"
+  },
+  {
+    id: "maternal",
+    title: "Maternal",
+    host: "maternal.watchmegrow.care",
+    questionnaires: MATERNAL_QUESTIONNAIRES,
     language: "en"
   },
   {
     id: "preschool",
     title: "Preschool",
     host: "preschool.watchmegrow.care",
+    questionnaires: ALL_QUESTIONNAIRES,
+    language: "en"
+  },
+  {
+    id: "dubai",
+    title: "Dubai",
+    host: "dubai.watchmegrow.care",
     questionnaires: DEFAULT_QUESTIONNAIRES,
     language: "en"
   },
