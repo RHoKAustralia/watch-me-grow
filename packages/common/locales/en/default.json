@@ -252,16 +252,37 @@
       "hardToObey": "Is it hard to get your child to obey you?"
     },
     "psq4d": {
-      "nervousOrAfraid": "questions.psq4d.nervousOrAfraid",
-      "lossOfInterest": "questions.psq4d.lossOfInterest",
-      "excessivelyTired": "questions.psq4d.excessivelyTired",
-      "sleeplessness": "questions.psq4d.sleeplessness"
+      "sadness": "Have you been experiencing sadness or depressed mood, during the last 2 weeks or longer?",
+      "lossOfInterest": "Have you been experiencing loss of interest or loss of pleasure in doing things, during the last 2 weeks or longer?",
+      "excessivelyTired": "Have you been feeling excessively tired or without energy, during the last 2 weeks or longer?",
+      "sleeplessness": "Have you been suffering from sleeplessness, during the last 2 weeks or longer"
     }
   },
   "results": {
-    "greenFlag": "Your child is developing as expected for their age. Based on your answers you have no concerns about how your child is developing.",
-    "redFlag": "Your answers indicate that your child could benefit from a more detailed assessment. Please discuss these results with your health professional.",
-    "raisingChildrenIntro": "All children grow and develop at their own pace. Please use the following link to access information on what is expected for your child's age:"
+    "development": {
+      "heading": "Your Child's Development",
+      "concern": "Your answers indicate that your child could benefit from a more detailed assessment. Please discuss these results with your health professional.",
+      "noConcern": "Your child is developing as expected for their age. Based on your answers you have no concerns about how your child is developing."
+    },
+    "behaviour": {
+      "heading": "Your Child's Behaviour",
+      "concern": "Based on your answers you have some concerns about your child’s behaviour or emotional responses. Please discuss these results with your health professional.",
+      "noConcern": "Based on your answers you have no concerns about your child’s behaviour or emotional responses."
+    },
+    "emotions": {
+      "heading": "Your Emotions",
+      "concern": "Based on your responses you may be experiencing some emotional difficulties. Please discuss these results with your health professional.",
+      "noConcern": "Based on your responses you appear to be coping well emotionally."
+    },
+    "linkIntros": {
+      "raisingChildren": "All children grow and develop at their own pace. Please use the following link to access information on what is expected for your child's age:",
+      "beyondBlue": "All parents or caregivers can experience emotional changes at any time before or after becoming a parent. Please use the following link to access information on how and where to access support.",
+      "parentWorks": "Please use the following link to access parenting support information on behaviour."
+    },
+    "summaries": {
+      "concern": "Some Concerns",
+      "noConcern": "No Concern"
+    }
   },
   "emails": {
     "results": {

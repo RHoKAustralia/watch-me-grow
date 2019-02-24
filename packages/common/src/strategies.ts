@@ -1,7 +1,7 @@
 import { QuestionAndAnswer } from "./data-functions";
 import { StrategyId } from "./strategy-id";
 import { Questionnaire } from "./questionnaires";
-import groupBy from "lodash/groupBy";
+import groupBy = require("lodash/groupBy");
 
 // const score = combinedQuestions.reduce(
 //   (soFar, questionAndAnswer) =>

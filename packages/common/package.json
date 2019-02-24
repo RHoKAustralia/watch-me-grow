@@ -4,7 +4,7 @@
   "private": true,
   "devDependencies": {
     "@types/i18next": "^12.1.0",
-    "@types/lodash": "^4.14.119",
+    "@types/lodash": "^4.14.121",
     "typescript": "^3.1.6"
   },
   "scripts": {

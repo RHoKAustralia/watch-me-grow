@@ -15,7 +15,7 @@ const languages = [
 
 class Header extends React.Component {
   state = {
-    language: i18next.language
+    language: i18next.language || "en"
   };
 
   constructor(props: any) {

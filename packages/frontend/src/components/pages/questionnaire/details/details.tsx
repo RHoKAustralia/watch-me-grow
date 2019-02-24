@@ -66,7 +66,6 @@ class Details extends React.Component<Props, State> {
 
     localePackagePromise
       .then(localeObj => {
-        console.log(localeObj);
         registerLocale(locale, localeObj);
         this.setState({
           locale

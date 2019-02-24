@@ -45,7 +45,7 @@ class App extends React.Component<Props> {
       <MuiThemeProvider theme={theme}>
         <div
           className={classNames(Styles.app, {
-            [Styles.concern]: this.props.results.concern
+            [Styles.concern]: this.props.results.anyConcerns()
           })}
         >
           <Header />
@@ -69,7 +69,7 @@ class App extends React.Component<Props> {
             </NamespacesConsumer>
           )}
           <div className={Styles.spacer} />
-          <Footer concern={this.props.results.concern} />
+          <Footer concern={this.props.results.anyConcerns()} />
         </div>
       </MuiThemeProvider>
     );

@@ -20,7 +20,7 @@ type State = {
     [questionId: string]: RecordedAnswer;
   };
 } & {
-  concern?: boolean;
+  concerns?: { [category: string]: boolean };
 };
 
 export type Results = State & {
@@ -36,6 +36,7 @@ export type Results = State & {
   mark: () => void;
   clear: () => void;
   isComplete: (ageInMonths: number) => boolean;
+  anyConcerns: () => boolean;
 };
 
 export type WrappedComponentProps = {
@@ -88,7 +89,7 @@ const ResultStore = <T extends WrappedComponentProps>(
     };
 
     mark = (t: i18next.TFunction) => () => {
-      this.setState({ concern: mark(combineAll(this.state, t)) });
+      this.setState({ concerns: mark(combineAll(this.state, t)) });
     };
 
     clear = () => {
@@ -119,6 +120,12 @@ const ResultStore = <T extends WrappedComponentProps>(
       });
     };
 
+    anyConcerns = () => {
+      return this.state.concerns
+        ? Object.keys(this.state.concern).some(key => this.state.concerns![key])
+        : false;
+    };
+
     render() {
       return (
         <NamespacesConsumer ns={["default"]}>
@@ -130,7 +137,8 @@ const ResultStore = <T extends WrappedComponentProps>(
               save: this.save,
               mark: this.mark(t),
               clear: this.clear,
-              isComplete: this.isComplete
+              isComplete: this.isComplete,
+              anyConcerns: this.anyConcerns
             });
 
             return <ComposedComponent {...this.props} results={results} />;

@@ -1337,15 +1337,15 @@ const questionnaires: Questionnaire[] = [
     id: "psq4d",
     title: "Primary Care Screening Questionnaire for Depression (PSQ4D)",
     category: "emotions",
-    age_groups: { min: 0, max: 66 },
+    age_groups: { min: 6, max: 66 },
     analysis: {
       strategy: "simple",
       redFlagThreshold: 2
     },
     questions: [
       {
-        id: "nervousOrAfraid",
-        textId: "questions.psq4d.nervousOrAfraid",
+        id: "sadness",
+        textId: "questions.psq4d.sadness",
         comments: false,
         answers: yesNoAnswers
       },

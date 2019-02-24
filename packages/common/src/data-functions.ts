@@ -6,6 +6,8 @@ import questionnaires, {
 import strategies from "./strategies";
 import { RecordedAnswer } from "./notify-function-input";
 import i18next from "i18next";
+import groupBy = require("lodash/groupBy");
+import mapValues = require("lodash/mapValues");
 
 export type QuestionAndAnswer = {
   metadata: Question;
@@ -22,7 +24,17 @@ export type CombinedResult = {
   results: QuestionAndAnswer[];
 };
 
-export function mark(combinedResults: CombinedResult[]): boolean {
+export function mark(
+  combinedResults: CombinedResult[]
+): { [category: string]: boolean } {
+  const grouped = groupBy(
+    combinedResults,
+    (result: CombinedResult) => result.questionnaire.category
+  );
+  return mapValues(grouped, markGroup);
+}
+
+export function markGroup(combinedResults: CombinedResult[]): boolean {
   return combinedResults
     .map(combined => getOverallResult(combined.questionnaire, combined.results))
     .reduce((soFar, current) => soFar || current);
@@ -92,7 +104,6 @@ export function getOverallResult(
   questionnaire: Questionnaire,
   combinedQuestions: QuestionAndAnswer[]
 ): boolean {
-
   const result = strategies[questionnaire.analysis.strategy](
     questionnaire,
     combinedQuestions

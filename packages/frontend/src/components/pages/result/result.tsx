@@ -3,6 +3,7 @@ import classNames from "classnames";
 import { withRouter, WithRouterProps } from "react-router";
 import moment from "moment";
 import { NamespacesConsumer } from "react-i18next";
+import i18next from "i18next";
 
 import { ReactComponent as Flag } from "./flag.svg";
 import { ReactComponent as Stethoscope } from "./stethoscope.svg";
@@ -14,6 +15,32 @@ import { Details } from "../../stores/details-store";
 import sendResults from "../../../send-results";
 
 import Styles from "./result.module.scss";
+
+type LinkData = { introKey: string; url: string };
+const categoryToLink: { [key: string]: LinkData[] } = {
+  development: [
+    {
+      introKey: "results.linkIntros.raisingChildren",
+      url: "https://raisingchildren.net.au"
+    }
+  ],
+  behaviour: [
+    {
+      introKey: "results.linkIntros.raisingChildren",
+      url: "https://raisingchildren.net.au"
+    },
+    {
+      introKey: "results.linkIntros.parentWorks",
+      url: "https://parentworks.org.au"
+    }
+  ],
+  emotions: [
+    {
+      introKey: "results.linkIntros.beyondBlue",
+      url: "https://healthyfamilies.beyondblue.org.au/pregnancy-and-new-parents"
+    }
+  ]
+};
 
 type Props = {
   results: Results;
@@ -56,56 +83,84 @@ class Result extends React.Component<Props, any> {
   };
 
   render() {
-    const concern = this.props.results.concern;
+    const concerns = this.props.results.concerns;
+    const anyConcerns = this.props.results.anyConcerns();
     const iconClasses = classNames(
       Styles.icon,
-      { [Styles["icon--concern"]]: concern },
-      { [Styles["icon--no-concern"]]: !concern }
+      { [Styles["icon--concern"]]: anyConcerns },
+      { [Styles["icon--no-concern"]]: !anyConcerns }
     );
 
     return (
       <NamespacesConsumer ns={["default"]}>
-        {(t, { i18n, ready }) => (
-          <article className={Styles.root}>
-            {concern ? (
-              <Stethoscope className={iconClasses} />
-            ) : (
-              <Flag className={iconClasses} />
-            )}
-            <div className={Styles.outcome}>
-              {(() => {
-                if (concern) {
-                  return (
-                    <h5 className={Styles["outcome--title"]}>
-                      {t("results.redFlag")}
-                    </h5>
-                  );
-                } else {
-                  return (
-                    <h5 className={Styles["outcome--title"]}>
-                      {t("results.greenFlag")}
-                    </h5>
-                  );
-                }
-              })()}
-            </div>
-            <p className={Styles.disclaimer}>
-              {t("results.raisingChildrenIntro")}
-            </p>
-            <p className={Styles.raisingChildrenPara}>
-              <a
-                href="https://raisingchildren.net.au"
-                target="_blank"
-                rel="noopenner noreferrer"
-              >
-                raisingchildren.net.au
-              </a>
-            </p>
-          </article>
-        )}
+        {(t, { i18n, ready }) => {
+          if (concerns) {
+            return (
+              <article className={Styles.root}>
+                {anyConcerns ? (
+                  <Stethoscope className={iconClasses} />
+                ) : (
+                  <Flag className={iconClasses} />
+                )}
+                <div className={Styles.outcome}>
+                  <h1 className={Styles["outcome--title"]}>
+                    {anyConcerns
+                      ? t("results.summaries.concern")
+                      : t("results.summaries.noConcern")}
+                  </h1>
+                </div>
+                {Object.keys(concerns).map(category => (
+                  <SummaryPara
+                    t={t}
+                    tPrefix={`results.${category}`}
+                    concern={concerns[category]}
+                    links={categoryToLink[category]}
+                  />
+                ))}
+              </article>
+            );
+          } else {
+            return "Loading";
+          }
+        }}
       </NamespacesConsumer>
     );
   }
+}
+
+function SummaryPara({
+  t,
+  tPrefix,
+  concern,
+  links
+}: {
+  t: i18next.TFunction;
+  tPrefix: string;
+  concern: boolean;
+  links: LinkData[];
+}) {
+  return (
+    <React.Fragment>
+      <h2 className={Styles.summaryHeading}>{t(`${tPrefix}.heading`)}</h2>
+      <p>{t(`${tPrefix}.${concern ? "concern" : "noConcern"}`)}</p>
+      {links.map(link => (
+        <Link intro={t(link.introKey)} url={link.url} />
+      ))}
+    </React.Fragment>
+  );
+}
+
+function Link({ intro, url }: { intro: string; url: string }) {
+  return (
+    <React.Fragment>
+      <p className={Styles.disclaimer}>{intro}</p>
+      <p className={Styles.raisingChildrenPara}>
+        <a href={url} target="_blank" rel="noopenner noreferrer">
+          {url}
+        </a>
+      </p>
+    </React.Fragment>
+  );
 }
 
 export default withRouter(Result);

@@ -2,7 +2,6 @@
   "name": "@wmg/frontend",
   "version": "0.0.0",
   "dependencies": {
-    "@material-ui/core": "^3.4.0",
     "classnames": "^2.2.5",
     "date-fns": "^2.0.0-alpha.27",
     "email-validator": "^2.0.4",
@@ -42,6 +41,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "@material-ui/core": "^3.4.0",
     "@types/date-fns": "^2.6.0",
     "@types/i18next": "^12.1.0",
     "@types/react-i18next": "^8.1.0",
