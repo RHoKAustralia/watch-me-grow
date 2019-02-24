@@ -122,7 +122,7 @@ const ResultStore = <T extends WrappedComponentProps>(
 
     anyConcerns = () => {
       return this.state.concerns
-        ? Object.keys(this.state.concern).some(key => this.state.concerns![key])
+        ? Object.keys(this.state.concerns).some(key => this.state.concerns![key])
         : false;
     };
 

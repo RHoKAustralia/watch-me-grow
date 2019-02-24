@@ -200,9 +200,18 @@
     }
   },
   "results": {
-    "greenFlag": "Anak Anda berkembang sesuai dengan yang diharapkan pada usianya. Berdasarkan jawaban-jawaban Anda, Anda tidak perlu kuatir mengenai perkembangan anak anda.",
-    "redFlag": "Jawaban-jawaban Anda menunjukkan bahwa anak Anda mungkin memerlukan pemeriksaan lanjutan. Silakan diskusikan hasil ini dengan dokter atau praktisi kesehatan Anda.",
-    "raisingChildrenIntro": "Semua anak tumbuh dan berkembang sesuai dengan kecepatannya masing-masing. Silahkan menggunakan link berikut untuk mengakses informasi tentang hal-hal yang diharapkan terjadi pada usia anak Anda:"
+    "development": {
+      "heading": "Perkembangan anak Anda",
+      "concern": "Anak Anda berkembang sesuai dengan yang diharapkan pada usianya. Berdasarkan jawaban-jawaban Anda, Anda tidak perlu kuatir mengenai perkembangan anak anda.",
+      "noConcern": "Jawaban-jawaban Anda menunjukkan bahwa anak Anda mungkin memerlukan pemeriksaan lanjutan. Silakan diskusikan hasil ini dengan dokter atau praktisi kesehatan Anda."
+    },
+    "summaries": {
+      "concern": "Beberapa kekhawatiran",
+      "noConcern": "Tidak ada perhatian"
+    },
+    "linkIntros": {
+      "raisingChildren": "Semua anak tumbuh dan berkembang sesuai dengan kecepatannya masing-masing. Silahkan menggunakan link berikut untuk mengakses informasi tentang hal-hal yang diharapkan terjadi pada usia anak Anda:"
+    }
   },
   "emails": {
     "results": {
