@@ -24,9 +24,13 @@ export type CombinedResult = {
   results: QuestionAndAnswer[];
 };
 
-export function mark(
-  combinedResults: CombinedResult[]
-): { [category: string]: boolean } {
+export type Concerns = { [category: string]: boolean };
+
+export function anyConcerns(concerns: Concerns): boolean {
+  return Object.keys(concerns).some(key => concerns![key]);
+}
+
+export function mark(combinedResults: CombinedResult[]): Concerns {
   const grouped = groupBy(
     combinedResults,
     (result: CombinedResult) => result.questionnaire.category

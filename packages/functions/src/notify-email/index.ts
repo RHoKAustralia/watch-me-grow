@@ -16,7 +16,9 @@ import questionnairesForSubsite from "@wmg/common/lib/questionnaires-for-subsite
 import {
   mark,
   combineAll,
-  CombinedResult
+  CombinedResult,
+  anyConcerns,
+  Concerns
 } from "@wmg/common/lib/data-functions";
 import minMax from "@wmg/common/lib/min-max";
 import {
@@ -53,16 +55,19 @@ type ParentEmailInput = {
     ageOfChild: string;
   };
   results: {
-    [category: string]: {
-      [subcategory: string]: EmailResult[];
-    };
-  };
+    heading: string;
+    resultText: string;
+    subcategories: {
+      subcategoryHeading?: string;
+      questionnaires: EmailResult[];
+    }[];
+  }[];
 };
 
 type DoctorEmailInput = ParentEmailInput & {
   minAge: string;
   maxAge: string;
-  concern: boolean;
+  anyConcerns: boolean;
 };
 
 const FORMAT = "dddd, MMMM Do YYYY";
@@ -103,7 +108,7 @@ app.post("*", async (req: express.Request, res: express.Response) => {
 
     const config = getConfigById(details.siteId);
     const combinedResults = combineAll(body.results, t);
-    const concern = mark(combinedResults);
+    const concerns = mark(combinedResults);
 
     const detailsWithDates = {
       ...details,
@@ -114,18 +119,18 @@ app.post("*", async (req: express.Request, res: express.Response) => {
     const parentEmailPromise = sendParentEmail(
       detailsWithDates,
       combinedResults,
-      config,
+      concerns,
       t
     );
 
     const basePromises: Promise<any>[] = [
       parentEmailPromise,
-      recordResultsInFirestore(combinedResults, concern, details)
+      recordResultsInFirestore(combinedResults, concerns, details)
     ];
 
     const promises = details.doctorEmail
       ? basePromises.concat([
-          sendDoctorEmail(detailsWithDates, combinedResults, config, t)
+          sendDoctorEmail(detailsWithDates, combinedResults, concerns, t)
         ])
       : basePromises;
 
@@ -146,12 +151,13 @@ const templateBody = fs.readFileSync(
 function sendParentEmail(
   details: NotifyFunctionInputDetails,
   combinedResults: CombinedResult[],
-  config: HostConfig,
+  concerns: { [category: string]: boolean },
   t: i18next.TFunction
 ) {
   const templateInput: ParentEmailInput = buildEmailInput(
     details,
     combinedResults,
+    concerns,
     t
   );
 
@@ -172,7 +178,10 @@ function sendParentEmail(
     html: message
   });
 
-  return mailgun.messages().send(params);
+  // return mailgun.messages().send(params);
+  console.log("===PARENT===");
+  console.log(message);
+  return Promise.resolve();
 }
 
 function addCCToParams(params: any) {
@@ -216,7 +225,9 @@ function buildEmailInput(
       resultText: `${prefix}.${concern ? "concern" : "noConcern"}`,
       subcategories: Object.keys(groupedBySubcategory).map(subcategory => {
         return {
-          subcategoryHeading: subcategoryHeadingLookup[subcategory],
+          subcategoryHeading: subcategoryHeadingLookup[subcategory] as
+            | string
+            | undefined,
           questionnaires: groupedBySubcategory[subcategory]
         };
       })
@@ -234,7 +245,8 @@ function buildEmailInput(
     },
     results,
     minAge: ageInMonthsToString(minMonths, t),
-    maxAge: ageInMonthsToString(maxMonths, t)
+    maxAge: ageInMonthsToString(maxMonths, t),
+    anyConcerns: anyConcerns(concerns)
   };
 }
 
@@ -246,12 +258,13 @@ const doctorTemplateBody = fs.readFileSync(
 function sendDoctorEmail(
   details: NotifyFunctionInputDetails,
   combinedResults: CombinedResult[],
-  config: HostConfig,
+  concerns: Concerns,
   t: i18next.TFunction
 ) {
   const doctorEmailInput: DoctorEmailInput = buildEmailInput(
     details,
     combinedResults,
+    concerns,
     t
   );
 
@@ -274,7 +287,11 @@ function sendDoctorEmail(
     html: message
   });
 
-  return mailgun.messages().send(params);
+  // return mailgun.messages().send(params);
+
+  console.log("===DOCTOR===");
+  console.log(message);
+  return Promise.resolve();
 }
 
 export type FirestoreRecordDetails = {
@@ -294,14 +311,14 @@ export type FirestoreRecord = {
     questionnaire: string;
     answers: { [id: string]: string };
   }[];
-  concern: boolean;
+  concerns: Concerns;
   details: FirestoreRecordDetails;
   date: Date;
 };
 
 function recordResultsInFirestore(
   results: CombinedResult[],
-  concern: boolean,
+  concerns: Concerns,
   details: NotifyFunctionInputDetails
 ) {
   const filteredResults = results.map(result => ({
@@ -316,7 +333,7 @@ function recordResultsInFirestore(
 
   const record: FirestoreRecord = {
     results: filteredResults,
-    concern,
+    concerns,
     details: {
       recipientEmail: details.recipientEmail,
       nameOfParent: details.nameOfParent,

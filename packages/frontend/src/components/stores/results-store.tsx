@@ -2,13 +2,7 @@ import React from "react";
 import i18next from "i18next";
 import { NamespacesConsumer } from "react-i18next";
 
-import {
-  mark,
-  combineAll,
-  combineQuestionsAndAnswers,
-  getOverallResult
-} from "@wmg/common/lib/data-functions";
-import questionnaires from "@wmg/common/lib/questionnaires";
+import { mark, combineAll, anyConcerns } from "@wmg/common/lib/data-functions";
 import getQuestions from "@wmg/common/lib/questions";
 import { RecordedAnswer } from "@wmg/common/lib/notify-function-input";
 import subsite from "../../util/subsite";
@@ -121,9 +115,7 @@ const ResultStore = <T extends WrappedComponentProps>(
     };
 
     anyConcerns = () => {
-      return this.state.concerns
-        ? Object.keys(this.state.concerns).some(key => this.state.concerns![key])
-        : false;
+      return this.state.concerns ? anyConcerns(this.state.concerns) : false;
     };
 
     render() {

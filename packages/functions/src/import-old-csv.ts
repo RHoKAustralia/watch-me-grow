@@ -130,7 +130,9 @@ fsReadStream
 
           const record: FirestoreRecord = {
             results,
-            concern: result.concern === "TRUE",
+            concerns: {
+              developmental: result.concern === "TRUE"
+            },
             details: {
               recipientEmail: result[sanitiseColumnHeader("parent email")],
               nameOfParent: result[sanitiseColumnHeader("parent names")],
