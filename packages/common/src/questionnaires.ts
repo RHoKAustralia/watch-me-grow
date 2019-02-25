@@ -17,7 +17,8 @@ export type Question = {
 export type Questionnaire = {
   id: string;
   title: string;
-  category: "development" | "communication" | "behaviour" | "emotions";
+  category: "development" | "behaviour" | "emotions";
+  subcategory?: "development" | "communication";
   age_groups: {
     min: number;
     max: number;
@@ -322,6 +323,7 @@ const questionnaires: Questionnaire[] = [
     id: "cdc6",
     title: "CDC 6 Months",
     category: "development",
+    subcategory: "development",
     age_groups: { min: 6, max: 8 },
     analysis: {
       strategy: "cdc",
@@ -388,6 +390,7 @@ const questionnaires: Questionnaire[] = [
     id: "cdc9",
     title: "CDC 9 Months",
     category: "development",
+    subcategory: "development",
     age_groups: { min: 9, max: 11 },
     remind_at: 9,
     analysis: {
@@ -446,6 +449,7 @@ const questionnaires: Questionnaire[] = [
     id: "cdc12",
     title: "CDC 12 Months",
     category: "development",
+    subcategory: "development",
     age_groups: { min: 12, max: 17 },
     remind_at: 12,
     analysis: {
@@ -501,6 +505,7 @@ const questionnaires: Questionnaire[] = [
     id: "cdc18",
     title: "CDC 18 Months",
     category: "development",
+    subcategory: "development",
     age_groups: { min: 18, max: 23 },
     remind_at: 18,
     analysis: {
@@ -562,6 +567,7 @@ const questionnaires: Questionnaire[] = [
     id: "cdc24",
     title: "CDC 24 Months",
     category: "development",
+    subcategory: "development",
     age_groups: { min: 24, max: 35 },
     remind_at: 24,
     analysis: {
@@ -611,6 +617,7 @@ const questionnaires: Questionnaire[] = [
     id: "cdc36",
     title: "CDC 36 Months",
     category: "development",
+    subcategory: "development",
     age_groups: { min: 36, max: 47 },
     remind_at: 36,
     analysis: {
@@ -678,6 +685,7 @@ const questionnaires: Questionnaire[] = [
     id: "cdc48",
     title: "CDC 48 Months",
     category: "development",
+    subcategory: "development",
     age_groups: { min: 48, max: 59 },
     remind_at: 48,
     analysis: {
@@ -757,6 +765,7 @@ const questionnaires: Questionnaire[] = [
     id: "cdc60",
     title: "CDC 60 Months",
     category: "development",
+    subcategory: "development",
     age_groups: { min: 60, max: 72 },
     remind_at: 60,
     analysis: {
@@ -847,7 +856,8 @@ const questionnaires: Questionnaire[] = [
   {
     id: "qchat",
     title: "QCHAT",
-    category: "communication",
+    category: "development",
+    subcategory: "communication",
     age_groups: { min: 16, max: 30 },
     analysis: {
       strategy: "simple",
@@ -909,7 +919,8 @@ const questionnaires: Questionnaire[] = [
   {
     id: "pdq1",
     title: "Psychological Development Questionnaire For Toddlers (PDQ1)",
-    category: "communication",
+    category: "development",
+    subcategory: "communication",
     age_groups: { min: 30, max: 47 },
     analysis: {
       strategy: "simple",
@@ -986,7 +997,8 @@ const questionnaires: Questionnaire[] = [
   {
     id: "asq10",
     title: "Autism Spectrum Quotient",
-    category: "communication",
+    category: "development",
+    subcategory: "communication",
     age_groups: { min: 48, max: 72 },
     analysis: {
       strategy: "simple",
@@ -1048,7 +1060,8 @@ const questionnaires: Questionnaire[] = [
   {
     id: "rqc",
     title: "Reporting Questionnaire for Children (RQC)",
-    category: "communication",
+    category: "development",
+    subcategory: "communication",
     age_groups: { min: 31, max: 66 },
     analysis: {
       strategy: "cdc",

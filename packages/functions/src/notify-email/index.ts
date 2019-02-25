@@ -1,7 +1,8 @@
 import moment from "moment";
 const mailgunJs = require("mailgun-js");
 import * as fs from "fs";
-import * as _ from "lodash";
+import groupBy = require("lodash/groupBy");
+import fromPairs = require("lodash/fromPairs");
 import * as markupJs from "markup-js";
 import express from "express";
 import * as bodyParser from "body-parser";
@@ -51,9 +52,11 @@ type ParentEmailInput = {
     dobChildFormatted: string;
     ageOfChild: string;
   };
-  resultText: string;
-  developmentResults: EmailResult[];
-  communicationResults: EmailResult[];
+  results: {
+    [category: string]: {
+      [subcategory: string]: EmailResult[];
+    };
+  };
 };
 
 type DoctorEmailInput = ParentEmailInput & {
@@ -101,9 +104,6 @@ app.post("*", async (req: express.Request, res: express.Response) => {
     const config = getConfigById(details.siteId);
     const combinedResults = combineAll(body.results, t);
     const concern = mark(combinedResults);
-    const resultString = concern
-      ? t("results.redFlag")
-      : t("results.greenFlag");
 
     const detailsWithDates = {
       ...details,
@@ -114,7 +114,6 @@ app.post("*", async (req: express.Request, res: express.Response) => {
     const parentEmailPromise = sendParentEmail(
       detailsWithDates,
       combinedResults,
-      resultString,
       config,
       t
     );
@@ -126,13 +125,7 @@ app.post("*", async (req: express.Request, res: express.Response) => {
 
     const promises = details.doctorEmail
       ? basePromises.concat([
-          sendDoctorEmail(
-            detailsWithDates,
-            combinedResults,
-            resultString,
-            config,
-            t
-          )
+          sendDoctorEmail(detailsWithDates, combinedResults, config, t)
         ])
       : basePromises;
 
@@ -153,14 +146,12 @@ const templateBody = fs.readFileSync(
 function sendParentEmail(
   details: NotifyFunctionInputDetails,
   combinedResults: CombinedResult[],
-  resultString: string,
   config: HostConfig,
   t: i18next.TFunction
 ) {
   const templateInput: ParentEmailInput = buildEmailInput(
     details,
     combinedResults,
-    resultString,
     t
   );
 
@@ -192,15 +183,45 @@ function addCCToParams(params: any) {
   return newParams;
 }
 
+const subcategoryHeadingLookup = {
+  development: "emails.results.developmentHeading",
+  communication: "emails.results.socialHeading"
+};
+
 function buildEmailInput(
   details: NotifyFunctionInputDetails,
   combinedResults: CombinedResult[],
-  resultString: string,
+  concerns: { [key: string]: boolean },
   t: i18next.TFunction
 ): DoctorEmailInput {
   const { minMonths, maxMonths } = minMax(
     questionnairesForSubsite(details.siteId)
   );
+
+  const groupedByCategory = groupBy(
+    combinedResults,
+    (result: CombinedResult) => result.questionnaire.category
+  );
+
+  const results = Object.keys(groupedByCategory).map(category => {
+    const prefix = `results.${category}`;
+    const concern = concerns[category];
+    const groupedBySubcategory = groupBy(
+      groupedByCategory[category],
+      result => result.questionnaire.subcategory
+    );
+
+    return {
+      heading: `${prefix}.heading`,
+      resultText: `${prefix}.${concern ? "concern" : "noConcern"}`,
+      subcategories: Object.keys(groupedBySubcategory).map(subcategory => {
+        return {
+          subcategoryHeading: subcategoryHeadingLookup[subcategory],
+          questionnaires: groupedBySubcategory[subcategory]
+        };
+      })
+    };
+  });
 
   return {
     details: {
@@ -211,14 +232,7 @@ function buildEmailInput(
       dobChildFormatted: moment(details.dobOfChild).format(FORMAT),
       ageOfChild: ageInMonthsToString(details.ageInMonths, t)
     },
-    developmentResults: combinedResults.filter(
-      result => result.questionnaire.category === "development"
-    ),
-    communicationResults: combinedResults.filter(
-      result => result.questionnaire.category === "communication"
-    ),
-    resultText: resultString,
-    concern: mark(combinedResults),
+    results,
     minAge: ageInMonthsToString(minMonths, t),
     maxAge: ageInMonthsToString(maxMonths, t)
   };
@@ -232,14 +246,12 @@ const doctorTemplateBody = fs.readFileSync(
 function sendDoctorEmail(
   details: NotifyFunctionInputDetails,
   combinedResults: CombinedResult[],
-  resultString: string,
   config: HostConfig,
   t: i18next.TFunction
 ) {
   const doctorEmailInput: DoctorEmailInput = buildEmailInput(
     details,
     combinedResults,
-    resultString,
     t
   );
 
@@ -294,7 +306,7 @@ function recordResultsInFirestore(
 ) {
   const filteredResults = results.map(result => ({
     questionnaire: result.questionnaire.id,
-    answers: _.fromPairs(
+    answers: fromPairs(
       result.results.map(({ answer, metadata }) => [
         metadata.id,
         answer.rawAnswer.value
