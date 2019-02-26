@@ -31,6 +31,7 @@ import {
 } from "@wmg/common/lib/site-specific-config";
 import ageInMonthsToString from "@wmg/common/lib/age-to-string";
 import buildi18n from "../i18n";
+import categoryToLink from "@wmg/common/lib/category-to-link";
 
 type EmailResult = {
   questionnaire: {
@@ -220,9 +221,12 @@ function buildEmailInput(
       result => result.questionnaire.subcategory
     );
 
+    const links = categoryToLink[category];
+
     return {
       heading: `${prefix}.heading`,
       resultText: `${prefix}.${concern ? "concern" : "noConcern"}`,
+      links,
       subcategories: Object.keys(groupedBySubcategory).map(subcategory => {
         return {
           subcategoryHeading: subcategoryHeadingLookup[subcategory] as

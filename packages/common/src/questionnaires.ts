@@ -516,7 +516,7 @@ const questionnaires: Questionnaire[] = [
       {
         id: "point18",
         comments: false,
-        textId: "questions.cdc18.",
+        textId: "questions.cdc18.point",
         answers: cdcShouldBeYesAnswer
       },
       {

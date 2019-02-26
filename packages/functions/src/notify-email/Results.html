@@ -18,19 +18,18 @@
   </tr>
 </table>
 
-
-{{questionnaireResults}}
+{{results}}
   <h2>{{t|call>t>`heading`}}</h2>
-  <p>{{ resultText }}</p>
+  <p>{{t|call>t>`resultText`}}</p>
   <p>{{t|call>t>emails.results.resultsIntro}}</p>
 
   {{subcategories}}
-    {{subcategoryHeading}}
+    {{if subcategoryHeading}}
       <h3>{{t|call>t>`subcategoryHeading`}}</h3>
-    {{/subcategoryHeading}}
+    {{/if}}
 
     {{questionnaires}}
-      <h3>{{ questionnaire.title }}</h3>
+      <h4>{{ questionnaire.title }}</h4>
       <table border="1" style="max-width: 500px">
         <tr>
           <th style="width:10%">{{t|call>t>emails.tableHeaders.number}}</th>
@@ -55,39 +54,10 @@
 
     <br />
   {{/subcategories}}
-{{/questionnaireResults}}
 
-{{if communicationResults}}
-<h2>{{t|call>t>emails.results.socialHeading}}</h2>
-{{ communicationResults }}
-<h3>{{ questionnaire.title }}</h3>
-<table border="1" style="max-width: 500px">
-  <tr>
-    <th style="width:10%">{{t|call>t>emails.tableHeaders.number}}</th>
-    <th style="width:45%">{{t|call>t>emails.tableHeaders.question}}</th>
-    <th style="width:45%">{{t|call>t>emails.tableHeaders.response}}</th>
-  </tr>
-  {{results}}
-  <tr>
-    <td>{{##}}</td>
-    <td>{{ questionText }}</td>
-    <td>{{ answer.answerText }}</td>
-  </tr>
-  {{if answer.comments}}
-  <tr>
-    <td>Comment</td>
-    <td colspan="2">{{ answer.comments }}</td>
-  </tr>
-  {{/if}}
-  {{/results}}
-</table>
+  {{links}}
+    <p>{{t|call>t>`introKey`}}</p>
+    <p><a href="{{url}}">{{url}}</a>.</p>
+  {{/links}}
+{{/results}}
 
-<br />
-{{/communicationResults}}
-{{/if}}
-
-<p>
-  {{t|call>t>results.raisingChildrenIntro}}
-</p>
-
-<p><a href="https://raisingchildren.net.au">raisingchildren.net.au</a>.</p>

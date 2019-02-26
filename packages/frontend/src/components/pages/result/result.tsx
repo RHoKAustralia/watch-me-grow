@@ -11,36 +11,11 @@ import StageSwitcher from "./stage-switcher";
 import stages from "./stages/stages";
 import { Results } from "../../stores/results-store";
 import { Details } from "../../stores/details-store";
+import categoryToLink, { LinkData } from "@wmg/common/lib/category-to-link";
 
 import sendResults from "../../../send-results";
 
 import Styles from "./result.module.scss";
-
-type LinkData = { introKey: string; url: string };
-const categoryToLink: { [key: string]: LinkData[] } = {
-  development: [
-    {
-      introKey: "results.linkIntros.raisingChildren",
-      url: "https://raisingchildren.net.au"
-    }
-  ],
-  behaviour: [
-    {
-      introKey: "results.linkIntros.raisingChildren",
-      url: "https://raisingchildren.net.au"
-    },
-    {
-      introKey: "results.linkIntros.parentWorks",
-      url: "https://parentworks.org.au"
-    }
-  ],
-  emotions: [
-    {
-      introKey: "results.linkIntros.beyondBlue",
-      url: "https://healthyfamilies.beyondblue.org.au/pregnancy-and-new-parents"
-    }
-  ]
-};
 
 type Props = {
   results: Results;
