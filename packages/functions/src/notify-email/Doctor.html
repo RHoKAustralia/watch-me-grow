@@ -2,38 +2,16 @@
 <p>
   {{t|call>t>emails.doctor.salutation}},
 </p>
+
 <p>
-  {{t|call>t>emails.doctor.intro1}}
-  {{details.nameOfParent}}
-  {{t|call>t>emails.doctor.intro1}}
-  {{details.firstNameOfChild}}
-  {{details.lastNameOfChild}}
-  {{t|call>t>emails.doctor.intro3}}
-  {{minAge}}
-  {{t|call>t>emails.doctor.intro4}}
-  {{maxAge}}
-  {{t|call>t>emails.doctor.intro5}}
+  {{t|call>t>emails.doctor.intro1}} {{details.nameOfParent}} {{t|call>t>emails.doctor.intro2}} {{details.firstNameOfChild}} {{details.lastNameOfChild}}{{t|call>t>emails.doctor.intro3}} {{minAge}} {{t|call>t>emails.doctor.intro4}} {{maxAge}}{{t|call>t>emails.doctor.intro5}}
 </p>
 
-{{if concern}}
-<div style="text-align: center">
-    <img style="height: 50px; width: 50px" src="https://watchmegrow.care/email-pics/red_flag.png">
-</div>
-<p>
-    <strong>
-      {{t|call>t>emails.doctor.redFlag}}
-    </strong>
-</p>
-{{else}}
-<div style="text-align: center">
-    <img style="height: 50px; width: 50px" src="https://watchmegrow.care/email-pics/green_flag.png">
-</div>
-<p>
-    <strong>
-      {{t|call>t>emails.doctor.greenFlag}}
-    </strong>
-</p>
-{{/if}}
+{{results}}
+  <p>
+    <strong>{{t|call>t>`headingDoctor`}}: </strong>{{t|call>t>`resultTextDoctor`}}
+  </p>
+{{/results}}
 
 <p>{{t|call>t>emails.doctor.resultsIntro}}</p>
 
@@ -52,66 +30,46 @@
     </tr>
 </table>
 
+{{results}}
+  <h2>{{t|call>t>`headingDoctor`}}</h2>
 
-{{if developmentResults}}
-  <h2>{{t|call>t>emails.results.developmentHeading}}</h2>
-  {{developmentResults}}
-  <h3>{{questionnaire.title}}</h3>
-  <table border="1" style="max-width: 500px">
-      <tr>
+  {{subcategories}}
+    {{if subcategoryHeading}}
+      <h3>{{t|call>t>`subcategoryHeading`}}</h3>
+    {{/if}}
+
+    {{questionnaires}}
+      <h4>{{ questionnaire.title }}</h4>
+      <table border="1" style="max-width: 500px">
+        <tr>
           <th style="width:10%">{{t|call>t>emails.tableHeaders.number}}</th>
           <th style="width:45%">{{t|call>t>emails.tableHeaders.question}}</th>
           <th style="width:45%">{{t|call>t>emails.tableHeaders.response}}</th>
-      </tr>
-      {{results}}
-      <tr>
-          <td>{{##}}</td>
-          <td>{{questionText}}</td>
-          <td>{{answer.answerText}}</td>
-      </tr>
-      {{if answer.comments}}
-      <tr>
-          <td>Comment</td>
-          <td colspan="2">{{answer.comments}}</td>
-      </tr>
-      {{/if}}
-      {{/results}}
-  </table>
-  <br/>
-  {{/developmentResults}}
-{{/if}}
+        </tr>
+        {{results}}
+          <tr>
+            <td>{{##}}</td>
+            <td>{{ questionText }}</td>
+            <td>{{ answer.answerText }}</td>
+          </tr>
+          {{if answer.comments}}
+            <tr>
+              <td>Comment</td>
+              <td colspan="2">{{ answer.comments }}</td>
+            </tr>
+          {{/if}}
+        {{/results}}
+      </table>
+    {{/questionnaires}}
 
-{{if communicationResults}}
-<h2>{{t|call>t>emails.results.socialHeading}}</h2>
-  {{communicationResults}}
-  <h3>{{questionnaire.title}}</h3>
-  <table border="1" style="max-width: 500px">
-      <tr>
-        <th style="width:10%">{{t|call>t>emails.tableHeaders.number}}</th>
-        <th style="width:45%">{{t|call>t>emails.tableHeaders.question}}</th>
-        <th style="width:45%">{{t|call>t>emails.tableHeaders.response}}</th>
-      </tr>
-      {{results}}
-      <tr>
-          <td>{{##}}</td>
-          <td>{{questionText}}</td>
-          <td>{{answer.answerText}}</td>
-      </tr>
-      {{if answer.comments}}
-      <tr>
-          <td>Comment</td>
-          <td colspan="2">{{answer.comments}}</td>
-      </tr>
-      {{/if}}
-      {{/results}}
-  </table>
-  <br/>
-  {{/communicationResults}}
-{{/if}}
+    <br />
+  {{/subcategories}}
 
-<p>
-    {{t|call>t>emails.doctor.moreInfo}} <a href="http://www.cdc.gov/ncbddd/actearly/index.html">Learn the signs - act early</a>.
-</p>
+  {{links}}
+    <p>{{t|call>t>`introKey`}}</p>
+    <p><a href="{{url}}">{{url}}</a>.</p>
+  {{/links}}
+{{/results}}
 
 <p>
     {{t|call>t>emails.doctor.parentInfo}}

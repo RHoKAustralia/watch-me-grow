@@ -179,10 +179,10 @@ function sendParentEmail(
     html: message
   });
 
-  // return mailgun.messages().send(params);
-  console.log("===PARENT===");
-  console.log(message);
-  return Promise.resolve();
+  return mailgun.messages().send(params);
+  // console.log("===PARENT===");
+  // console.log(message);
+  // return Promise.resolve();
 }
 
 function addCCToParams(params: any) {
@@ -224,8 +224,10 @@ function buildEmailInput(
     const links = categoryToLink[category];
 
     return {
-      heading: `${prefix}.heading`,
-      resultText: `${prefix}.${concern ? "concern" : "noConcern"}`,
+      heading: `${prefix}.heading.parent`,
+      headingDoctor: `${prefix}.heading.doctor`,
+      resultText: `${prefix}.${concern ? "concern" : "noConcern"}.parent`,
+      resultTextDoctor: `${prefix}.${concern ? "concern" : "noConcern"}.doctor`,
       links,
       subcategories: Object.keys(groupedBySubcategory).map(subcategory => {
         return {
@@ -291,11 +293,11 @@ function sendDoctorEmail(
     html: message
   });
 
-  // return mailgun.messages().send(params);
+  return mailgun.messages().send(params);
 
-  console.log("===DOCTOR===");
-  console.log(message);
-  return Promise.resolve();
+  // console.log("===DOCTOR===");
+  // console.log(message);
+  // return Promise.resolve();
 }
 
 export type FirestoreRecordDetails = {

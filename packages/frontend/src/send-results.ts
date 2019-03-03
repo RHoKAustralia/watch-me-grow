@@ -15,31 +15,45 @@ import { Results } from "./components/stores/results-store";
 export default function sendResults(details: Details, results: Results) {
   const ageInMonths = moment().diff(details.babyDob, "months");
 
-  const metadata: NotifyFunctionInputDetails = {
-    recipientEmail: details.parentEmail,
-    testDate: moment().toISOString(),
-    nameOfParent: details.parentName,
-    firstNameOfChild: details.babyFirstName,
-    lastNameOfChild: details.babyLastName,
-    genderOfChild: details.babyGender,
-    dobOfChild: details.babyDob!.toISOString(),
-    doctorEmail: details.doctorEmail,
-    ageInMonths: ageInMonths,
-    siteId: subsite!.id,
-    language: i18next.language
-  };
+  function sendWithLanguage() {
+    const metadata: NotifyFunctionInputDetails = {
+      recipientEmail: details.parentEmail,
+      testDate: moment().toISOString(),
+      nameOfParent: details.parentName,
+      firstNameOfChild: details.babyFirstName,
+      lastNameOfChild: details.babyLastName,
+      genderOfChild: details.babyGender,
+      dobOfChild: details.babyDob!.toISOString(),
+      doctorEmail: details.doctorEmail,
+      ageInMonths: ageInMonths,
+      siteId: subsite!.id,
+      language: i18next.language
+    };
 
-  const data: NotifyFunctionInput = {
-    details: metadata,
-    results
-  };
+    const data: NotifyFunctionInput = {
+      details: metadata,
+      results
+    };
 
-  fetch("/api/notifyEmail", {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(data)
-  });
+    console.log(i18next.language);
+
+    fetch("/api/notifyEmail", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    });
+  }
+
+  if (i18next.language) {
+    sendWithLanguage();
+  } else {
+    const handler = () => {
+      sendWithLanguage();
+      i18next.off("languageChanged", handler);
+    };
+    i18next.on("languageChanged", handler);
+  }
 }

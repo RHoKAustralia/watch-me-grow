@@ -70,7 +70,9 @@
       "slightlyUnusual": "sedikit tidak wajar",
       "veryUnusual": "sangat tidak wajar",
       "nonVerbal": "anak saya belum bicara"
-    }
+    },
+    "yes": "Ya",
+    "no": "Tidak"
   },
   "questions": {
     "cdc6": {
@@ -201,21 +203,30 @@
   },
   "results": {
     "development": {
-      "heading": "Perkembangan anak Anda",
-      "concern": "Anak Anda berkembang sesuai dengan yang diharapkan pada usianya. Berdasarkan jawaban-jawaban Anda, Anda tidak perlu kuatir mengenai perkembangan anak anda.",
-      "noConcern": "Jawaban-jawaban Anda menunjukkan bahwa anak Anda mungkin memerlukan pemeriksaan lanjutan. Silakan diskusikan hasil ini dengan dokter atau praktisi kesehatan Anda."
+      "heading": {
+        "parent": "Perkembangan anak Anda",
+        "doctor": "Perkembangan anak"
+      },
+      "concern": {
+        "parent": "Anak Anda berkembang sesuai dengan yang diharapkan pada usianya. Berdasarkan jawaban-jawaban Anda, Anda tidak perlu kuatir mengenai perkembangan anak anda.",
+        "doctor": "Tidak ditemukan masalah perkembangan pada anak ini. Pada tahap ini, tidak diperlukan tindak lanjut apa-apa. Lakukan pemantauan seperti biasa"
+      },
+      "noConcern": {
+        "parent": "Jawaban-jawaban Anda menunjukkan bahwa anak Anda mungkin memerlukan pemeriksaan lanjutan. Silakan diskusikan hasil ini dengan dokter atau praktisi kesehatan Anda.",
+        "doctor": "Besar kemungkinan anak ini memiliki masalah tumbuh kembang. Direkomendasikan agar anak ini menjalani pemeriksaan lanjutan dan intervensi awal dengan bantuan seorang dokter spesialis anak atau penyedia layanan kesehatan lainnya (misalnya psikolog, terapis, dll). Selain itu, penting untuk terus memantau anak dari waktu ke waktu."
+      }
+    },
+    "linkIntros": {
+      "raisingChildren": "Semua anak tumbuh dan berkembang sesuai dengan kecepatannya masing-masing. Silahkan menggunakan link berikut untuk mengakses informasi tentang hal-hal yang diharapkan terjadi pada usia anak Anda:"
     },
     "summaries": {
       "concern": "Beberapa kekhawatiran",
       "noConcern": "Tidak ada perhatian"
-    },
-    "linkIntros": {
-      "raisingChildren": "Semua anak tumbuh dan berkembang sesuai dengan kecepatannya masing-masing. Silahkan menggunakan link berikut untuk mengakses informasi tentang hal-hal yang diharapkan terjadi pada usia anak Anda:"
     }
   },
   "emails": {
     "results": {
-      "subject": "WatchMeGrow.care pengingat untuk",
+      "subject": "WatchMeGrow.care hasil untuk",
       "salutation": "Bapak/Ibu",
       "intro": "Terimakasih telah mengisi secara lengkap WatchMeGrow.care untuk",
       "childsName": "Nama Anak",
@@ -240,10 +251,7 @@
       "intro3": ". WatchMeGrow.care menelusuri laju perkembangan anak-anak berusia sekitar",
       "intro4": "bulan dan",
       "intro5": ". Kuisioner ini dirancang guna memfasilitasi identifikasi secara dini masalah-masalah tumbuh kembang anak.",
-      "redFlag": "Besar kemungkinan anak ini memiliki masalah tumbuh kembang. Direkomendasikan agar anak ini menjalani pemeriksaan lanjutan dan intervensi awal dengan bantuan seorang dokter spesialis anak atau penyedia layanan kesehatan lainnya (misalnya psikolog, terapis, dll). Selain itu, penting untuk terus memantau anak dari waktu ke waktu.",
-      "greenFlag": "Tidak ditemukan masalah perkembangan pada anak ini. Pada tahap ini, tidak diperlukan tindak lanjut apa-apa. Lakukan pemantauan seperti biasa",
       "resultsIntro": "Hasil secara lengkap sebagai berikut",
-
       "childsName": "Nama Anak",
       "dateOfTest": "Tanggal Pengisian",
       "dateOfBirth": "Tanggal lahir",

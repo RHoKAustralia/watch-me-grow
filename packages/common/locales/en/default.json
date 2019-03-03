@@ -260,19 +260,46 @@
   },
   "results": {
     "development": {
-      "heading": "Your Child's Development",
-      "concern": "Your answers indicate that your child could benefit from a more detailed assessment. Please discuss these results with your health professional.",
-      "noConcern": "Your child is developing as expected for their age. Based on your answers you have no concerns about how your child is developing."
+      "heading": {
+        "parent": "Your Child's Development",
+        "doctor": "Child Development"
+      },
+      "concern": {
+        "parent": "Your answers indicate that your child could benefit from a more detailed assessment. Please discuss these results with your health professional.",
+        "doctor": "Developmental issues in this child are unlikely. No further follow-up necessary at this point. Continue ongoing monitoring as usual"
+      },
+      "noConcern": {
+        "parent": "Your child is developing as expected for their age. Based on your answers you have no concerns about how your child is developing.",
+        "doctor": "It is highly likely that this child has developmental issues. It is recommended that a referral for further assessment and early intervention through a paediatrician or other child development health professional is completed. In addition, it is important to continue to monitor the child over time."
+      }
     },
     "behaviour": {
-      "heading": "Your Child's Behaviour",
-      "concern": "Based on your answers you have some concerns about your child’s behaviour or emotional responses. Please discuss these results with your health professional.",
-      "noConcern": "Based on your answers you have no concerns about your child’s behaviour or emotional responses."
+      "heading": {
+        "parent": "Your Child's Behaviour",
+        "doctor": "Child Behaviour"
+      },
+      "concern": {
+        "parent": "Based on your answers you have some concerns about your child’s behaviour or emotional responses. Please discuss these results with your health professional.",
+        "doctor": "It is likely that this child has some behavioural difficulties. It is recommended that referral for further assessment through a paediatrician or other health professional is completed. In addition, it is important to continue to monitor the child over time."
+      },
+      "noConcern": {
+        "parent": "Based on your answers you have no concerns about your child’s behaviour or emotional responses.",
+        "doctor": "Behavioural issues in this child are not currently being reported. No further follow-up necessary at this point. Continue ongoing monitoring as usual"
+      }
     },
     "emotions": {
-      "heading": "Your Emotions",
-      "concern": "Based on your responses you may be experiencing some emotional difficulties. Please discuss these results with your health professional.",
-      "noConcern": "Based on your responses you appear to be coping well emotionally."
+      "heading": {
+        "parent": "Your Emotions",
+        "doctor": "Parental Mental Health"
+      },
+      "concern": {
+        "parent": "Based on your responses you may be experiencing some emotional difficulties. Please discuss these results with your health professional.",
+        "doctor": "It is likely that this parent /caregiver is experiencing some emotional difficulties. It is recommended that they complete further assessment to evaluate whether they meet criteria for depression or anxiety, as well as referred to a psychologist or equivalent health professional. It is also important to continue to monitor the parent over time."
+      },
+      "noConcern": {
+        "parent": "Based on your responses you appear to be coping well emotionally.",
+        "doctor": "Mental health difficulties are not currently being reported. No further follow-up necessary at this point. Continue ongoing monitoring as usual."
+      }
     },
     "linkIntros": {
       "raisingChildren": "All children grow and develop at their own pace. Please use the following link to access information on what is expected for your child's age:",
@@ -286,7 +313,7 @@
   },
   "emails": {
     "results": {
-      "subject": "Watchmegrow.care reminder for",
+      "subject": "Watchmegrow.care results for",
       "salutation": "Hi",
       "intro": "Thank you for completing WatchMeGrow.care for",
       "childsName": "Child's Name",
@@ -308,11 +335,9 @@
       "salutation": "Hi",
       "intro1": "You're receiving this email because",
       "intro2": "completed WatchMeGrow.care for",
-      "intro3": ". WatchMeGrow.care tracks developmental progress for children aged between approximately",
+      "intro3": ". WatchMeGrow.care tracks developmental progress, behaviour and parental mental health for children aged between approximately",
       "intro4": "to",
-      "intro5": ". It has been designed to facilitate early identification of developmental problems.",
-      "redFlag": "It is highly likely that this child has developmental issues. It is recommended that a referral for further assessment and early intervention through a paediatrician or other child development health professional is completed. In addition, it is important to continue to monitor the child over time.",
-      "greenFlag": "Developmental issues in this child are unlikely. No further follow-up necessary at this point. Continue ongoing monitoring as usual",
+      "intro5": ". It has been designed to facilitate early identification of developmental problems, behavioural changes and maternal mental health difficulties.",
       "resultsIntro": "Please see detailed results below",
 
       "childsName": "Child's Name",

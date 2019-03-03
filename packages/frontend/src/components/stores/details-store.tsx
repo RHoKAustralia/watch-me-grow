@@ -130,7 +130,8 @@ function DetailsStore<T extends WrappedComponentProps>(
           babyGender: this.state.babyGender,
           babyDob: this.state.babyDob ? this.state.babyDob.toString() : null,
           parentName: this.state.parentName,
-          parentEmail: this.state.parentEmail
+          parentEmail: this.state.parentEmail,
+          doctorEmail: this.state.doctorEmail
         })
       );
     };

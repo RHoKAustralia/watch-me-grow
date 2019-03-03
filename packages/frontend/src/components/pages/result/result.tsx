@@ -116,8 +116,8 @@ function SummaryPara({
 }) {
   return (
     <React.Fragment>
-      <h2 className={Styles.summaryHeading}>{t(`${tPrefix}.heading`)}</h2>
-      <p>{t(`${tPrefix}.${concern ? "concern" : "noConcern"}`)}</p>
+      <h2 className={Styles.summaryHeading}>{t(`${tPrefix}.heading.parent`)}</h2>
+      <p>{t(`${tPrefix}.${concern ? "concern" : "noConcern"}.parent`)}</p>
       {links.map(link => (
         <Link intro={t(link.introKey)} url={link.url} />
       ))}

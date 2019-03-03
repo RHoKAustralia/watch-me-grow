@@ -3,6 +3,14 @@
 <p>{{t|call>t>emails.results.salutation}} {{ details.nameOfParent }},</p>
 <p>{{t|call>t>emails.results.intro}} {{ details.firstNameOfChild }}.</p>
 
+{{results}}
+  <p>
+    <strong>{{t|call>t>`heading`}}: </strong>{{t|call>t>`resultText`}}
+  </p>
+{{/results}}
+
+<p>{{t|call>t>emails.results.resultsIntro}}</p>
+
 <table border="0">
   <tr>
     <td>{{t|call>t>emails.results.childsName}}</td>
@@ -20,8 +28,6 @@
 
 {{results}}
   <h2>{{t|call>t>`heading`}}</h2>
-  <p>{{t|call>t>`resultText`}}</p>
-  <p>{{t|call>t>emails.results.resultsIntro}}</p>
 
   {{subcategories}}
     {{if subcategoryHeading}}
