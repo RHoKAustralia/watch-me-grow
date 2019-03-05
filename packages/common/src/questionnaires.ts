@@ -1231,6 +1231,7 @@ const questionnaires: Questionnaire[] = [
     title: "Preschool Pediatric Symptom Checklist (PPSC)",
     category: "behaviour",
     age_groups: { min: 18, max: 30 },
+    remind_at: 18,
     analysis: {
       strategy: "simple",
       redFlagThreshold: 9

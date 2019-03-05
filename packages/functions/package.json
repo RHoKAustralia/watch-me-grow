@@ -12,7 +12,6 @@
   },
   "main": "lib/index.js",
   "dependencies": {
-    "@google-cloud/firestore": "^1.0.1",
     "@wmg/common": "file:lib/wmg-common",
     "body-parser": "^1.18.3",
     "cookie-parser": "^1.4.3",

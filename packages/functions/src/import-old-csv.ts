@@ -151,11 +151,15 @@ fsReadStream
               language: "en"
             },
             date: ifNotBlank(result.date)
-              ? moment(result.date).toDate()
-              : moment(
-                  result[sanitiseColumnHeader("date of testing")],
-                  CSV_DATE_FORMAT
-                ).toDate()
+              ? firebaseAdmin.firestore.Timestamp.fromDate(
+                  moment(result.date).toDate()
+                )
+              : firebaseAdmin.firestore.Timestamp.fromDate(
+                  moment(
+                    result[sanitiseColumnHeader("date of testing")],
+                    CSV_DATE_FORMAT
+                  ).toDate()
+                )
           };
 
           if (record.results.length === 0) {

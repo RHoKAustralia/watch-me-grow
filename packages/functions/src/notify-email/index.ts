@@ -10,7 +10,6 @@ import * as functions from "firebase-functions";
 import * as firebase from "firebase-admin";
 import cors from "cors";
 import i18next from "i18next";
-import { Timestamp } from "@google-cloud/firestore";
 
 import questionnairesForSubsite from "@wmg/common/lib/questionnaires-for-subsite";
 import {
@@ -308,7 +307,7 @@ export type FirestoreRecordDetails = {
   genderOfChild: string;
   doctorEmail?: string;
   siteId: string;
-  dobAsDate: Timestamp;
+  dobAsDate: firebase.firestore.Timestamp;
   language: string;
 };
 
@@ -319,7 +318,7 @@ export type FirestoreRecord = {
   }[];
   concerns: Concerns;
   details: FirestoreRecordDetails;
-  date: Date;
+  date: firebase.firestore.Timestamp;
 };
 
 function recordResultsInFirestore(
@@ -348,10 +347,14 @@ function recordResultsInFirestore(
       genderOfChild: details.genderOfChild,
       doctorEmail: details.doctorEmail,
       siteId: details.siteId,
-      dobAsDate: Timestamp.fromDate(moment(details.dobOfChild).toDate()),
+      dobAsDate: firebase.firestore.Timestamp.fromDate(
+        moment(details.dobOfChild).toDate()
+      ),
       language: details.language
     },
-    date: moment(details.testDate).toDate()
+    date: firebase.firestore.Timestamp.fromDate(
+      moment(details.testDate).toDate()
+    )
   };
 
   if (!record.details.doctorEmail) {
