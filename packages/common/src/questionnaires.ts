@@ -441,7 +441,7 @@ const questionnaires: Questionnaire[] = [
       {
         id: "lost_skills",
         textId: "questions.cdc9.looksWhereYouPoint",
-        answers: cdcShouldBeNoAnswer
+        answers: cdcShouldBeYesAnswer
       }
     ]
   },
