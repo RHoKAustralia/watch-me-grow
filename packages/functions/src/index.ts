@@ -11,6 +11,10 @@ firebaseAdmin.initializeApp({
   credential: firebaseAdmin.credential.cert(key)
 });
 
+firebaseAdmin.firestore().settings({
+  timestampsInSnapshots: true
+});
+
 import notifyEmailApp from "./notify-email";
 import reminderEmail from "./reminder-email";
 import downloadCsv from "./download-csv";
