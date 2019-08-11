@@ -318,6 +318,106 @@ const yesNoAnswers: Answer[] = [
   }
 ];
 
+const pedsAnswers: Answer[] = [
+  {
+    value: "no",
+    textId: "answers.no",
+    redFlagScore: 0
+  },
+  {
+    value: "alittle",
+    textId: "answers.peds.aLittle",
+    redFlagScore: 1
+  },
+  {
+    value: "yes",
+    textId: "answers.yes",
+    redFlagScore: 1
+  }
+];
+
+const peds: Questionnaire = {
+  id: "peds",
+  title: "PEDS",
+  description:
+    "Parents’ Evaluation of Developmental Status (PEDS) (developed by Glascoe FP)  is included in the My Personal Health Record.",
+  introduction:
+    "PEDS – Some questions about how your child is developing in general. It’s important to answer all 10 questions as well as leave a short comment in the comment section of each question.",
+  detail_link:
+    "http://www.kidsfamilies.health.nsw.gov.au/publications/child-personal-health-record-(blue-book)/",
+  age_groups: {
+    min: 6,
+    max: 48
+  },
+  analysis: {
+    strategy: "simple",
+    redFlagThreshold: 1
+  },
+  questions: [
+    {
+      id: "concerns",
+      textId: "questions.peds.learningConcerns",
+      comments: true,
+      answers: pedsAnswers
+    },
+
+    {
+      id: "speech_sound",
+      textId: "questions.peds.speechConcerns",
+      comments: true,
+      answers: pedsAnswers
+    },
+    {
+      id: "understand_speech",
+      textId: "questions.peds.understandConcerns",
+      comments: true,
+      answers: pedsAnswers
+    },
+    {
+      id: "using_hand",
+      textId: "questions.peds.handConcerns",
+      comments: true,
+      answers: pedsAnswers
+    },
+    {
+      id: "using_arm_leg",
+      textId: "questions.peds.armsLegsConcerns",
+      comments: true,
+      answers: pedsAnswers
+    },
+    {
+      id: "behaviour",
+      textId: "questions.peds.behaviourConcerns",
+      comments: true,
+      answers: pedsAnswers
+    },
+    {
+      id: "getting_along",
+      textId: "questions.peds.gettingAlongConcerns",
+      comments: true,
+      answers: pedsAnswers
+    },
+    {
+      id: "learning",
+      textId: "questions.peds.learningThemselvesConcerns",
+      comments: true,
+      answers: pedsAnswers
+    },
+    {
+      id: "learning_at_preschool",
+      textId: "questions.peds.preschoolConcerns",
+      comments: true,
+      answers: pedsAnswers
+    },
+    {
+      id: "other_concerns",
+      textId: "questions.peds.otherConcerns",
+      comments: true,
+      answers: pedsAnswers
+    }
+  ]
+};
+
 const questionnaires: Questionnaire[] = [
   {
     id: "cdc6",

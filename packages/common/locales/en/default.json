@@ -76,6 +76,9 @@
       "somewhat": "Somewhat",
       "veryMuch": "Very much"
     },
+    "peds": {
+      "aLittle": "A little"
+    },
     "yes": "Yes",
     "no": "No"
   },
@@ -256,6 +259,18 @@
       "lossOfInterest": "Have you been experiencing loss of interest or loss of pleasure in doing things, during the last 2 weeks or longer?",
       "excessivelyTired": "Have you been feeling excessively tired or without energy, during the last 2 weeks or longer?",
       "sleeplessness": "Have you been suffering from sleeplessness, during the last 2 weeks or longer"
+    },
+    "peds": {
+      "learningConcerns": "Do you have any concerns about your child’s learning, development or behaviour? Please describe",
+      "speechConcerns": "Do you have any concerns about how your child talks and makes speech sounds?",
+      "understandConcerns": "Do you have any concerns about how your child understands what you say?",
+      "handConcerns": "Do you have any concerns about how your child uses his / her hands and fingers to do things?",
+      "armsLegsConcerns": "Do you have any concerns about how your child uses his / her arms and legs?",
+      "behaviourConcerns": "Do you have any concerns about how your child behaves?",
+      "gettingAlongConcerns": "Do you have any concerns about how your child gets along with others?",
+      "learningThemselvesConcerns": "Do you have any concerns about how your child is learning to do things for themselves?",
+      "preschoolConcerns": "Do you have any concerns about how your child is learning preschool or school skills?",
+      "otherConcerns": "Any other concerns? (like Hearing, Vision, Physical health, Weight, ???)"
     }
   },
   "results": {
