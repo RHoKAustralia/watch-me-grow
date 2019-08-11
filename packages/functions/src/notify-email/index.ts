@@ -53,6 +53,7 @@ type ParentEmailInput = {
     testDateFormatted: string;
     dobChildFormatted: string;
     ageOfChild: string;
+    testId: string;
   };
   results: {
     heading: string;
@@ -116,23 +117,34 @@ app.post("*", async (req: express.Request, res: express.Response) => {
       dobChildFormatted: moment(details.dobOfChild).format(FORMAT)
     };
 
+    const firestoreResult = await recordResultsInFirestore(
+      combinedResults,
+      concerns,
+      details
+    );
+
+    console.log(firestoreResult.id);
+
     const parentEmailPromise = sendParentEmail(
       detailsWithDates,
       combinedResults,
       concerns,
-      t
+      t,
+      firestoreResult.id
     );
 
-    const basePromises: Promise<any>[] = [
-      parentEmailPromise,
-      recordResultsInFirestore(combinedResults, concerns, details)
-    ];
-
     const promises = details.doctorEmail
-      ? basePromises.concat([
-          sendDoctorEmail(detailsWithDates, combinedResults, concerns, t)
-        ])
-      : basePromises;
+      ? [
+          parentEmailPromise,
+          sendDoctorEmail(
+            detailsWithDates,
+            combinedResults,
+            concerns,
+            t,
+            firestoreResult.id
+          )
+        ]
+      : [parentEmailPromise];
 
     await Promise.all(promises);
 
@@ -152,13 +164,15 @@ function sendParentEmail(
   details: NotifyFunctionInputDetails,
   combinedResults: CombinedResult[],
   concerns: { [category: string]: boolean },
-  t: i18next.TFunction
+  t: i18next.TFunction,
+  id: string
 ) {
   const templateInput: ParentEmailInput = buildEmailInput(
     details,
     combinedResults,
     concerns,
-    t
+    t,
+    id
   );
 
   const message = markupJs.up(
@@ -201,7 +215,8 @@ function buildEmailInput(
   details: NotifyFunctionInputDetails,
   combinedResults: CombinedResult[],
   concerns: { [key: string]: boolean },
-  t: i18next.TFunction
+  t: i18next.TFunction,
+  id: string
 ): DoctorEmailInput {
   const { minMonths, maxMonths } = minMax(
     questionnairesForSubsite(details.siteId)
@@ -246,7 +261,8 @@ function buildEmailInput(
       lastNameOfChild: details.lastNameOfChild,
       testDateFormatted: moment(details.testDate).format(FORMAT),
       dobChildFormatted: moment(details.dobOfChild).format(FORMAT),
-      ageOfChild: ageInMonthsToString(details.ageInMonths, t)
+      ageOfChild: ageInMonthsToString(details.ageInMonths, t),
+      testId: id
     },
     results,
     minAge: ageInMonthsToString(minMonths, t),
@@ -264,13 +280,15 @@ function sendDoctorEmail(
   details: NotifyFunctionInputDetails,
   combinedResults: CombinedResult[],
   concerns: Concerns,
-  t: i18next.TFunction
+  t: i18next.TFunction,
+  id: string
 ) {
   const doctorEmailInput: DoctorEmailInput = buildEmailInput(
     details,
     combinedResults,
     concerns,
-    t
+    t,
+    id
   );
 
   const message = markupJs.up(

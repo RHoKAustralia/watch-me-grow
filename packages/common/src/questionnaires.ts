@@ -339,12 +339,8 @@ const pedsAnswers: Answer[] = [
 const peds: Questionnaire = {
   id: "peds",
   title: "PEDS",
-  description:
-    "Parents’ Evaluation of Developmental Status (PEDS) (developed by Glascoe FP)  is included in the My Personal Health Record.",
-  introduction:
-    "PEDS – Some questions about how your child is developing in general. It’s important to answer all 10 questions as well as leave a short comment in the comment section of each question.",
-  detail_link:
-    "http://www.kidsfamilies.health.nsw.gov.au/publications/child-personal-health-record-(blue-book)/",
+  category: "development",
+  subcategory: "development",
   age_groups: {
     min: 6,
     max: 48
@@ -1482,7 +1478,8 @@ const questionnaires: Questionnaire[] = [
         answers: yesNoAnswers
       }
     ]
-  }
+  },
+  peds
 ];
 
 export default questionnaires;
