@@ -27,7 +27,6 @@
     <tr>
       <td>{{t|call>t>emails.doctor.testId}}</td>
       <td>{{details.testId}}</td>
-
     </tr>
 </table>
 
@@ -44,19 +43,21 @@
       <table border="1" style="max-width: 500px">
         <tr>
           <th style="width:10%">{{t|call>t>emails.tableHeaders.number}}</th>
-          <th style="width:45%">{{t|call>t>emails.tableHeaders.question}}</th>
-          <th style="width:45%">{{t|call>t>emails.tableHeaders.response}}</th>
+          <th style="width:40%">{{t|call>t>emails.tableHeaders.question}}</th>
+          <th style="width:40%">{{t|call>t>emails.tableHeaders.response}}</th>
+          <th style="width:10%">{{t|call>t>emails.tableHeaders.concern}}</th>
         </tr>
         {{results}}
           <tr>
             <td>{{##}}</td>
             <td>{{ questionText }}</td>
             <td>{{ answer.answerText }}</td>
+            <td>{{if answer.concern}}❌{{/if}}</td>
           </tr>
           {{if answer.comments}}
             <tr>
               <td>Comment</td>
-              <td colspan="2">{{ answer.comments }}</td>
+              <td colspan="3">{{ answer.comments }}</td>
             </tr>
           {{/if}}
         {{/results}}

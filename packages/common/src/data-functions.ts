@@ -16,6 +16,7 @@ export type QuestionAndAnswer = {
     rawAnswer: RecordedAnswer;
     metadata: Answer;
     answerText: string;
+    concern: boolean;
   };
 };
 
@@ -94,7 +95,8 @@ export function combineQuestionsAndAnswers(
       answer: {
         rawAnswer,
         metadata,
-        answerText: t(metadata.textId)
+        answerText: t(metadata.textId),
+        concern: metadata.redFlagScore > 0
       }
     };
   });

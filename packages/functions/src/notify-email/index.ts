@@ -41,6 +41,7 @@ type EmailResult = {
     answer: {
       answerText: string;
       comments?: string;
+      concern: boolean;
     };
   }[];
 };
@@ -304,9 +305,7 @@ function sendDoctorEmail(
   const params = addCCToParams({
     from: EMAIL_FROM,
     to: details.doctorEmail,
-    subject: `${t("emails.doctor.subject")} ${details.firstNameOfChild} ${
-      details.lastNameOfChild
-    }`,
+    subject: `${t("emails.doctor.subject")} ${details.firstNameOfChild}`,
     html: message
   });
 
