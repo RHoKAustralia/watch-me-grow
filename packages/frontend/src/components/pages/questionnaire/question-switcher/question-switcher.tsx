@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import React from "react";
-import { NamespacesConsumer } from "react-i18next";
+import { Translation } from "react-i18next";
 
 import Switcher from "../../../common/switcher";
 import questions from "@wmg/common/lib/questions";
@@ -55,8 +55,8 @@ class QuestionSwitcher extends React.Component<Props> {
 
   render() {
     return (
-      <NamespacesConsumer ns={["default"]}>
-        {(t, { i18n, ready }) => (
+      <Translation ns={["default"]}>
+        {(t) => (
           <Switcher
             leftHref={this.leftHref()}
             leftDisabled={!this.leftHref().length}
@@ -71,7 +71,7 @@ class QuestionSwitcher extends React.Component<Props> {
             }
           />
         )}
-      </NamespacesConsumer>
+      </Translation>
     );
   }
 }

@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
 import classNames from "classnames";
-import { NamespacesConsumer } from "react-i18next";
+import { Translation } from "react-i18next";
 
 import Styles from "./footer.module.scss";
 
@@ -12,8 +12,8 @@ class Header extends React.Component {
 
   render() {
     return (
-      <NamespacesConsumer ns={["default"]}>
-        {(t, { i18n, ready }) => (
+      <Translation ns={["default"]}>
+        {(t) => (
           <footer
             className={classNames(Styles.footer, {
               [Styles.concern]: this.props.concern
@@ -24,7 +24,7 @@ class Header extends React.Component {
             </div>
           </footer>
         )}
-      </NamespacesConsumer>
+      </Translation>
     );
   }
 }

@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router";
-import { NamespacesConsumer } from "react-i18next";
+import { Translation } from "react-i18next";
 
 import questionnairesForSubsite from "@wmg/common/lib/questionnaires-for-subsite";
 import ageInMonthsToString from "@wmg/common/lib/age-to-string";
@@ -25,8 +25,8 @@ export default class HomePage extends React.Component<Props, any> {
 
   render() {
     return (
-      <NamespacesConsumer ns={["default"]}>
-        {(t, { i18n, ready }) => (
+      <Translation ns={["default"]}>
+        {(t) => (
           <div className={Styles.content}>
             <h1 className={Styles.heading}>{t("landing.heading")}</h1>
             <p className={Styles.paragraph}>{t("landing.explanation")}</p>
@@ -52,7 +52,7 @@ export default class HomePage extends React.Component<Props, any> {
             </Link>
           </div>
         )}
-      </NamespacesConsumer>
+      </Translation>
     );
   }
 }

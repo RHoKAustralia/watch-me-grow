@@ -1,6 +1,6 @@
 import React from "react";
 import i18next from "i18next";
-import { NamespacesConsumer } from "react-i18next";
+import { Translation } from "react-i18next";
 
 import { mark, combineAll, anyConcerns } from "@wmg/common/lib/data-functions";
 import getQuestions from "@wmg/common/lib/questions";
@@ -122,8 +122,8 @@ const ResultStore = <T extends WrappedComponentProps>(
 
     render() {
       return (
-        <NamespacesConsumer ns={["default"]}>
-          {(t, { i18n, ready }) => {
+        <Translation ns={["default"]}>
+          {(t) => {
             const results: Results = Object.assign({}, this.state, {
               getResultsForQuestionnaire: this.getResultsForQuestionnaire,
               getAnswer: this.getAnswer,
@@ -137,7 +137,7 @@ const ResultStore = <T extends WrappedComponentProps>(
 
             return <ComposedComponent {...this.props} results={results} />;
           }}
-        </NamespacesConsumer>
+        </Translation>
       );
     }
   };

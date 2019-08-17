@@ -1,8 +1,7 @@
-import PropTypes from "prop-types";
 import React from "react";
 import classNames from "classnames";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
-import { NamespacesConsumer } from "react-i18next";
+import { Translation } from "react-i18next";
 
 import Header from "./header/header";
 import Footer from "./footer/footer";
@@ -58,15 +57,15 @@ class App extends React.Component<Props> {
                 })}
             </div>
           ) : (
-            <NamespacesConsumer ns={["default"]}>
-              {(t, { i18n, ready }) => (
+            <Translation ns={["default"]}>
+              {t => (
                 <div>
                   {t("app.noConfigMessage", {
                     hostname: window.location.hostname
                   })}
                 </div>
               )}
-            </NamespacesConsumer>
+            </Translation>
           )}
           <div className={Styles.spacer} />
           <Footer concern={this.props.results.anyConcerns()} />

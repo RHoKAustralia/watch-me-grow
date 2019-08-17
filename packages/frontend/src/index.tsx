@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import ReactDOM from "react-dom";
 import { Router, useRouterHistory, Route, IndexRoute } from "react-router";
 import { createHistory } from "history";
@@ -24,6 +24,8 @@ browserHistory.listen((location: any) => {
 
 // Render the router
 ReactDOM.render(
-  <Router history={browserHistory}>{Routes}</Router>,
+  <Suspense fallback="Loading...">
+    <Router history={browserHistory}>{Routes}</Router>
+  </Suspense>,
   document.getElementById(DOM_APP_EL_ID)
 );

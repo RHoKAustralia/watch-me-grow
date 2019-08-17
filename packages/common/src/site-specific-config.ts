@@ -17,8 +17,6 @@ const DEFAULT_QUESTIONNAIRES = [
   "cdc48",
   "cdc60",
   "qchat",
-  "pdq1",
-  "asq10",
   "peds"
 ];
 const BEHAVIOURAL_QUESTIONNAIRES = ["bpsc", "ppsc"];

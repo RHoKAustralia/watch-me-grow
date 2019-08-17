@@ -2,7 +2,7 @@ import React, { FormEvent } from "react";
 import ReactDOM from "react-dom";
 import moment from "moment";
 import { withRouter, WithRouterProps } from "react-router";
-import { NamespacesConsumer } from "react-i18next";
+import { Translation } from "react-i18next";
 
 import {
   Details as DetailsStoreState,
@@ -44,8 +44,8 @@ class Doctor extends React.Component<Props, {}> {
     };
 
     return (
-      <NamespacesConsumer ns={["default"]}>
-        {(t, { i18n, ready }) => (
+      <Translation ns={["default"]}>
+        {(t) => (
           <form className={Styles.details} onSubmit={this.onSubmit}>
             <div className={Styles.intro}>
               <p className={Styles.paragraph}>
@@ -79,7 +79,7 @@ class Doctor extends React.Component<Props, {}> {
             </div>
           </form>
         )}
-      </NamespacesConsumer>
+      </Translation>
     );
   }
 }

@@ -8,7 +8,7 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
-import { NamespacesConsumer } from "react-i18next";
+import { Translation } from "react-i18next";
 import i18next from "i18next";
 
 import "react-datepicker/dist/react-datepicker.css";
@@ -101,7 +101,6 @@ class Details extends React.Component<Props, State> {
     propertyName: PossibleDetailsValue,
     event: React.ChangeEvent<any>
   ) => {
-    console.log(event.target.value);
     this.onChangeValue(propertyName, event.target.value);
   };
 
@@ -127,8 +126,8 @@ class Details extends React.Component<Props, State> {
     const details = this.props.details;
 
     return (
-      <NamespacesConsumer ns={["default"]}>
-        {(t, { i18n, ready }) => (
+      <Translation ns={["default"]}>
+        {t => (
           <form className={Styles.details} onSubmit={this.onSubmit}>
             <div className={Styles["field-wrapper"]}>
               <TextField
@@ -244,7 +243,7 @@ class Details extends React.Component<Props, State> {
             </div>
           </form>
         )}
-      </NamespacesConsumer>
+      </Translation>
     );
   }
 }

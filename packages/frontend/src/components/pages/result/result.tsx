@@ -2,7 +2,7 @@ import React from "react";
 import classNames from "classnames";
 import { withRouter, WithRouterProps } from "react-router";
 import moment from "moment";
-import { NamespacesConsumer } from "react-i18next";
+import { Translation } from "react-i18next";
 import i18next from "i18next";
 
 import { ReactComponent as Flag } from "./flag.svg";
@@ -67,8 +67,8 @@ class Result extends React.Component<Props, any> {
     );
 
     return (
-      <NamespacesConsumer ns={["default"]}>
-        {(t, { i18n, ready }) => {
+      <Translation ns={["default"]}>
+        {(t) => {
           if (concerns) {
             return (
               <article className={Styles.root}>
@@ -98,7 +98,7 @@ class Result extends React.Component<Props, any> {
             return "Loading";
           }
         }}
-      </NamespacesConsumer>
+      </Translation>
     );
   }
 }

@@ -377,8 +377,7 @@
     "tableHeaders": {
       "number": "Number",
       "question": "Question",
-      "response": "Response",
-      "concern": "Concern"
+      "response": "Response"
     }
   }
 }

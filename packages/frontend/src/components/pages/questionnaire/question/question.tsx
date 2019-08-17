@@ -3,7 +3,7 @@ import classNames from "classnames";
 import { withRouter, WithRouterProps } from "react-router";
 import ReactCSSTransitionGroup from "react-addons-css-transition-group";
 import TextField, { OutlinedTextFieldProps } from "@material-ui/core/TextField";
-import { NamespacesConsumer } from "react-i18next";
+import { Translation } from "react-i18next";
 
 import { Results } from "../../../stores/results-store";
 import { RecordedAnswer } from "@wmg/common/lib/notify-function-input";
@@ -127,8 +127,8 @@ class QuestionComponent extends React.Component<Props, State> {
       );
 
     return (
-      <NamespacesConsumer ns={["default"]}>
-        {(t, { i18n, ready }) => (
+      <Translation ns={["default"]}>
+        {(t) => (
           <div
             className={classNames(Styles.root, {
               [Styles.reverse]: this.state.reverse
@@ -202,7 +202,7 @@ class QuestionComponent extends React.Component<Props, State> {
             </ReactCSSTransitionGroup>
           </div>
         )}
-      </NamespacesConsumer>
+      </Translation>
     );
   }
 }
