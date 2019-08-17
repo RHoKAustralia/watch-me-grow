@@ -18,8 +18,10 @@ type State = {
 };
 
 export type Results = State & {
-  getResultsForQuestionnaire: (questionnaireId: string) => any;
-  getAnswer: (questionnaireId: string, questionId: string) => any;
+  getResultsForQuestionnaire: (
+    questionnaireId: string
+  ) => { [questionId: string]: RecordedAnswer };
+  getAnswer: (questionnaireId: string, questionId: string) => RecordedAnswer;
   setAnswer: (
     questionnaireId: string,
     questionId: string,

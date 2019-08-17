@@ -3,9 +3,11 @@ import ReactDOM from "react-dom";
 import moment from "moment";
 import { withRouter, WithRouterProps } from "react-router";
 import * as _ from "lodash";
+import Input from "@material-ui/core/Input";
 import Select from "@material-ui/core/Select";
-import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
 import { NamespacesConsumer } from "react-i18next";
 import i18next from "i18next";
 
@@ -20,6 +22,12 @@ import {
   PossibleValue as PossibleDetailsValue
 } from "../../../stores/details-store";
 import { Results as ResultsStoreState } from "../../../stores/results-store";
+
+const GENDERS = [
+  { id: "male", captionId: "details.genders.male" },
+  { id: "female", captionId: "details.genders.female" },
+  { id: "other", captionId: "details.genders.other" }
+];
 
 const { minMonths, maxMonths } = questionnaires
   ? minMax(questionnaires)
@@ -93,7 +101,8 @@ class Details extends React.Component<Props, State> {
     propertyName: PossibleDetailsValue,
     event: React.ChangeEvent<any>
   ) => {
-    this.onChangeValue(propertyName, event.currentTarget.value);
+    console.log(event.target.value);
+    this.onChangeValue(propertyName, event.target.value);
   };
 
   onDateClick = () => {
@@ -148,17 +157,27 @@ class Details extends React.Component<Props, State> {
               />
             </div>
             <div className={Styles["field-wrapper"]}>
-              <TextField
-                type="text"
-                className={Styles["text-box"]}
-                label={t("details.gender")}
-                value={details.babyGender}
-                error={!!details.errors.babyGender}
-                inputProps={{ maxLength: 100 }}
-                fullWidth
-                onFocus={this.closeDatePicker}
-                onChange={this.onChange.bind(this, "babyGender")}
-              />
+              <FormControl fullWidth>
+                <InputLabel
+                  htmlFor="gender"
+                  error={!!details.errors.babyGender}
+                >
+                  Your child's gender
+                </InputLabel>
+                <Select
+                  value={details.babyGender}
+                  error={!!details.errors.babyGender}
+                  fullWidth
+                  onFocus={this.closeDatePicker}
+                  onChange={this.onChange.bind(this, "babyGender")}
+                  placeholder="Blah"
+                  input={<Input name="gender" id="gender" />}
+                >
+                  {GENDERS.map(({ id, captionId }) => (
+                    <MenuItem value={id}>{t(captionId)}</MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
             </div>
             <div className={Styles["field-wrapper"]}>
               <TextField

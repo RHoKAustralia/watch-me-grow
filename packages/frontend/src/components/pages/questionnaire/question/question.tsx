@@ -1,5 +1,4 @@
 import React, { DOMElement } from "react";
-import ReactDOM from "react-dom";
 import classNames from "classnames";
 import { withRouter, WithRouterProps } from "react-router";
 import ReactCSSTransitionGroup from "react-addons-css-transition-group";
@@ -26,7 +25,7 @@ type State = { reverse: boolean };
 class QuestionComponent extends React.Component<Props, State> {
   questionNumber?: number;
   question?: { question: Question; questionnaire: Questionnaire };
-  commentsElement = React.createRef<any>();
+  commentsElement = React.createRef<HTMLDivElement>();
 
   state: State = {
     reverse: false
@@ -71,9 +70,12 @@ class QuestionComponent extends React.Component<Props, State> {
     if (!(this.question!.question.comments && answer.redFlagScore > 0)) {
       this.goToNext();
     } else {
-      setTimeout(() =>
-        this.commentsElement.current!.querySelector("textarea")!.focus()
-      );
+      setTimeout(() => {
+        this.commentsElement.current &&
+          (this.commentsElement.current.querySelector(
+            "textarea[name=Comments]"
+          )! as HTMLTextAreaElement).focus();
+      });
     }
   };
 
@@ -98,7 +100,8 @@ class QuestionComponent extends React.Component<Props, State> {
     this.props.router.push(nextRoute);
   };
 
-  onCommentChanged = (storedAnswer: RecordedAnswer, newValue: any) => {
+  onCommentChanged = (storedAnswer: RecordedAnswer) => (event: any) => {
+    const newValue = event.target.value;
     const question = this.question;
     const resultStore = this.props.results;
 
@@ -117,6 +120,11 @@ class QuestionComponent extends React.Component<Props, State> {
       question!.questionnaire.id,
       question!.question.id
     );
+    const storedAnswerMetadata =
+      storedAnswer &&
+      question!.question.answers.find(
+        answer => answer.value === storedAnswer.value
+      );
 
     return (
       <NamespacesConsumer ns={["default"]}>
@@ -162,35 +170,34 @@ class QuestionComponent extends React.Component<Props, State> {
                   </div>
                 </div>
 
-                <div
-                  style={{
-                    display:
-                      question!.question.comments && storedAnswer
-                        ? "block"
-                        : "none"
-                  }}
-                >
-                  <TextField
-                    inputRef={this.commentsElement}
-                    className={Styles.comments}
-                    type="text"
-                    label="Can you briefly describe your concern?"
-                    name="Comments"
-                    value={(storedAnswer && storedAnswer.comments) || ""}
-                    onChange={this.onCommentChanged.bind(this, storedAnswer)}
-                    inputProps={{ maxLength: 300 }}
-                    multiline={true}
-                  />
-                  <a
-                    href="#"
-                    className={Styles["next-button"]}
-                    onClick={this.onNextClicked}
-                  >
-                    {this.questionNumber! < this.questionsLength()
-                      ? "Next"
-                      : "Finish"}
-                  </a>
-                </div>
+                {storedAnswerMetadata && storedAnswerMetadata.redFlagScore > 0 && (
+                  <React.Fragment>
+                    <div className={Styles.comments} ref={this.commentsElement}>
+                      <TextField
+                        fullWidth={true}
+                        type="text"
+                        label="Can you briefly describe your concern?"
+                        name="Comments"
+                        value={(storedAnswer && storedAnswer.comments) || ""}
+                        onChange={this.onCommentChanged(storedAnswer)}
+                        inputProps={{ maxLength: 300 }}
+                        multiline={true}
+                      />
+                    </div>
+                    <div>
+                      <a
+                        href="#"
+                        className={Styles["next-button"]}
+                        onClick={this.onNextClicked}
+                      >
+                        {this.questionNumber! < this.questionsLength()
+                          ? "Next"
+                          : "Finish"}
+                      </a>
+                    </div>
+                  </React.Fragment>
+                )}
+                {/* </div> */}
               </div>
             </ReactCSSTransitionGroup>
           </div>

@@ -26,7 +26,13 @@
     "gender": "Gender",
     "childDob": "Your child's date of birth",
     "yourName": "Your name",
-    "yourEmailAddress": "Your email address (so we can send you the results)"
+    "yourEmailAddress": "Your email address (so we can send you the results)",
+    "genders": {
+      "placeholder": "Your child's gender",
+      "male": "Male",
+      "female": "Female",
+      "other": "Other"
+    }
   },
   "doctorDetails": {
     "explanationPara1": "Please include your health practitioner’s email address if you would like them to receive these results.",
@@ -281,11 +287,11 @@
       },
       "concern": {
         "parent": "Your answers indicate that your child could benefit from a more detailed assessment. Please discuss these results with your health professional.",
-        "doctor": "Developmental issues in this child are unlikely. No further follow-up necessary at this point. Continue ongoing monitoring as usual"
+        "doctor": "It is highly likely that this child has developmental issues. It is recommended that a referral for further assessment and early intervention through a paediatrician or other child development health professional is completed. In addition, it is important to continue to monitor the child over time."
       },
       "noConcern": {
         "parent": "Your child is developing as expected for their age. Based on your answers you have no concerns about how your child is developing.",
-        "doctor": "It is highly likely that this child has developmental issues. It is recommended that a referral for further assessment and early intervention through a paediatrician or other child development health professional is completed. In addition, it is important to continue to monitor the child over time."
+        "doctor": "Developmental issues in this child are unlikely. No further follow-up necessary at this point. Continue ongoing monitoring as usual"
       }
     },
     "behaviour": {
@@ -337,7 +343,8 @@
       "ageOfChild": "Age of Child",
       "resultsIntro": "Detailed Results Below",
       "developmentHeading": "Development",
-      "socialHeading": "Social, Communication and Language"
+      "socialHeading": "Social, Communication and Language",
+      "testId": "Test ID"
     },
     "reminder": {
       "subject": "Watchmegrow.care reminder for",
@@ -348,8 +355,8 @@
     "doctor": {
       "subject": "WatchMeGrow.care results for",
       "salutation": "Hi",
-      "intro1": "You're receiving this email because",
-      "intro2": "completed WatchMeGrow.care for",
+      "intro1": "You're receiving this email because a parent completed WatchMeGrow Test",
+      "intro2": "for",
       "intro3": ". WatchMeGrow.care tracks developmental progress, behaviour and parental mental health for children aged between approximately",
       "intro4": "to",
       "intro5": ". It has been designed to facilitate early identification of developmental problems, behavioural changes and maternal mental health difficulties.",
@@ -365,9 +372,7 @@
 
       "learnTheSigns": "Learn the signs - act early",
       "moreInfo": "For further information on child development please go to",
-      "parentInfo": "This information has also been provided to the parent.",
-
-      "testId": "Test ID"
+      "parentInfo": "This information has also been provided to the parent."
     },
     "tableHeaders": {
       "number": "Number",

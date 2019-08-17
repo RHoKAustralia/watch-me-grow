@@ -4,7 +4,8 @@
     "lerna": "^3.4.3"
   },
   "scripts": {
-    "deploy-prod": "REACT_APP_IS_PROD=true lerna run build && cd packages && firebase deploy --project watchmegrow-prod && cd .."
+    "deploy-prod": "REACT_APP_IS_PROD=true lerna run build --concurrency=1 && cd packages && firebase deploy --project watchmegrow-prod && cd ..",
+    "deploy-dev": "lerna run build --concurrency=1 && cd packages && firebase deploy --project watchmegrow-dev && cd .."
   }
 
 }

@@ -24,10 +24,7 @@ import {
   NotifyFunctionInput,
   NotifyFunctionInputDetails
 } from "@wmg/common/lib/notify-function-input";
-import {
-  getConfigById,
-  HostConfig
-} from "@wmg/common/lib/site-specific-config";
+import { getConfigById } from "@wmg/common/lib/site-specific-config";
 import ageInMonthsToString from "@wmg/common/lib/age-to-string";
 import buildi18n from "../i18n";
 import categoryToLink from "@wmg/common/lib/category-to-link";
@@ -108,7 +105,6 @@ app.post("*", async (req: express.Request, res: express.Response) => {
 
     const t = await buildi18n(body.details.language);
 
-    const config = getConfigById(details.siteId);
     const combinedResults = combineAll(body.results, t);
     const concerns = mark(combinedResults);
 
@@ -123,8 +119,6 @@ app.post("*", async (req: express.Request, res: express.Response) => {
       concerns,
       details
     );
-
-    console.log(firestoreResult.id);
 
     const parentEmailPromise = sendParentEmail(
       detailsWithDates,

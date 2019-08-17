@@ -6,7 +6,7 @@ export type HostConfig = {
   language: string;
 };
 
-const REPLACE_LOCALHOST_WITH = "preschool.watchmegrow.care";
+const REPLACE_LOCALHOST_WITH = "watchmegrow.care";
 const DEFAULT_QUESTIONNAIRES = [
   "cdc6",
   "cdc9",
@@ -18,7 +18,8 @@ const DEFAULT_QUESTIONNAIRES = [
   "cdc60",
   "qchat",
   "pdq1",
-  "asq10"
+  "asq10",
+  "peds"
 ];
 const BEHAVIOURAL_QUESTIONNAIRES = ["bpsc", "ppsc"];
 const MATERNAL_QUESTIONNAIRES = ["psq4d"];

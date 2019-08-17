@@ -4,7 +4,7 @@
 </p>
 
 <p>
-  {{t|call>t>emails.doctor.intro1}} {{details.nameOfParent}} {{t|call>t>emails.doctor.intro2}} {{details.firstNameOfChild}} {{details.lastNameOfChild}}{{t|call>t>emails.doctor.intro3}} {{minAge}} {{t|call>t>emails.doctor.intro4}} {{maxAge}}{{t|call>t>emails.doctor.intro5}}
+  {{t|call>t>emails.doctor.intro1}} {{details.testId}} {{t|call>t>emails.doctor.intro2}} {{details.firstNameOfChild}}{{t|call>t>emails.doctor.intro3}} {{minAge}} {{t|call>t>emails.doctor.intro4}} {{maxAge}}{{t|call>t>emails.doctor.intro5}}
 </p>
 
 {{results}}
@@ -17,16 +17,16 @@
 
 <table border="0">
     <tr>
+      <td>{{t|call>t>emails.results.testId}}</td>
+      <td>{{details.testId}}</td>
+    </tr>
+    <tr>
         <td>{{t|call>t>emails.doctor.childsName}}</td>
         <td>{{details.firstNameOfChild}}</td>
     </tr>
     <tr>
       <td>{{t|call>t>emails.doctor.dateOfTest}}</td>
       <td>{{details.testDateFormatted}}</td>
-    </tr>
-    <tr>
-      <td>{{t|call>t>emails.doctor.testId}}</td>
-      <td>{{details.testId}}</td>
     </tr>
 </table>
 
@@ -54,10 +54,10 @@
             <td>{{ answer.answerText }}</td>
             <td>{{if answer.concern}}❌{{/if}}</td>
           </tr>
-          {{if answer.comments}}
+          {{if answer.rawAnswer.comments }}
             <tr>
               <td>Comment</td>
-              <td colspan="3">{{ answer.comments }}</td>
+              <td colspan="3">{{ answer.rawAnswer.comments }}</td>
             </tr>
           {{/if}}
         {{/results}}

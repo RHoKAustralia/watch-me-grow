@@ -35,8 +35,6 @@ export default function sendResults(details: Details, results: Results) {
       results
     };
 
-    console.log(i18next.language);
-
     fetch("/api/notifyEmail", {
       method: "POST",
       headers: {

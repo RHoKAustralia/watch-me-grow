@@ -13,14 +13,22 @@
 
 <table border="0">
   <tr>
+    <td>{{t|call>t>emails.results.testId}}</td>
+    <td>{{details.testId}}</td>
+  </tr>
+  <tr>
     <td>{{t|call>t>emails.results.childsName}}</td>
     <td>{{ details.firstNameOfChild }} {{ details.lastNameOfChild }}</td>
+  </tr>
+    <tr>
     <td>{{t|call>t>emails.results.dateOfTest}}</td>
     <td>{{ details.testDateFormatted }}</td>
   </tr>
   <tr>
     <td>{{t|call>t>emails.results.dateOfBirth}}</td>
     <td>{{ details.dobChildFormatted }}</td>
+  </tr>
+    <tr>
     <td>{{t|call>t>emails.results.ageOfChild}}</td>
     <td>{{ details.ageOfChild }}</td>
   </tr>
@@ -50,10 +58,10 @@
             <td>{{ answer.answerText }}</td>
             <td>{{if answer.concern}}❌{{/if}}</td>
           </tr>
-          {{if answer.comments}}
+          {{if answer.rawAnswer.comments }}
             <tr>
               <td>Comment</td>
-              <td colspan="3">{{ answer.comments }}</td>
+              <td colspan="3">{{ answer.rawAnswer.comments }}</td>
             </tr>
           {{/if}}
         {{/results}}
