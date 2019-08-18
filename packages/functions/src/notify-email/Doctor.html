@@ -4,7 +4,7 @@
 </p>
 
 <p>
-  {{t|call>t>emails.doctor.intro1}} {{details.testId}} {{t|call>t>emails.doctor.intro2}} {{details.firstNameOfChild}}{{t|call>t>emails.doctor.intro3}} {{minAge}} {{t|call>t>emails.doctor.intro4}} {{maxAge}}{{t|call>t>emails.doctor.intro5}}
+  {{t|call>t>emails.doctor.intro1}} "{{details.testId}}" {{t|call>t>emails.doctor.intro2}} {{details.firstNameOfChild}}{{t|call>t>emails.doctor.intro3}} {{minAge}} {{t|call>t>emails.doctor.intro4}} {{maxAge}}{{t|call>t>emails.doctor.intro5}}
 </p>
 
 {{results}}
@@ -45,17 +45,15 @@
           <th style="width:10%">{{t|call>t>emails.tableHeaders.number}}</th>
           <th style="width:40%">{{t|call>t>emails.tableHeaders.question}}</th>
           <th style="width:40%">{{t|call>t>emails.tableHeaders.response}}</th>
-          <th style="width:10%">{{t|call>t>emails.tableHeaders.concern}}</th>
         </tr>
         {{results}}
-          <tr>
+          <tr {{if answer.concern}}style="background: #EEE"{{/if}}>
             <td>{{##}}</td>
             <td>{{ questionText }}</td>
             <td>{{ answer.answerText }}</td>
-            <td>{{if answer.concern}}❌{{/if}}</td>
           </tr>
           {{if answer.rawAnswer.comments }}
-            <tr>
+            <tr {{if answer.concern}}style="background: #EEE"{{/if}}>
               <td>Comment</td>
               <td colspan="3">{{ answer.rawAnswer.comments }}</td>
             </tr>
