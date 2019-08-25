@@ -7,7 +7,10 @@ const createCsvStringifier = require("csv-writer").createObjectCsvStringifier;
 
 import authMiddleware from "../middleware/firebase-auth";
 import questionnairesForSubsite from "@wmg/common/lib/questionnaires-for-subsite";
-import { NotifyFunctionInputDetails } from "@wmg/common/lib/notify-function-input";
+import {
+  NotifyFunctionInputDetails,
+  Consent
+} from "@wmg/common/lib/notify-function-input";
 import { FirestoreRecord } from "../notify-email";
 import { Questionnaire, Question } from "@wmg/common/lib/questionnaires";
 
@@ -38,6 +41,15 @@ const dummyDetails: NotifyFunctionInputDetails = {
   ageInMonths: 0,
   siteId: "",
   language: ""
+};
+const dummyConsent: Consent = {
+  info: "studyOnly",
+  receiveCopy: false,
+  understandConsent: false,
+  infoSheet: false,
+  understandAim: false,
+  opportunityToAsk: false,
+  agreeToParticipate: false
 };
 
 app.get("*", async (req: express.Request, res: express.Response) => {
@@ -95,6 +107,7 @@ app.get("*", async (req: express.Request, res: express.Response) => {
       );
 
       const detailsHeaders = Object.keys(dummyDetails);
+      const consentHeaders = Object.keys(dummyConsent);
       const questionnaires = questionnairesForSubsite(req.query.siteId);
       const questionIds = flatMap(questionnaires, questionnaire =>
         questionnaire.questions.map(question =>
@@ -102,7 +115,7 @@ app.get("*", async (req: express.Request, res: express.Response) => {
         )
       );
 
-      const headers = [...detailsHeaders, ...questionIds];
+      const headers = [...consentHeaders, ...detailsHeaders, ...questionIds];
 
       const csvStringifier = createCsvStringifier({
         header: headers.map(header => ({ id: header, title: header }))
@@ -155,10 +168,12 @@ function flattenResultDoc(doc: FirestoreRecord) {
   );
 
   return {
+    ...doc.consent,
     ...doc.details,
-    dobAsDate: undefined,
-    date: undefined,
-    ...results
+    dobOfChild: doc.details.dobAsDate.toDate().toDateString(),
+    testDate: doc.date.toDate().toDateString(),
+    ...results,
+    ...doc.consent
   };
 }
 
@@ -170,6 +185,7 @@ function buildQuery(
     .firestore()
     .collection("results")
     .where("details.siteId", "==", siteId)
+    .orderBy("date")
     .limit(PAGE_SIZE);
 
   return lastVisible ? base.startAfter(lastVisible) : base;

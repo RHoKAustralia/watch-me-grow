@@ -22,7 +22,8 @@ import {
 import minMax from "@wmg/common/lib/min-max";
 import {
   NotifyFunctionInput,
-  NotifyFunctionInputDetails
+  NotifyFunctionInputDetails,
+  Consent
 } from "@wmg/common/lib/notify-function-input";
 import { getConfigById } from "@wmg/common/lib/site-specific-config";
 import ageInMonthsToString from "@wmg/common/lib/age-to-string";
@@ -117,7 +118,8 @@ app.post("*", async (req: express.Request, res: express.Response) => {
     const firestoreResult = await recordResultsInFirestore(
       combinedResults,
       concerns,
-      details
+      details,
+      body.consent
     );
 
     const parentEmailPromise = sendParentEmail(
@@ -330,12 +332,14 @@ export type FirestoreRecord = {
   concerns: Concerns;
   details: FirestoreRecordDetails;
   date: firebase.firestore.Timestamp;
+  consent?: Consent;
 };
 
 function recordResultsInFirestore(
   results: CombinedResult[],
   concerns: Concerns,
-  details: NotifyFunctionInputDetails
+  details: NotifyFunctionInputDetails,
+  consent?: Consent
 ) {
   const filteredResults = results.map(result => ({
     questionnaire: result.questionnaire.id,
@@ -350,6 +354,7 @@ function recordResultsInFirestore(
   const record: FirestoreRecord = {
     results: filteredResults,
     concerns,
+    consent,
     details: {
       recipientEmail: details.recipientEmail,
       nameOfParent: details.nameOfParent,

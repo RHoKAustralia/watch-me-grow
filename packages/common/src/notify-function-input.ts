@@ -38,5 +38,5 @@ export type Consent = {
 export type NotifyFunctionInput = {
   details: NotifyFunctionInputDetails;
   results: NotifyFunctionResults;
-  consent: Consent;
+  consent?: Consent;
 };

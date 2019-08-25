@@ -11,8 +11,6 @@ import { sites, getConfigById } from "@wmg/common/lib/site-specific-config";
 import buildi18n from "../i18n";
 import { FirestoreRecordDetails } from "../notify-email";
 
-type ResultsEmailInput = {};
-
 const mailgun = mailgunJs({
   apiKey: functions.config().mailgun.apikey,
   domain: "auto.watchmegrow.care"
