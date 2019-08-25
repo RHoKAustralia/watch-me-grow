@@ -23,7 +23,20 @@ export type NotifyFunctionResults = {
   };
 };
 
+export type ConsentInfo = "studyOnly" | "futureRelated" | "futureAny";
+
+export type Consent = {
+  info?: ConsentInfo;
+  receiveCopy: boolean;
+  understandConsent: boolean;
+  infoSheet: boolean;
+  understandAim: boolean;
+  opportunityToAsk: boolean;
+  agreeToParticipate: boolean;
+};
+
 export type NotifyFunctionInput = {
   details: NotifyFunctionInputDetails;
   results: NotifyFunctionResults;
+  consent: Consent;
 };

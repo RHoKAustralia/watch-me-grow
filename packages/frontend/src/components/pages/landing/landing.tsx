@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router";
 import { Translation } from "react-i18next";
 
-import questionnairesForSubsite from "@wmg/common/lib/questionnaires-for-subsite";
+import { ConsentContext, ConsentState } from "../../stores/consent-store";
 import ageInMonthsToString from "@wmg/common/lib/age-to-string";
 import minMax from "@wmg/common/lib/min-max";
 import questionnaires from "../../../data/questionnaires";
@@ -18,15 +18,18 @@ const { minMonths, maxMonths } = questionnaires
 type Props = ResultsProps & DetailsProps;
 
 export default class HomePage extends React.Component<Props, any> {
-  UNSAFE_componentWillMount() {
+  static contextType = ConsentContext;
+
+  componentDidMount() {
     this.props.results.clear();
     this.props.details.clear();
+    (this.context as ConsentState).clear();
   }
 
   render() {
     return (
       <Translation ns={["default"]}>
-        {(t) => (
+        {t => (
           <div className={Styles.content}>
             <h1 className={Styles.heading}>{t("landing.heading")}</h1>
             <p className={Styles.paragraph}>{t("landing.explanation")}</p>

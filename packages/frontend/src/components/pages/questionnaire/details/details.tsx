@@ -1,5 +1,4 @@
 import React, { FormEvent } from "react";
-import ReactDOM from "react-dom";
 import moment from "moment";
 import { withRouter, WithRouterProps } from "react-router";
 import * as _ from "lodash";

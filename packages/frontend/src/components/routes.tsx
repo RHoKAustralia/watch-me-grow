@@ -5,6 +5,7 @@ import App from "./app";
 import LandingPage from "./pages/landing/landing";
 import QuestionnairePage from "./pages/questionnaire/questionnaire";
 import QuestionComponent from "./pages/questionnaire/question/question";
+import Consent from "./pages/questionnaire/details/consent";
 import Details from "./pages/questionnaire/details/details";
 import Doctor from "./pages/questionnaire/details/doctor";
 import Result from "./pages/result/result";
@@ -15,7 +16,8 @@ export default (
     <IndexRedirect to="landing" />
     <Route path="landing" component={LandingPage} />
     <Route path="questionnaire" component={QuestionnairePage}>
-      <IndexRedirect to="details" />
+      <IndexRedirect to="consent" />
+      <Route path="consent" component={Consent} />
       <Route path="details" component={Details} />
       <Route path="doctor" component={Doctor} />
       <Route path="questions/:questionNumber" component={QuestionComponent} />

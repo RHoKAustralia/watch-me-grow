@@ -1,5 +1,4 @@
 import React from "react";
-import moment from "moment";
 import { RouteProps } from "react-router";
 
 import Styles from "./questionnaire.module.scss";
@@ -7,7 +6,6 @@ import Styles from "./questionnaire.module.scss";
 import QuestionSwitcher from "./question-switcher/question-switcher";
 import getQuestions from "../../../data/questions";
 import { QuestionLookup } from "@wmg/common/lib/questions";
-import questionnaires from "../../../data/questionnaires";
 import { Details } from "../../stores/details-store";
 
 type Props = {

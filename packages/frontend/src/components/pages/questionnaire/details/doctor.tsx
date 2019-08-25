@@ -1,6 +1,4 @@
 import React, { FormEvent } from "react";
-import ReactDOM from "react-dom";
-import moment from "moment";
 import { withRouter, WithRouterProps } from "react-router";
 import { Translation } from "react-i18next";
 
@@ -45,7 +43,7 @@ class Doctor extends React.Component<Props, {}> {
 
     return (
       <Translation ns={["default"]}>
-        {(t) => (
+        {t => (
           <form className={Styles.details} onSubmit={this.onSubmit}>
             <div className={Styles.intro}>
               <p className={Styles.paragraph}>

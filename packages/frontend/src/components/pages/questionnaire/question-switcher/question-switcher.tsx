@@ -1,9 +1,8 @@
-import PropTypes from "prop-types";
 import React from "react";
 import { Translation } from "react-i18next";
+import i18next from "i18next";
 
 import Switcher from "../../../common/switcher";
-import questions from "@wmg/common/lib/questions";
 import { Details as DetailsStoreState } from "../../../stores/details-store";
 import { QuestionLookup } from "@wmg/common/lib/questions";
 
@@ -53,22 +52,28 @@ class QuestionSwitcher extends React.Component<Props> {
     }
   };
 
+  text = (t: i18next.TFunction) => {
+    if (this.props.questionNumber) {
+      return `${this.props.questionNumber} ${t(
+        "details.of"
+      )} ${this.totalQuestionCount()}`;
+    } else if (this.props.route === "consent") {
+      return t("details.consent");
+    } else {
+      return t("details.personalDetails");
+    }
+  };
+
   render() {
     return (
       <Translation ns={["default"]}>
-        {(t) => (
+        {t => (
           <Switcher
             leftHref={this.leftHref()}
             leftDisabled={!this.leftHref().length}
             rightHref={this.rightHref()}
             rightDisabled={!this.rightHref().length}
-            text={
-              this.props.questionNumber
-                ? `${this.props.questionNumber} ${t(
-                    "details.of"
-                  )} ${this.totalQuestionCount()}`
-                : t("details.personalDetails")
-            }
+            text={this.text(t)}
           />
         )}
       </Translation>

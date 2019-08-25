@@ -1,19 +1,18 @@
-import PropTypes from "prop-types";
 import React from "react";
 import classNames from "classnames";
 import { Translation } from "react-i18next";
 
 import Styles from "./footer.module.scss";
 
-class Header extends React.Component {
-  static propTypes = {
-    concern: PropTypes.bool
-  };
+type Props = {
+  concern: boolean;
+};
 
+class Header extends React.Component<Props> {
   render() {
     return (
       <Translation ns={["default"]}>
-        {(t) => (
+        {t => (
           <footer
             className={classNames(Styles.footer, {
               [Styles.concern]: this.props.concern

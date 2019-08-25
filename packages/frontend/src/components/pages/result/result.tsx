@@ -1,13 +1,13 @@
 import React from "react";
 import classNames from "classnames";
 import { withRouter, WithRouterProps } from "react-router";
-import moment from "moment";
+
 import { Translation } from "react-i18next";
 import i18next from "i18next";
 
 import { ReactComponent as Flag } from "./flag.svg";
 import { ReactComponent as Stethoscope } from "./stethoscope.svg";
-import StageSwitcher from "./stage-switcher";
+import { ConsentContext, ConsentState } from "../../stores/consent-store";
 import stages from "./stages/stages";
 import { Results } from "../../stores/results-store";
 import { Details } from "../../stores/details-store";
@@ -23,7 +23,9 @@ type Props = {
 } & WithRouterProps;
 
 class Result extends React.Component<Props, any> {
-  UNSAFE_componentWillMount() {
+  static contextType = ConsentContext;
+
+  componentDidMount() {
     if (
       !this.props.details.validate() ||
       !this.props.results.isComplete(this.props.details.ageInMonths())
@@ -43,7 +45,9 @@ class Result extends React.Component<Props, any> {
       eventAction: this.props.results.concern ? "concern" : "no-concern"
     });
 
-    sendResults(this.props.details, this.props.results);
+    const consent: ConsentState = this.context;
+
+    sendResults(this.props.details, this.props.results, consent.consent);
   }
 
   getInitialStage = () => {
@@ -68,7 +72,7 @@ class Result extends React.Component<Props, any> {
 
     return (
       <Translation ns={["default"]}>
-        {(t) => {
+        {t => {
           if (concerns) {
             return (
               <article className={Styles.root}>
@@ -116,7 +120,9 @@ function SummaryPara({
 }) {
   return (
     <React.Fragment>
-      <h2 className={Styles.summaryHeading}>{t(`${tPrefix}.heading.parent`)}</h2>
+      <h2 className={Styles.summaryHeading}>
+        {t(`${tPrefix}.heading.parent`)}
+      </h2>
       <p>{t(`${tPrefix}.${concern ? "concern" : "noConcern"}.parent`)}</p>
       {links.map(link => (
         <Link intro={t(link.introKey)} url={link.url} />

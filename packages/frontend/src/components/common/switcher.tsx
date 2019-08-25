@@ -1,24 +1,31 @@
-import PropTypes from "prop-types";
 import React from "react";
 import { Link } from "react-router";
 import classNames from "classnames";
 
 import Styles from "./switcher.module.scss";
 
-class Switcher extends React.Component {
-  static propTypes = {
-    text: PropTypes.string,
-    leftHref: PropTypes.string,
-    rightHref: PropTypes.string,
-    onLeftClicked: PropTypes.func,
-    onRightClicked: PropTypes.func,
-    leftDisabled: PropTypes.bool,
-    rightDisabled: PropTypes.bool
-  };
+type Props = {
+  text: string;
+  leftHref?: string;
+  rightHref?: string;
+  onLeftClick?: () => void;
+  onRightClick?: () => void;
+  leftDisabled: boolean;
+  rightDisabled: boolean;
+};
 
+class Switcher extends React.Component<Props> {
   render() {
-    const LeftElement = this.props.leftHref ? <Link /> : <button />;
-    const RightElement = this.props.rightHref ? <Link /> : <button />;
+    const LeftElement = this.props.leftHref ? (
+      <Link to={this.props.leftHref} />
+    ) : (
+      <button />
+    );
+    const RightElement = this.props.rightHref ? (
+      <Link to={this.props.rightHref} />
+    ) : (
+      <button />
+    );
 
     return (
       <div className={Styles["question-switcher"]}>

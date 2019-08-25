@@ -18,8 +18,18 @@
     },
     "startButton": "Start Questionnaire"
   },
+  "consent": {
+    "blurb": "Blurb",
+    "understandConsent": "I understand I am being asked to provide consent to allow my child to participate in this research project",
+    "infoSheet": "I have read the Participant Information Sheet or someone has read it to me in a language that I understand",
+    "understandAim": "I understand the aim of this research and have been given a description of the study assessments and I understand what my child will be asked to do",
+    "opportunityToAsk": "I have had an opportunity to ask questions and I am satisfied with the answers I have received",
+    "agreeToParticipate": "I freely agree to participate in this research study as described and understand that I am free to withdraw at any time during the project and withdrawal will not affect my relationship with my GP or any GP at the GP Practice or any of the named organisations and/or research team members",
+    "receiveResults": "I would like to receive a copy of the study results via email or post, I have provided my details below and ask that they be used for this purpose only"
+  },
   "details": {
     "personalDetails": "Personal Details",
+    "consent": "Consent",
     "of": "of",
     "childFirstName": "Child's First Name",
     "childLastName": "Child's Last Name",

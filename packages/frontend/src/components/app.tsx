@@ -12,6 +12,7 @@ import withDetailsStore, {
 import withResultsStore, {
   Results as ResultsStoreState
 } from "./stores/results-store";
+import { ConsentStore } from "./stores/consent-store";
 import config from "../util/subsite";
 import { PossibleValue as PossibleDetailsValue } from "./stores/details-store";
 
@@ -41,36 +42,38 @@ const theme = createMuiTheme({
 class App extends React.Component<Props> {
   render() {
     return (
-      <MuiThemeProvider theme={theme}>
-        <div
-          className={classNames(Styles.app, {
-            [Styles.concern]: this.props.results.anyConcerns()
-          })}
-        >
-          <Header />
-          {config ? (
-            <div className={Styles.container}>
-              {this.props.children &&
-                React.cloneElement(this.props.children, {
-                  results: this.props.results,
-                  details: this.props.details
-                })}
-            </div>
-          ) : (
-            <Translation ns={["default"]}>
-              {t => (
-                <div>
-                  {t("app.noConfigMessage", {
-                    hostname: window.location.hostname
+      <ConsentStore>
+        <MuiThemeProvider theme={theme}>
+          <div
+            className={classNames(Styles.app, {
+              [Styles.concern]: this.props.results.anyConcerns()
+            })}
+          >
+            <Header />
+            {config ? (
+              <div className={Styles.container}>
+                {this.props.children &&
+                  React.cloneElement(this.props.children, {
+                    results: this.props.results,
+                    details: this.props.details
                   })}
-                </div>
-              )}
-            </Translation>
-          )}
-          <div className={Styles.spacer} />
-          <Footer concern={this.props.results.anyConcerns()} />
-        </div>
-      </MuiThemeProvider>
+              </div>
+            ) : (
+              <Translation ns={["default"]}>
+                {t => (
+                  <div>
+                    {t("app.noConfigMessage", {
+                      hostname: window.location.hostname
+                    })}
+                  </div>
+                )}
+              </Translation>
+            )}
+            <div className={Styles.spacer} />
+            <Footer concern={this.props.results.anyConcerns()} />
+          </div>
+        </MuiThemeProvider>
+      </ConsentStore>
     );
   }
 }

@@ -6,13 +6,16 @@ import {
   NotifyFunctionInputDetails
 } from "@wmg/common/lib/notify-function-input";
 
-import questionnaires from "@wmg/common/lib/questionnaires";
-import { combineQuestionsAndAnswers } from "@wmg/common/lib/data-functions";
 import subsite from "./util/subsite";
 import { Details } from "./components/stores/details-store";
 import { Results } from "./components/stores/results-store";
+import { Consent } from "@wmg/common/lib/notify-function-input";
 
-export default function sendResults(details: Details, results: Results) {
+export default function sendResults(
+  details: Details,
+  results: Results,
+  consent: Consent
+) {
   const ageInMonths = moment().diff(details.babyDob, "months");
 
   function sendWithLanguage() {
@@ -32,7 +35,8 @@ export default function sendResults(details: Details, results: Results) {
 
     const data: NotifyFunctionInput = {
       details: metadata,
-      results
+      results,
+      consent
     };
 
     fetch("/api/notifyEmail", {
