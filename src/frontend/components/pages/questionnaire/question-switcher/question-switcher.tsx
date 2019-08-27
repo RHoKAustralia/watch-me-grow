@@ -1,6 +1,8 @@
 import React from "react";
 import { Translation } from "react-i18next";
 import i18next from "i18next";
+import { WithRouterProps } from "next/dist/client/with-router";
+import { withRouter } from "next/router";
 
 import Switcher from "../../../common/switcher";
 import { Details as DetailsStoreState } from "src/frontend/components/stores/details-store";
@@ -13,8 +15,7 @@ type Props = {
   hasAnswered: boolean;
   details: DetailsStoreState;
   questions?: QuestionLookup;
-  route?: string;
-};
+} & WithRouterProps;
 
 class QuestionSwitcher extends React.Component<Props> {
   totalQuestionCount = () => {
@@ -26,7 +27,7 @@ class QuestionSwitcher extends React.Component<Props> {
       return "/questionnaire/questions/" + (this.props.questionNumber - 1);
     } else if (this.props.questionNumber === 1) {
       return "/questionnaire/doctor";
-    } else if (this.props.route === "doctor") {
+    } else if (this.props.router.route === "doctor") {
       return "/questionnaire/details";
     } else {
       return "";
@@ -37,7 +38,7 @@ class QuestionSwitcher extends React.Component<Props> {
     if (
       !this.props.questionNumber &&
       this.props.details.validated &&
-      this.props.route === "details"
+      this.props.router.route === "details"
     ) {
       return "/questionnaire/doctor";
     } else if (
@@ -45,7 +46,7 @@ class QuestionSwitcher extends React.Component<Props> {
       this.props.questionNumber < this.totalQuestionCount()
     ) {
       return `/questionnaire/questions/${this.props.questionNumber + 1}`;
-    } else if (this.props.route === "doctor") {
+    } else if (this.props.router.route === "doctor") {
       return "/questionnaire/questions/1";
     } else {
       return "";
@@ -57,7 +58,7 @@ class QuestionSwitcher extends React.Component<Props> {
       return `${this.props.questionNumber} ${t(
         "details.of"
       )} ${this.totalQuestionCount()}`;
-    } else if (this.props.route === "consent") {
+    } else if (this.props.router.route === "consent") {
       return t("details.consent");
     } else {
       return t("details.personalDetails");
@@ -81,4 +82,4 @@ class QuestionSwitcher extends React.Component<Props> {
   }
 }
 
-export default QuestionSwitcher;
+export default withRouter(QuestionSwitcher);

@@ -1,4 +1,6 @@
-import React from "react";
+import React, { ReactNode } from "react";
+import { WithRouterProps } from "next/dist/client/with-router";
+import { withRouter } from "next/router";
 
 import Styles from "./questionnaire.module.scss";
 
@@ -6,15 +8,13 @@ import QuestionSwitcher from "./question-switcher/question-switcher";
 import getQuestions from "src/frontend/data/questions";
 import { QuestionLookup } from "src/common/questions";
 import { Details } from "src/frontend/components/stores/details-store";
+import { Results } from "src/frontend/components/stores/results-store";
 
 type Props = {
   details: Details;
-  results: any;
-  params: {
-    questionNumber: string;
-  };
-  routes: string[];
-};
+  results: Results;
+  children: (questions: QuestionLookup, questionNumber: number) => ReactNode;
+} & WithRouterProps;
 
 type State = {
   questions?: QuestionLookup;
@@ -40,7 +40,9 @@ class Questionnaire extends React.Component<Props, State> {
   };
 
   getQuestionNumber = () => {
-    const questionNumber = parseInt(this.props.params.questionNumber);
+    const questionNumber =
+      this.props.router.query.questionNumber &&
+      parseInt(this.props.router.query.questionNumber[0]);
     if (!Number.isNaN(questionNumber)) {
       return questionNumber;
     } else {
@@ -71,23 +73,12 @@ class Questionnaire extends React.Component<Props, State> {
             questionNumber={this.getQuestionNumber()}
             hasAnswered={this.hasAnswered()}
             details={this.props.details}
-            route={this.props.routes[this.props.routes.length - 1]}
           />
-          {React.Children.map(this.props.children, child => {
-            if (React.isValidElement(child)) {
-              return React.cloneElement(
-                child,
-                Object.assign({}, this.props, {
-                  questions: this.state.questions,
-                  questionNumber: this.getQuestionNumber()
-                })
-              );
-            }
-          })}
+          {this.props.children(this.state.questions, this.getQuestionNumber())}
         </div>
       </div>
     );
   }
 }
 
-export default Questionnaire;
+export default withRouter(Questionnaire);
