@@ -69,3 +69,6 @@ key-dev.json
 key-prod.json
 
 lib
+
+packages
+.next

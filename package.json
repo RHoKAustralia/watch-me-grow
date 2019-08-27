@@ -1,11 +1,53 @@
 {
   "name": "wmg",
+  "dependencies": {
+    "@material-ui/core": "^3.9.3",
+    "@zeit/next-sass": "^1.0.1",
+    "classnames": "^2.2.5",
+    "date-fns": "^2.0.0-beta.5",
+    "email-validator": "^2.0.4",
+    "firebase": "^5.11.1",
+    "history": "^3.0.0",
+    "i18next": "^17.0.11",
+    "i18next-xhr-backend": "^3.1.2",
+    "material-design-icons": "^3.0.1",
+    "moment": "^2.24.0",
+    "next": "^9.0.5",
+    "next-i18next": "^1.1.0",
+    "normalize.css": "^v4.1.1",
+    "react": "^16.9.0",
+    "react-addons-css-transition-group": "^15.6.2",
+    "react-datepicker": "^2.8.0",
+    "react-dom": "^16.9.0",
+    "react-firebaseui": "^3.1.2",
+    "react-i18next": "^10.12.2",
+    "react-markdown": "^4.1.0",
+    "react-router": "^3.2.3",
+    "react-scripts": "^2.1.8",
+    "typescript": "^3.5.3",
+    "whatwg-fetch": "^3.0.0",
+    "xlsx": "^0.14.5"
+  },
   "devDependencies": {
-    "lerna": "^3.4.3"
+    "@types/classnames": "^2.2.9",
+    "@types/date-fns": "^2.6.0",
+    "@types/jest": "^23.3.14",
+    "@types/lodash": "^4.14.137",
+    "@types/node": "^10.14.15",
+    "@types/react": "^16.9.2",
+    "@types/react-addons-css-transition-group": "^15.0.5",
+    "@types/react-datepicker": "^2.8.1",
+    "@types/react-dom": "^16.8.5",
+    "@types/react-router": "^3.0.20",
+    "@types/xlsx": "0.0.36",
+    "node-sass": "^4.12.0",
+    "tsconfig-paths-webpack-plugin": "^3.2.0"
   },
   "scripts": {
+    "dev": "ts-node index.js -m commonjs",
+    "build": "next build",
+    "start": "next start",
     "deploy-prod": "REACT_APP_IS_PROD=true lerna run build --concurrency=1 && cd packages && firebase deploy --project watchmegrow-prod && cd ..",
     "deploy-dev": "npx lerna run build --concurrency=1 && cd packages && firebase deploy --project watchmegrow-dev && cd .."
   }
-
 }
