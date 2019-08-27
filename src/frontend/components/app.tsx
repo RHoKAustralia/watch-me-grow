@@ -5,6 +5,7 @@ import { Translation } from "react-i18next";
 import { default as NextApp } from "next/app";
 import { AppContextType, NextComponentType } from "next-server/dist/lib/utils";
 import { Router } from "next/dist/client/router";
+import Head from "next/head";
 
 import Header from "./header/header";
 import Footer from "./footer/footer";
@@ -17,9 +18,10 @@ import withResultsStore, {
 } from "src/frontend/components/stores/results-store";
 import { ConsentStore } from "src/frontend/components/stores/consent-store";
 import { getConfigByHost } from "src/common/site-specific-config";
-import i18n from "src/i18n";
+import "src/frontend/i18n";
 
-const { appWithTranslation } = i18n;
+// Base styling
+import "./base.scss";
 
 type Props = {
   details: DetailsStoreState;
@@ -52,6 +54,29 @@ class App extends NextApp<Props> {
 
     return { ...appProps, host: appContext.ctx.req.headers.host };
   }
+
+  content(Component: any, pageProps: any) {
+    getConfigByHost(window.location.hostname) ? (
+      <div className={Styles.container}>
+        <Component
+          {...pageProps}
+          details={this.props.details}
+          results={this.props.results}
+        />
+      </div>
+    ) : (
+      <Translation ns={["default"]}>
+        {t => (
+          <div>
+            {t("app.noConfigMessage", {
+              hostname: window.location.hostname
+            })}
+          </div>
+        )}
+      </Translation>
+    );
+  }
+
   render() {
     const { Component, pageProps } = this.props;
 
@@ -63,26 +88,17 @@ class App extends NextApp<Props> {
               [Styles.concern]: this.props.results.anyConcerns()
             })}
           >
+            <Head>
+              <link
+                href="https://fonts.googleapis.com/icon?family=Material+Icons"
+                rel="stylesheet"
+              />
+            </Head>
             <Header />
-            {getConfigByHost(this.props.host) ? (
-              <div className={Styles.container}>
-                <Component
-                  {...pageProps}
-                  details={this.props.details}
-                  results={this.props.results}
-                />
-              </div>
-            ) : (
-              <Translation ns={["default"]}>
-                {t => (
-                  <div>
-                    {this.props.t("app.noConfigMessage", {
-                      hostname: window.location.hostname
-                    })}
-                  </div>
-                )}
-              </Translation>
-            )}
+
+            {typeof window !== "undefined" &&
+              this.content(Component, pageProps)}
+
             <div className={Styles.spacer} />
             <Footer concern={this.props.results.anyConcerns()} />
           </div>
@@ -92,4 +108,4 @@ class App extends NextApp<Props> {
   }
 }
 
-export default appWithTranslation(withResultsStore(withDetailsStore(App)));
+export default withResultsStore(withDetailsStore(App));

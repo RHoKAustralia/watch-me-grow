@@ -1,4 +1,5 @@
 import getQuestions from "src/common/questions";
-import subsite from "../util/subsite";
+import { getConfigByHost } from "src/common/site-specific-config";
 
-export default (months: number) => getQuestions(months, subsite!);
+export default (months: number) =>
+  getQuestions(months, getConfigByHost(window.location.hostname));

@@ -5,7 +5,7 @@ import { Translation } from "react-i18next";
 import { mark, combineAll, anyConcerns } from "src/common/data-functions";
 import getQuestions from "src/common/questions";
 import { RecordedAnswer } from "src/common/notify-function-input";
-import subsite from "../../util/subsite";
+import { getConfigByHost } from "src/common/site-specific-config";
 
 const LOCAL_STORAGE_KEY = "wmg-results";
 
@@ -44,7 +44,7 @@ const ResultStore = <T extends WrappedComponentProps>(
   class ResultStore extends React.Component<T, State> {
     state: State = {};
 
-    UNSAFE_componentWillMount() {
+    componentDidMount() {
       const resultsString = sessionStorage.getItem(LOCAL_STORAGE_KEY);
 
       this.setState(resultsString ? JSON.parse(resultsString) : {});
@@ -105,7 +105,10 @@ const ResultStore = <T extends WrappedComponentProps>(
     };
 
     isComplete = (ageInMonths: number) => {
-      const questions = getQuestions(ageInMonths, subsite!);
+      const questions = getQuestions(
+        ageInMonths,
+        getConfigByHost(window.location.hostname)
+      );
 
       return Object.keys(questions).every(index => {
         const question = questions[parseInt(index)];

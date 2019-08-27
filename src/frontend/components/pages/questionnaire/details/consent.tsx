@@ -1,5 +1,6 @@
-import React, { FormEvent, useState } from "react";
-import { withRouter, WithRouterProps } from "react-router";
+import React, { FormEvent } from "react";
+import { WithRouterProps } from "next/dist/client/with-router";
+import { withRouter } from "next/router";
 import { Translation } from "react-i18next";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";

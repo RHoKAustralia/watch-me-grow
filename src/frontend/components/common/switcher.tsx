@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router";
+import Link from "next/link";
 import classNames from "classnames";
 
 import Styles from "./switcher.module.scss";
@@ -17,12 +17,12 @@ type Props = {
 class Switcher extends React.Component<Props> {
   render() {
     const LeftElement = this.props.leftHref ? (
-      <Link to={this.props.leftHref} />
+      <Link href={this.props.leftHref} />
     ) : (
       <button />
     );
     const RightElement = this.props.rightHref ? (
-      <Link to={this.props.rightHref} />
+      <Link href={this.props.rightHref} />
     ) : (
       <button />
     );

@@ -1,5 +1,4 @@
 import React from "react";
-import { RouteProps } from "react-router";
 
 import Styles from "./questionnaire.module.scss";
 
@@ -14,7 +13,7 @@ type Props = {
   params: {
     questionNumber: string;
   };
-  routes: RouteProps[];
+  routes: string[];
 };
 
 type State = {
@@ -72,7 +71,7 @@ class Questionnaire extends React.Component<Props, State> {
             questionNumber={this.getQuestionNumber()}
             hasAnswered={this.hasAnswered()}
             details={this.props.details}
-            route={this.props.routes[this.props.routes.length - 1].path}
+            route={this.props.routes[this.props.routes.length - 1]}
           />
           {React.Children.map(this.props.children, child => {
             if (React.isValidElement(child)) {

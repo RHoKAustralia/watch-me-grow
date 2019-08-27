@@ -1,17 +1,14 @@
 import React, { DOMElement } from "react";
 import classNames from "classnames";
-import { withRouter, WithRouterProps } from "react-router";
+import { WithRouterProps } from "next/dist/client/with-router";
+import { withRouter } from "next/router";
 import ReactCSSTransitionGroup from "react-addons-css-transition-group";
 import TextField, { OutlinedTextFieldProps } from "@material-ui/core/TextField";
 import { Translation } from "react-i18next";
 
 import { Results } from "src/frontend/components/stores/results-store";
 import { RecordedAnswer } from "src/common/notify-function-input";
-import {
-  Question,
-  Answer,
-  Questionnaire
-} from "src/common/questionnaires";
+import { Question, Answer, Questionnaire } from "src/common/questionnaires";
 
 import Styles from "./question.module.scss";
 
@@ -128,7 +125,7 @@ class QuestionComponent extends React.Component<Props, State> {
 
     return (
       <Translation ns={["default"]}>
-        {(t) => (
+        {t => (
           <div
             className={classNames(Styles.root, {
               [Styles.reverse]: this.state.reverse

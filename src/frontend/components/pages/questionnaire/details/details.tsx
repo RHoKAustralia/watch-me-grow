@@ -1,6 +1,7 @@
 import React, { FormEvent } from "react";
 import moment from "moment";
-import { withRouter, WithRouterProps } from "react-router";
+import { WithRouterProps } from "next/dist/client/with-router";
+import { withRouter } from "next/router";
 import * as _ from "lodash";
 import Input from "@material-ui/core/Input";
 import Select from "@material-ui/core/Select";
@@ -28,8 +29,8 @@ const GENDERS = [
   { id: "other", captionId: "details.genders.other" }
 ];
 
-const { minMonths, maxMonths } = questionnaires
-  ? minMax(questionnaires)
+const { minMonths, maxMonths } = questionnaires()
+  ? minMax(questionnaires())
   : { minMonths: 0, maxMonths: 0 };
 const minDate = moment().subtract(maxMonths, "months");
 const maxDate = moment().subtract(minMonths, "months");

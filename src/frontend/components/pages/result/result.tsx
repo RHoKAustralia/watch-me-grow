@@ -1,6 +1,7 @@
 import React from "react";
 import classNames from "classnames";
-import { withRouter, WithRouterProps } from "react-router";
+import { WithRouterProps } from "next/dist/client/with-router";
+import { withRouter } from "next/router";
 
 import { Translation } from "react-i18next";
 import i18next from "i18next";

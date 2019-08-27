@@ -1,12 +1,10 @@
 import React from "react";
-import { Link } from "react-router";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import i18next from "i18next";
 
-import headerLogo from "./wmg-header-logo.svg";
-
 import Styles from "./header.module.scss";
+import Link from "src/frontend/components/common/active-class-link";
 
 const languages = [
   { value: "en", label: "English" },
@@ -41,8 +39,8 @@ class Header extends React.Component {
   render() {
     return (
       <header className={Styles.header}>
-        <Link to="landing">
-          <img className={Styles.logo} src={headerLogo} />
+        <Link href="landing">
+          <img className={Styles.logo} src={"/static/wmg-header-logo.svg"} />
         </Link>
         <h1 className={Styles.title}>WatchMeGrow.care</h1>
         <Select
@@ -54,12 +52,8 @@ class Header extends React.Component {
             <MenuItem value={language.value}>{language.label}</MenuItem>
           ))}
         </Select>
-        <Link
-          className={Styles["new-child"]}
-          to="landing"
-          activeClassName={Styles.active}
-        >
-          New Child
+        <Link href="landing" activeClassName={Styles.active}>
+          <a className={Styles["new-child"]}>New Child</a>
         </Link>
       </header>
     );

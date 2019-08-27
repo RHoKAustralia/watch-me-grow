@@ -68,7 +68,7 @@ function DetailsStore<T extends WrappedComponentProps>(
       };
     }
 
-    UNSAFE_componentWillMount() {
+    componentDidMount() {
       const fromStorageRaw = sessionStorage.getItem(LOCAL_STORAGE_KEY);
       if (fromStorageRaw) {
         const storedDetails = JSON.parse(fromStorageRaw);

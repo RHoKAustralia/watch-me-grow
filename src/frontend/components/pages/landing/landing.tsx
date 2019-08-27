@@ -1,8 +1,11 @@
 import React from "react";
-import { Link } from "react-router";
+import Link from "next/link";
 import { Translation } from "react-i18next";
 
-import { ConsentContext, ConsentState } from "src/frontend/components/stores/consent-store";
+import {
+  ConsentContext,
+  ConsentState
+} from "src/frontend/components/stores/consent-store";
 import ageInMonthsToString from "src/common/age-to-string";
 import minMax from "src/common/min-max";
 import questionnaires from "src/frontend/data/questionnaires";
@@ -10,10 +13,6 @@ import { WrappedComponentProps as ResultsProps } from "src/frontend/components/s
 import { WrappedComponentProps as DetailsProps } from "src/frontend/components/stores/details-store";
 
 import Styles from "./landing.module.scss";
-
-const { minMonths, maxMonths } = questionnaires
-  ? minMax(questionnaires)
-  : { minMonths: 0, maxMonths: 0 };
 
 type Props = ResultsProps & DetailsProps;
 
@@ -27,6 +26,10 @@ export default class HomePage extends React.Component<Props, any> {
   }
 
   render() {
+    const { minMonths, maxMonths } = questionnaires()
+      ? minMax(questionnaires())
+      : { minMonths: 0, maxMonths: 0 };
+
     return (
       <Translation ns={["default"]}>
         {t => (
@@ -50,8 +53,8 @@ export default class HomePage extends React.Component<Props, any> {
               </a>
               .
             </p>
-            <Link className={Styles.button} to="questionnaire">
-              {t("landing.startButton")}
+            <Link href="/questionnaire">
+              <a className={Styles.button}>{t("landing.startButton")}</a>
             </Link>
           </div>
         )}

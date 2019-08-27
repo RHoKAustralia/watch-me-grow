@@ -1,4 +1,7 @@
 import questionnairesForSubsite from "src/common/questionnaires-for-subsite";
-import subsite from "../util/subsite";
+import { getConfigByHost } from "src/common/site-specific-config";
 
-export default subsite ? questionnairesForSubsite(subsite.id) : undefined;
+export default function questionnaires() {
+  const subsite = getConfigByHost(window.location.hostname);
+  return questionnairesForSubsite(subsite.id);
+}
