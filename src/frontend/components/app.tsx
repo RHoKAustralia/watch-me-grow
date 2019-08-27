@@ -47,16 +47,17 @@ const theme = createMuiTheme({
   }
 });
 
-class App extends NextApp<Props> {
-  static async getInitialProps(appContext: AppContextType<Router>) {
-    // calls page's `getInitialProps` and fills `appProps.pageProps`
-    const appProps = await App.getInitialProps(appContext);
+type State = {
+  client: boolean;
+};
 
-    return { ...appProps, host: appContext.ctx.req.headers.host };
-  }
+class App extends NextApp<Props, State> {
+  state = {
+    client: false
+  };
 
   content(Component: any, pageProps: any) {
-    getConfigByHost(window.location.hostname) ? (
+    return getConfigByHost(window.location.hostname) ? (
       <div className={Styles.container}>
         <Component
           {...pageProps}
@@ -75,6 +76,12 @@ class App extends NextApp<Props> {
         )}
       </Translation>
     );
+  }
+
+  componentDidMount() {
+    this.setState({
+      client: true
+    });
   }
 
   render() {
@@ -96,8 +103,7 @@ class App extends NextApp<Props> {
             </Head>
             <Header />
 
-            {typeof window !== "undefined" &&
-              this.content(Component, pageProps)}
+            {this.state.client && this.content(Component, pageProps)}
 
             <div className={Styles.spacer} />
             <Footer concern={this.props.results.anyConcerns()} />

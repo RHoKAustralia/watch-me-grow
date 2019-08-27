@@ -12,7 +12,7 @@ if (typeof window !== "undefined") {
       lng: (config && config.language) || "en",
       fallbackLng: "en",
       backend: {
-        loadPath: "/locales/{{lng}}/{{ns}}.json",
+        loadPath: "/static/locales/{{lng}}/{{ns}}.json",
         crossDomain: false
       },
       debug: process.env.NODE_ENV === "development",
