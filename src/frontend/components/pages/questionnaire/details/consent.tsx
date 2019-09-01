@@ -611,9 +611,10 @@ function Consent(props: Props) {
                             name="info"
                             value={consent.consent.info}
                             aria-invalid={consent.errors.understandConsent}
-                            onChange={(event, value) =>
-                              consent.setInfo(value as ConsentInfo)
-                            }
+                            onChange={(event, value) => {
+                              // console.log(value);
+                              consent.setInfo(value as ConsentInfo);
+                            }}
                           >
                             <FormControlLabel
                               className={classNames(Styles.flex)}

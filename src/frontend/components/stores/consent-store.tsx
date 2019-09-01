@@ -68,7 +68,7 @@ export const ConsentStore: FunctionComponent<{}> = ({ children }) => {
     const contextFromStorage = getFromStorage();
     setInfo(contextFromStorage.info);
     setReceiveCopy(contextFromStorage.receiveCopy);
-  });
+  }, []);
 
   const [understandConsent, setUnderstandConsent] = useState(false);
   const [infoSheet, setInfoSheet] = useState(false);
