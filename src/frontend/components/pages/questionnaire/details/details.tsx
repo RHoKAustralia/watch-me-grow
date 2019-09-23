@@ -22,7 +22,7 @@ import {
   PossibleValue as PossibleDetailsValue
 } from "src/frontend/components/stores/details-store";
 import { Results as ResultsStoreState } from "src/frontend/components/stores/results-store";
-import Questionnaire from "../questionnaire";
+import QuestionWrapper from "../question-wrapper";
 
 const GENDERS = [
   { id: "male", captionId: "details.genders.male" },
@@ -42,8 +42,8 @@ type State = {
 
 class Details extends React.Component<Props, State> {
   state: State = { showDatePicker: false, locale: "en" };
-  minDate: Moment;
-  maxDate: Moment;
+  minDate?: Moment;
+  maxDate?: Moment;
 
   constructor(props: Props) {
     super(props);
@@ -132,7 +132,10 @@ class Details extends React.Component<Props, State> {
     const details = this.props.details;
 
     return (
-      <Questionnaire details={this.props.details} results={this.props.results}>
+      <QuestionWrapper
+        details={this.props.details}
+        results={this.props.results}
+      >
         {() => (
           <Translation ns={["default"]}>
             {t => (
@@ -207,8 +210,8 @@ class Details extends React.Component<Props, State> {
                     <DatePicker
                       inline
                       showYearDropdown
-                      minDate={this.minDate.toDate()}
-                      maxDate={this.maxDate.toDate()}
+                      minDate={this.minDate && this.minDate.toDate()}
+                      maxDate={this.maxDate && this.maxDate.toDate()}
                       selected={details!.babyDob}
                       onChange={this.onDateChange}
                       locale={this.state.locale}
@@ -253,7 +256,7 @@ class Details extends React.Component<Props, State> {
             )}
           </Translation>
         )}
-      </Questionnaire>
+      </QuestionWrapper>
     );
   }
 }

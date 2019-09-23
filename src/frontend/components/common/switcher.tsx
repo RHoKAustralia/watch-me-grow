@@ -6,8 +6,8 @@ import Styles from "./switcher.module.scss";
 
 type Props = {
   text: string;
-  leftHref?: string;
-  rightHref?: string;
+  leftHref?: [string, string?];
+  rightHref?: [string, string?];
   onLeftClick?: () => void;
   onRightClick?: () => void;
   leftDisabled: boolean;
@@ -16,36 +16,39 @@ type Props = {
 
 class Switcher extends React.Component<Props> {
   render() {
-    const LeftElement = this.props.leftHref ? (
-      <Link href={this.props.leftHref} />
-    ) : (
-      <button />
-    );
-    const RightElement = this.props.rightHref ? (
-      <Link href={this.props.rightHref} />
-    ) : (
-      <button />
-    );
+    const leftClassName = classNames(Styles["button--left"], {
+      [Styles["button--disabled"]]: this.props.leftDisabled
+    });
+
+    const rightClassName = classNames(Styles["button--right"], {
+      [Styles["button--disabled"]]: this.props.rightDisabled
+    });
 
     return (
       <div className={Styles["question-switcher"]}>
-        {React.cloneElement(LeftElement, {
-          onClick: this.props.onLeftClick,
-          to: this.props.leftHref,
-          className: classNames(Styles["button--left"], {
-            [Styles["button--disabled"]]: this.props.leftDisabled
-          }),
-          children: <i className="material-icons">chevron_left</i>
-        })}
+        {this.props.leftHref ? (
+          <Link href={this.props.leftHref[0]} as={this.props.leftHref[1]}>
+            <a className={leftClassName}>
+              <i className="material-icons">chevron_left</i>
+            </a>
+          </Link>
+        ) : (
+          <button onClick={this.props.onLeftClick} className={leftClassName}>
+            <i className="material-icons">chevron_left</i>
+          </button>
+        )}
         <span className={Styles.title}>{this.props.text}</span>
-        {React.cloneElement(RightElement, {
-          onClick: this.props.onRightClick,
-          to: this.props.rightHref,
-          className: classNames(Styles["button--right"], {
-            [Styles["button--disabled"]]: this.props.rightDisabled
-          }),
-          children: <i className="material-icons">chevron_right</i>
-        })}
+        {this.props.rightHref ? (
+          <Link href={this.props.rightHref[0]} as={this.props.rightHref[1]}>
+            <a className={rightClassName}>
+              <i className="material-icons">chevron_right</i>
+            </a>
+          </Link>
+        ) : (
+          <button onClick={this.props.onRightClick} className={rightClassName}>
+            <i className="material-icons">chevron_right</i>
+          </button>
+        )}
       </div>
     );
   }

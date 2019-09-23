@@ -1,10 +1,10 @@
 import React from "react";
 import classNames from "classnames";
-import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+import { MuiThemeProvider } from "@material-ui/core/styles";
+import CssBaseline from "@material-ui/core/CssBaseline";
 import { Translation } from "react-i18next";
 import { default as NextApp } from "next/app";
-import { AppContextType, NextComponentType } from "next-server/dist/lib/utils";
-import { Router } from "next/dist/client/router";
+import { NextComponentType } from "next-server/dist/lib/utils";
 import Head from "next/head";
 
 import Header from "./header/header";
@@ -19,6 +19,7 @@ import withResultsStore, {
 import { ConsentStore } from "src/frontend/components/stores/consent-store";
 import { getConfigByHost } from "src/common/site-specific-config";
 import "src/frontend/i18n";
+import theme from "src/frontend/theme";
 
 // Base styling
 import "./base.scss";
@@ -29,23 +30,6 @@ type Props = {
   Component: NextComponentType;
   host: string;
 };
-
-const theme = createMuiTheme({
-  typography: {
-    // htmlFontSize: 10,
-    fontSize: 18
-  },
-  overrides: {
-    MuiInputLabel: {
-      root: {
-        color: "rgba(0, 0, 0, 0.26)"
-      }
-    }
-  },
-  palette: {
-    primary: { main: "#1cd5ac", dark: "#1cd5ac" }
-  }
-});
 
 type State = {
   client: boolean;
@@ -79,6 +63,11 @@ class App extends NextApp<Props, State> {
   }
 
   componentDidMount() {
+    const jssStyles = document.querySelector("#jss-server-side");
+    if (jssStyles) {
+      jssStyles.parentNode!.removeChild(jssStyles);
+    }
+
     this.setState({
       client: true
     });
@@ -90,6 +79,7 @@ class App extends NextApp<Props, State> {
     return (
       <ConsentStore>
         <MuiThemeProvider theme={theme}>
+          <CssBaseline />
           <div
             className={classNames(Styles.app, {
               [Styles.concern]: this.props.results.anyConcerns()

@@ -2,15 +2,21 @@ import React, { FormEvent } from "react";
 import { WithRouterProps } from "next/dist/client/with-router";
 import { withRouter } from "next/router";
 import { Translation } from "react-i18next";
+import TextField from "@material-ui/core/TextField";
 
 import {
   Details as DetailsStoreState,
   PossibleValue as PossibleDetailsValue
 } from "src/frontend/components/stores/details-store";
-import Styles from "./details.module.scss";
-import TextField from "@material-ui/core/TextField";
+import QuestionWrapper from "../question-wrapper";
+import { Results as ResultsStoreState } from "src/frontend/components/stores/results-store";
 
-type Props = { details: DetailsStoreState } & WithRouterProps;
+import Styles from "./details.module.scss";
+
+type Props = {
+  details: DetailsStoreState;
+  results: ResultsStoreState;
+} & WithRouterProps;
 
 class Doctor extends React.Component<Props, {}> {
   state = {};
@@ -20,7 +26,10 @@ class Doctor extends React.Component<Props, {}> {
 
     if (this.props.details.validate()) {
       this.props.details.save();
-      this.props.router.push("/questionnaire/questions/1");
+      this.props.router.push(
+        "/questionnaire/questions/[questionNumber]",
+        "/questionnaire/questions/1"
+      );
     }
   };
 
@@ -43,42 +52,49 @@ class Doctor extends React.Component<Props, {}> {
     };
 
     return (
-      <Translation ns={["default"]}>
-        {t => (
-          <form className={Styles.details} onSubmit={this.onSubmit}>
-            <div className={Styles.intro}>
-              <p className={Styles.paragraph}>
-                {t("doctorDetails.explanationPara1")}
-              </p>
+      <QuestionWrapper
+        details={this.props.details}
+        results={this.props.results}
+      >
+        {(questions, questionNumber) => (
+          <Translation ns={["default"]}>
+            {t => (
+              <form className={Styles.details} onSubmit={this.onSubmit}>
+                <div className={Styles.intro}>
+                  <p className={Styles.paragraph}>
+                    {t("doctorDetails.explanationPara1")}
+                  </p>
 
-              <p className={Styles.paragraph}>
-                {t("doctorDetails.explanationPara2")}
-              </p>
-            </div>
+                  <p className={Styles.paragraph}>
+                    {t("doctorDetails.explanationPara2")}
+                  </p>
+                </div>
 
-            <div className={Styles["field-wrapper"]}>
-              <TextField
-                type="email"
-                fullWidth
-                className={Styles.textBox}
-                label={t("doctorDetails.yourDoctorsEmailAddress")}
-                value={details.doctorEmail}
-                inputProps={{ maxLength: 100 }}
-                error={!!details.errors.doctorEmail}
-                onChange={this.onChange.bind(this, "doctorEmail")}
-              />
-            </div>
+                <div className={Styles["field-wrapper"]}>
+                  <TextField
+                    type="email"
+                    fullWidth
+                    className={Styles.textBox}
+                    label={t("doctorDetails.yourDoctorsEmailAddress")}
+                    value={details.doctorEmail}
+                    inputProps={{ maxLength: 100 }}
+                    error={!!details.errors.doctorEmail}
+                    onChange={this.onChange.bind(this, "doctorEmail")}
+                  />
+                </div>
 
-            <div className={Styles["field-wrapper"]}>
-              <input
-                type="submit"
-                className={Styles["next-button"]}
-                value={t("app.next").toString()}
-              />
-            </div>
-          </form>
+                <div className={Styles["field-wrapper"]}>
+                  <input
+                    type="submit"
+                    className={Styles["next-button"]}
+                    value={t("app.next").toString()}
+                  />
+                </div>
+              </form>
+            )}
+          </Translation>
         )}
-      </Translation>
+      </QuestionWrapper>
     );
   }
 }

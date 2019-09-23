@@ -3,5 +3,5 @@ import { getConfigByHost } from "src/common/site-specific-config";
 
 export default function questionnaires() {
   const subsite = getConfigByHost(window.location.hostname);
-  return questionnairesForSubsite(subsite.id);
+  return questionnairesForSubsite(subsite!.id);
 }

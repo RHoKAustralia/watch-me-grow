@@ -76,7 +76,7 @@ export const ConsentStore: FunctionComponent<{}> = ({ children }) => {
   const [opportunityToAsk, setOpportunityToAsk] = useState(false);
   const [agreeToParticipate, setAgreeToParticipate] = useState(false);
   const [info, setInfo] = useState<ConsentInfo | undefined>();
-  const [receiveCopy, setReceiveCopy] = useState<boolean>();
+  const [receiveCopy, setReceiveCopy] = useState<boolean>(false);
   const [errors, setErrors] = useState<Errors>({});
 
   const validate = () => {
@@ -98,7 +98,7 @@ export const ConsentStore: FunctionComponent<{}> = ({ children }) => {
     );
   };
 
-  const consent = {
+  const consent: Consent = {
     info,
     receiveCopy,
     understandConsent,

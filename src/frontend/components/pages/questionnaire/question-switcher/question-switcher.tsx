@@ -22,34 +22,43 @@ class QuestionSwitcher extends React.Component<Props> {
     return this.props.questions ? Object.keys(this.props.questions).length : 0;
   };
 
-  leftHref = () => {
+  leftHref: () => [string, undefined | string] | undefined = () => {
     if (this.props.questionNumber > 1) {
-      return "/questionnaire/questions/" + (this.props.questionNumber - 1);
+      return [
+        "/questionnaire/questions/[questionNumber]",
+        "/questionnaire/questions/" + (this.props.questionNumber - 1)
+      ];
     } else if (this.props.questionNumber === 1) {
-      return "/questionnaire/doctor";
-    } else if (this.props.router.route === "doctor") {
-      return "/questionnaire/details";
+      return ["/questionnaire/doctor", undefined];
+    } else if (this.props.router.route === "/questionnaire/doctor") {
+      return ["/questionnaire/details", undefined];
     } else {
-      return "";
+      return;
     }
   };
 
-  rightHref = () => {
+  rightHref: () => [string, undefined | string] | undefined = () => {
     if (
       !this.props.questionNumber &&
       this.props.details.validated &&
-      this.props.router.route === "details"
+      this.props.router.route === "/questionnaire/details"
     ) {
-      return "/questionnaire/doctor";
+      return ["/questionnaire/doctor", undefined];
     } else if (
       this.props.hasAnswered &&
       this.props.questionNumber < this.totalQuestionCount()
     ) {
-      return `/questionnaire/questions/${this.props.questionNumber + 1}`;
-    } else if (this.props.router.route === "doctor") {
-      return "/questionnaire/questions/1";
+      return [
+        "/questionnaire/questions/[questionNumber]",
+        "/questionnaire/questions/" + (this.props.questionNumber + 1)
+      ];
+    } else if (this.props.router.route === "/questionnaire/doctor") {
+      return [
+        "/questionnaire/questions/[questionNumber]",
+        "/questionnaire/questions/1"
+      ];
     } else {
-      return "";
+      return;
     }
   };
 
@@ -58,7 +67,7 @@ class QuestionSwitcher extends React.Component<Props> {
       return `${this.props.questionNumber} ${t(
         "details.of"
       )} ${this.totalQuestionCount()}`;
-    } else if (this.props.router.route === "consent") {
+    } else if (this.props.router.route === "/questionnaire/consent") {
       return t("details.consent");
     } else {
       return t("details.personalDetails");
@@ -71,9 +80,9 @@ class QuestionSwitcher extends React.Component<Props> {
         {t => (
           <Switcher
             leftHref={this.leftHref()}
-            leftDisabled={!this.leftHref().length}
+            leftDisabled={!this.leftHref()}
             rightHref={this.rightHref()}
-            rightDisabled={!this.rightHref().length}
+            rightDisabled={!this.rightHref()}
             text={this.text(t)}
           />
         )}

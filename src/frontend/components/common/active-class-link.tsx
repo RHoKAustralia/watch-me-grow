@@ -23,7 +23,9 @@ class Link<P extends LinkProps> extends Component<P> {
 
     const child: any = Children.only(children);
     const active = this.props.router.pathname === href && activeClassName;
-    const className = cx(child.props.className, { [activeClassName]: active });
+    const className = cx(child.props.className, {
+      [activeClassName as string]: active
+    });
 
     return (
       <NextLink href={this.props.href} {...otherProps}>

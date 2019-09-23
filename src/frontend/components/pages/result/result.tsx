@@ -39,7 +39,7 @@ class Result extends React.Component<Props, any> {
       console.log(
         "Went to result without finishing, redirecting to questionnaire"
       );
-      this.props.router.push("/questionnaire");
+      this.props.router.push("/questionnaire/details");
       return;
     }
 
@@ -57,7 +57,7 @@ class Result extends React.Component<Props, any> {
       this.props.details,
       this.props.results,
       consent.consent,
-      getConfigByHost(this.props.host)
+      getConfigByHost(this.props.host)!
     );
   }
 

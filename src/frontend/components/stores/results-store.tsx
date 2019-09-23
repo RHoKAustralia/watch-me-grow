@@ -107,7 +107,7 @@ const ResultStore = <T extends WrappedComponentProps>(
     isComplete = (ageInMonths: number) => {
       const questions = getQuestions(
         ageInMonths,
-        getConfigByHost(window.location.hostname)
+        getConfigByHost(window.location.hostname)!
       );
 
       return Object.keys(questions).every(index => {

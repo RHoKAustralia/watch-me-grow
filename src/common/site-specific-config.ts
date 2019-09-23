@@ -115,7 +115,6 @@ export const sites: HostConfig[] = [
 
 export function getConfigByHost(host: string): HostConfig | undefined {
   const indexOfDev = host.indexOf("dev.");
-
   const fixedHost = (() => {
     if (indexOfDev >= 0) {
       return host.substring(0, indexOfDev) + host.substring(indexOfDev + 4);

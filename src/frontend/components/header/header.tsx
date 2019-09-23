@@ -49,7 +49,9 @@ class Header extends React.Component {
           className={Styles["language-dropdown"]}
         >
           {languages.map(language => (
-            <MenuItem value={language.value}>{language.label}</MenuItem>
+            <MenuItem value={language.value} key={language.value}>
+              {language.label}
+            </MenuItem>
           ))}
         </Select>
         <Link href="landing" activeClassName={Styles.active}>

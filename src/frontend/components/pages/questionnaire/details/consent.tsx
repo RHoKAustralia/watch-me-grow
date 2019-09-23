@@ -10,7 +10,7 @@ import FormLabel from "@material-ui/core/FormLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import classNames from "classnames";
 
-import Questionnaire from "../questionnaire";
+import QuestionWrapper from "../question-wrapper";
 import { ConsentInfo } from "src/common/notify-function-input";
 import { ConsentContext } from "src/frontend/components/stores/consent-store";
 import { Details } from "src/frontend/components/stores/details-store";
@@ -25,7 +25,7 @@ type Props = {
 
 function Consent(props: Props) {
   return (
-    <Questionnaire details={props.details} results={props.results}>
+    <QuestionWrapper details={props.details} results={props.results}>
       {(questions, questionNumber) => (
         <Translation ns={["default"]}>
           {t => (
@@ -668,7 +668,7 @@ function Consent(props: Props) {
           )}
         </Translation>
       )}
-    </Questionnaire>
+    </QuestionWrapper>
   );
 }
 
