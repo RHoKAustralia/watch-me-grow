@@ -6,6 +6,9 @@ import { Translation } from "react-i18next";
 import { default as NextApp } from "next/app";
 import { NextComponentType } from "next-server/dist/lib/utils";
 import Head from "next/head";
+// @ts-ignore
+import withGA from "next-ga";
+import Router from "next/router";
 
 import Header from "./header/header";
 import Footer from "./footer/footer";
@@ -28,7 +31,7 @@ type Props = {
   details: DetailsStoreState;
   results: ResultsStoreState;
   Component: NextComponentType;
-  host: string;
+  analytics: any;
 };
 
 type State = {
@@ -45,6 +48,7 @@ class App extends NextApp<Props, State> {
       <div className={Styles.container}>
         <Component
           {...pageProps}
+          analytics={this.props.analytics}
           details={this.props.details}
           results={this.props.results}
         />
@@ -104,4 +108,4 @@ class App extends NextApp<Props, State> {
   }
 }
 
-export default withResultsStore(withDetailsStore(App));
+export default withGA("ABC", Router)(withResultsStore(withDetailsStore(App)));

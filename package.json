@@ -14,6 +14,7 @@
     "material-design-icons": "^3.0.1",
     "moment": "^2.24.0",
     "next": "^9.0.5",
+    "next-ga": "^2.3.4",
     "normalize.css": "^v4.1.1",
     "react": "^16.9.0",
     "react-addons-css-transition-group": "^15.6.2",

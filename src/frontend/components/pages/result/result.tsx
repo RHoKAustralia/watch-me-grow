@@ -6,13 +6,12 @@ import { withRouter } from "next/router";
 import { Translation } from "react-i18next";
 import i18next from "i18next";
 
-import { ReactComponent as Flag } from "./flag.svg";
-import { ReactComponent as Stethoscope } from "./stethoscope.svg";
+import Flag from "./flag";
+import Stethoscope from "./stethoscope";
 import {
   ConsentContext,
   ConsentState
 } from "src/frontend/components/stores/consent-store";
-import stages from "./stages/stages";
 import { Results } from "src/frontend/components/stores/results-store";
 import { Details } from "src/frontend/components/stores/details-store";
 import categoryToLink, { LinkData } from "src/common/category-to-link";
@@ -26,6 +25,7 @@ type Props = {
   results: Results;
   details: Details;
   host: string;
+  analytics: any;
 } & WithRouterProps;
 
 class Result extends React.Component<Props, any> {
@@ -45,10 +45,9 @@ class Result extends React.Component<Props, any> {
 
     this.props.results.mark();
 
-    (window as any).ga("send", {
-      hitType: "event",
-      eventCategory: "Completions",
-      eventAction: this.props.results.concern ? "concern" : "no-concern"
+    this.props.analytics.event({
+      category: "Completions",
+      action: this.props.results.concern ? "concern" : "no-concern"
     });
 
     const consent: ConsentState = this.context;
@@ -57,20 +56,9 @@ class Result extends React.Component<Props, any> {
       this.props.details,
       this.props.results,
       consent.consent,
-      getConfigByHost(this.props.host)!
+      getConfigByHost(window.location.hostname)!
     );
   }
-
-  getInitialStage = () => {
-    const months = this.props.details.ageInMonths();
-
-    return Math.max(
-      0,
-      stages.findIndex(
-        stage => months >= stage.months.min && months <= stage.months.max
-      )
-    );
-  };
 
   render() {
     const concerns = this.props.results.concerns;
