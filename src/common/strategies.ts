@@ -30,7 +30,7 @@ const strategies: {
     return scoreStandard(answers) >= 1;
   },
   bpsc: (questionnaire, answers) => {
-    const grouped = groupBy(answers, answer => answer.metadata.scoreGroup);
+    const grouped = groupBy(answers, answer => answer.question.scoreGroup);
 
     const scores = Object.keys(grouped).map(group =>
       scoreStandard(grouped[group])

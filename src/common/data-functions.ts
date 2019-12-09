@@ -10,7 +10,7 @@ import groupBy from "lodash/groupBy";
 import mapValues from "lodash/mapValues";
 
 export type QuestionAndAnswer = {
-  metadata: Question;
+  question: Question;
   questionText: string;
   answer: {
     rawAnswer: RecordedAnswer;
@@ -88,7 +88,7 @@ export function combineQuestionsAndAnswers(
     }
 
     return {
-      metadata: question,
+      question,
       questionText: t(question.textId),
       answer: {
         rawAnswer,

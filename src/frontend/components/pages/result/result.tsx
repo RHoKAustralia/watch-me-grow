@@ -89,6 +89,7 @@ class Result extends React.Component<Props, any> {
                 </div>
                 {Object.keys(concerns).map(category => (
                   <SummaryPara
+                    key={category}
                     t={t}
                     tPrefix={`results.${category}`}
                     concern={concerns[category]}
@@ -124,7 +125,7 @@ function SummaryPara({
       </h2>
       <p>{t(`${tPrefix}.${concern ? "concern" : "noConcern"}.parent`)}</p>
       {links.map(link => (
-        <Link intro={t(link.introKey)} url={link.url} />
+        <Link intro={t(link.introKey)} key={link.url} url={link.url} />
       ))}
     </React.Fragment>
   );

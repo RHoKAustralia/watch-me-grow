@@ -40,7 +40,7 @@ export default function sendResults(
       consent
     };
 
-    fetch("/api/notifyEmail", {
+    fetch("/api/result", {
       method: "POST",
       headers: {
         Accept: "application/json",

@@ -1,5 +1,4 @@
 import React from "react";
-import firebase from "firebase";
 
 import { sites } from "src/common/site-specific-config";
 

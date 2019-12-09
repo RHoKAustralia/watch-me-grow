@@ -53,7 +53,7 @@ export default class HomePage extends React.Component<Props, any> {
               </a>
               .
             </p>
-            <Link href="/questionnaire">
+            <Link href="/questionnaire/details">
               <a className={Styles.button}>{t("landing.startButton")}</a>
             </Link>
           </div>

@@ -1,0 +1,32 @@
+{
+  "defaultEnv": "local",
+  "sql-file": true,
+
+  "local": {
+    "database": "watch-me-grow",
+    "driver": "pg",
+    "host": "localhost",
+    "user": "postgres",
+    "password": "admin",
+    "multipleStatements": true
+  },
+
+  "test": {
+    "database": "test-wmg",
+    "driver": "pg",
+    "host": "localhost",
+    "user": "postgres",
+    "password": "admin",
+    "multipleStatements": true
+  },
+
+  "prod": {
+    "database": "watch-me-grow",
+    "driver": "pg",
+    "host": "***pg***",
+    "port": { "ENV": "PG_PORT" },
+    "user": "admin",
+    "password": { "ENV": "POSTGRES_PW" },
+    "multipleStatements": true
+  }
+}

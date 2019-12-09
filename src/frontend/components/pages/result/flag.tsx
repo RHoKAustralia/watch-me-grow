@@ -4,7 +4,7 @@ export default (props: { className: string }) => (
     x="0px"
     y="0px"
     viewBox="0 0 100 100"
-    enable-background="new 0 0 100 100"
+    enableBackground="new 0 0 100 100"
     className={props.className}
   >
     <path d="M38.994,73.693L28.286,33.742c-0.296-1.102,0.355-2.233,1.462-2.532l0,0c1.103-0.294,2.233,0.361,2.532,1.465l0,0  l10.704,39.951c0.298,1.1-0.355,2.234-1.457,2.535l0,0C40.419,75.454,39.292,74.796,38.994,73.693L38.994,73.693z"></path>
