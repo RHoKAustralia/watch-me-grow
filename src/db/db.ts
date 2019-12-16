@@ -100,7 +100,7 @@ function insertResult(
   childId: number
 ) {
   return connection.oneFirst(sql`
-    INSERT INTO result (date, language_id, site_id, guardian_id, child_id)
+    INSERT INTO results (date, language_id, site_id, guardian_id, child_id)
       VALUES (${details.testDate}, ${details.language}, ${details.siteId}, ${guardianId}, ${childId})
       RETURNING result_id
     `);
@@ -112,7 +112,7 @@ function insertResultConcern(
   concernId: string
 ) {
   return connection.query(sql`
-    INSERT INTO result_concerns (concern_id, result_id)
+    INSERT INTO result_concerns (result_id, concern_id)
       VALUES (${resultId}, ${concernId})
     `);
 }
@@ -138,7 +138,6 @@ function insertConsent(
     INSERT INTO consent (
       info_id,
       receive_copy,
-      result_id,
       understand_consent,
       info_sheet,
       understand_aim,

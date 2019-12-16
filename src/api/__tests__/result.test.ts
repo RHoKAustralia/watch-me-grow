@@ -4,41 +4,52 @@ import listen from "test-listen";
 import { apiResolver } from "next-server/dist/server/api-utils";
 import { NextApiRequest, NextApiResponse } from "next";
 import nock from "nock";
+import pool from "../../db/pool";
 const DBMigrate = require("db-migrate");
+
+process.env.MAILGUN_API_KEY = "abc";
+Error.stackTraceLimit = Infinity;
+
+import handler from "../result";
 
 const dbmigrate = DBMigrate.getInstance(true, {
   env: "test",
   throwUncatched: true
 });
-
-process.env.MAILGUN_API_KEY = "abc";
-
-import handler from "../result";
+const dbmigrateCreate = DBMigrate.getInstance(true, {
+  env: "test-create",
+  throwUncatched: true
+});
+// dbmigrate.silence(true);
 
 describe("/ handler", () => {
   beforeAll(async () => {
-    await dbmigrate.createDatabase("test-wmg");
+    try {
+      await dbmigrateCreate.createDatabase("test-wmg");
+    } catch (e) {
+      console.error(e);
+      throw e;
+    }
+  });
+
+  afterAll(async () => {
+    await (pool as any).end();
+    await dbmigrateCreate.reset();
+    await dbmigrateCreate.dropDatabase("test-wmg");
   });
 
   beforeEach(async () => {
-    await dbmigrate.up();
+    try {
+      await dbmigrate.up();
+    } catch (e) {
+      console.error(e);
+      throw e;
+    }
   });
 
   afterEach(() => {
     return dbmigrate.reset();
   });
-
-  afterAll(async () => {
-    await dbmigrate.dropDatabase("test-wmg");
-  });
-
-  // beforeAll(() => {
-  // nock.disableNetConnect();
-  // });
-
-  // afterAll(() => {
-  //   // nock.enableNetConnect();
-  // });
 
   const buildPost = () => {
     return {
@@ -91,13 +102,24 @@ describe("/ handler", () => {
     };
   };
 
+  // nock.emitter.on("no match", req => {
+  //   console.log(req);
+  // });
+
   test("responds 200 to authed POST", async () => {
+    // console.log(process.env.MAILGUN_API_KEY);
+    let requestHandler = (req: any, res: any) =>
+      apiResolver(req, res, undefined, handler);
+    let server = http.createServer(requestHandler);
+
     try {
+      const scope = nock("https://api.mailgun.net");
+      scope
+        .post("/v3/auto.watchmegrow.care/messages")
+        .times(2)
+        .reply(200);
+      // scope.
       expect.assertions(2);
-      // console.log(process.env.MAILGUN_API_KEY);
-      let requestHandler = (req: any, res: any) =>
-        apiResolver(req, res, undefined, handler);
-      let server = http.createServer(requestHandler);
       let url = await listen(server);
       let response = await fetch(url, {
         method: "POST",
@@ -108,10 +130,12 @@ describe("/ handler", () => {
       });
       let json = await response.json();
       expect(response.status).toBe(200);
-      expect(json).toEqual({ pong: "pong" });
+      expect(json).toEqual({ status: "OK" });
     } catch (e) {
       console.error(e);
       throw e;
+    } finally {
+      server.close();
     }
   });
 });

@@ -20,6 +20,14 @@
     "multipleStatements": true
   },
 
+  "test-create": {
+    "driver": "pg",
+    "host": "localhost",
+    "user": "postgres",
+    "password": "admin",
+    "multipleStatements": true
+  },
+
   "prod": {
     "database": "watch-me-grow",
     "driver": "pg",

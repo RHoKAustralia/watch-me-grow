@@ -5,18 +5,18 @@
 --
 
 
-SET statement_timeout = 0;
-SET lock_timeout = 0;
-SET idle_in_transaction_session_timeout = 0;
-SET client_encoding = 'UTF8';
-SET standard_conforming_strings = on;
-SELECT pg_catalog.set_config('search_path', '', false);
-SET check_function_bodies = false;
-SET xmloption = content;
-SET client_min_messages = warning;
-SET row_security = off;
+-- SET statement_timeout = 0;
+-- SET lock_timeout = 0;
+-- SET idle_in_transaction_session_timeout = 0;
+-- SET client_encoding = 'UTF8';
+-- SET standard_conforming_strings = on;
+-- SELECT pg_catalog.set_config('search_path', '', false);
+-- SET check_function_bodies = false;
+-- SET xmloption = content;
+-- SET client_min_messages = warning;
+-- SET row_security = off;
 
-SET default_tablespace = '';
+-- SET default_tablespace = '';
 
 --
 -- TOC entry 201 (class 1259 OID 16428)
@@ -468,7 +468,7 @@ ALTER TABLE ONLY public.results
 --
 
 ALTER TABLE ONLY public.result_answers
-    ADD CONSTRAINT results_answers_results_fkey FOREIGN KEY (result_answer_id) REFERENCES public.results(result_id) NOT VALID;
+    ADD CONSTRAINT results_answers_results_fkey FOREIGN KEY (result_id) REFERENCES public.results(result_id) NOT VALID;
 
 
 -- Completed on 2019-11-28 21:07:26 AEDT

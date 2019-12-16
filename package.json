@@ -73,6 +73,9 @@
     "start": "next start",
     "deploy-prod": "REACT_APP_IS_PROD=true lerna run build --concurrency=1 && cd packages && firebase deploy --project watchmegrow-prod && cd ..",
     "deploy-dev": "npx lerna run build --concurrency=1 && cd packages && firebase deploy --project watchmegrow-dev && cd ..",
-    "test": "jest"
+    "test": "NODE_ENV=test jest"
+  },
+  "jest": {
+    "testEnvironment": "node"
   }
 }

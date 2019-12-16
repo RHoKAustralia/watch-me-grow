@@ -1,7 +1,6 @@
-import {
-    createPool,
-  } from 'slonik';
-  
-  const pool = createPool(`postgres://${process.env.POSTGRES_URI}`);
-  
-  export default pool;
+import { createPool } from "slonik";
+import config from "config";
+
+const pool = createPool(config.get("postgres.url"));
+
+export default pool;

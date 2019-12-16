@@ -1,9 +1,34 @@
+// process.setMaxListeners(20);
+process.on("uncaughtException", console.error);
+process.on("warning", e => console.warn(e.stack));
+// on the first line of your main script
+import events from "events";
+const EventEmitter = events.EventEmitter;
+EventEmitter.defaultMaxListeners = 100;
+
+// var originalAddListener = EventEmitter.prototype.addListener;
+// EventEmitter.prototype.addListener = function(type, listener) {
+//   if (this.listenerCount(type) >= 10) {
+//     // TODO: PLACE YOUR CODE FOR DEBUGGING HERE
+//     throw new Error("hello");
+//   }
+//   return originalAddListener.call(this, type, listener);
+// };
+// var originalOn = EventEmitter.prototype.on;
+// EventEmitter.prototype.on = function(type, listener) {
+//   if (this.listenerCount(type) >= 10) {
+//     // TODO: PLACE YOUR CODE FOR DEBUGGING HERE
+//     throw new Error("hello");
+//   }
+//   return originalOn.call(this, type, listener);
+// };
+
 import { NextApiRequest, NextApiResponse } from "next";
 import moment from "moment";
 const mailgunJs = require("mailgun-js");
 import * as fs from "fs";
 import groupBy from "lodash/groupBy";
-import fromPairs from "lodash/fromPairs";
+
 // @ts-ignore
 import * as markupJs from "markup-js";
 import i18next from "i18next";
@@ -22,10 +47,8 @@ import {
 import minMax from "src/common/min-max";
 import {
   NotifyFunctionInput,
-  NotifyFunctionInputDetails,
-  Consent
+  NotifyFunctionInputDetails
 } from "src/common/notify-function-input";
-import { getConfigById } from "src/common/site-specific-config";
 import ageInMonthsToString from "src/common/age-to-string";
 import buildi18n from "../i18n";
 import categoryToLink from "src/common/category-to-link";
