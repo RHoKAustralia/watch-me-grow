@@ -1,4 +1,4 @@
-import http, { IncomingMessage, OutgoingMessage } from "http";
+import http, { IncomingMessage, ServerResponse } from "http";
 import fetch from "isomorphic-unfetch";
 import listen from "test-listen";
 import { apiResolver } from "next-server/dist/server/api-utils";
@@ -20,9 +20,21 @@ const dbmigrateCreate = DBMigrate.getInstance(true, {
   env: "test-create",
   throwUncatched: true
 });
-// dbmigrate.silence(true);
+const MAILGUN_API_HOST = "https://api.mailgun.net";
+const MAILGUN_MESSAGES_PATH = "/v3/auto.watchmegrow.care/messages";
 
-describe("/ handler", () => {
+const DEFAULT_PARENT_EMAIL = "test.parent@example.com";
+const DEFAULT_DOCTOR_EMAIL = "test.doctor@example.com";
+
+const REQUEST_HANDLER = (req: any, res: any) =>
+  apiResolver(req, res, undefined, handler);
+dbmigrate.silence(true);
+
+describe("/result", () => {
+  let server: http.Server;
+  let url: string;
+  let mailgunScope: nock.Scope;
+
   beforeAll(async () => {
     try {
       await dbmigrateCreate.createDatabase("test-wmg");
@@ -33,35 +45,53 @@ describe("/ handler", () => {
   });
 
   afterAll(async () => {
-    await (pool as any).end();
-    await dbmigrateCreate.reset();
+    // await (pool as any).end();
     await dbmigrateCreate.dropDatabase("test-wmg");
   });
 
   beforeEach(async () => {
     try {
       await dbmigrate.up();
+
+      server = http.createServer(REQUEST_HANDLER);
+      url = await listen(server);
+      mailgunScope = nock(MAILGUN_API_HOST);
     } catch (e) {
       console.error(e);
       throw e;
     }
   });
 
-  afterEach(() => {
-    return dbmigrate.reset();
+  afterEach(async () => {
+    try {
+      nock.cleanAll();
+      await dbmigrate.down();
+      await new Promise((res, rej) => {
+        server.close(err => {
+          if (err) {
+            rej(err);
+          } else {
+            res();
+          }
+        });
+      });
+    } catch (e) {
+      console.error(e);
+      throw e;
+    }
   });
 
   const buildPost = () => {
     return {
       details: {
-        recipientEmail: "test.parent@example.com",
+        recipientEmail: DEFAULT_PARENT_EMAIL,
         testDate: "2019-12-09T12:14:22.933Z",
         nameOfParent: "Test Parent",
-        firstNameOfChild: "Test",
+        firstNameOfChild: "TestFirstName",
         lastNameOfChild: "Test",
         genderOfChild: "male",
         dobOfChild: "2019-05-28T14:00:00.000Z",
-        doctorEmail: "test.doctor@example.com",
+        doctorEmail: DEFAULT_DOCTOR_EMAIL,
         ageInMonths: 6,
         siteId: "main",
         language: "en"
@@ -106,21 +136,20 @@ describe("/ handler", () => {
   //   console.log(req);
   // });
 
-  test("responds 200 to authed POST", async () => {
-    // console.log(process.env.MAILGUN_API_KEY);
-    let requestHandler = (req: any, res: any) =>
-      apiResolver(req, res, undefined, handler);
-    let server = http.createServer(requestHandler);
+  /**
+   * Make mailgun respond 200 no matter what gets posted to it.
+   */
+  const setupMailgun = () => {
+    mailgunScope
+      .post(MAILGUN_MESSAGES_PATH)
+      .times(2)
+      .reply(200);
+  };
 
+  test("responds 200 to authed POST", async () => {
     try {
-      const scope = nock("https://api.mailgun.net");
-      scope
-        .post("/v3/auto.watchmegrow.care/messages")
-        .times(2)
-        .reply(200);
-      // scope.
+      setupMailgun();
       expect.assertions(2);
-      let url = await listen(server);
       let response = await fetch(url, {
         method: "POST",
         body: JSON.stringify(buildPost()),
@@ -134,8 +163,52 @@ describe("/ handler", () => {
     } catch (e) {
       console.error(e);
       throw e;
-    } finally {
-      server.close();
     }
+  });
+
+  describe("emails: ", () => {
+    const checkEmail = async (
+      recipient: string,
+      emailCheckerFn: (body: any) => boolean
+    ) => {
+      mailgunScope
+        .post(MAILGUN_MESSAGES_PATH, body => {
+          return body.to === recipient && emailCheckerFn(body);
+        })
+        .reply(200);
+
+      mailgunScope.post(MAILGUN_MESSAGES_PATH).reply(200);
+
+      let response = await fetch(url, {
+        method: "POST",
+        body: JSON.stringify(buildPost()),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
+      expect(response.status).toBe(200);
+    };
+
+    describe("doctor email", () => {
+      it("subject is correct", async () => {
+        await checkEmail(DEFAULT_DOCTOR_EMAIL, body => {
+          expect(body.subject).toEqual(
+            "WatchMeGrow.care results for TestFirstName"
+          );
+          return true;
+        });
+      });
+
+      describe("shows concern correctly", () => {
+        it("for concern === true", async () => {
+          await checkEmail(DEFAULT_DOCTOR_EMAIL, body => {
+            expect(body.html).toContain(
+              "It is highly likely that this child has developmental issues. It is recommended that a referral for further assessment and early intervention through a paediatrician or other child development health professional is completed. In addition, it is important to continue to monitor the child over time."
+            );
+            return true;
+          });
+        });
+      });
+    });
   });
 });
