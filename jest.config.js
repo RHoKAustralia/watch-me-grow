@@ -10,5 +10,6 @@ module.exports = {
   // moduleNameMapper: {
   //   "!/(.*)$": "/"
   // }
-  moduleDirectories: ['node_modules', '']
+  moduleDirectories: ['node_modules', ''],
+  testMatch: [ "**/__tests__/**/*test.[jt]s?(x)", "**/?(*.)+(spec|test).[jt]s?(x)" ]
 };

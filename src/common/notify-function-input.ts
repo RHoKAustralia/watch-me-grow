@@ -14,7 +14,7 @@ export type NotifyFunctionInputDetails = {
 
 export type RecordedAnswer = {
   value: string;
-  comments: string;
+  comments?: string;
 };
 
 export type NotifyFunctionResults = {
