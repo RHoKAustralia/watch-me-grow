@@ -9,7 +9,7 @@ export const DEFAULT_PAYLOAD = Object.freeze({
     testDate: "2019-12-09T12:14:22.933Z",
     nameOfParent: "Test Parent",
     firstNameOfChild: "TestFirstName",
-    lastNameOfChild: "Test",
+    lastNameOfChild: "TestLastName",
     genderOfChild: "male",
     dobOfChild: "2019-05-28T14:00:00.000Z",
     doctorEmail: DEFAULT_DOCTOR_EMAIL,

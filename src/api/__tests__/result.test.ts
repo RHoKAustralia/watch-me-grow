@@ -11,7 +11,8 @@ import {
   DEFAULT_PAYLOAD
 } from "./fixtures";
 import nock from "nock";
-import pool from "../../db/pool";
+import _ from "lodash";
+
 const DBMigrate = require("db-migrate");
 
 process.env.MAILGUN_API_KEY = "abc";
@@ -19,6 +20,8 @@ Error.stackTraceLimit = Infinity;
 
 import handler from "../result";
 import { NotifyFunctionInput } from "src/common/notify-function-input";
+import questionnaires from "src/common/questionnaires";
+import buildi18n from "../i18n";
 
 const dbmigrate = DBMigrate.getInstance(true, {
   env: "test",
@@ -180,27 +183,76 @@ describe("/result", () => {
         });
 
         it("contains test #", async () => {
-          // Make a new db so we can predict the test #
-          await teardownDb();
-          await setupDb();
-
           await checkEmail(DEFAULT_DOCTOR_EMAIL, body => {
-            expect(body.html).toContain(`Test "1"`);
-            expect(body.html).toMatch(/<td>Test ID<\/td>\s*<td>1<\/td>/);
-            return true;
-          });
-
-          await checkEmail(DEFAULT_DOCTOR_EMAIL, body => {
-            expect(body.html).toContain(`Test "2"`);
-            expect(body.html).toMatch(/<td>Test ID<\/td>\s*<td>2<\/td>/);
+            expect(body.html).toMatch(
+              /Test "\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b"/
+            );
+            expect(body.html).toMatch(
+              /<td>Test ID<\/td>\s*<td>\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b<\/td>/
+            );
             return true;
           });
         });
 
-        it("contains child's name", async () => {
+        it("contains child's first name", async () => {
           expect(email.html).toContain(
-            `for ${DEFAULT_PAYLOAD.details.firstNameOfChild} ${DEFAULT_PAYLOAD.details.lastNameOfChild}`
+            `for ${DEFAULT_PAYLOAD.details.firstNameOfChild}`
           );
+        });
+
+        it("does not child's last name", async () => {
+          // Because we don't want the child to be too easily identifiable.
+          expect(email.html).not.toContain(
+            DEFAULT_PAYLOAD.details.lastNameOfChild
+          );
+        });
+
+        it("displays the date of the test", async () => {
+          expect(email.html).toContain("Monday, December 9th 2019");
+        });
+
+        it("displays all of the questions and answers", async () => {
+          // First do a manual test against a hard-coded value
+          expect(email.html).toMatch(
+            /<td>Does your child try to get things that are in reach\?<\/td>\s*<td>No<\/td>/
+          );
+
+          // Now do an auto test against all the values.
+          const t = await buildi18n("en");
+
+          const questions = _(questionnaires)
+            .flatMap(questionnaire =>
+              questionnaire.questions.map(question => ({
+                questionnaireId: questionnaire.id,
+                question
+              }))
+            )
+            .keyBy(
+              ({ questionnaireId, question }) =>
+                `${questionnaireId}-${question.id}`
+            )
+            .mapValues(({ question }) => question)
+            .value();
+
+          for (let [questionnaireId, questionnaireAnswers] of _.toPairs(
+            DEFAULT_PAYLOAD.results
+          )) {
+            for (let [questionId, { value: answerId }] of _.toPairs(
+              questionnaireAnswers
+            )) {
+              const question = questions[`${questionnaireId}-${questionId}`];
+              const answers = _.keyBy(question.answers, answer => answer.value);
+              const answerMetadata = answers[answerId];
+
+              expect(email.html).toMatch(
+                new RegExp(
+                  `${escapeRegExp(
+                    t(question.textId)
+                  )}</td>\\s*<td>${escapeRegExp(t(answerMetadata.textId))}`
+                )
+              );
+            }
+          }
         });
       });
 
@@ -244,3 +296,7 @@ describe("/result", () => {
     });
   });
 });
+
+function escapeRegExp(string: string) {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); // $& means the whole matched string
+}
