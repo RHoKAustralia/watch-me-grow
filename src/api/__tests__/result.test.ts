@@ -161,99 +161,120 @@ describe("/result", () => {
       expect(response.status).toBe(200);
     };
 
+    function commonEmailTests(emailGetter: () => Promise<MailgunInput>) {
+      let email: MailgunInput;
+
+      beforeEach(async () => (email = await emailGetter()));
+
+      it("contains test #", async () => {
+        await checkEmail(DEFAULT_DOCTOR_EMAIL, body => {
+          expect(body.html).toMatch(
+            /Test "\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b"/
+          );
+          expect(body.html).toMatch(
+            /<td>Test ID<\/td>\s*<td>\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b<\/td>/
+          );
+          return true;
+        });
+      });
+
+      it("subject is correct", async () => {
+        expect((await emailGetter()).subject).toEqual(
+          "WatchMeGrow.care results for TestFirstName"
+        );
+      });
+
+      it("displays the date of the test", async () => {
+        expect(email.html).toContain("Monday, December 9th 2019");
+      });
+
+      it("displays all of the questions and answers", async () => {
+        // First do a manual test against a hard-coded value
+        expect(email.html).toMatch(
+          /<td>Does your child try to get things that are in reach\?<\/td>\s*<td>No<\/td>/
+        );
+
+        // Now do an auto test against all the values.
+        const t = await buildi18n("en");
+
+        const questions = _(questionnaires)
+          .flatMap(questionnaire =>
+            questionnaire.questions.map(question => ({
+              questionnaireId: questionnaire.id,
+              question
+            }))
+          )
+          .keyBy(
+            ({ questionnaireId, question }) =>
+              `${questionnaireId}-${question.id}`
+          )
+          .mapValues(({ question }) => question)
+          .value();
+
+        for (let [questionnaireId, questionnaireAnswers] of _.toPairs(
+          DEFAULT_PAYLOAD.results
+        )) {
+          for (let [questionId, { value: answerId }] of _.toPairs(
+            questionnaireAnswers
+          )) {
+            const question = questions[`${questionnaireId}-${questionId}`];
+            const answers = _.keyBy(question.answers, answer => answer.value);
+            const answerMetadata = answers[answerId];
+
+            expect(email.html).toMatch(
+              new RegExp(
+                `${escapeRegExp(t(question.textId))}</td>\\s*<td>${escapeRegExp(
+                  t(answerMetadata.textId)
+                )}`
+              )
+            );
+          }
+        }
+      });
+    }
+
+    describe("guardian email", () => {
+      describe("regardless of concerns", () => {
+        const emailGetter: () => Promise<MailgunInput> = () =>
+          new Promise((resolve, reject) =>
+            checkEmail(DEFAULT_PARENT_EMAIL, newEmail => {
+              resolve(newEmail);
+              return true;
+            })
+          );
+
+        commonEmailTests(emailGetter);
+      });
+    });
+
     describe("doctor email", () => {
       describe("regardless of concerns", () => {
-        let email: MailgunInput;
-
-        beforeEach(() => {
-          return checkEmail(DEFAULT_DOCTOR_EMAIL, newEmail => {
-            email = newEmail;
-            return true;
-          });
-        });
-
-        it("subject is correct", async () => {
-          expect(email.subject).toEqual(
-            "WatchMeGrow.care results for TestFirstName"
+        const emailGetter: () => Promise<MailgunInput> = () =>
+          new Promise((resolve, reject) =>
+            checkEmail(DEFAULT_DOCTOR_EMAIL, newEmail => {
+              resolve(newEmail);
+              return true;
+            })
           );
-        });
-
-        it("contains the range of ages", async () => {
-          expect(email.html).toContain(`6 months to 6 years`);
-        });
-
-        it("contains test #", async () => {
-          await checkEmail(DEFAULT_DOCTOR_EMAIL, body => {
-            expect(body.html).toMatch(
-              /Test "\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b"/
-            );
-            expect(body.html).toMatch(
-              /<td>Test ID<\/td>\s*<td>\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b<\/td>/
-            );
-            return true;
-          });
-        });
 
         it("contains child's first name", async () => {
-          expect(email.html).toContain(
+          expect((await emailGetter()).html).toContain(
             `for ${DEFAULT_PAYLOAD.details.firstNameOfChild}`
           );
         });
 
-        it("does not child's last name", async () => {
+        it("does not contain child's last name", async () => {
           // Because we don't want the child to be too easily identifiable.
-          expect(email.html).not.toContain(
+          expect((await emailGetter()).html).not.toContain(
             DEFAULT_PAYLOAD.details.lastNameOfChild
           );
         });
 
-        it("displays the date of the test", async () => {
-          expect(email.html).toContain("Monday, December 9th 2019");
+        it("contains the range of ages", async () => {
+          expect((await emailGetter()).html).toContain(`6 months to 6 years`);
         });
 
-        it("displays all of the questions and answers", async () => {
-          // First do a manual test against a hard-coded value
-          expect(email.html).toMatch(
-            /<td>Does your child try to get things that are in reach\?<\/td>\s*<td>No<\/td>/
-          );
-
-          // Now do an auto test against all the values.
-          const t = await buildi18n("en");
-
-          const questions = _(questionnaires)
-            .flatMap(questionnaire =>
-              questionnaire.questions.map(question => ({
-                questionnaireId: questionnaire.id,
-                question
-              }))
-            )
-            .keyBy(
-              ({ questionnaireId, question }) =>
-                `${questionnaireId}-${question.id}`
-            )
-            .mapValues(({ question }) => question)
-            .value();
-
-          for (let [questionnaireId, questionnaireAnswers] of _.toPairs(
-            DEFAULT_PAYLOAD.results
-          )) {
-            for (let [questionId, { value: answerId }] of _.toPairs(
-              questionnaireAnswers
-            )) {
-              const question = questions[`${questionnaireId}-${questionId}`];
-              const answers = _.keyBy(question.answers, answer => answer.value);
-              const answerMetadata = answers[answerId];
-
-              expect(email.html).toMatch(
-                new RegExp(
-                  `${escapeRegExp(
-                    t(question.textId)
-                  )}</td>\\s*<td>${escapeRegExp(t(answerMetadata.textId))}`
-                )
-              );
-            }
-          }
-        });
+        commonEmailTests(emailGetter);
       });
 
       describe("concern = true", () => {
