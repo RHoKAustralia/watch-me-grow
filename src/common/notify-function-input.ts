@@ -7,7 +7,6 @@ export type NotifyFunctionInputDetails = {
   genderOfChild: string;
   dobOfChild: string;
   doctorEmail?: string;
-  ageInMonths: number;
   siteId: string;
   language: string;
 };
@@ -19,7 +18,7 @@ export type RecordedAnswer = {
 
 export type NotifyFunctionResults = {
   [questionnaireId: string]: {
-    [answerId: string]: RecordedAnswer;
+    [questionId: string]: RecordedAnswer;
   };
 };
 

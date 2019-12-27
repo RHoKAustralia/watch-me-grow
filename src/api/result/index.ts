@@ -1,28 +1,9 @@
 // process.setMaxListeners(20);
 process.on("uncaughtException", console.error);
 process.on("warning", e => console.warn(e.stack));
-// on the first line of your main script
 import events from "events";
 const EventEmitter = events.EventEmitter;
 EventEmitter.defaultMaxListeners = 100;
-
-// var originalAddListener = EventEmitter.prototype.addListener;
-// EventEmitter.prototype.addListener = function(type, listener) {
-//   if (this.listenerCount(type) >= 10) {
-//     // TODO: PLACE YOUR CODE FOR DEBUGGING HERE
-//     throw new Error("hello");
-//   }
-//   return originalAddListener.call(this, type, listener);
-// };
-// var originalOn = EventEmitter.prototype.on;
-// EventEmitter.prototype.on = function(type, listener) {
-//   if (this.listenerCount(type) >= 10) {
-//     // TODO: PLACE YOUR CODE FOR DEBUGGING HERE
-//     throw new Error("hello");
-//   }
-//   return originalOn.call(this, type, listener);
-// };
-
 import { NextApiRequest, NextApiResponse } from "next";
 import moment from "moment";
 const mailgunJs = require("mailgun-js");
@@ -95,7 +76,6 @@ type DoctorEmailInput = ParentEmailInput & {
 
 const FORMAT = "dddd, MMMM Do YYYY";
 const EMAIL_FROM = "WatchMeGrow.care <mail@watchmegrow.care>";
-// const EMAIL_TO = "alex@alexgilleran.com";
 
 const mailgun = mailgunJs({
   apiKey: process.env.MAILGUN_API_KEY,
@@ -211,9 +191,6 @@ function sendParentEmail(
   });
 
   return mailgun.messages().send(params);
-  // console.log("===PARENT===");
-  // console.log(message);
-  // return Promise.resolve();
 }
 
 function addCCToParams(params: any) {
@@ -327,67 +304,4 @@ function sendDoctorEmail(
   });
 
   return mailgun.messages().send(params);
-
-  // console.log("===DOCTOR===");
-  // console.log(message);
-  // return Promise.resolve();
 }
-
-// export type FirestoreRecord = {
-//   results: {
-//     questionnaire: string;
-//     answers: { [id: string]: string };
-//   }[];
-//   concerns: Concerns;
-//   details: FirestoreRecordDetails;
-//   date: firebase.firestore.Timestamp;
-//   consent?: Consent;
-// };
-
-// function recordResultsInFirestore(
-//   results: CombinedResult[],
-//   concerns: Concerns,
-//   details: NotifyFunctionInputDetails,
-//   consent?: Consent
-// ) {
-//   const filteredResults = results.map(result => ({
-//     questionnaire: result.questionnaire.id,
-//     answers: fromPairs(
-//       result.results.map(({ answer, question: metadata }) => [
-//         metadata.id,
-//         answer.rawAnswer.value
-//       ])
-//     )
-//   }));
-
-// const record: FirestoreRecord = {
-//   results: filteredResults,
-//   concerns,
-//   consent,
-//   details: {
-//     recipientEmail: details.recipientEmail,
-//     nameOfParent: details.nameOfParent,
-//     firstNameOfChild: details.firstNameOfChild,
-//     lastNameOfChild: details.lastNameOfChild,
-//     genderOfChild: details.genderOfChild,
-//     doctorEmail: details.doctorEmail,
-//     siteId: details.siteId,
-//     dobAsDate: firebase.firestore.Timestamp.fromDate(
-//       moment(details.dobOfChild).toDate()
-//     ),
-//     language: details.language
-//   },
-//   date: firebase.firestore.Timestamp.fromDate(
-//     moment(details.testDate).toDate()
-//   )
-// };
-
-// if (!record.details.doctorEmail) {
-//   delete record.details.doctorEmail;
-// }
-
-//   return firebase
-//     .firestore()
-//     .collection("/results")
-//     .add(record);
-// }
