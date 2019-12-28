@@ -12,6 +12,8 @@ import { testResultHarness } from "./test-harness";
 import handler from "../download-csv";
 import { NotifyFunctionInput } from "src/common/notify-function-input";
 import questionnaires from "src/common/questionnaires";
+import { getConfigById, sites } from "src/common/site-specific-config";
+import getQuestionnairesForSubsite from "src/common/questionnaires-for-subsite";
 const CSV_REQUEST_HANDLER = (req: any, res: any) =>
   apiResolver(req, res, undefined, handler);
 
@@ -44,92 +46,140 @@ testResultHarness(({ setupDb, teardownDb, setupMailgun, url: resultUrl }) => {
       let csvObj: any;
       let payload: NotifyFunctionInput;
 
-      beforeEach(async () => {
-        payload = buildDefaultPayload();
-        let response = await fetch(resultUrl(), {
-          method: "POST",
-          body: JSON.stringify(payload),
-          headers: {
-            "Content-Type": "application/json"
-          }
-        });
-        let json = await response.json();
-        expect(response.status).toBe(200);
-        expect(json).toEqual({ status: "OK" });
+      describe("headers", () => {
+        it("outputs the correct headers for each site", async () => {
+          expect(sites.length).toBeGreaterThan(0);
 
-        let csvResponse = await fetch(csvUrl + "?siteId=main", {
-          method: "GET"
-        });
-        expect(csvResponse.status).toBe(200);
+          for (let site of sites) {
+            let csvResponse = await fetch(`${csvUrl}?siteId=${site.id}`, {
+              method: "GET"
+            });
+            expect(csvResponse.status).toBe(200);
 
-        const csvText = await csvResponse.text();
-        csvObj = parse(csvText, { columns: true });
-      });
+            const csvText = await csvResponse.text();
 
-      it("outputs details correctly", async () => {
-        const detailsKeys = Object.keys(payload.details);
+            const headerLookup = _(csvText.split(","))
+              .keyBy(value => value.trim())
+              .mapValues(() => true)
+              .value();
 
-        expect(detailsKeys.length).toEqual(10);
+            expect(Object.keys(headerLookup).length).toBeGreaterThan(0);
 
-        for (let key of detailsKeys) {
-          expect(
-            csvObj[0][key],
-            `${key} was not equal between CSV and input`
-          ).toEqual((payload.details as any)[key]);
-        }
-      });
+            const questionnaires = getQuestionnairesForSubsite(site.id);
+            expect(questionnaires.length).toBeGreaterThan(0);
 
-      it("outputs consent correctly", async () => {
-        const consentKeys = Object.keys(payload.consent);
+            for (let questionnaire of questionnaires) {
+              expect(questionnaire.questions.length).toBeGreaterThan(0);
 
-        expect(
-          consentKeys.length,
-          `${JSON.stringify(consentKeys)}.length did not equal 7`
-        ).toEqual(7);
+              for (let question of questionnaire.questions) {
+                const answerColumnHeader = `${questionnaire.id}:${question.id}:answer`;
 
-        for (let key of consentKeys) {
-          expect(
-            csvObj[0][key],
-            `${key} was not equal between CSV and input`
-          ).toEqual((payload.consent as any)[key].toString());
-        }
-      });
+                expect(
+                  headerLookup[answerColumnHeader],
+                  answerColumnHeader
+                ).toEqual(true);
 
-      it("outputs question answers correctly", async () => {
-        const questionnaireIds = Object.keys(payload.results);
-
-        expect(questionnaireIds.length).toBeGreaterThan(0);
-
-        const hasAtLeastOneComment = _(
-          payload.results
-        ).some(questionnaireResult =>
-          _(questionnaireResult).some(answer => !!answer.comments)
-        );
-        expect(hasAtLeastOneComment).toBe(true);
-
-        for (let questionnaireId of questionnaireIds) {
-          const questionIds = Object.keys(payload.results[questionnaireId]);
-
-          expect(questionIds.length).toBeGreaterThan(0);
-
-          for (let questionId of questionIds) {
-            const answer = payload.results[questionnaireId][questionId];
-
-            const answerColumnHeader = `${questionnaireId}:${questionId}:answer`;
-            expect(
-              csvObj[0][answerColumnHeader],
-              `${answerColumnHeader} was not correct in the CSV`
-            ).toEqual(answer.value);
-
-            const commentColumnHeader = `${questionnaireId}:${questionId}:comments`;
-            if (!!answer.comments || csvObj[0][commentColumnHeader] != "") {
-              expect(
-                csvObj[0][commentColumnHeader],
-                `${commentColumnHeader} was not correct in the CSV`
-              ).toEqual(payload.results[questionnaireId][questionId].comments);
+                if (question.comments) {
+                  expect(
+                    headerLookup[`${questionnaire.id}:${question.id}:comments`]
+                  ).toEqual(true);
+                }
+              }
             }
           }
-        }
+        });
+      });
+
+      describe("for a default payload", () => {
+        beforeEach(async () => {
+          payload = buildDefaultPayload();
+          let response = await fetch(resultUrl(), {
+            method: "POST",
+            body: JSON.stringify(payload),
+            headers: {
+              "Content-Type": "application/json"
+            }
+          });
+          let json = await response.json();
+          expect(response.status).toBe(200);
+          expect(json).toEqual({ status: "OK" });
+
+          let csvResponse = await fetch(csvUrl + "?siteId=main", {
+            method: "GET"
+          });
+          expect(csvResponse.status).toBe(200);
+
+          const csvText = await csvResponse.text();
+          csvObj = parse(csvText, { columns: true });
+        });
+
+        it("outputs details correctly", async () => {
+          const detailsKeys = Object.keys(payload.details);
+
+          expect(detailsKeys.length).toEqual(10);
+
+          for (let key of detailsKeys) {
+            expect(
+              csvObj[0][key],
+              `${key} was not equal between CSV and input`
+            ).toEqual((payload.details as any)[key]);
+          }
+        });
+
+        it("outputs consent correctly", async () => {
+          const consentKeys = Object.keys(payload.consent);
+
+          expect(
+            consentKeys.length,
+            `${JSON.stringify(consentKeys)}.length did not equal 7`
+          ).toEqual(7);
+
+          for (let key of consentKeys) {
+            expect(
+              csvObj[0][key],
+              `${key} was not equal between CSV and input`
+            ).toEqual((payload.consent as any)[key].toString());
+          }
+        });
+
+        it("outputs question answers correctly", async () => {
+          const questionnaireIds = Object.keys(payload.results);
+
+          expect(questionnaireIds.length).toBeGreaterThan(0);
+
+          const hasAtLeastOneComment = _(
+            payload.results
+          ).some(questionnaireResult =>
+            _(questionnaireResult).some(answer => !!answer.comments)
+          );
+          expect(hasAtLeastOneComment).toBe(true);
+
+          for (let questionnaireId of questionnaireIds) {
+            const questionIds = Object.keys(payload.results[questionnaireId]);
+
+            expect(questionIds.length).toBeGreaterThan(0);
+
+            for (let questionId of questionIds) {
+              const answer = payload.results[questionnaireId][questionId];
+
+              const answerColumnHeader = `${questionnaireId}:${questionId}:answer`;
+              expect(
+                csvObj[0][answerColumnHeader],
+                `${answerColumnHeader} was not correct in the CSV`
+              ).toEqual(answer.value);
+
+              const commentColumnHeader = `${questionnaireId}:${questionId}:comments`;
+              if (!!answer.comments || csvObj[0][commentColumnHeader] != "") {
+                expect(
+                  csvObj[0][commentColumnHeader],
+                  `${commentColumnHeader} was not correct in the CSV`
+                ).toEqual(
+                  payload.results[questionnaireId][questionId].comments
+                );
+              }
+            }
+          }
+        });
       });
     });
   });
