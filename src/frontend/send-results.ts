@@ -27,9 +27,8 @@ export default function sendResults(
       firstNameOfChild: details.babyFirstName,
       lastNameOfChild: details.babyLastName,
       genderOfChild: details.babyGender,
-      dobOfChild: details.babyDob!.toISOString(),
+      dobOfChild: moment(details.babyDob!).format("YYYY-MM-DD"),
       doctorEmail: details.doctorEmail,
-      ageInMonths: ageInMonths,
       siteId: subsite!.id,
       language: i18next.language
     };

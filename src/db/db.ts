@@ -14,6 +14,7 @@ import {
 import { DatabaseTransactionConnectionType, sql } from "slonik";
 import _ from "lodash";
 import { Questionnaire } from "src/common/questionnaires";
+import moment from "moment";
 
 export function recordResult(
   results: CombinedResult[],
@@ -82,6 +83,7 @@ export async function getResults(
     const metadataRows = await connection.any(sql`
     SELECT
       results.result_id, results.date, results.language_id, results.site_id,
+        results.doctor_email,
       children.dob, children.given_name, children.surname, children.gender_id,
       consents.info_id, consents.receive_copy, consents.understand_consent,
         consents.info_sheet, consents.understand_aim, consents.opportunity_to_ask,
@@ -97,8 +99,6 @@ export async function getResults(
     LIMIT ${pageSize}
     OFFSET ${after}
   `);
-
-    console.log(metadataRows);
 
     let allResults: NotifyFunctionInput[] = [];
     for (let row of metadataRows) {
@@ -123,7 +123,7 @@ export async function getResults(
 
       const details: NotifyFunctionInputDetails = {
         recipientEmail: row.email_address as string,
-        testDate: row.date as string,
+        testDate: moment(row.date).toISOString(),
         nameOfParent: row.name as string,
         firstNameOfChild: row.given_name as string,
         lastNameOfChild: row.surname as string,
@@ -186,9 +186,11 @@ function insertResult(
 ) {
   return connection.oneFirst(sql`
     INSERT INTO results (date, doctor_email, language_id, site_id, guardian_id, child_id)
-      VALUES (${details.testDate}, ${details.doctorEmail || null}, ${
-    details.language
-  }, ${details.siteId}, ${guardianId}, ${childId})
+      VALUES (${moment(
+        details.testDate
+      ).toISOString()}, ${details.doctorEmail || null}, ${details.language}, ${
+    details.siteId
+  }, ${guardianId}, ${childId})
       RETURNING result_id
     `);
 }

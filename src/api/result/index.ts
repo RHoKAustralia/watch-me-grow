@@ -256,7 +256,10 @@ function buildEmailInput(
       lastNameOfChild: details.lastNameOfChild,
       testDateFormatted: moment(details.testDate).format(FORMAT),
       dobChildFormatted: moment(details.dobOfChild).format(FORMAT),
-      ageOfChild: ageInMonthsToString(details.ageInMonths, t),
+      ageOfChild: ageInMonthsToString(
+        moment().diff(moment(details.dobOfChild), "months"),
+        t
+      ),
       testId: id
     },
     results,

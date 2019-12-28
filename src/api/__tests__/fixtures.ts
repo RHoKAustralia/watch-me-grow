@@ -3,7 +3,7 @@ import { NotifyFunctionInput } from "src/common/notify-function-input";
 export const DEFAULT_PARENT_EMAIL = "test.parent@example.com";
 export const DEFAULT_DOCTOR_EMAIL = "test.doctor@example.com";
 
-export const DEFAULT_PAYLOAD = Object.freeze({
+export const DEFAULT_PAYLOAD: NotifyFunctionInput = Object.freeze({
   details: {
     recipientEmail: DEFAULT_PARENT_EMAIL,
     testDate: "2019-12-09T12:14:22.933Z",
@@ -11,9 +11,8 @@ export const DEFAULT_PAYLOAD = Object.freeze({
     firstNameOfChild: "TestFirstName",
     lastNameOfChild: "TestLastName",
     genderOfChild: "male",
-    dobOfChild: "2019-05-28T14:00:00.000Z",
+    dobOfChild: "2019-05-28",
     doctorEmail: DEFAULT_DOCTOR_EMAIL,
-    ageInMonths: 6,
     siteId: "main",
     language: "en"
   },

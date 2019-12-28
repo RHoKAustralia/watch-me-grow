@@ -49,7 +49,7 @@ ALTER TABLE public.result_concerns OWNER TO postgres;
 
 CREATE TABLE public.results (
     result_id uuid  DEFAULT uuid_generate_v4(),
-    date date NOT NULL,
+    date timestamp with time zone NOT NULL,
     language_id character varying(2) NOT NULL,
     site_id character varying(100) NOT NULL,
     doctor_email character varying NOT NULL,

@@ -2,6 +2,7 @@ import http, { IncomingMessage, ServerResponse } from "http";
 import fetch from "isomorphic-unfetch";
 import listen from "test-listen";
 import { apiResolver } from "next-server/dist/server/api-utils";
+import parse from "csv-parse/lib/sync";
 
 import { buildDefaultPayload } from "./fixtures";
 import _ from "lodash";
@@ -38,11 +39,12 @@ testResultHarness(({ setupDb, teardownDb, setupMailgun, url: resultUrl }) => {
       });
     });
 
-    it.only("responds 200 to authed POST", async () => {
-      try {
+    describe("csv", () => {
+      it("outputs details correctly", async () => {
+        const payload = buildDefaultPayload();
         let response = await fetch(resultUrl(), {
           method: "POST",
-          body: JSON.stringify(buildDefaultPayload()),
+          body: JSON.stringify(payload),
           headers: {
             "Content-Type": "application/json"
           }
@@ -54,12 +56,22 @@ testResultHarness(({ setupDb, teardownDb, setupMailgun, url: resultUrl }) => {
         let csvResponse = await fetch(csvUrl + "?siteId=main", {
           method: "GET"
         });
-
         expect(csvResponse.status).toBe(200);
-      } catch (e) {
-        console.error(e);
-        throw e;
-      }
+
+        const csvText = await csvResponse.text();
+        const csvObjLine1 = parse(csvText, { columns: true })[0];
+
+        const detailsKeys = Object.keys(payload.details);
+
+        expect(detailsKeys.length).toEqual(10);
+
+        for (let key of detailsKeys) {
+          expect(
+            csvObjLine1[key],
+            `${key} was not equal between CSV and input`
+          ).toEqual((payload.details as any)[key]);
+        }
+      });
     });
   });
 });

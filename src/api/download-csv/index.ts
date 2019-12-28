@@ -1,5 +1,4 @@
-import flatMap from "lodash/flatMap";
-import fromPairs from "lodash/fromPairs";
+import _ from "lodash";
 import { NextApiRequest, NextApiResponse } from "next";
 
 const createCsvStringifier = require("csv-writer").createObjectCsvStringifier;
@@ -7,7 +6,8 @@ const createCsvStringifier = require("csv-writer").createObjectCsvStringifier;
 import questionnairesForSubsite from "src/common/questionnaires-for-subsite";
 import {
   NotifyFunctionInputDetails,
-  Consent
+  Consent,
+  NotifyFunctionInput
 } from "src/common/notify-function-input";
 import { Questionnaire, Question } from "src/common/questionnaires";
 import { getResults } from "src/db/db";
@@ -31,7 +31,6 @@ const dummyDetails: NotifyFunctionInputDetails = {
   genderOfChild: "",
   dobOfChild: "",
   doctorEmail: "",
-  ageInMonths: 0,
   siteId: "",
   language: ""
 };
@@ -62,7 +61,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     const siteId: string = req.query.siteId as string;
 
-    let current = await getResults(siteId, 0, PAGE_SIZE);
+    let offset = 0;
+    let current = await getResults(siteId, offset, PAGE_SIZE);
 
     if (req.query.format === "json") {
       //   res.setHeader("type", "application/json");
@@ -75,11 +75,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       //       .join(",")
       //   );
 
-      //   while (current.docs.length === PAGE_SIZE) {
-      //     const lastVisible = current.docs[current.docs.length - 1];
+      //   while (current.length === PAGE_SIZE) {
+      //     const lastVisible = current[current.length - 1];
       //     current = await buildQuery(siteId, lastVisible).get();
-      //     if (current.docs.length > 0) {
-      //       current.docs.forEach(doc => {
+      //     if (current.length > 0) {
+      //       current.forEach(doc => {
       //         res.write(",");
       //         res.write(
       //           JSON.stringify(flattenResultDoc(doc.data() as FirestoreRecord))
@@ -101,7 +101,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       const questionnaires = questionnairesForSubsite(
         req.query.siteId as string
       );
-      const questionIds = flatMap(questionnaires, questionnaire =>
+      const questionIds = _.flatMap(questionnaires, questionnaire =>
         questionnaire.questions.map(question =>
           buildHeaderId(questionnaire, question)
         )
@@ -114,28 +114,23 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       });
 
       res.write(csvStringifier.getHeaderString());
+      res.write(
+        csvStringifier.stringifyRecords(
+          current.map(fnInput => flattenResultDoc(fnInput))
+        )
+      );
 
-      //   res.write(
-      //     csvStringifier.stringifyRecords(
-      //       current.docs.map(doc =>
-      //         flattenResultDoc(doc.data() as FirestoreRecord)
-      //       )
-      //     )
-      //   );
-
-      //   while (current.docs.length === PAGE_SIZE) {
-      //     const lastVisible = current.docs[current.docs.length - 1];
-      //     current = await buildQuery(siteId, lastVisible).get();
-      //     if (current.docs.length > 0) {
-      //       res.write(
-      //         csvStringifier.stringifyRecords(
-      //           current.docs.map(doc =>
-      //             flattenResultDoc(doc.data() as FirestoreRecord)
-      //           )
-      //         )
-      //       );
-      //     }
-      //   }
+      while (current.length === PAGE_SIZE) {
+        offset += current.length;
+        current = await getResults(siteId, offset, PAGE_SIZE);
+        if (current.length > 0) {
+          res.write(
+            csvStringifier.stringifyRecords(
+              current.map(fnInput => flattenResultDoc(fnInput))
+            )
+          );
+        }
+      }
     }
 
     res.status(200).end();
@@ -149,36 +144,36 @@ function buildHeaderId(questionnaire: Questionnaire, question: Question) {
   return questionnaire.id + ":" + question.id;
 }
 
-// function buildQuery(
-//   siteId: string,
-//   lastVisible?: FirebaseFirestore.QueryDocumentSnapshot
-// ) {
-//   const base = firebase
-//     .firestore()
-//     .collection("results")
-//     .where("details.siteId", "==", siteId)
-//     .orderBy("date")
-//     .limit(PAGE_SIZE);
+function flattenResultDoc(doc: NotifyFunctionInput) {
+  const flattenedAnswers = _(doc.results)
+    .mapValues((result, questionnaireId) =>
+      _(result)
+        .mapValues((answer, questionId) => {
+          const flattenedAnswer = {
+            [`${questionnaireId}:${questionId}:answer`]: answer.value
+          };
 
-//   return lastVisible ? base.startAfter(lastVisible) : base;
-// }
-
-function flattenResultDoc(doc: NotifyFunctionInputDetails) {
-  //   const results = fromPairs(
-  //     flatMap(doc.results, result =>
-  //       Object.keys(result.answers).map(answerId => [
-  //         result.questionnaire + ":" + answerId,
-  //         result.answers[answerId]
-  //       ])
-  //     )
-  //   );
+          return answer.comments
+            ? {
+                ...flattenedAnswer,
+                [`${questionnaireId}:${questionId}:comments`]: answer.comments
+              }
+            : flattenedAnswer;
+        })
+        .values()
+        .value()
+    )
+    .values()
+    .flattenDeep()
+    .reduce((accumulator, current) => ({
+      ...accumulator,
+      ...current
+    }));
 
   return {
-    // ...doc.consent,
-    // ...doc.details,
-    // dobOfChild: doc.details.dobAsDate.toDate().toDateString(),
-    // testDate: doc.date.toDate().toDateString(),
-    // ...results,
-    // ...doc.consent
+    ...doc.consent,
+    ...doc.details,
+    ...flattenedAnswers,
+    ...doc.consent
   };
 }

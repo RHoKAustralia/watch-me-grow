@@ -102,7 +102,7 @@ testResultHarness(
           for (let [questionnaireId, questionnaireAnswers] of _.toPairs(
             DEFAULT_PAYLOAD.results
           )) {
-            for (let [questionId, { value: answerId }] of _.toPairs(
+            for (let [questionId, { value: answerId, comments }] of _.toPairs(
               questionnaireAnswers
             )) {
               const question = questions[`${questionnaireId}-${questionId}`];
@@ -116,6 +116,14 @@ testResultHarness(
                   )}</td>\\s*<td>${escapeRegExp(t(answerMetadata.textId))}`
                 )
               );
+
+              if (comments) {
+                expect(email.html).toMatch(
+                  new RegExp(
+                    `<td>Comment</td>\\s*<td colspan="3">${comments}</td>`
+                  )
+                );
+              }
             }
           }
         });
