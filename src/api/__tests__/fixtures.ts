@@ -42,6 +42,7 @@ export const DEFAULT_PAYLOAD: NotifyFunctionInput = Object.freeze({
     }
   },
   consent: {
+    info: "studyOnly",
     receiveCopy: false,
     understandConsent: false,
     infoSheet: false,

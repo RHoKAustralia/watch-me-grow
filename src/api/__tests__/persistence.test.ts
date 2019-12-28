@@ -10,6 +10,7 @@ import _ from "lodash";
 import { testResultHarness } from "./test-harness";
 
 import handler from "../download-csv";
+import { NotifyFunctionInput } from "src/common/notify-function-input";
 const CSV_REQUEST_HANDLER = (req: any, res: any) =>
   apiResolver(req, res, undefined, handler);
 
@@ -27,7 +28,6 @@ testResultHarness(({ setupDb, teardownDb, setupMailgun, url: resultUrl }) => {
 
     afterEach(async () => {
       await teardownDb();
-
       await new Promise((res, rej) => {
         server.close(err => {
           if (err) {
@@ -40,8 +40,11 @@ testResultHarness(({ setupDb, teardownDb, setupMailgun, url: resultUrl }) => {
     });
 
     describe("csv", () => {
-      it("outputs details correctly", async () => {
-        const payload = buildDefaultPayload();
+      let csvObj: any;
+      let payload: NotifyFunctionInput;
+
+      beforeEach(async () => {
+        payload = buildDefaultPayload();
         let response = await fetch(resultUrl(), {
           method: "POST",
           body: JSON.stringify(payload),
@@ -59,17 +62,35 @@ testResultHarness(({ setupDb, teardownDb, setupMailgun, url: resultUrl }) => {
         expect(csvResponse.status).toBe(200);
 
         const csvText = await csvResponse.text();
-        const csvObjLine1 = parse(csvText, { columns: true })[0];
+        csvObj = parse(csvText, { columns: true });
+      });
 
+      it("outputs details correctly", async () => {
         const detailsKeys = Object.keys(payload.details);
 
         expect(detailsKeys.length).toEqual(10);
 
         for (let key of detailsKeys) {
           expect(
-            csvObjLine1[key],
+            csvObj[0][key],
             `${key} was not equal between CSV and input`
           ).toEqual((payload.details as any)[key]);
+        }
+      });
+
+      it("outputs consent correctly", async () => {
+        const consentKeys = Object.keys(payload.consent);
+
+        expect(
+          consentKeys.length,
+          `${JSON.stringify(consentKeys)}.length did not equal 7`
+        ).toEqual(7);
+
+        for (let key of consentKeys) {
+          expect(
+            csvObj[0][key],
+            `${key} was not equal between CSV and input`
+          ).toEqual((payload.consent as any)[key].toString());
         }
       });
     });
