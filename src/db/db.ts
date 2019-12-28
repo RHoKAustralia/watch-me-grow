@@ -103,7 +103,7 @@ export async function getResults(
     let allResults: NotifyFunctionInput[] = [];
     for (let row of metadataRows) {
       const resultRows = await connection.many(sql`
-        SELECT question_id, questionnaire_id, answer_id
+        SELECT question_id, questionnaire_id, answer_id, comments
         FROM result_answers
         WHERE result_answers.result_id = ${row.result_id}
       `);

@@ -102,7 +102,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         req.query.siteId as string
       );
       const questionIds = _.flatMap(questionnaires, questionnaire =>
-        questionnaire.questions.map(question =>
+        _.flatMap(questionnaire.questions, question =>
           buildHeaderId(questionnaire, question)
         )
       );
@@ -141,7 +141,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 };
 
 function buildHeaderId(questionnaire: Questionnaire, question: Question) {
-  return questionnaire.id + ":" + question.id;
+  let headerIds = [`${questionnaire.id}:${question.id}:answer`];
+
+  if (question.comments) {
+    headerIds.push(`${questionnaire.id}:${question.id}:comments`);
+  }
+
+  return headerIds;
 }
 
 function flattenResultDoc(doc: NotifyFunctionInput) {

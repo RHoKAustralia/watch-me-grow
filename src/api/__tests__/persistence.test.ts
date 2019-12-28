@@ -11,6 +11,7 @@ import { testResultHarness } from "./test-harness";
 
 import handler from "../download-csv";
 import { NotifyFunctionInput } from "src/common/notify-function-input";
+import questionnaires from "src/common/questionnaires";
 const CSV_REQUEST_HANDLER = (req: any, res: any) =>
   apiResolver(req, res, undefined, handler);
 
@@ -91,6 +92,43 @@ testResultHarness(({ setupDb, teardownDb, setupMailgun, url: resultUrl }) => {
             csvObj[0][key],
             `${key} was not equal between CSV and input`
           ).toEqual((payload.consent as any)[key].toString());
+        }
+      });
+
+      it("outputs question answers correctly", async () => {
+        const questionnaireIds = Object.keys(payload.results);
+
+        expect(questionnaireIds.length).toBeGreaterThan(0);
+
+        const hasAtLeastOneComment = _(
+          payload.results
+        ).some(questionnaireResult =>
+          _(questionnaireResult).some(answer => !!answer.comments)
+        );
+        expect(hasAtLeastOneComment).toBe(true);
+
+        for (let questionnaireId of questionnaireIds) {
+          const questionIds = Object.keys(payload.results[questionnaireId]);
+
+          expect(questionIds.length).toBeGreaterThan(0);
+
+          for (let questionId of questionIds) {
+            const answer = payload.results[questionnaireId][questionId];
+
+            const answerColumnHeader = `${questionnaireId}:${questionId}:answer`;
+            expect(
+              csvObj[0][answerColumnHeader],
+              `${answerColumnHeader} was not correct in the CSV`
+            ).toEqual(answer.value);
+
+            const commentColumnHeader = `${questionnaireId}:${questionId}:comments`;
+            if (!!answer.comments || csvObj[0][commentColumnHeader] != "") {
+              expect(
+                csvObj[0][commentColumnHeader],
+                `${commentColumnHeader} was not correct in the CSV`
+              ).toEqual(payload.results[questionnaireId][questionId].comments);
+            }
+          }
         }
       });
     });
