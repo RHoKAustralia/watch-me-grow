@@ -17,10 +17,20 @@ import getQuestionnairesForSubsite from "src/common/questionnaires-for-subsite";
 const CSV_REQUEST_HANDLER = (req: any, res: any) =>
   apiResolver(req, res, undefined, handler);
 
+const PASSWORD = "secret";
+
 testResultHarness(({ setupDb, teardownDb, setupMailgun, url: resultUrl }) => {
   describe("persistence", () => {
     let server: http.Server;
     let csvUrl: string;
+
+    beforeAll(() => {
+      process.env.WMG_PASSWORD = PASSWORD;
+    });
+
+    afterAll(() => {
+      delete process.env.WMG_PASSWORD;
+    });
 
     beforeEach(async () => {
       await setupDb();
@@ -42,6 +52,17 @@ testResultHarness(({ setupDb, teardownDb, setupMailgun, url: resultUrl }) => {
       });
     });
 
+    const getCsv = (siteId: string) => {
+      return fetch(`${csvUrl}?siteId=${siteId}`, {
+        method: "GET",
+        headers: {
+          Authorization: `Basic ${Buffer.from(
+            "admin" + ":" + "secret"
+          ).toString("base64")}`
+        }
+      });
+    };
+
     describe("csv", () => {
       let csvObj: any;
       let payload: NotifyFunctionInput;
@@ -51,9 +72,7 @@ testResultHarness(({ setupDb, teardownDb, setupMailgun, url: resultUrl }) => {
           expect(sites.length).toBeGreaterThan(0);
 
           for (let site of sites) {
-            let csvResponse = await fetch(`${csvUrl}?siteId=${site.id}`, {
-              method: "GET"
-            });
+            let csvResponse = await getCsv(site.id);
             expect(csvResponse.status).toBe(200);
 
             const csvText = await csvResponse.text();
@@ -63,12 +82,15 @@ testResultHarness(({ setupDb, teardownDb, setupMailgun, url: resultUrl }) => {
               .mapValues(() => true)
               .value();
 
-            expect(Object.keys(headerLookup).length).toBeGreaterThan(0);
+            const headers = Object.keys(headerLookup);
+            expect(headers.length).toBeGreaterThan(0);
 
-            const questionnaires = getQuestionnairesForSubsite(site.id);
-            expect(questionnaires.length).toBeGreaterThan(0);
+            const questionnairesForSubsite = getQuestionnairesForSubsite(
+              site.id
+            );
+            expect(questionnairesForSubsite.length).toBeGreaterThan(0);
 
-            for (let questionnaire of questionnaires) {
+            for (let questionnaire of questionnairesForSubsite) {
               expect(questionnaire.questions.length).toBeGreaterThan(0);
 
               for (let question of questionnaire.questions) {
@@ -86,7 +108,77 @@ testResultHarness(({ setupDb, teardownDb, setupMailgun, url: resultUrl }) => {
                 }
               }
             }
+
+            const questionnairesNotForSubsite = _.differenceWith(
+              questionnaires,
+              questionnairesForSubsite,
+              (x, y) => x.id === y.id
+            );
+
+            expect(questionnairesNotForSubsite.length).toBeGreaterThan(0);
+
+            for (let notForSubsiteQuestionnaire of questionnairesNotForSubsite) {
+              expect(
+                headers.some(header =>
+                  header.startsWith(notForSubsiteQuestionnaire.id)
+                ),
+                `${JSON.stringify(
+                  headers
+                )} should not have contained questionnaire id ${
+                  notForSubsiteQuestionnaire.id
+                }`
+              ).toEqual(false);
+            }
           }
+        });
+      });
+
+      describe("authentication", () => {
+        it("rejects when there's no auth header", async () => {
+          const res = await fetch(`${csvUrl}?siteId=main`, {
+            method: "GET"
+          });
+
+          expect(res.status).toBe(401);
+        });
+
+        it("rejects when the password is wrong", async () => {
+          const res = await fetch(`${csvUrl}?siteId=main`, {
+            method: "GET",
+            headers: {
+              Authorization: `Basic ${Buffer.from(
+                "admin" + ":" + PASSWORD + "blah"
+              ).toString("base64")}`
+            }
+          });
+
+          expect(res.status).toBe(401);
+        });
+
+        it("rejects when the username is wrong", async () => {
+          const res = await fetch(`${csvUrl}?siteId=main`, {
+            method: "GET",
+            headers: {
+              Authorization: `Basic ${Buffer.from(
+                "blah" + ":" + PASSWORD
+              ).toString("base64")}`
+            }
+          });
+
+          expect(res.status).toBe(401);
+        });
+
+        it("rejects when the username and password are wrong", async () => {
+          const res = await fetch(`${csvUrl}?siteId=main`, {
+            method: "GET",
+            headers: {
+              Authorization: `Basic ${Buffer.from(
+                "blah" + ":" + PASSWORD + "blah"
+              ).toString("base64")}`
+            }
+          });
+
+          expect(res.status).toBe(401);
         });
       });
 
@@ -104,9 +196,7 @@ testResultHarness(({ setupDb, teardownDb, setupMailgun, url: resultUrl }) => {
           expect(response.status).toBe(200);
           expect(json).toEqual({ status: "OK" });
 
-          let csvResponse = await fetch(csvUrl + "?siteId=main", {
-            method: "GET"
-          });
+          let csvResponse = await getCsv("main");
           expect(csvResponse.status).toBe(200);
 
           const csvText = await csvResponse.text();

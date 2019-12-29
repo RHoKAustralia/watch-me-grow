@@ -1,5 +1,7 @@
 import _ from "lodash";
 import { NextApiRequest, NextApiResponse } from "next";
+import auth from "basic-auth";
+import compare from "tsscmp";
 
 const createCsvStringifier = require("csv-writer").createObjectCsvStringifier;
 
@@ -46,11 +48,15 @@ const dummyConsent: Consent = {
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    const isAdmin = true;
+    const credentials = auth(req);
 
-    if (!isAdmin) {
-      res.status(403).send("User is not an admin");
-      console.error("User is not an admin");
+    if (!credentials || !check(credentials.name, credentials.pass)) {
+      res.statusCode = 401;
+      res.setHeader("WWW-Authenticate", 'Basic realm="watchmegrow.care"');
+      console.error(
+        "Denied access" + (!!credentials ? ` for ${credentials.name}` : "")
+      );
+      res.end("Access denied");
       return;
     }
 
@@ -64,72 +70,43 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     let offset = 0;
     let current = await getResults(siteId, offset, PAGE_SIZE);
 
-    if (req.query.format === "json") {
-      //   res.setHeader("type", "application/json");
-      //   res.write("[");
-      //   res.write(
-      //     current
-      //       .map(doc =>
-      //         JSON.stringify(flattenResultDoc(doc.data() as FirestoreRecord))
-      //       )
-      //       .join(",")
-      //   );
+    res.setHeader("type", "text/csv");
+    res.setHeader(
+      "Content-Disposition",
+      "attachment; filename=" + req.query.siteId + ".csv"
+    );
 
-      //   while (current.length === PAGE_SIZE) {
-      //     const lastVisible = current[current.length - 1];
-      //     current = await buildQuery(siteId, lastVisible).get();
-      //     if (current.length > 0) {
-      //       current.forEach(doc => {
-      //         res.write(",");
-      //         res.write(
-      //           JSON.stringify(flattenResultDoc(doc.data() as FirestoreRecord))
-      //         );
-      //       });
-      //     }
-      //   }
+    const detailsHeaders = Object.keys(dummyDetails);
+    const consentHeaders = Object.keys(dummyConsent);
+    const questionnaires = questionnairesForSubsite(req.query.siteId as string);
+    const questionIds = _.flatMap(questionnaires, questionnaire =>
+      _.flatMap(questionnaire.questions, question =>
+        buildHeaderId(questionnaire, question)
+      )
+    );
 
-      res.write("]");
-    } else {
-      res.setHeader("type", "text/csv");
-      res.setHeader(
-        "Content-Disposition",
-        "attachment; filename=" + req.query.siteId + ".csv"
-      );
+    const headers = [...consentHeaders, ...detailsHeaders, ...questionIds];
 
-      const detailsHeaders = Object.keys(dummyDetails);
-      const consentHeaders = Object.keys(dummyConsent);
-      const questionnaires = questionnairesForSubsite(
-        req.query.siteId as string
-      );
-      const questionIds = _.flatMap(questionnaires, questionnaire =>
-        _.flatMap(questionnaire.questions, question =>
-          buildHeaderId(questionnaire, question)
-        )
-      );
+    const csvStringifier = createCsvStringifier({
+      header: headers.map(header => ({ id: header, title: header }))
+    });
 
-      const headers = [...consentHeaders, ...detailsHeaders, ...questionIds];
+    res.write(csvStringifier.getHeaderString());
+    res.write(
+      csvStringifier.stringifyRecords(
+        current.map(fnInput => flattenResultDoc(fnInput))
+      )
+    );
 
-      const csvStringifier = createCsvStringifier({
-        header: headers.map(header => ({ id: header, title: header }))
-      });
-
-      res.write(csvStringifier.getHeaderString());
-      res.write(
-        csvStringifier.stringifyRecords(
-          current.map(fnInput => flattenResultDoc(fnInput))
-        )
-      );
-
-      while (current.length === PAGE_SIZE) {
-        offset += current.length;
-        current = await getResults(siteId, offset, PAGE_SIZE);
-        if (current.length > 0) {
-          res.write(
-            csvStringifier.stringifyRecords(
-              current.map(fnInput => flattenResultDoc(fnInput))
-            )
-          );
-        }
+    while (current.length === PAGE_SIZE) {
+      offset += current.length;
+      current = await getResults(siteId, offset, PAGE_SIZE);
+      if (current.length > 0) {
+        res.write(
+          csvStringifier.stringifyRecords(
+            current.map(fnInput => flattenResultDoc(fnInput))
+          )
+        );
       }
     }
 
@@ -139,6 +116,21 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(500).send("Error");
   }
 };
+
+function check(name: string, pass: string) {
+  if (process.env.WMG_PASSWORD) {
+    var valid = true;
+    // Simple method to prevent short-circut and use timing-safe compare
+    valid = compare(name, "admin") && valid;
+    valid = compare(pass, process.env.WMG_PASSWORD) && valid;
+    return valid;
+  } else {
+    console.error(
+      `process.env.WMG_PASSWORD was not set, all auth'd requests will be denied`
+    );
+    return false;
+  }
+}
 
 function buildHeaderId(questionnaire: Questionnaire, question: Question) {
   let headerIds = [`${questionnaire.id}:${question.id}:answer`];
