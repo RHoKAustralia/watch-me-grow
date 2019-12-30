@@ -11,10 +11,16 @@ import {
   ConsentInfo,
   NotifyFunctionResults
 } from "src/common/notify-function-input";
-import { DatabaseTransactionConnectionType, sql } from "slonik";
+import {
+  DatabaseTransactionConnectionType,
+  sql,
+  TaggedTemplateLiteralInvocationType,
+  QueryResultRowType
+} from "slonik";
 import _ from "lodash";
 import { Questionnaire } from "src/common/questionnaires";
-import moment from "moment";
+import moment, { Moment } from "moment";
+import { DB_DATE_FORMAT } from "src/common/constants";
 
 export function recordResult(
   results: CombinedResult[],
@@ -77,8 +83,21 @@ export function recordResult(
 export async function getResults(
   siteId: string,
   after: number,
-  pageSize: number
+  pageSize: number,
+  minDate?: Moment,
+  maxDate?: Moment
 ): Promise<NotifyFunctionInput[]> {
+  const wheres = [
+    sql`results.site_id = ${siteId}`,
+    sql`results.guardian_id = guardians.guardian_id`,
+    sql`results.child_id = children.child_id`,
+    sql`consents.result_id = results.result_id`,
+    minDate && sql`children.dob > ${minDate.format(DB_DATE_FORMAT)}`,
+    maxDate && sql`children.dob <= ${maxDate.format(DB_DATE_FORMAT)}`
+  ].filter(x => !!x) as TaggedTemplateLiteralInvocationType<
+    QueryResultRowType<string>
+  >[];
+
   return pool.connect(async connection => {
     const metadataRows = await connection.any(sql`
     SELECT
@@ -90,11 +109,7 @@ export async function getResults(
         consents.agree_to_participate,
       guardians.name, guardians.email_address
     FROM results, guardians, children, consents
-    WHERE
-      results.site_id = ${siteId} AND
-      results.guardian_id = guardians.guardian_id AND
-      results.child_id = children.child_id AND
-      consents.result_id = results.result_id
+    WHERE ${sql.join(wheres, sql` AND `)}
     ORDER BY results.date
     LIMIT ${pageSize}
     OFFSET ${after}

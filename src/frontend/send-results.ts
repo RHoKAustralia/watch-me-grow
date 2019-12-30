@@ -10,6 +10,7 @@ import { Details } from "./components/stores/details-store";
 import { Results } from "./components/stores/results-store";
 import { Consent } from "src/common/notify-function-input";
 import { HostConfig } from "src/common/site-specific-config";
+import { DB_DATE_FORMAT } from "src/common/constants";
 
 export default function sendResults(
   details: Details,
@@ -27,7 +28,7 @@ export default function sendResults(
       firstNameOfChild: details.babyFirstName,
       lastNameOfChild: details.babyLastName,
       genderOfChild: details.babyGender,
-      dobOfChild: moment(details.babyDob!).format("YYYY-MM-DD"),
+      dobOfChild: moment(details.babyDob!).format(DB_DATE_FORMAT),
       doctorEmail: details.doctorEmail,
       siteId: subsite!.id,
       language: i18next.language

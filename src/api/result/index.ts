@@ -6,7 +6,6 @@ const EventEmitter = events.EventEmitter;
 EventEmitter.defaultMaxListeners = 100;
 import { NextApiRequest, NextApiResponse } from "next";
 import moment from "moment";
-const mailgunJs = require("mailgun-js");
 import * as fs from "fs";
 import groupBy from "lodash/groupBy";
 
@@ -33,6 +32,7 @@ import {
 import ageInMonthsToString from "src/common/age-to-string";
 import buildi18n from "../i18n";
 import categoryToLink from "src/common/category-to-link";
+import mailgun, { EMAIL_FROM } from "src/api/mailgun";
 
 type EmailResult = {
   questionnaire: {
@@ -75,12 +75,6 @@ type DoctorEmailInput = ParentEmailInput & {
 };
 
 const FORMAT = "dddd, MMMM Do YYYY";
-const EMAIL_FROM = "WatchMeGrow.care <mail@watchmegrow.care>";
-
-const mailgun = mailgunJs({
-  apiKey: process.env.MAILGUN_API_KEY,
-  domain: "auto.watchmegrow.care"
-});
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method !== "POST") {

@@ -1,0 +1,1 @@
+export const DB_DATE_FORMAT = "YYYY-MM-DD"
