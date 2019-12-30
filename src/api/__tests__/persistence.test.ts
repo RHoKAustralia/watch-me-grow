@@ -182,6 +182,54 @@ testResultHarness(({ setupDb, teardownDb, setupMailgun, url: resultUrl }) => {
         });
       });
 
+      it("filters by site correctly", async () => {
+        // We're going to submit twice, so we need two sets of mailgun expectations.
+        setupMailgun();
+
+        const payloadMain = buildDefaultPayload();
+        const payloadDevelopmental = buildDefaultPayload();
+        payloadDevelopmental.details.siteId = "developmental";
+        payloadDevelopmental.details.firstNameOfChild = "Devin";
+
+        let mainResponse = await fetch(resultUrl(), {
+          method: "POST",
+          body: JSON.stringify(payloadMain),
+          headers: {
+            "Content-Type": "application/json"
+          }
+        });
+        expect(mainResponse.status).toBe(200);
+
+        let developmentalResponse = await fetch(resultUrl(), {
+          method: "POST",
+          body: JSON.stringify(payloadDevelopmental),
+          headers: {
+            "Content-Type": "application/json"
+          }
+        });
+        expect(developmentalResponse.status).toBe(200);
+
+        let csvResponseMain = await getCsv("main");
+        expect(csvResponseMain.status).toBe(200);
+        const csvTextMain = await csvResponseMain.text();
+        const csvObjMain = parse(csvTextMain, { columns: true });
+
+        let csvResponseDevelopmental = await getCsv("developmental");
+        expect(csvResponseDevelopmental.status).toBe(200);
+        const csvTextDevelopmental = await csvResponseDevelopmental.text();
+        const csvObjDevelopmental = parse(csvTextDevelopmental, {
+          columns: true
+        });
+
+        expect(csvObjMain.length).toEqual(1);
+        expect(csvObjDevelopmental.length).toEqual(1);
+
+        expect(csvObjMain[0].firstNameOfChild).toEqual(
+          payloadMain.details.firstNameOfChild
+        );
+        expect(csvObjDevelopmental[0].firstNameOfChild).toEqual("Devin");
+      });
+
       describe("for a default payload", () => {
         beforeEach(async () => {
           payload = buildDefaultPayload();

@@ -1,3 +1,5 @@
+import _ from "lodash";
+
 import { NotifyFunctionInput } from "src/common/notify-function-input";
 
 export const DEFAULT_PARENT_EMAIL = "test.parent@example.com";
@@ -52,9 +54,8 @@ export const DEFAULT_PAYLOAD: NotifyFunctionInput = Object.freeze({
   }
 });
 
-export const buildDefaultPayload: () => NotifyFunctionInput = () => ({
-  ...DEFAULT_PAYLOAD
-});
+export const buildDefaultPayload: () => NotifyFunctionInput = () =>
+  _.cloneDeep(DEFAULT_PAYLOAD);
 
 export const buildNoConcernPayload: () => NotifyFunctionInput = () => {
   const defaultPayload = buildDefaultPayload();
