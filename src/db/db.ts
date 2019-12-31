@@ -92,12 +92,11 @@ export async function getResults(
     sql`results.guardian_id = guardians.guardian_id`,
     sql`results.child_id = children.child_id`,
     sql`consents.result_id = results.result_id`,
-    minDate && sql`children.dob > ${minDate.format(DB_DATE_FORMAT)}`,
-    maxDate && sql`children.dob <= ${maxDate.format(DB_DATE_FORMAT)}`
+    minDate && sql`children.dob >= ${minDate.format(DB_DATE_FORMAT)}`,
+    maxDate && sql`children.dob < ${maxDate.format(DB_DATE_FORMAT)}`
   ].filter(x => !!x) as TaggedTemplateLiteralInvocationType<
     QueryResultRowType<string>
   >[];
-
   return pool.connect(async connection => {
     const metadataRows = await connection.any(sql`
     SELECT

@@ -9,11 +9,11 @@ export default function getMinMax(questionnairesRaw: Questionnaire[]) {
   const questionnaires = _(questionnairesRaw);
 
   const minMonths: number = questionnaires
-    .map(questionnaire => questionnaire.age_groups.min)
+    .map(questionnaire => questionnaire.ageGroups.min)
     .sortBy(x => x)
     .head() as number;
   const maxMonths: number = questionnaires
-    .map(questionnaire => questionnaire.age_groups.max)
+    .map(questionnaire => questionnaire.ageGroups.max)
     .sortBy(x => -x)
     .head() as number;
 

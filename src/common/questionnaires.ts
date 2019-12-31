@@ -19,7 +19,7 @@ export type Questionnaire = {
   title: string;
   category: "development" | "behaviour" | "emotions";
   subcategory?: "development" | "communication";
-  age_groups: {
+  ageGroups: {
     min: number;
     max: number;
   };
@@ -27,7 +27,11 @@ export type Questionnaire = {
     strategy: StrategyId;
     redFlagThreshold: number;
   };
-  remind_at?: number;
+  /**
+   * The age of the child in months to remind parents to do this questionnaire,
+   * if it's set as part of the site that they were on.
+   */
+  remindAt?: number;
   questions: Question[];
 };
 
@@ -341,7 +345,7 @@ const peds: Questionnaire = {
   title: "PEDS",
   category: "development",
   subcategory: "development",
-  age_groups: {
+  ageGroups: {
     min: 6,
     max: 48
   },
@@ -420,7 +424,7 @@ const questionnaires: Questionnaire[] = [
     title: "CDC 6 Months",
     category: "development",
     subcategory: "development",
-    age_groups: { min: 6, max: 8 },
+    ageGroups: { min: 6, max: 8 },
     analysis: {
       strategy: "cdc",
       redFlagThreshold: 1
@@ -487,8 +491,8 @@ const questionnaires: Questionnaire[] = [
     title: "CDC 9 Months",
     category: "development",
     subcategory: "development",
-    age_groups: { min: 9, max: 11 },
-    remind_at: 9,
+    ageGroups: { min: 9, max: 11 },
+    remindAt: 9,
     analysis: {
       strategy: "cdc",
       redFlagThreshold: 1
@@ -546,8 +550,8 @@ const questionnaires: Questionnaire[] = [
     title: "CDC 12 Months",
     category: "development",
     subcategory: "development",
-    age_groups: { min: 12, max: 17 },
-    remind_at: 12,
+    ageGroups: { min: 12, max: 17 },
+    remindAt: 12,
     analysis: {
       strategy: "cdc",
       redFlagThreshold: 1
@@ -602,8 +606,8 @@ const questionnaires: Questionnaire[] = [
     title: "CDC 18 Months",
     category: "development",
     subcategory: "development",
-    age_groups: { min: 18, max: 23 },
-    remind_at: 18,
+    ageGroups: { min: 18, max: 23 },
+    remindAt: 18,
     analysis: {
       strategy: "cdc",
       redFlagThreshold: 1
@@ -664,8 +668,8 @@ const questionnaires: Questionnaire[] = [
     title: "CDC 24 Months",
     category: "development",
     subcategory: "development",
-    age_groups: { min: 24, max: 35 },
-    remind_at: 24,
+    ageGroups: { min: 24, max: 35 },
+    remindAt: 24,
     analysis: {
       strategy: "cdc",
       redFlagThreshold: 1
@@ -714,8 +718,8 @@ const questionnaires: Questionnaire[] = [
     title: "CDC 36 Months",
     category: "development",
     subcategory: "development",
-    age_groups: { min: 36, max: 47 },
-    remind_at: 36,
+    ageGroups: { min: 36, max: 47 },
+    remindAt: 36,
     analysis: {
       strategy: "cdc",
       redFlagThreshold: 1
@@ -782,8 +786,8 @@ const questionnaires: Questionnaire[] = [
     title: "CDC 48 Months",
     category: "development",
     subcategory: "development",
-    age_groups: { min: 48, max: 59 },
-    remind_at: 48,
+    ageGroups: { min: 48, max: 59 },
+    remindAt: 48,
     analysis: {
       strategy: "cdc",
       redFlagThreshold: 1
@@ -862,8 +866,8 @@ const questionnaires: Questionnaire[] = [
     title: "CDC 60 Months",
     category: "development",
     subcategory: "development",
-    age_groups: { min: 60, max: 72 },
-    remind_at: 60,
+    ageGroups: { min: 60, max: 72 },
+    remindAt: 60,
     analysis: {
       strategy: "cdc",
       redFlagThreshold: 1
@@ -954,7 +958,7 @@ const questionnaires: Questionnaire[] = [
     title: "QCHAT",
     category: "development",
     subcategory: "communication",
-    age_groups: { min: 16, max: 30 },
+    ageGroups: { min: 16, max: 30 },
     analysis: {
       strategy: "simple",
       redFlagThreshold: 3
@@ -1017,7 +1021,7 @@ const questionnaires: Questionnaire[] = [
     title: "Psychological Development Questionnaire For Toddlers (PDQ1)",
     category: "development",
     subcategory: "communication",
-    age_groups: { min: 30, max: 47 },
+    ageGroups: { min: 30, max: 47 },
     analysis: {
       strategy: "simple",
       redFlagThreshold: 12
@@ -1095,7 +1099,7 @@ const questionnaires: Questionnaire[] = [
     title: "Autism Spectrum Quotient",
     category: "development",
     subcategory: "communication",
-    age_groups: { min: 48, max: 72 },
+    ageGroups: { min: 48, max: 72 },
     analysis: {
       strategy: "simple",
       redFlagThreshold: 7
@@ -1158,7 +1162,7 @@ const questionnaires: Questionnaire[] = [
     title: "Reporting Questionnaire for Children (RQC)",
     category: "development",
     subcategory: "communication",
-    age_groups: { min: 31, max: 66 },
+    ageGroups: { min: 31, max: 66 },
     analysis: {
       strategy: "cdc",
       redFlagThreshold: 1
@@ -1230,7 +1234,7 @@ const questionnaires: Questionnaire[] = [
     id: "bpsc",
     title: "Baby Pediatric Symptom Checklist (BPSC)",
     category: "behaviour",
-    age_groups: { min: 6, max: 17 },
+    ageGroups: { min: 6, max: 17 },
     analysis: {
       strategy: "bpsc",
       redFlagThreshold: 3
@@ -1326,8 +1330,8 @@ const questionnaires: Questionnaire[] = [
     id: "ppsc",
     title: "Preschool Pediatric Symptom Checklist (PPSC)",
     category: "behaviour",
-    age_groups: { min: 18, max: 30 },
-    remind_at: 18,
+    ageGroups: { min: 18, max: 30 },
+    remindAt: 18,
     analysis: {
       strategy: "simple",
       redFlagThreshold: 9
@@ -1447,7 +1451,7 @@ const questionnaires: Questionnaire[] = [
     id: "psq4d",
     title: "Primary Care Screening Questionnaire for Depression (PSQ4D)",
     category: "emotions",
-    age_groups: { min: 6, max: 66 },
+    ageGroups: { min: 6, max: 66 },
     analysis: {
       strategy: "simple",
       redFlagThreshold: 2

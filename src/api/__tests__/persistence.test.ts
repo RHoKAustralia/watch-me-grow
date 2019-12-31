@@ -9,10 +9,10 @@ import _ from "lodash";
 
 import { testResultHarness } from "./test-harness";
 
-import handler from "../download-csv";
+import handler from "pages/api/download-csv";
 import { NotifyFunctionInput } from "src/common/notify-function-input";
 import questionnaires from "src/common/questionnaires";
-import { getConfigById, sites } from "src/common/site-specific-config";
+import { sites } from "src/common/site-specific-config";
 import getQuestionnairesForSubsite from "src/common/questionnaires-for-subsite";
 const CSV_REQUEST_HANDLER = (req: any, res: any) =>
   apiResolver(req, res, undefined, handler);
@@ -34,7 +34,6 @@ testResultHarness(({ setupDb, teardownDb, setupMailgun, url: resultUrl }) => {
 
     beforeEach(async () => {
       await setupDb();
-      setupMailgun();
       server = http.createServer(CSV_REQUEST_HANDLER);
       csvUrl = await listen(server);
     });
@@ -67,70 +66,66 @@ testResultHarness(({ setupDb, teardownDb, setupMailgun, url: resultUrl }) => {
       let csvObj: any;
       let payload: NotifyFunctionInput;
 
-      describe("headers", () => {
-        it("outputs the correct headers for each site", async () => {
-          expect(sites.length).toBeGreaterThan(0);
+      it("outputs the correct headers for each site", async () => {
+        expect(sites.length).toBeGreaterThan(0);
 
-          for (let site of sites) {
-            let csvResponse = await getCsv(site.id);
-            expect(csvResponse.status).toBe(200);
+        for (let site of sites) {
+          let csvResponse = await getCsv(site.id);
+          expect(csvResponse.status).toBe(200);
 
-            const csvText = await csvResponse.text();
+          const csvText = await csvResponse.text();
 
-            const headerLookup = _(csvText.split(","))
-              .keyBy(value => value.trim())
-              .mapValues(() => true)
-              .value();
+          const headerLookup = _(csvText.split(","))
+            .keyBy(value => value.trim())
+            .mapValues(() => true)
+            .value();
 
-            const headers = Object.keys(headerLookup);
-            expect(headers.length).toBeGreaterThan(0);
+          const headers = Object.keys(headerLookup);
+          expect(headers.length).toBeGreaterThan(0);
 
-            const questionnairesForSubsite = getQuestionnairesForSubsite(
-              site.id
-            );
-            expect(questionnairesForSubsite.length).toBeGreaterThan(0);
+          const questionnairesForSubsite = getQuestionnairesForSubsite(site.id);
+          expect(questionnairesForSubsite.length).toBeGreaterThan(0);
 
-            for (let questionnaire of questionnairesForSubsite) {
-              expect(questionnaire.questions.length).toBeGreaterThan(0);
+          for (let questionnaire of questionnairesForSubsite) {
+            expect(questionnaire.questions.length).toBeGreaterThan(0);
 
-              for (let question of questionnaire.questions) {
-                const answerColumnHeader = `${questionnaire.id}:${question.id}:answer`;
+            for (let question of questionnaire.questions) {
+              const answerColumnHeader = `${questionnaire.id}:${question.id}:answer`;
 
+              expect(
+                headerLookup[answerColumnHeader],
+                answerColumnHeader
+              ).toEqual(true);
+
+              if (question.comments) {
                 expect(
-                  headerLookup[answerColumnHeader],
-                  answerColumnHeader
+                  headerLookup[`${questionnaire.id}:${question.id}:comments`]
                 ).toEqual(true);
-
-                if (question.comments) {
-                  expect(
-                    headerLookup[`${questionnaire.id}:${question.id}:comments`]
-                  ).toEqual(true);
-                }
               }
             }
-
-            const questionnairesNotForSubsite = _.differenceWith(
-              questionnaires,
-              questionnairesForSubsite,
-              (x, y) => x.id === y.id
-            );
-
-            expect(questionnairesNotForSubsite.length).toBeGreaterThan(0);
-
-            for (let notForSubsiteQuestionnaire of questionnairesNotForSubsite) {
-              expect(
-                headers.some(header =>
-                  header.startsWith(notForSubsiteQuestionnaire.id)
-                ),
-                `${JSON.stringify(
-                  headers
-                )} should not have contained questionnaire id ${
-                  notForSubsiteQuestionnaire.id
-                }`
-              ).toEqual(false);
-            }
           }
-        });
+
+          const questionnairesNotForSubsite = _.differenceWith(
+            questionnaires,
+            questionnairesForSubsite,
+            (x, y) => x.id === y.id
+          );
+
+          expect(questionnairesNotForSubsite.length).toBeGreaterThan(0);
+
+          for (let notForSubsiteQuestionnaire of questionnairesNotForSubsite) {
+            expect(
+              headers.some(header =>
+                header.startsWith(notForSubsiteQuestionnaire.id)
+              ),
+              `${JSON.stringify(
+                headers
+              )} should not have contained questionnaire id ${
+                notForSubsiteQuestionnaire.id
+              }`
+            ).toEqual(false);
+          }
+        }
       });
 
       describe("authentication", () => {
@@ -185,6 +180,7 @@ testResultHarness(({ setupDb, teardownDb, setupMailgun, url: resultUrl }) => {
       it("filters by site correctly", async () => {
         // We're going to submit twice, so we need two sets of mailgun expectations.
         setupMailgun();
+        setupMailgun();
 
         const payloadMain = buildDefaultPayload();
         const payloadDevelopmental = buildDefaultPayload();
@@ -230,8 +226,9 @@ testResultHarness(({ setupDb, teardownDb, setupMailgun, url: resultUrl }) => {
         expect(csvObjDevelopmental[0].firstNameOfChild).toEqual("Devin");
       });
 
-      describe("for a default payload", () => {
+      describe("for a single result", () => {
         beforeEach(async () => {
+          setupMailgun();
           payload = buildDefaultPayload();
           let response = await fetch(resultUrl(), {
             method: "POST",

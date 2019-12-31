@@ -3,8 +3,9 @@ import moment from "moment";
 import * as markupJs from "markup-js";
 import * as fs from "fs";
 import _ from "lodash";
-import mailgun, { EMAIL_FROM } from "src/api/mailgun";
 import { NextApiRequest, NextApiResponse } from "next";
+import mailgun, { EMAIL_FROM } from "src/api/mailgun";
+
 
 import questionnaires from "src/common/questionnaires";
 import { sites, getConfigById } from "src/common//site-specific-config";
@@ -13,7 +14,7 @@ import { getResults } from "src/db/db";
 import { NotifyFunctionInputDetails } from "src/common/notify-function-input";
 
 const reminderTemplateBody = fs.readFileSync(
-  require.resolve("../../src/reminder-email/Reminder.html"),
+  require.resolve("src/api/reminder/Reminder.html"),
   "utf-8"
 );
 
@@ -30,19 +31,26 @@ const subsitesForQuestionnaire = _(sites)
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    const now = moment();
+    if (req.method !== "POST") {
+      res
+        .status(404)
+        .json({ result: "Error", message: "Only POSTs are allowed" });
+      return;
+    }
+
+    const now = moment.utc();
 
     /** An array of each questionnaire's id along with min and max age range
      *  for children whose guardians need reminding today (usually 1 day apart) */
     const questionnaireReminderAges = questionnaires
-      .filter(questionnaire => questionnaire.remind_at)
+      .filter(questionnaire => questionnaire.remindAt)
       .map(questionnaire => ({
         questionnaireId: questionnaire.id,
-        minDate: now
+        minDate: now.clone().subtract(questionnaire.remindAt, "months"),
+        maxDate: now
           .clone()
-          .subtract(questionnaire.remind_at, "months")
-          .subtract(1, "days"),
-        maxDate: now.clone().subtract(questionnaire.remind_at, "months")
+          .subtract(questionnaire.remindAt, "months")
+          .add(1, "days")
       }));
 
     /** An array of zero-arg fns that when executed will fetch the results
@@ -93,10 +101,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     console.log(`Successfully reminded ${reminderCounter} parents`);
 
-    return true;
+    res.status(200).json({ result: "Success" });
   } catch (e) {
     console.error(e);
-    return false;
+    res.status(500).json({
+      result: "Error"
+    });
   }
 };
 
@@ -126,6 +136,5 @@ async function sendReminder(details: NotifyFunctionInputDetails) {
     html: message
   };
 
-  return mailgun.messages().send(params);
-  // return Promise.resolve();
+  return await mailgun.messages().send(params);
 }

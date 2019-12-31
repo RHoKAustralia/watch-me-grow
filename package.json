@@ -66,6 +66,7 @@
     "db-migrate-pg": "^1.0.0",
     "isomorphic-unfetch": "^3.0.0",
     "jest": "^24.9.0",
+    "jest-date-mock": "^1.0.7",
     "jest-expect-message": "^1.0.2",
     "nock": "^11.7.0",
     "node-sass": "^4.12.0",

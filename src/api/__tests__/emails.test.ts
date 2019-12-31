@@ -1,4 +1,5 @@
 import fetch from "isomorphic-unfetch";
+import _ from "lodash";
 
 import {
   DEFAULT_DOCTOR_EMAIL,
@@ -7,7 +8,6 @@ import {
   buildNoConcernPayload,
   DEFAULT_PAYLOAD
 } from "./fixtures";
-import _ from "lodash";
 
 import { NotifyFunctionInput } from "src/common/notify-function-input";
 import questionnaires from "src/common/questionnaires";
@@ -20,7 +20,7 @@ import {
 
 testResultHarness(
   ({ setupDb, teardownDb, setupMailgun, url, mailgunScope }) => {
-    describe("emails: ", () => {
+    describe("result email", () => {
       beforeAll(setupDb);
       afterAll(teardownDb);
 

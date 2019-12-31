@@ -16,5 +16,6 @@ module.exports = {
     "**/?(*.)+(spec|test).[jt]s?(x)"
   ],
   maxWorkers: 1,
-  setupFilesAfterEnv: ["jest-expect-message"]
+  setupFilesAfterEnv: ["jest-expect-message"],
+  setupFiles: ["jest-date-mock"]
 };

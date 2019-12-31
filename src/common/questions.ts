@@ -12,7 +12,7 @@ export default function getQuestions(
 ): QuestionLookup {
   return questionnairesForSubsite(subsite.id)
     .filter(questionnaire => {
-      const ageGroups = questionnaire.age_groups;
+      const ageGroups = questionnaire.ageGroups;
 
       return months >= ageGroups.min && months <= ageGroups.max;
     })

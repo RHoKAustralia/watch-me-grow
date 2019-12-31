@@ -2,13 +2,12 @@ import http, { IncomingMessage, ServerResponse } from "http";
 import fetch from "isomorphic-unfetch";
 import listen from "test-listen";
 import { apiResolver } from "next-server/dist/server/api-utils";
-import { NextApiRequest, NextApiResponse } from "next";
 import nock from "nock";
 import _ from "lodash";
 const DBMigrate = require("db-migrate");
 
 process.env.MAILGUN_API_KEY = "abc";
-import handler from "../result";
+import handler from "pages/api/result";
 
 Error.stackTraceLimit = Infinity;
 
@@ -78,20 +77,25 @@ export const testResultHarness = (thingsToDo: (args: Args) => void) => {
 
     afterEach(async () => {
       try {
-        nock.cleanAll();
-        mailgunScope.done();
-        await new Promise((res, rej) => {
-          server.close(err => {
-            if (err) {
-              rej(err);
-            } else {
-              res();
-            }
+        expect(nock.isDone(), nock.pendingMocks().join(", ")).toBe(true);
+      } finally {
+        try {
+          // nock.restore();
+          nock.cleanAll();
+
+          await new Promise((res, rej) => {
+            server.close(err => {
+              if (err) {
+                rej(err);
+              } else {
+                res();
+              }
+            });
           });
-        });
-      } catch (e) {
-        console.error(e);
-        throw e;
+        } catch (e) {
+          console.error(e);
+          throw e;
+        }
       }
     });
 
