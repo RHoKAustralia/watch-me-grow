@@ -1,7 +1,8 @@
 const mailgunJs = require("mailgun-js");
+import config from "config";
 
 export default mailgunJs({
-  apiKey: process.env.MAILGUN_API_KEY,
+  apiKey: config.get("mailgun.apiKey"),
   domain: "auto.watchmegrow.care"
 });
 

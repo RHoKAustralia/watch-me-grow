@@ -77,12 +77,11 @@
     "typescript": "^3.5.3"
   },
   "scripts": {
-    "dev": "next dev",
+    "dev": "NODE_ENV=development next dev",
     "build": "next build",
     "start": "next start",
-    "deploy-prod": "REACT_APP_IS_PROD=true lerna run build --concurrency=1 && cd packages && firebase deploy --project watchmegrow-prod && cd ..",
-    "deploy-dev": "npx lerna run build --concurrency=1 && cd packages && firebase deploy --project watchmegrow-dev && cd ..",
-    "test": "NODE_ENV=test jest"
+    "test": "NODE_ENV=unit-test jest",
+    "migrate": "node node_modules/db-migrate/bin/db-migrate up -e development"
   },
   "jest": {
     "testEnvironment": "node"

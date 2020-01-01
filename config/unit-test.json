@@ -1,0 +1,8 @@
+{
+  "postgres": {
+    "url": "postgres://postgres:admin@localhost:5432/test-wmg"
+  },
+  "mailgun": {
+    "apiKey": "abc"
+  }
+}

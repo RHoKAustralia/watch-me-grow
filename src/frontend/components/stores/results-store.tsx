@@ -26,7 +26,7 @@ export type Results = State & {
     questionnaireId: string,
     questionId: string,
     value: any,
-    comments: string
+    comments?: string
   ) => void;
   save: () => void;
   mark: () => void;
@@ -54,7 +54,7 @@ const ResultStore = <T extends WrappedComponentProps>(
       questionnaireId: string,
       questionId: string,
       value: any,
-      comments: string
+      comments?: string
     ) => {
       const forQuestionnaire = this.getResultsForQuestionnaire(questionnaireId);
 
@@ -91,16 +91,13 @@ const ResultStore = <T extends WrappedComponentProps>(
     clear = () => {
       sessionStorage.removeItem(LOCAL_STORAGE_KEY);
       this.setState(
-        Object.keys(this.state).reduce(
-          (acc: State, id: string) => {
-            const newState: State = {
-              ...acc,
-              [id]: (undefined as any) as { [id: string]: RecordedAnswer }
-            };
-            return newState;
-          },
-          {} as State
-        )
+        Object.keys(this.state).reduce((acc: State, id: string) => {
+          const newState: State = {
+            ...acc,
+            [id]: (undefined as any) as { [id: string]: RecordedAnswer }
+          };
+          return newState;
+        }, {} as State)
       );
     };
 

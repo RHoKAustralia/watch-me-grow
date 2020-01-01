@@ -72,3 +72,5 @@ lib
 
 packages
 .next
+
+config/local*.json

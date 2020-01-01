@@ -1,8 +1,8 @@
 {
-  "defaultEnv": "local",
+  "defaultEnv": "development",
   "sql-file": true,
 
-  "local": {
+  "development": {
     "database": "watch-me-grow",
     "driver": "pg",
     "host": "localhost",
