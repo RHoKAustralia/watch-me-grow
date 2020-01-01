@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import basicAuth from "basic-auth";
 import compare from "tsscmp";
+import { IncomingMessage, ServerResponse } from "http";
 
 /**
  * Checks if the user has specified the right username and password.
@@ -8,7 +9,10 @@ import compare from "tsscmp";
  * If so, simply returns true.
  * If false, returns the request with 401 Access Denied and returns false.
  */
-export default function isAdmin(req: NextApiRequest, res: NextApiResponse) {
+export default function isAdmin(
+  req: NextApiRequest | IncomingMessage,
+  res: NextApiResponse | ServerResponse
+) {
   const credentials = basicAuth(req);
 
   if (!credentials || !check(credentials.name, credentials.pass)) {

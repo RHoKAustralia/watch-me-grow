@@ -39,7 +39,7 @@ class Header extends React.Component {
   render() {
     return (
       <header className={Styles.header}>
-        <Link href="landing">
+        <Link href="/">
           <img className={Styles.logo} src={"/static/wmg-header-logo.svg"} />
         </Link>
         <h1 className={Styles.title}>WatchMeGrow.care</h1>
@@ -54,7 +54,7 @@ class Header extends React.Component {
             </MenuItem>
           ))}
         </Select>
-        <Link href="landing" activeClassName={Styles.active}>
+        <Link href="/" activeClassName={Styles.active}>
           <a className={Styles["new-child"]}>New Child</a>
         </Link>
       </header>

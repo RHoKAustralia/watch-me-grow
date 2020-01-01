@@ -52,6 +52,7 @@ function DetailsStore<T extends WrappedComponentProps>(
   ComposedComponent: React.ComponentClass<T, any>
 ) {
   return class DetailsStore extends Component<T, State> {
+    static getInitialProps = (ComposedComponent as any).getInitialProps;
     static displayName = "DetailsStore";
 
     state = this.buildInitialState();

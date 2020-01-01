@@ -42,6 +42,7 @@ const ResultStore = <T extends WrappedComponentProps>(
   ComposedComponent: React.ComponentClass<T, any>
 ) =>
   class ResultStore extends React.Component<T, State> {
+    static getInitialProps = (ComposedComponent as any).getInitialProps;
     state: State = {};
 
     componentDidMount() {

@@ -2,6 +2,7 @@ import moment from "moment";
 // @ts-ignore
 import * as markupJs from "markup-js";
 import * as fs from "fs";
+import path from "path";
 import _ from "lodash";
 import { NextApiRequest, NextApiResponse } from "next";
 import mailgun, { EMAIL_FROM } from "src/api/mailgun";
@@ -14,7 +15,7 @@ import { NotifyFunctionInputDetails } from "src/common/notify-function-input";
 import isAdmin from "../is-admin";
 
 const reminderTemplateBody = fs.readFileSync(
-  require.resolve("src/api/reminder/Reminder.html"),
+  path.join(path.dirname(require.resolve("./index")), "Reminder.html"),
   "utf-8"
 );
 

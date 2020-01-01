@@ -1,20 +1,25 @@
 import React from "react";
-import AsyncComponent from "../../common/async-component";
+import { DocumentContext } from "next/document";
 
-const blah = () => import("./inner").then(module => module.default);
+import Downloads from "./downloads";
 
-export default class AdminPage extends React.Component {
+import Styles from "./admin.module.scss";
+import isAdmin from "src/api/is-admin";
+
+export default class Admin extends React.Component {
+  static async getInitialProps(ctx: DocumentContext) {
+    if (ctx.req && ctx.res) {
+      isAdmin(ctx.req, ctx.res);
+    }
+    return {};
+  }
+
   render() {
-    // return (
-    //   <AsyncComponent importComponent={blah}>
-    //     {Inner => {
-    //       if (Inner) {
-    //         return <Inner />;
-    //       } else {
-    return "Loading...";
-    //       }
-    //     }}
-    //   </AsyncComponent>
-    // );
+    return (
+      <div className={Styles.root}>
+        <h1>Admin</h1>
+        <Downloads />
+      </div>
+    );
   }
 }
