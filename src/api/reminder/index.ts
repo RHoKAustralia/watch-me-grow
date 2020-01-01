@@ -6,12 +6,12 @@ import _ from "lodash";
 import { NextApiRequest, NextApiResponse } from "next";
 import mailgun, { EMAIL_FROM } from "src/api/mailgun";
 
-
 import questionnaires from "src/common/questionnaires";
 import { sites, getConfigById } from "src/common//site-specific-config";
 import buildi18n from "../i18n";
 import { getResults } from "src/db/db";
 import { NotifyFunctionInputDetails } from "src/common/notify-function-input";
+import isAdmin from "../is-admin";
 
 const reminderTemplateBody = fs.readFileSync(
   require.resolve("src/api/reminder/Reminder.html"),
@@ -35,6 +35,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       res
         .status(404)
         .json({ result: "Error", message: "Only POSTs are allowed" });
+      return;
+    }
+
+    if (!isAdmin(req, res)) {
       return;
     }
 

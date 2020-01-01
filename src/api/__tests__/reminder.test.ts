@@ -37,7 +37,6 @@ testResultHarness(
 
       beforeEach(async () => {
         await setupDb();
-        setupMailgun();
         server = http.createServer(REMINDER_REQUEST_HANDLER);
         reminderUrl = await listen(server);
       });
@@ -55,7 +54,7 @@ testResultHarness(
         });
       });
 
-      const postReminder = (siteId: string) => {
+      const postReminder = () => {
         return fetch(`${reminderUrl}`, {
           method: "POST",
           headers: {
@@ -74,6 +73,7 @@ testResultHarness(
 
         payload.details.dobOfChild = moment.utc("2018-04-01").toISOString();
 
+        setupMailgun();
         const recordResponse = await fetch(resultUrl(), {
           method: "POST",
           body: JSON.stringify(payload),
@@ -97,9 +97,82 @@ testResultHarness(
           })
           .reply(200);
 
-        const reminderResponse = await postReminder(payload.details.siteId);
+        const reminderResponse = await postReminder();
 
         expect(reminderResponse.status).toEqual(200);
+      });
+
+      it("is not triggered for results on the wrong day", async () => {
+        advanceTo(moment.utc("2019-01-02").toDate());
+
+        // Put a result in
+        const payload = buildDefaultPayload();
+
+        payload.details.dobOfChild = moment.utc("2018-04-01").toISOString();
+
+        setupMailgun();
+        const recordResponse = await fetch(resultUrl(), {
+          method: "POST",
+          body: JSON.stringify(payload),
+          headers: {
+            "Content-Type": "application/json"
+          }
+        });
+        expect(recordResponse.status).toEqual(200);
+
+        const reminderResponse = await postReminder();
+        expect(reminderResponse.status).toEqual(200);
+
+        expect(mailgunScope().isDone()).toEqual(true);
+      });
+
+      describe("authentication", () => {
+        it("rejects when there's no auth header", async () => {
+          const res = await fetch(`${reminderUrl}`, {
+            method: "POST"
+          });
+
+          expect(res.status).toBe(401);
+        });
+
+        it("rejects when the password is wrong", async () => {
+          const res = await fetch(`${reminderUrl}`, {
+            method: "POST",
+            headers: {
+              Authorization: `Basic ${Buffer.from(
+                "admin" + ":" + PASSWORD + "blah"
+              ).toString("base64")}`
+            }
+          });
+
+          expect(res.status).toBe(401);
+        });
+
+        it("rejects when the username is wrong", async () => {
+          const res = await fetch(`${reminderUrl}`, {
+            method: "POST",
+            headers: {
+              Authorization: `Basic ${Buffer.from(
+                "blah" + ":" + PASSWORD
+              ).toString("base64")}`
+            }
+          });
+
+          expect(res.status).toBe(401);
+        });
+
+        it("rejects when the username and password are wrong", async () => {
+          const res = await fetch(`${reminderUrl}`, {
+            method: "POST",
+            headers: {
+              Authorization: `Basic ${Buffer.from(
+                "blah" + ":" + PASSWORD + "blah"
+              ).toString("base64")}`
+            }
+          });
+
+          expect(res.status).toBe(401);
+        });
       });
     });
   }
