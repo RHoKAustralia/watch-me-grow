@@ -217,6 +217,10 @@ mailgun-js@^0.11.2:
     proxy-agent "~2.0.0"
     tsscmp "~1.0.0"
 
+markup-js@^1.5.21:
+  version "1.5.21"
+  resolved "https://registry.yarnpkg.com/markup-js/-/markup-js-1.5.21.tgz#389128703a565964574d0e357e142add3be46d79"
+
 mime-db@~1.27.0:
   version "1.27.0"
   resolved "https://registry.yarnpkg.com/mime-db/-/mime-db-1.27.0.tgz#820f572296bbd20ec25ed55e5b5de869e5436eb1"
@@ -227,9 +231,9 @@ mime-types@^2.1.12:
   dependencies:
     mime-db "~1.27.0"
 
-moment@^2.18.1:
-  version "2.18.1"
-  resolved "https://registry.yarnpkg.com/moment/-/moment-2.18.1.tgz#c36193dd3ce1c2eed2adb7c802dbbc77a81b1c0f"
+moment@^2.29.2:
+  version "2.29.2"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.2.tgz#00910c60b20843bcba52d37d58c628b47b1f20e4"
 
 ms@2.0.0:
   version "2.0.0"
