@@ -55,7 +55,7 @@
     "email-validator": "^1.0.4",
     "history": "2.x.x",
     "material-design-icons": "^2.2.3",
-    "moment": "^2.13.0",
+    "moment": "^2.29.4",
     "normalize.css": "^4.1.1",
     "react": "^15.2.0",
     "react-addons-css-transition-group": "^15.2.0",
