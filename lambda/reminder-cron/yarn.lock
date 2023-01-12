@@ -50,8 +50,8 @@ data-uri-to-buffer@0:
   resolved "https://registry.yarnpkg.com/data-uri-to-buffer/-/data-uri-to-buffer-0.0.4.tgz#46e13ab9da8e309745c8d01ce547213ebdb2fe3f"
 
 debug@2, debug@~2.6.0:
-  version "2.6.8"
-  resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.8.tgz#e731531ca2ede27d188222427da17821d68ff4fc"
+  version "2.6.9"
+  resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.9.tgz#5d128515df134ff327e90a4c93f4e077a536341f"
   dependencies:
     ms "2.0.0"
 
@@ -216,6 +216,10 @@ mailgun-js@^0.11.2:
     promisify-call "^2.0.2"
     proxy-agent "~2.0.0"
     tsscmp "~1.0.0"
+
+markup-js@^1.5.21:
+  version "1.5.21"
+  resolved "https://registry.yarnpkg.com/markup-js/-/markup-js-1.5.21.tgz#389128703a565964574d0e357e142add3be46d79"
 
 mime-db@~1.27.0:
   version "1.27.0"
